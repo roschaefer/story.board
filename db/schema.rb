@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512144409) do
+ActiveRecord::Schema.define(version: 20160512215710) do
+
+  create_table "sensor_readings", force: :cascade do |t|
+    t.integer  "calibrated_value"
+    t.integer  "uncalibrated_value"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "sensor_id"
+  end
+
+  add_index "sensor_readings", ["sensor_id"], name: "index_sensor_readings_on_sensor_id"
+
+  create_table "sensors", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "address"
+    t.string   "type"
+    t.string   "unit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "text_components", force: :cascade do |t|
     t.string   "heading"
