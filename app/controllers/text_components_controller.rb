@@ -12,8 +12,11 @@ class TextComponentsController < ApplicationController
 
   def create
     @text_component = TextComponent.new(text_component_params)
-    @text_component.save
-    redirect_to @text_component
+    if @text_component.save
+      redirect_to @text_component
+    else
+      render 'new'
+    end
   end
 
 
