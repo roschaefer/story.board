@@ -1,0 +1,13 @@
+<h1>Text Components</h1>
+ 
+<table>
+  <tr>
+    <th>Heading</th>
+  </tr>
+ 
+  <% @text_components.each do |text_component| %>
+    <tr>
+      <td><%= text_component.heading %></td>
+    </tr>
+  <% end %>
+</table>
