@@ -11,8 +11,21 @@ class TextComponentsController < ApplicationController
     @text_component = TextComponent.find(params[:id])
   end
 
+  def edit
+    @text_component = TextComponent.find(params[:id])
+  end
+
   def create
     @text_component = TextComponent.new(text_component_params)
+    if @text_component.save
+      redirect_to @text_component
+    else
+      render 'new'
+    end
+  end
+
+  def update
+    @text_component = TextComponent.find(params[:id])
     if @text_component.save
       redirect_to @text_component
     else
