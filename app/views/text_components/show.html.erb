@@ -16,4 +16,5 @@
     <%= @text_component.closing%>
 </p>
 <%= link_to 'Edit', edit_text_component_path(@text_component) %>
+<%= link_to 'Destroy', text_component_path(@text_component), method: :delete, data: { confirm: 'Are you sure?' } %>
 <%= link_to 'Back', text_components_path %>

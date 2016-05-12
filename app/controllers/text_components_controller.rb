@@ -33,6 +33,14 @@ class TextComponentsController < ApplicationController
     end
   end
 
+  def destroy
+    @text_component = TextComponent.find(params[:id])
+    @text_component.destroy
+
+    redirect_to text_components_path
+
+  end
+
 
   private
 
