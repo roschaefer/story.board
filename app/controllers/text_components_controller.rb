@@ -4,6 +4,7 @@ class TextComponentsController < ApplicationController
   end
 
   def new
+    @text_component = TextComponent.new
   end
 
   def show

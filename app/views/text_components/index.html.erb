@@ -7,7 +7,7 @@
  
   <% @text_components.each do |text_component| %>
     <tr>
-      <td><%= text_component.heading %></td>
+      <td><%= link_to text_component.heading, text_component_path(text_component) %></td>
     </tr>
   <% end %>
 </table>
