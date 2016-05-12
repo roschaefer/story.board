@@ -1,4 +1,4 @@
-<%= form_for :text_component do |f| %>
+<%= form_for :text_component, url: text_components_path do |f| %>
   <p>
     <%= f.label :heading %><br>
     <%= f.text_field :heading %>
@@ -21,3 +21,5 @@
     <%= f.submit %>
   </p>
 <% end %>
+
+<%= link_to 'Back', text_components_path %>
