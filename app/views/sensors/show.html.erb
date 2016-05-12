@@ -1,0 +1,15 @@
+<p>
+  <strong>Name:</strong>
+    <%= @sensor.name%>
+</p>
+<p>
+  <strong>Address:</strong>
+    <%= @sensor.address%>
+</p>
+<p>
+  <strong>Property:</strong>
+    <%= @sensor.property %> (<%= @sensor.unit%>)
+</p>
+<%= link_to 'Edit', edit_sensor_path(@sensor) %>
+<%= link_to 'Destroy', sensor_path(@sensor), method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Back', sensors_path %>

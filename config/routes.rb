@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root :to => redirect('/report/show')
   resources :text_components
+  resources :sensors
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

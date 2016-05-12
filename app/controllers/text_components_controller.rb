@@ -26,7 +26,7 @@ class TextComponentsController < ApplicationController
 
   def update
     @text_component = TextComponent.find(params[:id])
-    if @text_component.save
+    if @text_component.update(text_component_params)
       redirect_to @text_component
     else
       render 'new'
