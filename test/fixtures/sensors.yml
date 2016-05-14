@@ -3,11 +3,11 @@
 one:
   name: MyString
   address: 1
-  type: 
+  property: 
   unit: MyString
 
 two:
   name: MyString
   address: 1
-  type: 
+  property: 
   unit: MyString
