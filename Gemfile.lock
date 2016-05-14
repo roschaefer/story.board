@@ -66,6 +66,10 @@ GEM
       gherkin (~> 3.2.0)
       multi_json (>= 1.7.5, < 2.0)
       multi_test (>= 0.1.2)
+    cucumber-api-steps (0.13)
+      cucumber (>= 1.2.1)
+      jsonpath (>= 0.1.2)
+      rspec (>= 2.12.0)
     cucumber-core (1.4.0)
       gherkin (~> 3.2.0)
     cucumber-rails (1.4.3)
@@ -105,6 +109,8 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    jsonpath (0.5.8)
+      multi_json
     less (2.6.0)
       commonjs (~> 0.2.7)
     less-rails (2.7.1)
@@ -155,6 +161,10 @@ GEM
     rake (11.1.2)
     rdoc (4.2.2)
       json (~> 1.4)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
     rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -225,6 +235,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
+  cucumber-api-steps
   cucumber-rails
   database_cleaner
   haml-rails
