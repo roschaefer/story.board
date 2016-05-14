@@ -1,5 +1,5 @@
 %h1 Sensors
-%table
+%table.table.table-striped.table-hover
   %tr
     %th Name
     %th Address
@@ -11,4 +11,4 @@
       %td= sensor.address
       %td= sensor.property
       %td= sensor.unit
-= link_to 'Add new sensor', new_sensor_path
+= link_to 'Add new sensor', new_sensor_path, :class => "btn btn-primary"

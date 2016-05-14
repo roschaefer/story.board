@@ -1,8 +1,8 @@
 %h1 Text Components
-%table
+%table.table.table-striped.table-hover
   %tr
     %th Heading
   - @text_components.each do |text_component|
     %tr
       %td= link_to text_component.heading, text_component_path(text_component)
-= link_to 'Add new text component', new_text_component_path
+=link_to 'Add new text component', new_text_component_path, :class => "btn btn-primary"
