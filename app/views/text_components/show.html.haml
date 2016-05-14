@@ -1,0 +1,15 @@
+%p
+  %strong Heading:
+  = @text_component.heading
+%p
+  %strong Introduction:
+  = @text_component.introduction
+%p
+  %strong Main Part:
+  = @text_component.main_part
+%p
+  %strong Closing:
+  = @text_component.closing
+= link_to 'Edit', edit_text_component_path(@text_component)
+= link_to 'Destroy', text_component_path(@text_component), method: :delete, data: { confirm: 'Are you sure?' }
+= link_to 'Back', text_components_path

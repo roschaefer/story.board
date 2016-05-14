@@ -1,0 +1,23 @@
+= form_for @sensor do |f|
+  - if @sensor.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@sensor.errors.count, "error")
+        prohibited this sensor from being saved:
+      %ul
+        - @sensor.errors.full_messages.each do |msg|
+          %li= msg
+  %p
+    = f.label :name
+    %br/
+    = f.text_field :name
+  = f.label :address
+  %br/
+  = f.number_field :address
+  = f.label :property
+  %br/
+  = f.text_field :property
+  = f.label :unit
+  %br/
+  = f.text_field :unit
+  = f.submit

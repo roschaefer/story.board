@@ -1,0 +1,14 @@
+%h1 Sensors
+%table
+  %tr
+    %th Name
+    %th Address
+    %th Property
+    %th Unit
+  - @sensors.each do |sensor|
+    %tr
+      %td= link_to sensor.name, sensor_path(sensor)
+      %td= sensor.address
+      %td= sensor.property
+      %td= sensor.unit
+= link_to 'Add new sensor', new_sensor_path
