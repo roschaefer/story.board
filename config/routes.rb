@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   root :to => redirect('/report/show')
   resources :text_components
   resources :sensors
+  resources :sensor_readings, :default => { :format => :json }
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
