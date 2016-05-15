@@ -3,21 +3,39 @@ Feature: Receive Sensor Readings
   I want my story.board to receive sensor readings from the reporter.box
   In order to collect and store the raw sensor data
 
-  Scenario: Receive Sensor Readings as JSON data
-    Given I have a sensor called "DS18B20"
-    When I send a POST request to "/api/sensor_readings" with the following:
+  Background:
+    Given I send and accept JSON
+
+  Scenario: Receive sensor reading data
+    Given I have a sensor with id 1
+    When I send a POST request to "/sensor_readings" with the following:
     """
     {
-      “Measurement”: {
-        “Name”: “DS18B20”,
-        “Addr”: “4711”,
-        “Type : “TMP”,
-        “Unit”: “C”,
-        “Value”: “25”
-        “CalValue”: “”
-        “Timestamp”: "2012-04-23T18:25:43.511Z”
-      }
+      "sensor_id": 1, "calibrated_value": 47, "uncalibrated_value": 11
     }
     """
     Then the response status should be "201"
     And a new sensor reading was created
+
+  Scenario: Reject sensor reading without a dedicated sensor
+    Given I have no sensor in my database
+    When I send a POST request to "/sensor_readings" with the following:
+    """
+    {
+      "sensor_id": 1, "calibrated_value": 47, "uncalibrated_value": 11
+    }
+    """
+    Then the response status should be "422"
+    And no sensor reading was created
+
+  Scenario: Assign sensor reading to sensor based on the name
+    Given I have a sensor called "DS18B20"
+    When I send a POST request to "/sensor_readings" with the following:
+    """
+    {
+      "sensor_name": "DS18B20", "calibrated_value": 47, "uncalibrated_value": 11
+    }
+    """
+    Then the response status should be "201"
+    And a new sensor reading was created
+
