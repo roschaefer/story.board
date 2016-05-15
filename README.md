@@ -34,8 +34,7 @@ And point your browser to your [running
 instance](http://localhost:3000/).
 
 
-
-## Tests
+## Test
 
 We use rspec for unit and functional tests and cucumber for integration
 testing. You can run all the tests with
@@ -50,9 +49,7 @@ Or selectively
   RAILS_ENV=test bin/rake cucumber
   ```
 
-
-
-## Contributing
+## Contribute
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
