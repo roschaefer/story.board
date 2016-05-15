@@ -22,7 +22,7 @@ class SensorReadingsController < ApplicationController
     sensor_name = params[:sensor_name]
     sensor_id = params[:sensor_id]
     if sensor_name && sensor_id.nil?
-      params[:sensor_reading][:sensor_id] = Sensor.find_by(:name => sensor_name).id
+      params[:sensor_reading][:sensor_id] = Sensor.find_by(:name => sensor_name).try(:id)
     end
   end
 

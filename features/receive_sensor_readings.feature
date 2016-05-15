@@ -39,3 +39,13 @@ Feature: Receive Sensor Readings
     Then the response status should be "201"
     And a new sensor reading was created
 
+  Scenario: Reject sensor reading with a non-existent name
+    Given I have a sensor called "DS18B20"
+    When I send a POST request to "/sensor_readings" with the following:
+    """
+    {
+      "sensor_name": "DOESN'T EXIST", "calibrated_value": 47, "uncalibrated_value": 11
+    }
+    """
+    Then the response status should be "422"
+    And no sensor reading was created
