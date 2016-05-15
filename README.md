@@ -23,6 +23,18 @@ Make sure you have ruby version 2.3.1 installed on your system.
     bin/rake db:migrate
     ```
 
+## Usage
+
+Start the app with:
+  ```
+  bin/rails server
+  ```
+
+And point your browser to your [running
+instance](http://localhost:3000/).
+
+
+
 ## Tests
 
 We use rspec for unit and functional tests and cucumber for integration
