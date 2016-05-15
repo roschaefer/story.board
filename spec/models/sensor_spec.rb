@@ -7,7 +7,8 @@ describe Sensor, :type => :model do
 
   context "duplicate name" do
     before { create :sensor, :name => "XYZ" }
-    specify { expect(Sensor.new(:name => "XYZ")).not_to be_valid }
+
+    specify { expect{ create(:sensor, :name => "XYZ")}.to raise_exception( ActiveRecord::RecordNotUnique ) }
   end
 
   describe "#destroy" do
