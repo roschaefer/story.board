@@ -16,7 +16,7 @@ Given(/^I have a sensor with id (\d+)$/) do |arg|
 end
 
 Then(/^a new sensor reading was created$/) do
-  expect(SensorReading.count).to eq 1
+  expect(Sensor::Reading.count).to eq 1
 end
 
 Given(/^I have no sensor in my database$/) do
@@ -24,6 +24,6 @@ Given(/^I have no sensor in my database$/) do
 end
 
 Then(/^no sensor reading was created$/) do
-  expect(SensorReading.count).to eq 0
+  expect(Sensor::Reading.count).to eq 0
 end
 

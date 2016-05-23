@@ -15,7 +15,7 @@ describe Sensor, :type => :model do
     it "destroys all associated readings" do
       sensor = create(:sensor)
       create :sensor_reading, :sensor => sensor
-      expect{sensor.destroy}.to change{SensorReading.count}.from(1).to(0)
+      expect{sensor.destroy}.to change{Sensor::Reading.count}.from(1).to(0)
     end
   end
 end

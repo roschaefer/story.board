@@ -1,7 +1,7 @@
 class SensorReadingsController < ApplicationController
 
   def create
-    @sensor_reading = SensorReading.new(sensor_reading_params)
+    @sensor_reading = Sensor::Reading.new(sensor_reading_params)
     respond_to do |format|
       if @sensor_reading.save
         format.json { render :json => @sensor_reading, status: :created, location: @sensor_reading }
@@ -23,6 +23,7 @@ class SensorReadingsController < ApplicationController
     sensor_id = params[:sensor_id]
     if sensor_name && sensor_id.nil?
       params[:sensor_reading][:sensor_id] = Sensor.find_by(:name => sensor_name).try(:id)
+      params[:sensor_reading].delete(:sensor_name)
     end
   end
 
