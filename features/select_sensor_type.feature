@@ -9,4 +9,4 @@ Feature: Select Sensor Type and Sensor ID
     When I want to create a new sensor
     And I select the sensor type "Temperature"
     And I confirm the dialog
-    Then I have a new sensor in my databas
+    Then I have a new sensor in my database
