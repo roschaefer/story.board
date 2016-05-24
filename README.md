@@ -23,6 +23,11 @@ Make sure you have ruby version 2.3.1 installed on your system.
     bin/rake db:migrate
     ```
 
+4. Seed the database
+    ```
+    bin/rake db:seed
+    ```
+
 ## Usage
 
 Start the app with:
