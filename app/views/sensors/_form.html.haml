@@ -1,6 +1,5 @@
 = simple_form_for @sensor do |f|
   = f.input :name
   = f.input :address
-  = f.input :property
-  = f.input :unit
+  = f.association :sensor_type, label_method: :property, value_method: :id
   = f.button :submit
