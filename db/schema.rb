@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515145749) do
+ActiveRecord::Schema.define(version: 20160524155737) do
 
   create_table "sensor_readings", force: :cascade do |t|
     t.integer  "calibrated_value"
@@ -23,16 +23,23 @@ ActiveRecord::Schema.define(version: 20160515145749) do
 
   add_index "sensor_readings", ["sensor_id"], name: "index_sensor_readings_on_sensor_id"
 
-  create_table "sensors", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "address"
+  create_table "sensor_types", force: :cascade do |t|
     t.string   "property"
     t.string   "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "sensors", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "address"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "sensor_type_id"
+  end
+
   add_index "sensors", ["name"], name: "index_sensors_on_name", unique: true
+  add_index "sensors", ["sensor_type_id"], name: "index_sensors_on_sensor_type_id"
 
   create_table "text_components", force: :cascade do |t|
     t.string   "heading"
