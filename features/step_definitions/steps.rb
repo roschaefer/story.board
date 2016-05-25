@@ -44,7 +44,51 @@ When(/^I confirm the dialog$/) do
   click_on "Create"
 end
 
-Then(/^I have a new sensor in my databas$/) do
+Then(/^I have a new sensor in my database$/) do
   expect(Sensor.count).to eq 1
+end
+
+Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
+  temperature_type = create(:sensor_type, :property => property.capitalize)
+  create :sensor, :name => name, :sensor_type => temperature_type
+end
+
+Given(/^I have a text component with the heading "([^"]*)"$/) do |heading|
+  @text_component = create(:text_component, :heading => heading)
+end
+
+When(/^I visit the edit page of this text component$/) do
+  visit edit_text_component_path(@text_component)
+end
+
+When(/^I add a condition$/) do
+  click_on "add condition"
+  expect(page).to have_text("remove condition") # wait until it's there
+end
+
+When(/^I choose the sensor "([^"]*)" to trigger this text component$/) do |sensor|
+  select sensor, :from => "Sensor"
+end
+
+When(/^I define a range from "([^"]*)" to "([^"]*)" to cover the relevant values$/) do |arg1, arg2|
+  fill_in "From", :with => arg1
+  fill_in "To",   :with => arg2
+end
+
+When(/^I click on update$/) do
+  click_on "Update"
+  expect(page).to have_text("Edit") # wait until saved
+end
+
+Then(/^the text component is connected to the ([^"]*) sensor$/) do |property|
+  @text_component.reload
+  expect(@text_component.sensors).not_to be_empty
+  expect(@text_component.sensors.first.sensor_type.property).to eq property.capitalize
+end
+
+Then(/^the condition has relevant values from (\d+) to (\d+)$/) do |arg1, arg2|
+  @text_component.reload
+  expect(@text_component.conditions.first.from).to eq arg1.to_i
+  expect(@text_component.conditions.first.to).to   eq arg2.to_i
 end
 

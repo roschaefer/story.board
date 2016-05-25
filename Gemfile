@@ -38,6 +38,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'twitter-bootstrap-rails'
 gem 'haml-rails'
 gem 'simple_form'
+gem "cocoon"
 
 group :development, :test do
   gem 'factory_girl_rails'
@@ -61,4 +62,6 @@ group :test do
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
   #   end
+  gem "capybara-webkit"
+  gem 'poltergeist'
 end

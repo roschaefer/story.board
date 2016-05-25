@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524155737) do
+ActiveRecord::Schema.define(version: 20160524231702) do
+
+  create_table "conditions", force: :cascade do |t|
+    t.integer  "from"
+    t.integer  "to"
+    t.integer  "text_component_id"
+    t.integer  "sensor_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id"
+  add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id"
 
   create_table "sensor_readings", force: :cascade do |t|
     t.integer  "calibrated_value"
