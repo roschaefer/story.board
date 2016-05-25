@@ -4,10 +4,12 @@ Feature: Connect with a condition
   I want my story.board to receive sensor readings from the reporter.box
 
 
+  @javascript
   Scenario: Edit the Text Component and Connect with a Condition
     Given I have a temperature sensor called "Temp23"
     And I have a text component with the heading "Das Grosse Zittern"
     When I visit the edit page of this text component
+    And I add a condition
     And I choose the sensor "Temp23" to trigger this text component
     And I define a range from "0" to "15" to be relevant values
     And I click on update
