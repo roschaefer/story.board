@@ -63,4 +63,5 @@ group :test do
   gem 'database_cleaner'
   #   end
   gem "capybara-webkit"
+  gem 'poltergeist'
 end
