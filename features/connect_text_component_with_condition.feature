@@ -11,8 +11,8 @@ Feature: Connect with a condition
     When I visit the edit page of this text component
     And I add a condition
     And I choose the sensor "Temp23" to trigger this text component
-    And I define a range from "0" to "15" to be relevant values
+    And I define a range from "0" to "15" to cover the relevant values
     And I click on update
-    Then the text component is connected to the Temperature sensor
+    Then the text component is connected to the temperature sensor
     And the condition has relevant values from 0 to 15
 

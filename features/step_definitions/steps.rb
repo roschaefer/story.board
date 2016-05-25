@@ -70,7 +70,7 @@ When(/^I choose the sensor "([^"]*)" to trigger this text component$/) do |senso
   select sensor, :from => "Sensor"
 end
 
-When(/^I define a range from "([^"]*)" to "([^"]*)" to be relevant values$/) do |arg1, arg2|
+When(/^I define a range from "([^"]*)" to "([^"]*)" to cover the relevant values$/) do |arg1, arg2|
   fill_in "From", :with => arg1
   fill_in "To",   :with => arg2
 end
@@ -83,7 +83,7 @@ end
 Then(/^the text component is connected to the ([^"]*) sensor$/) do |property|
   @text_component.reload
   expect(@text_component.sensors).not_to be_empty
-  expect(@text_component.sensors.first.sensor_type.property).to eq property
+  expect(@text_component.sensors.first.sensor_type.property).to eq property.capitalize
 end
 
 Then(/^the condition has relevant values from (\d+) to (\d+)$/) do |arg1, arg2|
