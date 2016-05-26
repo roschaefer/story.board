@@ -24,7 +24,7 @@ describe Sensor, :type => :model do
   describe "#active_text_components" do
     let (:sensor) { create(:sensor) }
 
-    it "returns empty list if there are no sensor readings" do
+    it "returns empty list for empty sensor readings" do
       expect(sensor.active_text_components).to eq []
     end
 
@@ -33,18 +33,16 @@ describe Sensor, :type => :model do
         create(:sensor_reading, :sensor => sensor, :calibrated_value => 47)
       end
 
+      context "checks sensor data" do
+        let(:text_component) { create(:text_component, :main_part => "Some Text") }
 
-      context "without arguments" do
-
-        it "considers text components for the last sensor reading" do
-          text_component = create(:text_component, :main_part => "Some Text")
+        it "is within range" do
           create(:condition, :text_component => text_component,
                  :sensor => sensor, :from => 10, :to => 100)
           expect(sensor.active_text_components).to include(text_component)
         end
 
-        it "considers no text component if the last sensor reading is not in the interval" do
-          text_component = create(:text_component, :main_part => "Some Text")
+        it "is outside range" do
           create(:condition, :text_component => text_component,
                  :sensor => sensor, :from => 50, :to => 100)
           expect(sensor.active_text_components).not_to include(text_component)
