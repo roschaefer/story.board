@@ -6,4 +6,13 @@ class Sensor < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
   validates :sensor_type, :presence => true
+
+
+  def active_text_components
+    reading = self.sensor_readings.last
+    return [] if reading.nil?
+    value = reading.calibrated_value
+    holding_conditions = self.conditions.select {|c| c.from <= value && value <= c.to }
+    holding_conditions.collect {|c| c.text_component }
+  end
 end
