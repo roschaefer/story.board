@@ -109,3 +109,23 @@ Given(/^this text component should trigger for a value between (\d+)°C and (\d+
   condition.save!
 end
 
+Given(/^I have these text components prepared:$/) do |table|
+  # table is a Cucumber::Core::Ast::DataTable
+  table.hashes.each do |row|
+    component = create(:text_component, :main_part => row["Text Component"])
+    sensor= create(:sensor, :name => row["Sensor"])
+    create(:condition, :sensor => sensor, :text_component => component, :from => row["From"], :to => row["To"])
+  end
+end
+
+Given(/^the latested sensor data looks like this:$/) do |table|
+  table.hashes.each do |row|
+    sensor = Sensor.find_by(:name => row["Sensor"])
+    create(:sensor_reading, :sensor => sensor, :calibrated_value => row["Calibrated Value"].to_i)
+  end
+end
+
+Then(/^I should NOT see:$/) do |string|
+  expect(page).not_to have_content(string)
+end
+
