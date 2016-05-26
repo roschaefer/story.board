@@ -8,7 +8,7 @@ Then(/^I should see:$/) do |string|
 end
 
 Given(/^I have a sensor called "([^"]*)"$/) do |name|
-  create :sensor, :name => name
+  @sensor = create(:sensor, :name => name)
 end
 
 Given(/^I have a sensor with id (\d+)$/) do |arg|
@@ -90,5 +90,22 @@ Then(/^the condition has relevant values from (\d+) to (\d+)$/) do |arg1, arg2|
   @text_component.reload
   expect(@text_component.conditions.first.from).to eq arg1.to_i
   expect(@text_component.conditions.first.to).to   eq arg2.to_i
+end
+
+Given(/^this sensor just measured a .* of (\d+)°C$/) do |value|
+  create(:sensor_reading, :sensor => @sensor, :calibrated_value => value)
+end
+
+Given(/^I prepared a text component for this sensor with this introduction:$/) do |introduction|
+  @text_component = create(:text_component, :introduction => introduction)
+  create(:condition, :text_component => @text_component, :sensor => @sensor)
+end
+
+Given(/^this text component should trigger for a value between (\d+)°C and (\d+)°C$/) do |from, to|
+  expect(@text_component.conditions.length).to eq 1 # sanity check - just in case
+  condition = @text_component.conditions.first
+  condition.from = from
+  condition.to = to
+  condition.save!
 end
 
