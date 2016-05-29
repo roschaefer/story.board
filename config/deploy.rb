@@ -46,13 +46,15 @@ namespace :deploy do
   end
 
 
-  after :deploy, :restart_daemon
 
   desc "Restart Daemon"
   task :restart_daemon do
-    on roles(:all)  do
-      execute "svc -h ~/service/story.board"
+    on roles(:web)  do |host|
+      execute :svc, "-du ~/service/story.board"
+      info "Host #{host} restarting svc daemon"
     end
   end
+
+  after :finishing, :restart_daemon
 
 end
