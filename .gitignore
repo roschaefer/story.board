@@ -17,3 +17,5 @@
 /tmp
 
 .byebug_history
+
+script/send_sensor_reading.sh
