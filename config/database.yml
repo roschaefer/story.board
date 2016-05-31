@@ -22,7 +22,13 @@ test: &test
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: utf8
+  host: /home/vicari/tmp
+  pool: 10
+  database: story_board_production
+  username: <%= ENV["POSTGRES_USERNAME"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
 
 cucumber:
   <<: *test
