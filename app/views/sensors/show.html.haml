@@ -16,6 +16,9 @@
       %td= reading.created_at
       %td= reading.calibrated_value
       %td= reading.uncalibrated_value
+%p
+= render "generate_fake_sample_data"
+%p
 = link_to 'Edit', edit_sensor_path(@sensor), :class => "btn btn-primary"
 = link_to 'Destroy', sensor_path(@sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
 = link_to 'Back', sensors_path, :class => "btn btn-secondary"

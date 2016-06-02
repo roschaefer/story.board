@@ -11,7 +11,19 @@ class SensorReadingsController < ApplicationController
     end
   end
 
+  def generate_sample_data
+    value = rand(sample_params[:from].to_i..sample_params[:to].to_i)
+    sample_params[:quantity].to_i.times do
+      Sensor::Reading.create(:sensor_id => sample_params[:sensor_id], :calibrated_value => value)
+    end
+    render :nothing => true, :status => :created
+  end
+
   private
+
+  def sample_params
+    params.require(:fake).permit(:sensor_id, :quantity, :from, :to)
+  end
 
   def sensor_reading_params
     assign_sensor_by_name
