@@ -2,7 +2,11 @@ require "rails_helper"
 
 describe Sensor, :type => :model do
   context "without a name" do
-    specify { expect(Sensor.new(:name => "")).not_to be_valid }
+    specify { expect(build(:sensor, :name => "")).not_to be_valid }
+  end
+
+  context "without a report" do
+    specify { expect(build(:sensor, :report  => nil)).not_to be_valid }
   end
 
   context "duplicate name" do
