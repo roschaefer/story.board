@@ -189,5 +189,5 @@ When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)
 end
 
 Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
-  expect(@sensor.sensor_readings).to have(quantity).items
+  expect(@sensor.sensor_readings.count).to eq quantity.to_i
 end
