@@ -45,7 +45,16 @@ namespace :deploy do
     end
   end
 
-
+  desc 'Runs rake db:seed'
+  task :seed => [:set_rails_env] do
+    on primary fetch(:migration_role) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "db:seed"
+        end
+      end
+    end
+  end
 
   desc "Restart Daemon"
   task :restart_daemon do
@@ -55,6 +64,15 @@ namespace :deploy do
     end
   end
 
-  after :finishing, :restart_daemon
 
+  desc "Reassign Ownership of Database Tables"
+  task :reassign_db_ownership do
+    on roles(:web)  do |host|
+      execute "~/reassign_db_ownership.sh", "-d story_board_production", "-o $POSTGRES_USERNAME"
+      info "Host #{host} reassign ownership of all tables to postgres user"
+    end
+  end
+
+  after :finishing, :reassign_db_ownership
+  after :finishing, :restart_daemon
 end
