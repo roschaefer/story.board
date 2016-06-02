@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
-  get 'report/show'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root :to => redirect('/report/show')
+
+  get 'reports/current', :to => 'reports#current', :as => "current_report"
+  get 'reports/present/:id', :to => 'reports#present', :as => "present_report"
+  resources :reports
+
+  root :to => redirect("/reports/current")
   resources :text_components
   resources :sensors
   resources :sensor_readings, :default => { :format => :json }

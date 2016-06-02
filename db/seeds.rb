@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 
-
+Report.create(:name => "Kuh Bertha", :start_date => Time.now)
 
 attribute_hashes = [
   { :property => "Temperature",          :unit => "°C"     } ,

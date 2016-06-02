@@ -1,0 +1,6 @@
+%h1 Settings for #{@report.name}
+%p
+  %strong Start Date:
+  = @report.start_date
+= link_to 'Edit', edit_report_path(@report), :class => "btn btn-primary"
+= link_to 'Back', reports_path, :class => "btn btn-secondary"
