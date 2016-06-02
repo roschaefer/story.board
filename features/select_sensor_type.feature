@@ -3,6 +3,8 @@ Feature: Select Sensor Type and Sensor ID
   I want to configure my sensors from a pre-known set of available sensor types and sensor IDs
   So I have less trouble with configuration
 
+  Background:
+    Given there is a sensor live report
 
   Scenario: Create new Sensor and Select Sensor Type
     Given all "Temperature" sensors measure in "Celsius"

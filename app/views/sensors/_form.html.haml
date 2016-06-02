@@ -1,4 +1,5 @@
 = simple_form_for @sensor do |f|
+  = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }
   = f.input :name
   = f.input :address
   = f.association :sensor_type, label_method: :property, value_method: :id

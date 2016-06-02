@@ -45,6 +45,6 @@ class TextComponentsController < ApplicationController
   private
 
   def text_component_params
-    params.require(:text_component).permit(:heading, :introduction, :main_part, :closing, :conditions_attributes => [:id, :sensor_id, :from, :to, :_destroy])
+    params.require(:text_component).permit(:heading, :introduction, :main_part, :closing, :report_id, :conditions_attributes => [:id, :sensor_id, :from, :to, :_destroy])
   end
 end

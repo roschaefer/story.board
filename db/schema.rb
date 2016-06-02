@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524231702) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20160601225359) do
 
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
@@ -25,8 +22,15 @@ ActiveRecord::Schema.define(version: 20160524231702) do
     t.datetime "updated_at",        null: false
   end
 
-  add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id", using: :btree
-  add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id", using: :btree
+  add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id"
+  add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id"
+
+  create_table "reports", force: :cascade do |t|
+    t.date     "start_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
 
   create_table "sensor_readings", force: :cascade do |t|
     t.integer  "calibrated_value"
@@ -36,7 +40,7 @@ ActiveRecord::Schema.define(version: 20160524231702) do
     t.integer  "sensor_id"
   end
 
-  add_index "sensor_readings", ["sensor_id"], name: "index_sensor_readings_on_sensor_id", using: :btree
+  add_index "sensor_readings", ["sensor_id"], name: "index_sensor_readings_on_sensor_id"
 
   create_table "sensor_types", force: :cascade do |t|
     t.string   "property"
@@ -51,10 +55,12 @@ ActiveRecord::Schema.define(version: 20160524231702) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.integer  "sensor_type_id"
+    t.integer  "report_id"
   end
 
-  add_index "sensors", ["name"], name: "index_sensors_on_name", unique: true, using: :btree
-  add_index "sensors", ["sensor_type_id"], name: "index_sensors_on_sensor_type_id", using: :btree
+  add_index "sensors", ["name"], name: "index_sensors_on_name", unique: true
+  add_index "sensors", ["report_id"], name: "index_sensors_on_report_id"
+  add_index "sensors", ["sensor_type_id"], name: "index_sensors_on_sensor_type_id"
 
   create_table "text_components", force: :cascade do |t|
     t.string   "heading"
@@ -63,8 +69,9 @@ ActiveRecord::Schema.define(version: 20160524231702) do
     t.text     "closing"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "report_id"
   end
 
-  add_foreign_key "conditions", "sensors"
-  add_foreign_key "conditions", "text_components"
+  add_index "text_components", ["report_id"], name: "index_text_components_on_report_id"
+
 end

@@ -1,6 +1,9 @@
 class TextComponent < ActiveRecord::Base
-   validates :heading, :main_part, presence: true
-   has_many :conditions
-   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
-   has_many :sensors, :through => :conditions
+  belongs_to :report
+  has_many :sensors, :through => :conditions
+  has_many :conditions
+
+  validates :heading, :main_part, presence: true
+  validates :report, presence: true
+  accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 end

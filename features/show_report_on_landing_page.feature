@@ -3,6 +3,9 @@ Feature: Show Report on Landing Page
   I want to read the latest generated report on the landing page
   Because I'm interested to see what happened in the experiment recently
 
+  Background:
+    Given there is a sensor live report
+
   Scenario: Visit Landing Page
     When I visit the landing page
     Then I should see:
@@ -11,7 +14,7 @@ Feature: Show Report on Landing Page
     """
 
   Scenario: Read about the Latest Data
-    Given I have a sensor called "Temperature123"
+    Given I have a sensor for the current report called "Temperature123"
     And this sensor just measured a temperature of 30°C
     And I prepared a text component for this sensor with this introduction:
     """

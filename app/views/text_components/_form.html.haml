@@ -1,4 +1,5 @@
 = simple_form_for @text_component do |f|
+  = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }
   = f.input :heading
   = f.input :introduction
   = f.input :main_part
