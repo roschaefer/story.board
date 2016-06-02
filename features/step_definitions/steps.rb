@@ -11,6 +11,10 @@ Given(/^I have a sensor called "([^"]*)"$/) do |name|
   @sensor = create(:sensor, :name => name)
 end
 
+Given(/^I have a sensor for the current report called "([^"]*)"$/) do |name|
+  @sensor = create(:sensor, :name => name, :report => Report.current)
+end
+
 Given(/^I have a sensor with id (\d+)$/) do |arg|
   create :sensor, :id => arg.to_i
 end
@@ -109,11 +113,11 @@ Given(/^this text component should trigger for a value between (\d+)°C and (\d+
   condition.save!
 end
 
-Given(/^I have these text components prepared:$/) do |table|
+Given(/^for my current report I have these text components prepared:$/) do |table|
   # table is a Cucumber::Core::Ast::DataTable
   table.hashes.each do |row|
     component = create(:text_component, :main_part => row["Text Component"])
-    sensor= create(:sensor, :name => row["Sensor"])
+    sensor= create(:sensor, :name => row["Sensor"], :report => Report.current)
     create(:condition, :sensor => sensor, :text_component => component, :from => row["From"], :to => row["To"])
   end
 end
@@ -127,5 +131,54 @@ end
 
 Then(/^I should NOT see:$/) do |string|
   expect(page).not_to have_content(string)
+end
+
+Given(/^I am the journalist$/) do
+  # NOP: currently no authentication implemented
+end
+
+Given(/^there is a sensor live report/) do
+  create(:report)
+end
+
+Given(/^I visit the settings page of the current report$/) do
+  visit edit_report_path(Report.current)
+end
+
+When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_date|
+  @date = Date.parse(start_date)
+
+  day, month, year = start_date.split
+  select year, :from => 'report_start_date_1i'
+  select month, :from => 'report_start_date_2i'
+  select day, :from => 'report_start_date_3i'
+end
+
+Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
+  expect(Report.find_by(:name => name).start_date).to eq @date
+end
+
+Given(/^my current live report is called "([^"]*)"$/) do |name|
+  create(:report, :name => name)
+end
+
+When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
+  click_on "Settings"
+  click_on name
+end
+
+When(/^I click on "([^"]*)"/) do |thing|
+  click_on thing
+end
+
+When(/^I type in some text for (.*)$/) do |things|
+  things.split(",").each do |thing|
+    fill_in thing.strip, :with => "Blablablabla"
+  end
+end
+
+Then(/^I have a new text component for my live report in the database$/) do
+  current_report = Report.current
+  expect(current_report.text_components).not_to be_empty
 end
 
