@@ -23,6 +23,11 @@ RSpec.describe "Generate Fake Sample Data", type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
+    it "lower bound must smaller than upper bound" do
+      post url, {:sample => sample_params.merge(:from => 4, :to => 3)}, headers
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
     it "returns generated sensor readings as json" do
       post url, :sample => sample_params, :format => :json
       expect(JSON.parse(response.body).size).to eq 3
