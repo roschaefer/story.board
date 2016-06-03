@@ -219,3 +219,17 @@ Then(/^fake and real data are distinguishable$/) do
   end
 end
 
+Given(/^there is some generated test data:$/) do |table|
+  ActiveRecord::Base.transaction do
+    table.hashes.each do |row|
+      sensor = Sensor.find_by(:name => row["Sensor"])
+      create(:sensor_reading, sensor: sensor, calibrated_value: row["Calibrated Value"].to_i, source: :fake)
+    end
+  end
+end
+
+Then(/^I can read this text:$/) do |string|
+  string.split("[...]").each do |part|
+    expect(page).to have_text(part)
+  end
+end
