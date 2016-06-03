@@ -8,17 +8,40 @@ class ReportsController < ApplicationController
     end
   end
 
+  def preview_current
+    current_report = Report.current
+    if current_report
+      redirect_to preview_report_path(current_report)
+    else
+      render :no_reports
+    end
+  end
+
   def present
     @report = Report.find(params[:id])
     @content = ""
     @report.sensors.each do |sensor|
-      sensor.active_text_components.each do |component|
+      sensor.active_text_components(:real).each do |component|
         @content <<  component.heading.to_s
         @content <<  component.introduction.to_s
         @content <<  component.main_part.to_s
         @content <<  component.closing.to_s
       end
     end
+  end
+
+  def preview
+    @report = Report.find(params[:id])
+    @content = ""
+    @report.sensors.each do |sensor|
+      sensor.active_text_components(:fake).each do |component|
+        @content <<  component.heading.to_s
+        @content <<  component.introduction.to_s
+        @content <<  component.main_part.to_s
+        @content <<  component.closing.to_s
+      end
+    end
+    render 'present'
   end
 
   def edit
