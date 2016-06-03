@@ -15,5 +15,6 @@ Feature: Generate Fake Sample Data
     And I click on "Temperature47" to see all the sensor readings
     And I click on "Generate Fake Sample Data"
     And I choose 10 random sensor readings with a value from 3°C to 20°C
-    And I click on "Generate"
+    And I click on "Generate!"
+    Then I should see some entries in the sensor readings table
     Then this sensor should have 10 new sensor readings as fake data

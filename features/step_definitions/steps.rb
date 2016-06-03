@@ -191,3 +191,10 @@ end
 Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
   expect(@sensor.sensor_readings.count).to eq quantity.to_i
 end
+
+Then(/^I should see some entries in the sensor readings table$/) do
+  within "#sensor-readings-table" do
+    expect(page).to have_css(".sensor-reading-row")
+  end
+end
+
