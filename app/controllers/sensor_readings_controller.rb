@@ -20,10 +20,14 @@ class SensorReadingsController < ApplicationController
       end
       quantity, from, to = sample_params[:quantity].to_i, sample_params[:from].to_i, sample_params[:to].to_i
       range = Range.new(from, to)
-      sensor_id = sample_params[:sensor_id]
       @sensor_readings = (1..quantity).collect do
-        value = rand(range)
-        Sensor::Reading.new(:sensor_id => sensor_id, :calibrated_value => value, :uncalibrated_value => value)
+        params = {
+          :sensor_id => sample_params[:sensor_id],
+          :calibrated_value => rand(range),
+          :uncalibrated_value => rand(range),
+          :source => :fake
+        }
+        Sensor::Reading.new(params)
       end
       success = @sensor_readings.all? {|reading| reading.save }
     end
