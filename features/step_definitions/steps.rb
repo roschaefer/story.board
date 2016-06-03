@@ -189,12 +189,33 @@ When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)
 end
 
 Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
-  expect(@sensor.sensor_readings.count).to eq quantity.to_i
+  expect(@sensor.sensor_readings.fake.count).to eq quantity.to_i
 end
 
-Then(/^I should see some entries in the sensor readings table$/) do
-  within "#sensor-readings-table" do
+Then(/^I should see some generated entries in the sensor readings table$/) do
+  within "#sensor-readings-table-fake" do
     expect(page).to have_css(".sensor-reading-row")
+  end
+end
+
+Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
+  @sensor = Sensor.find_by(:name => name)
+  Sensor::Reading.transaction do
+    7.times { create(:sensor_reading, :sensor => @sensor, :source => :fake) }
+    5.times { create(:sensor_reading, :sensor => @sensor, :source => :real) }
+  end
+end
+
+When(/^I see the page of this sensor$/) do
+  visit sensor_path(@sensor)
+end
+
+Then(/^fake and real data are distinguishable$/) do
+  within "#sensor-readings-table-fake" do
+    expect(page).to have_css(".sensor-reading-row", count: 7)
+  end
+  within "#sensor-readings-table-real" do
+    expect(page).to have_css(".sensor-reading-row", count: 5)
   end
 end
 

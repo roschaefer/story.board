@@ -9,7 +9,8 @@ class SensorsController < ApplicationController
 
   def show
     @sensor = Sensor.find(params[:id])
-    @readings = @sensor.sensor_readings
+    @real_readings = @sensor.sensor_readings.real
+    @fake_readings = @sensor.sensor_readings.fake
   end
 
   def edit

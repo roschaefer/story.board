@@ -7,12 +7,19 @@
   = @sensor.address
 %p
   %h3 Sensor Readings
-  %table#sensor-readings-table.table.table-striped.table-hover
+  %table#sensor-readings-table-real.table.table-striped.table-hover
     %tr
       %th Timestamp
       %th Calibrated Value
       %th Uncalibrated Value
-      = render @readings
+      = render @real_readings
+  %h3 Fake Data
+  %table#sensor-readings-table-fake.table.table-striped.table-hover
+    %tr
+      %th Timestamp
+      %th Calibrated Value
+      %th Uncalibrated Value
+      = render @fake_readings
 %p
   = render "generate_fake_sample_data"
 %p
