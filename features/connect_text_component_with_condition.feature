@@ -1,8 +1,7 @@
 Feature: Connect with a condition
-  Feature: Receive Sensor Readings
   As a journalist
-  I want my story.board to receive sensor readings from the reporter.box
-
+  I want to connect my text components with certain conditions
+  So I can define which text component should occur for a certain value of a sensor
 
   @javascript
   Scenario: Edit the Text Component and Connect with a Condition
