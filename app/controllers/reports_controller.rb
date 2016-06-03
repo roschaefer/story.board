@@ -2,45 +2,22 @@ class ReportsController < ApplicationController
   def current
     current_report = Report.current
     if current_report
-      redirect_to present_report_path(current_report)
-    else
-      render :no_reports
-    end
-  end
-
-  def preview_current
-    current_report = Report.current
-    if current_report
-      redirect_to preview_report_path(current_report)
+      if params[:preview]
+        redirect_to preview_report_path(current_report)
+      else
+        redirect_to present_report_path(current_report)
+      end
     else
       render :no_reports
     end
   end
 
   def present
-    @report = Report.find(params[:id])
-    @content = ""
-    @report.sensors.each do |sensor|
-      sensor.active_text_components(:real).each do |component|
-        @content <<  component.heading.to_s
-        @content <<  component.introduction.to_s
-        @content <<  component.main_part.to_s
-        @content <<  component.closing.to_s
-      end
-    end
+    generate_report(:real)
   end
 
   def preview
-    @report = Report.find(params[:id])
-    @content = ""
-    @report.sensors.each do |sensor|
-      sensor.active_text_components(:fake).each do |component|
-        @content <<  component.heading.to_s
-        @content <<  component.introduction.to_s
-        @content <<  component.main_part.to_s
-        @content <<  component.closing.to_s
-      end
-    end
+    generate_report(:fake)
     render 'present'
   end
 
@@ -65,5 +42,18 @@ class ReportsController < ApplicationController
 
   def report_params
     params.require(:report).permit(:start_date)
+  end
+
+  def generate_report(source)
+    @report = Report.find(params[:id])
+    @content = ""
+    @report.sensors.each do |sensor|
+      sensor.active_text_components(source).each do |component|
+        @content <<  component.heading.to_s
+        @content <<  component.introduction.to_s
+        @content <<  component.main_part.to_s
+        @content <<  component.closing.to_s
+      end
+    end
   end
 end

@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
   get 'reports/current', :to => 'reports#current', :as => "current_report"
   get 'reports/present/:id', :to => 'reports#present', :as => "present_report"
-  get 'reports/preview/current', :to => 'reports#preview_current', :as => "preview_current_report"
   get 'reports/preview/:id', :to => 'reports#preview', :as => "preview_report"
   resources :reports
 
