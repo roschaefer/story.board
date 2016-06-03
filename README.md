@@ -35,14 +35,12 @@ Start the app with:
   bin/rails server
   ```
 
-And point your browser to your [running
-instance](http://localhost:3000/).
+And point your browser to your [running instance](http://localhost:3000/).
 
 
 ## Test
 
-We use rspec for unit and functional tests and cucumber for integration
-testing. You can run all the tests with
+We use rspec for unit and functional testing and cucumber for integration testing. You can run all the tests with:
 
   ```
   bin/rake
@@ -51,10 +49,14 @@ testing. You can run all the tests with
 Or selectively
   ```
   bin/rake spec
-  RAILS_ENV=test bin/rake cucumber
+  bin/rake cucumber
   ```
+## Documentation
+
+We are [cucumber evangelists](https://cucumber.io/). See our executable, up-to-date documentation at [relishapp](http://www.relishapp.com/sensor-live-report/story-board/).
 
 ## Contribute
+
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
