@@ -8,6 +8,7 @@ Feature: Generate Fake Sample Data
     And I have a sensor for the current report called "Temperature47"
     And I am the journalist
 
+  @javascript
   Scenario:
     When I visit the landing page
     And I click on "Sensors" in my dashboard

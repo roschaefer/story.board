@@ -1,3 +1,4 @@
+%h1= @sensor.name
 %p
   %strong Name:
   = @sensor.name
@@ -5,20 +6,16 @@
   %strong Address:
   = @sensor.address
 %p
-%h3 Sensor Readings
-%table.table.table-striped.table-hover
-  %tr
-    %th Timestamp
-    %th Calibrated Value
-    %th Uncalibrated Value
-  - @sensor.sensor_readings.each do |reading|
+  %h3 Sensor Readings
+  %table#sensor-readings.table.table-striped.table-hover
     %tr
-      %td= reading.created_at
-      %td= reading.calibrated_value
-      %td= reading.uncalibrated_value
+      %th Timestamp
+      %th Calibrated Value
+      %th Uncalibrated Value
+      = render @readings
 %p
-= render "generate_fake_sample_data"
+  = render "generate_fake_sample_data"
 %p
-= link_to 'Edit', edit_sensor_path(@sensor), :class => "btn btn-primary"
-= link_to 'Destroy', sensor_path(@sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+  = link_to 'Edit', edit_sensor_path(@sensor), :class => "btn btn-primary"
+  = link_to 'Destroy', sensor_path(@sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
 = link_to 'Back', sensors_path, :class => "btn btn-secondary"

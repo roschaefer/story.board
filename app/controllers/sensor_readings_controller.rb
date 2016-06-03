@@ -12,7 +12,7 @@ class SensorReadingsController < ApplicationController
   end
 
   def fake
-    sensor_readings = []
+    @sensor_readings = []
     success = false
     Sensor::Reading.transaction do
       if sample_params[:from].nil? || sample_params[:to].nil?
@@ -20,18 +20,19 @@ class SensorReadingsController < ApplicationController
       end
       quantity, from, to = sample_params[:quantity].to_i, sample_params[:from].to_i, sample_params[:to].to_i
       range = Range.new(from, to)
-      value = rand(range)
       sensor_id = sample_params[:sensor_id]
-      sensor_readings = (1..quantity).collect do
-        Sensor::Reading.new(:sensor_id => sensor_id, :calibrated_value => value)
+      @sensor_readings = (1..quantity).collect do
+        value = rand(range)
+        Sensor::Reading.new(:sensor_id => sensor_id, :calibrated_value => value, :uncalibrated_value => value)
       end
-      success = sensor_readings.all? {|reading| reading.save }
+      success = @sensor_readings.all? {|reading| reading.save }
     end
     respond_to do |format|
       if success
-        format.json { render json: sensor_readings, status: :created }
+        format.js { render 'sensor/readings/fake' }
+        format.json { render json: @sensor_readings, status: :created }
       else
-        format.json { render json: sensor_readings.map(&:errors), status: :unprocessable_entity}
+        format.json { render json: @sensor_readings.map(&:errors), status: :unprocessable_entity}
       end
     end
   end
