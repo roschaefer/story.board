@@ -10,7 +10,7 @@ class Sensor < ActiveRecord::Base
   validates :sensor_type, :presence => true
 
 
-  def active_text_components(source)
+  def active_text_components(source = :real)
     reading = self.sensor_readings.where(:source => Sensor::Reading.sources[source]).last
     return [] if reading.nil?
     value = reading.calibrated_value
