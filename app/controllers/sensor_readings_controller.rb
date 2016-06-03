@@ -12,12 +12,28 @@ class SensorReadingsController < ApplicationController
   end
 
   def fake
-    value = rand(sample_params[:from].to_i..sample_params[:to].to_i)
-    sensor_id = sample_params[:sensor_id]
-    sample_params[:quantity].to_i.times do
-      Sensor::Reading.create(:sensor_id => sensor_id, :calibrated_value => value)
+    sensor_readings = []
+    success = false
+    Sensor::Reading.transaction do
+      if sample_params[:from].nil? || sample_params[:to].nil?
+        raise ActiveRecord::Rollback
+      end
+      quantity, from, to = sample_params[:quantity].to_i, sample_params[:from].to_i, sample_params[:to].to_i
+      range = Range.new(from, to)
+      value = rand(range)
+      sensor_id = sample_params[:sensor_id]
+      sensor_readings = (1..quantity).collect do
+        Sensor::Reading.new(:sensor_id => sensor_id, :calibrated_value => value)
+      end
+      success = sensor_readings.all? {|reading| reading.save }
     end
-    redirect_to "/sensors/#{sensor_id}"
+    respond_to do |format|
+      if success
+        format.json { render json: sensor_readings, status: :created }
+      else
+        format.json { render json: sensor_readings.map(&:errors), status: :unprocessable_entity}
+      end
+    end
   end
 
   private

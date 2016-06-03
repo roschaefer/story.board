@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :text_components
   resources :sensors
   resources :sensor_readings, :default => { :format => :json }
-  post 'sensor_readings/fake', :to => "sensor_readings#fake"
+  post 'sensor_readings/fake', :to => "sensor_readings#fake", :default => { :format => :json }
 
 
   # Example of regular route:
