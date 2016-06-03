@@ -1,0 +1,12 @@
+= button_tag "Generate Fake Sample Data", :id => 'generate_fake_sample_data', :class => "btn btn-primary"
+
+= form_tag "/sensor_readings/fake", :method => "post", :remote => true do
+  = fields_for :sample do |f|
+    = f.hidden_field :sensor_id, :value => @sensor.id
+    = f.label :quantity, "Quantity"
+    = f.number_field :quantity
+    = f.label :from, "From"
+    = f.number_field :from
+    = f.label :to, "To"
+    = f.number_field :to
+    = f.submit "Generate!"

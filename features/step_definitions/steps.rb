@@ -182,3 +182,19 @@ Then(/^I have a new text component for my live report in the database$/) do
   expect(current_report.text_components).not_to be_empty
 end
 
+When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)°C$/) do |quantity, from, to|
+  fill_in "Quantity", :with => quantity
+  fill_in "From", :with => from
+  fill_in "To", :with => to
+end
+
+Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
+  expect(@sensor.sensor_readings.count).to eq quantity.to_i
+end
+
+Then(/^I should see some entries in the sensor readings table$/) do
+  within "#sensor-readings-table" do
+    expect(page).to have_css(".sensor-reading-row")
+  end
+end
+

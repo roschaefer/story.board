@@ -11,7 +11,37 @@ class SensorReadingsController < ApplicationController
     end
   end
 
+  def fake
+    @sensor_readings = []
+    success = false
+    Sensor::Reading.transaction do
+      if sample_params[:from].nil? || sample_params[:to].nil?
+        raise ActiveRecord::Rollback
+      end
+      quantity, from, to = sample_params[:quantity].to_i, sample_params[:from].to_i, sample_params[:to].to_i
+      range = Range.new(from, to)
+      sensor_id = sample_params[:sensor_id]
+      @sensor_readings = (1..quantity).collect do
+        value = rand(range)
+        Sensor::Reading.new(:sensor_id => sensor_id, :calibrated_value => value, :uncalibrated_value => value)
+      end
+      success = @sensor_readings.all? {|reading| reading.save }
+    end
+    respond_to do |format|
+      if success
+        format.js { render 'sensor/readings/fake' }
+        format.json { render json: @sensor_readings, status: :created }
+      else
+        format.json { render json: @sensor_readings.map(&:errors), status: :unprocessable_entity}
+      end
+    end
+  end
+
   private
+
+  def sample_params
+    params.require(:sample).permit(:sensor_id, :quantity, :from, :to)
+  end
 
   def sensor_reading_params
     assign_sensor_by_name

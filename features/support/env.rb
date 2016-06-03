@@ -7,6 +7,7 @@
 require 'cucumber/rails'
 require 'cucumber/api_steps'
 require 'capybara/poltergeist'
+require 'capybara-screenshot/cucumber'
 
 World(FactoryGirl::Syntax::Methods)
 
