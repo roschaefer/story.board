@@ -35,7 +35,6 @@ set :deploy_to, '~/story.board'
 # set :keep_releases, 5
 
 namespace :deploy do
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
@@ -46,29 +45,28 @@ namespace :deploy do
   end
 
   desc 'Runs rake db:seed'
-  task :seed => [:set_rails_env] do
+  task seed: [:set_rails_env] do
     on primary fetch(:migration_role) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, "db:seed"
+          execute :rake, 'db:seed'
         end
       end
     end
   end
 
-  desc "Restart Daemon"
+  desc 'Restart Daemon'
   task :restart_daemon do
     on roles(:web)  do |host|
-      execute :svc, "-du ~/service/story.board"
+      execute :svc, '-du ~/service/story.board'
       info "Host #{host} restarting svc daemon"
     end
   end
 
-
-  desc "Reassign Ownership of Database Tables"
+  desc 'Reassign Ownership of Database Tables'
   task :reassign_db_ownership do
-    on roles(:web)  do |host|
-      execute "~/reassign_db_ownership.sh", "-d story_board_production", "-o $POSTGRES_USERNAME"
+    on roles(:web) do |host|
+      execute '~/reassign_db_ownership.sh', '-d story_board_production', '-o $POSTGRES_USERNAME'
       info "Host #{host} reassign ownership of all tables to postgres user"
     end
   end

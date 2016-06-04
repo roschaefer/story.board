@@ -1,6 +1,6 @@
 class TextComponent < ActiveRecord::Base
   belongs_to :report
-  has_many :sensors, :through => :conditions
+  has_many :sensors, through: :conditions
   has_many :conditions
 
   validates :heading, :main_part, presence: true

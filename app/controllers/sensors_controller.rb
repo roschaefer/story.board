@@ -4,7 +4,7 @@ class SensorsController < ApplicationController
   end
 
   def new
-     @sensor= Sensor.new
+    @sensor = Sensor.new
   end
 
   def show
@@ -40,7 +40,6 @@ class SensorsController < ApplicationController
     @sensor.destroy
     redirect_to sensors_path
   end
-
 
   private
 

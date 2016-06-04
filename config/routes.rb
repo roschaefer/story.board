@@ -1,21 +1,19 @@
 Rails.application.routes.draw do
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
 
-  get 'reports/current', :to => 'reports#current', :as => "current_report"
-  get 'reports/present/:id', :to => 'reports#present', :as => "present_report"
-  get 'reports/preview/:id', :to => 'reports#preview', :as => "preview_report"
+  get 'reports/current', to: 'reports#current', as: 'current_report'
+  get 'reports/present/:id', to: 'reports#present', as: 'present_report'
+  get 'reports/preview/:id', to: 'reports#preview', as: 'preview_report'
   resources :reports
 
-  root :to => redirect("/reports/current")
+  root to: redirect('/reports/current')
   resources :text_components
   resources :sensors
-  resources :sensor_readings, :default => { :format => :json }
-  post 'sensor_readings/fake', :to => "sensor_readings#fake", :default => { :format => :json }
-
+  resources :sensor_readings, default: { format: :json }
+  post 'sensor_readings/fake', to: 'sensor_readings#fake', default: { format: :json }
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

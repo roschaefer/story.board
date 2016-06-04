@@ -8,15 +8,15 @@ Then(/^I should see:$/) do |string|
 end
 
 Given(/^I have a sensor called "([^"]*)"$/) do |name|
-  @sensor = create(:sensor, :name => name)
+  @sensor = create(:sensor, name: name)
 end
 
 Given(/^I have a sensor for the current report called "([^"]*)"$/) do |name|
-  @sensor = create(:sensor, :name => name, :report => Report.current)
+  @sensor = create(:sensor, name: name, report: Report.current)
 end
 
 Given(/^I have a sensor with id (\d+)$/) do |arg|
-  create :sensor, :id => arg.to_i
+  create :sensor, id: arg.to_i
 end
 
 Then(/^a new sensor reading was created$/) do
@@ -32,20 +32,20 @@ Then(/^no sensor reading was created$/) do
 end
 
 Given(/^all "([^"]*)" sensors measure in "([^"]*)"$/) do |property, unit|
-  create(:sensor_type, :property => property, :unit => unit)
+  create(:sensor_type, property: property, unit: unit)
 end
 
 When(/^I want to create a new sensor/) do
   visit new_sensor_path
-  fill_in :sensor_name, :with => "SensorXYZ"
+  fill_in :sensor_name, with: 'SensorXYZ'
 end
 
 When(/^I select the sensor type "([^"]*)"$/) do |type|
-  select type, :from => "sensor_sensor_type_id"
+  select type, from: 'sensor_sensor_type_id'
 end
 
 When(/^I confirm the dialog$/) do
-  click_on "Create"
+  click_on 'Create'
 end
 
 Then(/^I have a new sensor in my database$/) do
@@ -53,12 +53,12 @@ Then(/^I have a new sensor in my database$/) do
 end
 
 Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
-  temperature_type = create(:sensor_type, :property => property.capitalize)
-  create :sensor, :name => name, :sensor_type => temperature_type
+  temperature_type = create(:sensor_type, property: property.capitalize)
+  create :sensor, name: name, sensor_type: temperature_type
 end
 
 Given(/^I have a text component with the heading "([^"]*)"$/) do |heading|
-  @text_component = create(:text_component, :heading => heading)
+  @text_component = create(:text_component, heading: heading)
 end
 
 When(/^I visit the edit page of this text component$/) do
@@ -66,22 +66,22 @@ When(/^I visit the edit page of this text component$/) do
 end
 
 When(/^I add a condition$/) do
-  click_on "add condition"
-  expect(page).to have_text("remove condition") # wait until it's there
+  click_on 'add condition'
+  expect(page).to have_text('remove condition') # wait until it's there
 end
 
 When(/^I choose the sensor "([^"]*)" to trigger this text component$/) do |sensor|
-  select sensor, :from => "Sensor"
+  select sensor, from: 'Sensor'
 end
 
 When(/^I define a range from "([^"]*)" to "([^"]*)" to cover the relevant values$/) do |arg1, arg2|
-  fill_in "From", :with => arg1
-  fill_in "To",   :with => arg2
+  fill_in 'From', with: arg1
+  fill_in 'To',   with: arg2
 end
 
 When(/^I click on update$/) do
-  click_on "Update"
-  expect(page).to have_text("Edit") # wait until saved
+  click_on 'Update'
+  expect(page).to have_text('Edit') # wait until saved
 end
 
 Then(/^the text component is connected to the ([^"]*) sensor$/) do |property|
@@ -97,12 +97,12 @@ Then(/^the condition has relevant values from (\d+) to (\d+)$/) do |arg1, arg2|
 end
 
 Given(/^this sensor just measured a .* of (\d+)°C$/) do |value|
-  create(:sensor_reading, :sensor => @sensor, :calibrated_value => value)
+  create(:sensor_reading, sensor: @sensor, calibrated_value: value)
 end
 
 Given(/^I prepared a text component for this sensor with this introduction:$/) do |introduction|
-  @text_component = create(:text_component, :introduction => introduction)
-  create(:condition, :text_component => @text_component, :sensor => @sensor)
+  @text_component = create(:text_component, introduction: introduction)
+  create(:condition, text_component: @text_component, sensor: @sensor)
 end
 
 Given(/^this text component should trigger for a value between (\d+)°C and (\d+)°C$/) do |from, to|
@@ -116,16 +116,16 @@ end
 Given(/^for my current report I have these text components prepared:$/) do |table|
   # table is a Cucumber::Core::Ast::DataTable
   table.hashes.each do |row|
-    component = create(:text_component, :main_part => row["Text Component"])
-    sensor= create(:sensor, :name => row["Sensor"], :report => Report.current)
-    create(:condition, :sensor => sensor, :text_component => component, :from => row["From"], :to => row["To"])
+    component = create(:text_component, main_part: row['Text Component'])
+    sensor = create(:sensor, name: row['Sensor'], report: Report.current)
+    create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
   end
 end
 
 Given(/^the latested sensor data looks like this:$/) do |table|
   table.hashes.each do |row|
-    sensor = Sensor.find_by(:name => row["Sensor"])
-    create(:sensor_reading, :sensor => sensor, :calibrated_value => row["Calibrated Value"].to_i)
+    sensor = Sensor.find_by(name: row['Sensor'])
+    create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i)
   end
 end
 
@@ -149,21 +149,21 @@ When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_d
   @date = Date.parse(start_date)
 
   day, month, year = start_date.split
-  select year, :from => 'report_start_date_1i'
-  select month, :from => 'report_start_date_2i'
-  select day, :from => 'report_start_date_3i'
+  select year, from: 'report_start_date_1i'
+  select month, from: 'report_start_date_2i'
+  select day, from: 'report_start_date_3i'
 end
 
 Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
-  expect(Report.find_by(:name => name).start_date).to eq @date
+  expect(Report.find_by(name: name).start_date).to eq @date
 end
 
 Given(/^my current live report is called "([^"]*)"$/) do |name|
-  create(:report, :name => name)
+  create(:report, name: name)
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  click_on "Settings"
+  click_on 'Settings'
   click_on name
 end
 
@@ -172,8 +172,8 @@ When(/^I click on "([^"]*)"/) do |thing|
 end
 
 When(/^I type in some text for (.*)$/) do |things|
-  things.split(",").each do |thing|
-    fill_in thing.strip, :with => "Blablablabla"
+  things.split(',').each do |thing|
+    fill_in thing.strip, with: 'Blablablabla'
   end
 end
 
@@ -183,9 +183,9 @@ Then(/^I have a new text component for my live report in the database$/) do
 end
 
 When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)°C$/) do |quantity, from, to|
-  fill_in "Quantity", :with => quantity
-  fill_in "From", :with => from
-  fill_in "To", :with => to
+  fill_in 'Quantity', with: quantity
+  fill_in 'From', with: from
+  fill_in 'To', with: to
 end
 
 Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
@@ -193,16 +193,16 @@ Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |qua
 end
 
 Then(/^I should see some generated entries in the sensor readings table$/) do
-  within "#sensor-readings-table-fake" do
-    expect(page).to have_css(".sensor-reading-row")
+  within '#sensor-readings-table-fake' do
+    expect(page).to have_css('.sensor-reading-row')
   end
 end
 
 Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
-  @sensor = Sensor.find_by(:name => name)
+  @sensor = Sensor.find_by(name: name)
   Sensor::Reading.transaction do
-    7.times { create(:sensor_reading, :sensor => @sensor, :source => :fake) }
-    5.times { create(:sensor_reading, :sensor => @sensor, :source => :real) }
+    7.times { create(:sensor_reading, sensor: @sensor, source: :fake) }
+    5.times { create(:sensor_reading, sensor: @sensor, source: :real) }
   end
 end
 
@@ -211,25 +211,25 @@ When(/^I see the page of this sensor$/) do
 end
 
 Then(/^fake and real data are distinguishable$/) do
-  within "#sensor-readings-table-fake" do
-    expect(page).to have_css(".sensor-reading-row", count: 7)
+  within '#sensor-readings-table-fake' do
+    expect(page).to have_css('.sensor-reading-row', count: 7)
   end
-  within "#sensor-readings-table-real" do
-    expect(page).to have_css(".sensor-reading-row", count: 5)
+  within '#sensor-readings-table-real' do
+    expect(page).to have_css('.sensor-reading-row', count: 5)
   end
 end
 
 Given(/^there is some generated test data:$/) do |table|
   ActiveRecord::Base.transaction do
     table.hashes.each do |row|
-      sensor = Sensor.find_by(:name => row["Sensor"])
-      create(:sensor_reading, sensor: sensor, calibrated_value: row["Calibrated Value"].to_i, source: :fake)
+      sensor = Sensor.find_by(name: row['Sensor'])
+      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, source: :fake)
     end
   end
 end
 
 Then(/^I can read this text:$/) do |string|
-  string.split("[...]").each do |part|
+  string.split('[...]').each do |part|
     expect(page).to have_text(part)
   end
 end

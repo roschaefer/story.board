@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use SCSS for stylesheets
@@ -30,13 +29,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-
-
-
 gem 'twitter-bootstrap-rails'
 gem 'haml-rails'
 gem 'simple_form'
-gem "cocoon"
+gem 'cocoon'
 
 group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low
@@ -54,15 +50,13 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
-
   gem 'capistrano', '~> 3.4'
   gem 'capistrano-rails', '~> 1.1'
 end
 
 group :test do
-
-  gem 'cucumber-rails', :require => false
-  gem 'cucumber-api-steps', :require => false
+  gem 'cucumber-rails', require: false
+  gem 'cucumber-api-steps', require: false
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
   #   end
