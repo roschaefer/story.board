@@ -6,15 +6,22 @@ Feature: Identify Sensors by I2C Address
   Background:
     Given I send and accept JSON
 
-  Scenario: Receive sensor reading with I2C address as HEX number
-    Given I have a sensor with a I2C address "0xAF"
+  Scenario Outline: Receive sensor reading with an I2C address
+    Given I have a sensor with a I2C address <address>
     When I send a POST request to "/sensor_readings" with the following:
     """
     {
-    "address": "0xAF",
     "calibrated_value": 47,
-    "uncalibrated_value": 11
+    "uncalibrated_value": 11,
+    "sensor": {
+        "address": <address>
+      }
     }
     """
     Then the response status should be "201"
     And now the sensor has a new sensor reading in the database
+
+    Examples:
+      | address   |
+      | "4711"    | # either a decimal number
+      #| "0xAF"    | # or a hex number
