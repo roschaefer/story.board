@@ -1,5 +1,6 @@
 # story.board
 [![Build Status](https://travis-ci.org/roschaefer/story.board.svg?branch=master)](https://travis-ci.org/roschaefer/story.board)
+[![Gitter](https://badges.gitter.im/drjakob/story.board.svg)](https://gitter.im/drjakob/story.board?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 This is the user interface for journalists and readers of the [sensor live report](https://youtu.be/KIya_ptoFlU?t=44m50s).
 
