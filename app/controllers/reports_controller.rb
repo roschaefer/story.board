@@ -46,13 +46,13 @@ class ReportsController < ApplicationController
 
   def generate_report(source)
     @report = Report.find(params[:id])
-    @content = ""
+    @heading, @introduction, @main_part, @closing = "","","",""
     @report.sensors.each do |sensor|
       sensor.active_text_components(source).each do |component|
-        @content <<  component.heading.to_s
-        @content <<  component.introduction.to_s
-        @content <<  component.main_part.to_s
-        @content <<  component.closing.to_s
+        @heading      << " " << component.heading.to_s
+        @introduction << " " << component.introduction.to_s
+        @main_part    << " " << component.main_part.to_s
+        @closing      << " " << component.closing.to_s
       end
     end
   end
