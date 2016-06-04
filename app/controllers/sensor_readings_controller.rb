@@ -53,12 +53,13 @@ class SensorReadingsController < ApplicationController
     params.require(:sensor_reading).permit(:sensor_id, :sensor_name, :calibrated_value, :uncalibrated_value)
   end
 
-  # try to assign a sensor id here
+  # Tries to assign a missing sensor id
   def assign_sensor_id
-    params.permit(sensor: [:name, :address])
-    sensor_params = params[:sensor]
+    sensor_params = params.permit(sensor: [:name, :address])
     if sensor_params
-      params[:sensor_reading][:sensor_id] = Sensor.find_by(sensor_params).try(:id)
+      dummy_sensor = Sensor.new(sensor_params[:sensor]) # perform normalization
+      search_params = dummy_sensor.attributes.reject{|k,v| v.nil?}
+      params[:sensor_reading][:sensor_id] = Sensor.find_by(search_params).try(:id)
     end
   end
 end

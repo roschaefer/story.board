@@ -24,4 +24,4 @@ Feature: Identify Sensors by I2C Address
     Examples:
       | address   |
       | "4711"    | # either a decimal number
-      #| "0xAF"    | # or a hex number
+      | "0xAF"    | # or a hex number
