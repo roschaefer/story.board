@@ -11,7 +11,9 @@ Feature: Receive Sensor Readings
     When I send a POST request to "/sensor_readings" with the following:
     """
     {
-      "sensor_id": 1, "calibrated_value": 47, "uncalibrated_value": 11
+      "sensor_id": 1,
+      "calibrated_value": 47,
+      "uncalibrated_value": 11
     }
     """
     Then the response status should be "201"
@@ -22,7 +24,9 @@ Feature: Receive Sensor Readings
     When I send a POST request to "/sensor_readings" with the following:
     """
     {
-      "sensor_id": 1, "calibrated_value": 47, "uncalibrated_value": 11
+      "sensor_id": 1,
+      "calibrated_value": 47,
+      "uncalibrated_value": 11
     }
     """
     Then the response status should be "422"
@@ -33,7 +37,11 @@ Feature: Receive Sensor Readings
     When I send a POST request to "/sensor_readings" with the following:
     """
     {
-      "sensor_name": "DS18B20", "calibrated_value": 47, "uncalibrated_value": 11
+      "calibrated_value": 47,
+      "uncalibrated_value": 11,
+      "sensor": {
+        "name": "DS18B20"
+      }
     }
     """
     Then the response status should be "201"
@@ -44,7 +52,11 @@ Feature: Receive Sensor Readings
     When I send a POST request to "/sensor_readings" with the following:
     """
     {
-      "sensor_name": "DOESN'T EXIST", "calibrated_value": 47, "uncalibrated_value": 11
+      "calibrated_value": 47,
+      "uncalibrated_value": 11,
+      "sensor": {
+        "name": "DOESN'T EXIST"
+      }
     }
     """
     Then the response status should be "422"
