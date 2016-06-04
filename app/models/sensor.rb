@@ -17,4 +17,13 @@ class Sensor < ActiveRecord::Base
     holding_conditions = conditions.select { |c| c.from <= value && value <= c.to }
     holding_conditions.collect(&:text_component)
   end
+
+  def address=(value)
+    if value.respond_to?(:start_with?) && value.start_with?("0x") # probably a hex code string
+      super(value.hex)
+    else
+      super(value)
+    end
+  end
+
 end

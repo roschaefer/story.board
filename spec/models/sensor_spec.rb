@@ -31,6 +31,15 @@ describe Sensor, type: :model do
     end
   end
 
+  describe '#address' do
+    it 'accepts hex numbers and saves as decimal' do
+      sensor = build(:sensor, :address => "0xBC")
+      sensor.save
+      expect(sensor).to be_valid
+      expect(sensor.address).to eq 188
+    end
+  end
+
   describe '#active_text_components' do
     let(:sensor) { create(:sensor) }
 
