@@ -16,6 +16,13 @@ describe Sensor, type: :model do
     specify { expect(build(:sensor, name: 'XYZ')).not_to be_valid }
   end
 
+  context 'different name but duplicate address' do
+    before { create :sensor, name: "Whatever", address: 123 }
+
+    specify { expect { build(:sensor, address: 123).save(validate: false) }.to raise_exception(ActiveRecord::RecordNotUnique) }
+    specify { expect(build(:sensor, address: 123)).not_to be_valid }
+  end
+
   describe '#destroy' do
     it 'destroys all associated readings' do
       sensor = create(:sensor)

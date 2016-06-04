@@ -7,6 +7,7 @@ class Sensor < ActiveRecord::Base
 
   validates :report, presence: true
   validates :name, presence: true, uniqueness: true
+  validates :address, presence: true, uniqueness: true
   validates :sensor_type, presence: true
 
   def active_text_components(source = :real)
