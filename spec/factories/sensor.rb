@@ -1,7 +1,9 @@
 FactoryGirl.define do
   factory :sensor do
     name 'SENSORXY'
-    address 4711
+    sequence :address do |n|
+      n
+    end
     association :sensor_type
     association :report
   end

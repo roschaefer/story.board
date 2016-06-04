@@ -10,5 +10,6 @@ Feature: Select Sensor Type and Sensor ID
     Given all "Temperature" sensors measure in "Celsius"
     When I want to create a new sensor
     And I select the sensor type "Temperature"
+    And I choose an address "1234"
     And I confirm the dialog
     Then I have a new sensor in my database
