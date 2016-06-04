@@ -233,3 +233,17 @@ Then(/^I can read this text:$/) do |string|
     expect(page).to have_text(part)
   end
 end
+
+Given(/^I have a sensor with a I2C address "([^"]*)"$/) do |address|
+  @sensor = create(:sensor, :address => address)
+end
+
+Then(/^now the sensor has a new sensor reading in the database$/) do
+  expect(@sensor.sensor_readings.count).to eq 1
+end
+
+When(/^I choose an address "([^"]*)"$/) do |address|
+  fill_in "Address", :with => address
+end
+
+

@@ -7,6 +7,7 @@ class Sensor < ActiveRecord::Base
 
   validates :report, presence: true
   validates :name, presence: true, uniqueness: true
+  validates :address, presence: true, uniqueness: true
   validates :sensor_type, presence: true
 
   def active_text_components(source = :real)
@@ -16,4 +17,13 @@ class Sensor < ActiveRecord::Base
     holding_conditions = conditions.select { |c| c.from <= value && value <= c.to }
     holding_conditions.collect(&:text_component)
   end
+
+  def address=(value)
+    if value.respond_to?(:start_with?) && value.start_with?("0x") # probably a hex code string
+      super(value.hex)
+    else
+      super(value)
+    end
+  end
+
 end
