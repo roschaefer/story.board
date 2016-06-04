@@ -25,3 +25,4 @@ Feature: Identify Sensors by I2C Address
       | address   |
       | "4711"    | # either a decimal number
       | "0xAF"    | # or a hex number
+      | "0xbC"    | # hex is case-insensitive
