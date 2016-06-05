@@ -49,6 +49,7 @@ class SensorReadingsController < ApplicationController
   end
 
   def sensor_reading_params
+    format_particle_api_json
     assign_sensor_id
     params.require(:sensor_reading).permit(:sensor_id, :sensor_name, :calibrated_value, :uncalibrated_value)
   end
@@ -60,6 +61,14 @@ class SensorReadingsController < ApplicationController
       dummy_sensor = Sensor.new(sensor_params[:sensor]) # perform normalization
       search_params = dummy_sensor.attributes.reject{|k,v| v.nil?}
       params[:sensor_reading][:sensor_id] = Sensor.find_by(search_params).try(:id)
+    end
+  end
+
+  # Tries to assign a missing sensor id
+  def format_particle_api_json
+    params.permit(:published_at, :core_id, :event, :data)
+    if params[:data]
+      params[:sensor_reading] = params[:data]
     end
   end
 end
