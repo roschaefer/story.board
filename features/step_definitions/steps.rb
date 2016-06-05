@@ -246,4 +246,7 @@ When(/^I choose an address "([^"]*)"$/) do |address|
   fill_in "Address", :with => address
 end
 
+When(/^by the way, the "([^"]*)" attribute above is a string$/) do |arg1|
+  # only documentation 
+end
 
