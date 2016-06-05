@@ -68,7 +68,7 @@ class SensorReadingsController < ApplicationController
   def format_particle_api_json
     params.permit(:published_at, :core_id, :event, :data)
     if params[:data]
-      params[:sensor_reading] = params[:data]
+      params[:sensor_reading] = JSON.parse(params[:data])
     end
   end
 end

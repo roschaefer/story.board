@@ -9,13 +9,7 @@ Feature: Interface to Particle API
     """
     {
     "event": "measurement",
-    "data": "{
-      "calibrated_value": 47,
-      "uncalibrated_value": 11,
-      "sensor": {
-          "address": "123"
-        }
-    }",
+    "data": "{ \"calibrated_value\": 47, \"uncalibrated_value\": 11, \"sensor\": { \"address\": 123 } }",
     "published_at": "2016-06-05T13:41:18.705Z",
     "coreid": "1e0033001747343339383037"
     }
