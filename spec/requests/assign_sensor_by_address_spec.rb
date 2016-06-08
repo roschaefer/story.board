@@ -29,5 +29,11 @@ RSpec.describe 'Assign sensor by address', type: :request do
       expect(Sensor::Reading.first.sensor).to eq light
     end
 
+    it "rejects if sensor params empty" do
+      data_hash = "{ \"calibrated_value\": 47, \"uncalibrated_value\": 11 }"
+      post url,  sensor_reading_params.merge(:data => data_hash) , headers
+      expect(Sensor::Reading.count).to eq 0
+    end
+
   end
 end
