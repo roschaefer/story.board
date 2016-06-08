@@ -6,4 +6,11 @@ class TextComponent < ActiveRecord::Base
   validates :heading, :main_part, presence: true
   validates :report, presence: true
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
+
+  enum priority: [ :low, :medium, :high]
+  after_initialize :set_defaults, unless: :persisted?
+
+  def set_defaults
+    self.priority ||= :medium
+  end
 end

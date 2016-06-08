@@ -250,3 +250,12 @@ When(/^by the way, the "([^"]*)" attribute above is a string$/) do |arg1|
   # only documentation 
 end
 
+When(/^I select "([^"]*)" from the priorities$/) do |selection|
+  choose selection
+end
+
+Then(/^my heading has become very important$/) do
+  @text_component.reload
+  expect(@text_component.priority).to eq 'high'
+end
+
