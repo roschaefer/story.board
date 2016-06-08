@@ -1,6 +1,8 @@
 FactoryGirl.define do
   factory :sensor do
-    name 'SENSORXY'
+    sequence :name do |n|
+      "Sensor#{n}"
+    end
     sequence :address do |n|
       n
     end

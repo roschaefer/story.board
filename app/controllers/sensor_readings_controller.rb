@@ -60,7 +60,9 @@ class SensorReadingsController < ApplicationController
     if sensor_params
       dummy_sensor = Sensor.new(sensor_params[:sensor]) # perform normalization
       search_params = dummy_sensor.attributes.reject{|k,v| v.nil?}
-      params[:sensor_reading][:sensor_id] = Sensor.find_by(search_params).try(:id)
+      if search_params.present?
+        params[:sensor_reading][:sensor_id] = Sensor.find_by(search_params).try(:id)
+      end
     end
   end
 
@@ -69,6 +71,7 @@ class SensorReadingsController < ApplicationController
     params.permit(:published_at, :core_id, :event, :data)
     if params[:data]
       params[:sensor_reading] = JSON.parse(params[:data])
+      params[:sensor] = params[:sensor_reading][:sensor]
     end
   end
 end
