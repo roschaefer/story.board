@@ -206,7 +206,7 @@ Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
   end
 end
 
-When(/^I see the page of this sensor$/) do
+When(/^I (?:see|visit) the page of (?:this|that) sensor$/) do
   visit sensor_path(@sensor)
 end
 
@@ -259,3 +259,24 @@ Then(/^my heading has become very important$/) do
   expect(@text_component.priority).to eq 'high'
 end
 
+Given(/^I have (\d+) entries for a sensor in my database$/) do |quantity|
+  Sensor.transaction do
+    @sensor = create(:sensor)
+    Sensor::Reading.transaction do
+      quantity.to_i.times do
+        create(:sensor_reading, :sensor => @sensor)
+      end
+    end
+  end
+end
+
+Then(/^I see only (\d+) sensor readings$/) do |times|
+  expect(page).to have_css('.sensor-reading-row', count: times)
+end
+
+Then(/^the first row is the most recent sensor reading$/) do
+  id = page.first('td').text
+  first_row = Sensor::Reading.find(id)
+  most_recent = Sensor::Reading.order(:created_at).last
+  expect(first_row.id).to eq most_recent.id
+end
