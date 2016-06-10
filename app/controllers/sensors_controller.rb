@@ -9,8 +9,8 @@ class SensorsController < ApplicationController
 
   def show
     @sensor = Sensor.find(params[:id])
-    @real_readings = @sensor.sensor_readings.real
-    @fake_readings = @sensor.sensor_readings.fake
+    @real_readings = @sensor.sensor_readings.real.order(:created_at).last(50).reverse
+    @fake_readings = @sensor.sensor_readings.fake.order(:created_at).last(50).reverse
   end
 
   def edit
