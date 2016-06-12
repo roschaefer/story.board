@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608152610) do
+ActiveRecord::Schema.define(version: 20160612222831) do
 
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20160608152610) do
   end
 
   create_table "sensor_readings", force: :cascade do |t|
-    t.integer  "calibrated_value"
-    t.integer  "uncalibrated_value"
+    t.float    "calibrated_value"
+    t.float    "uncalibrated_value"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "sensor_id"
