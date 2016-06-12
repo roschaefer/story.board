@@ -41,7 +41,7 @@ And point your browser to your [running instance](http://localhost:3000/).
 
 ## Demo
 
-About milk production. Follow [@Kuhbertha](https://vicari.perseus.uberspace.de).
+About milk production. Follow [@Kuhbertha](https://twitter.com/kuhbertha) and [read about her](https://vicari.perseus.uberspace.de).
 
 
 ## Test
