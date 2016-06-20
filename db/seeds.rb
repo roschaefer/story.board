@@ -7,7 +7,14 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 
-Report.create(name: 'Kuh Bertha', start_date: Time.now)
+
+
+
+if Report.count == 0
+  # if there is no current report
+  Report.create(name: 'Kuh Bertha', start_date: Time.now)
+end
+
 
 attribute_hashes = [
   { property: 'Temperature',          unit: '°C'     },
@@ -23,7 +30,24 @@ attribute_hashes = [
   { property: 'Gas: Ozone',           unit: '%'      },
   { property: 'Air quality',          unit: '?...?'  },
   { property: 'Vibration',            unit: '0-10'   },
-  { property: 'Relative Humidity',    unit: '%'      }
+  { property: 'Relative Humidity',    unit: '%'      },
+
+
+  { property: 'Pedometer'         , unit: 'km'                                           },
+  { property: 'Qualität'          , unit: 'Note 1-6'                                     },
+  { property: 'Gesundheitsstatus' , unit: '0 -1 gesund/krank'                            },
+  { property: 'Preis'             , unit: '€'                                            },
+  { property: 'Zeit'              , unit: 'hours'                                        },
+  { property: 'Milchmenge'        , unit: 'kg'                                           },
+  { property: 'Lautstärke'        , unit: '0-10 - still, leise, mittel, laut, sehr laut' },
+  { property: 'Favs'              , unit: '0-unlimited'                                  }
 ]
 
-attribute_hashes.each { |attributes| SensorType.create attributes }
+new_sensor_types = attribute_hashes.collect{ |attributes| SensorType.new attributes }
+SensorType.find_each do |p|
+  # avoid duplicates
+  new_sensor_types.delete_if {|t| t.property == p.property && t.unit == p.unit }
+end
+new_sensor_types.each { |t| t.save! }
+
+
