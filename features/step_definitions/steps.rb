@@ -101,7 +101,7 @@ Given(/^this sensor just measured a .* of (\d+)°C$/) do |value|
 end
 
 Given(/^I prepared a text component for this sensor with this introduction:$/) do |introduction|
-  @text_component = create(:text_component, introduction: introduction)
+  @text_component = create(:text_component, report: Report.current, introduction: introduction)
   create(:condition, text_component: @text_component, sensor: @sensor)
 end
 
@@ -116,7 +116,7 @@ end
 Given(/^for my current report I have these text components prepared:$/) do |table|
   # table is a Cucumber::Core::Ast::DataTable
   table.hashes.each do |row|
-    component = create(:text_component, main_part: row['Text Component'])
+    component = create(:text_component, report: Report.current, main_part: row['Text Component'])
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
   end

@@ -5,7 +5,7 @@ module Text
       introductions = []
       main_parts    = []
       closings      = []
-      report.active_text_components.each do |component|
+      report.active_text_components(source).each do |component|
         headings      << component.heading.to_s
         introductions << render(component, :introduction, source)
         main_parts    << render(component, :main_part,    source)
