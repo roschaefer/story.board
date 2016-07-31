@@ -5,4 +5,8 @@ class Report < ActiveRecord::Base
   def self.current
     Report.first
   end
+
+  def active_text_components
+    text_components
+  end
 end
