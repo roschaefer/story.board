@@ -13,4 +13,11 @@ class TextComponent < ActiveRecord::Base
   def set_defaults
     self.priority ||= :medium
   end
+
+  def active?(source = :real)
+    conditions.all? do |condition|
+      value = condition.sensor.last_value(source)
+      value && condition.from <= value && value <= condition.to
+    end
+  end
 end

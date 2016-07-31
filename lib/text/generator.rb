@@ -7,9 +7,9 @@ module Text
       closings      = []
       report.active_text_components.each do |component|
         headings      << component.heading.to_s
-        introductions << render(component, :introduction)
-        main_parts    << render(component, :main_part)
-        closings      << render(component, :closing)
+        introductions << render(component, :introduction, source)
+        main_parts    << render(component, :main_part,    source)
+        closings      << render(component, :closing,      source)
       end
 
       {
@@ -21,14 +21,14 @@ module Text
 
     end
 
-    def self.render(text_component, part)
+    def self.render(text_component, part, source)
       template = text_component.send(part).to_s
       unless template =~ /({.*})/
         return template
       else
         rendered = template
         text_component.sensors.each do |sensor|
-          s = SensorDecorator.new(sensor)
+          s = SensorDecorator.new(sensor, source)
           rendered.gsub!(/({\s*#{ Regexp.quote(s.name) }\s*})/, s.last_value)
         end
         return rendered

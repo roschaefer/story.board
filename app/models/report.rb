@@ -7,6 +7,6 @@ class Report < ActiveRecord::Base
   end
 
   def active_text_components
-    text_components
+    text_components.select {|c| c.active? }
   end
 end
