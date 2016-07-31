@@ -14,9 +14,9 @@ class TextComponent < ActiveRecord::Base
     self.priority ||= :medium
   end
 
-  def active?(source = :real)
+  def active?(intention = :real)
     conditions.all? do |condition|
-      value = condition.sensor.last_value(source)
+      value = condition.last_value(intention)
       value && condition.from <= value && value <= condition.to
     end
   end
