@@ -44,19 +44,12 @@ class ReportsController < ApplicationController
     params.require(:report).permit(:start_date)
   end
 
-  def generate_report(source)
+  def generate_report(intention)
     @report = Report.find(params[:id])
-    @heading = ''
-    @introduction = ''
-    @main_part = ''
-    @closing = ''
-    @report.sensors.each do |sensor|
-      sensor.active_text_components(source).each do |component|
-        @heading      << ' ' << component.heading.to_s
-        @introduction << ' ' << component.introduction.to_s
-        @main_part    << ' ' << component.main_part.to_s
-        @closing      << ' ' << component.closing.to_s
-      end
-    end
+    generated = Text::Generator.generate(@report, intention)
+    @heading      = generated[:heading]
+    @introduction = generated[:introduction]
+    @main_part    = generated[:main_part]
+    @closing      = generated[:closing]
   end
 end

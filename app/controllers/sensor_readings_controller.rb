@@ -26,7 +26,7 @@ class SensorReadingsController < ApplicationController
           sensor_id: sample_params[:sensor_id],
           calibrated_value: rand(range),
           uncalibrated_value: rand(range),
-          source: :fake
+          intention: :fake
         }
         Sensor::Reading.new(params)
       end

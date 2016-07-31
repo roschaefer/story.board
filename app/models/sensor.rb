@@ -10,20 +10,17 @@ class Sensor < ActiveRecord::Base
   validates :address, presence: true, uniqueness: true
   validates :sensor_type, presence: true
 
-  def active_text_components(source = :real)
-    reading = sensor_readings.where(source: Sensor::Reading.sources[source]).last
-    return [] if reading.nil?
-    value = reading.calibrated_value
-    holding_conditions = conditions.select { |c| c.from <= value && value <= c.to }
-    holding_conditions.collect(&:text_component)
-  end
-
   def address=(value)
     if value.respond_to?(:start_with?) && value.start_with?("0x") # probably a hex code string
       super(value.hex)
     else
       super(value)
     end
+  end
+
+  def last_value(intention = :real)
+    value = sensor_readings.send(intention).last
+    value && value.calibrated_value
   end
 
 end
