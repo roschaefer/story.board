@@ -13,10 +13,10 @@ module Text
       end
 
       {
-        heading:       headings.join,
-        introduction:  introductions.join,
-        main_part:     main_parts.join,
-        closing:       closings.join
+        heading:       headings.join(" "),
+        introduction:  introductions.join(" "),
+        main_part:     main_parts.join(" "),
+        closing:       closings.join(" ")
       }
 
     end
