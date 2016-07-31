@@ -201,8 +201,8 @@ end
 Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
   @sensor = Sensor.find_by(name: name)
   Sensor::Reading.transaction do
-    7.times { create(:sensor_reading, sensor: @sensor, source: :fake) }
-    5.times { create(:sensor_reading, sensor: @sensor, source: :real) }
+    7.times { create(:sensor_reading, sensor: @sensor, intention: :fake) }
+    5.times { create(:sensor_reading, sensor: @sensor, intention: :real) }
   end
 end
 
@@ -223,7 +223,7 @@ Given(/^there is some generated test data:$/) do |table|
   ActiveRecord::Base.transaction do
     table.hashes.each do |row|
       sensor = Sensor.find_by(name: row['Sensor'])
-      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, source: :fake)
+      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, intention: :fake)
     end
   end
 end

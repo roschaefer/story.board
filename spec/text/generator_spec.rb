@@ -34,7 +34,7 @@ RSpec.describe Text::Generator do
             let(:main_part)      { 'Sensor value: { SensorXY }' }
             it('renders sensor value') { is_expected.to have_value('Sensor value: 5.0°C')}
             context 'but with sensor data of different intention' do
-              before { reading; create(:sensor_reading, sensor: sensor, source: :fake, calibrated_value: 0) }
+              before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
 
               context 'render :fake report' do
                 subject { described_class.generate(report, :fake) }

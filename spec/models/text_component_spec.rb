@@ -36,8 +36,8 @@ describe TextComponent, type: :model do
 
       context 'with sensor readings of different intentions' do
         before do
-          create :sensor_reading, sensor: sensor, calibrated_value: 0, source: :real
-          create :sensor_reading, sensor: sensor, calibrated_value: 2, source: :fake
+          create :sensor_reading, sensor: sensor, calibrated_value: 0, intention: :real
+          create :sensor_reading, sensor: sensor, calibrated_value: 2, intention: :fake
         end
 
         describe '#active? :real' do

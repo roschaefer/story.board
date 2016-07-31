@@ -21,8 +21,8 @@ RSpec.describe Report, type: :model do
 
       context 'for sensor readings with a certain intent' do
         before do
-          create(:sensor_reading, sensor: sensor, source: :fake, calibrated_value: 2)
-          create(:sensor_reading, sensor: sensor, source: :real, calibrated_value: 0)
+          create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 2)
+          create(:sensor_reading, sensor: sensor, intention: :real, calibrated_value: 0)
         end
 
         describe '#active_text_components :real' do

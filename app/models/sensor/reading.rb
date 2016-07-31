@@ -1,6 +1,6 @@
 class Sensor
   class Reading < ActiveRecord::Base
-    enum source: [:real, :fake]
+    enum intention: [:real, :fake]
     belongs_to :sensor
     validates :sensor, presence: true
     validates :calibrated_value, presence: true

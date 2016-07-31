@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160612222831) do
+ActiveRecord::Schema.define(version: 20160731224759) do
 
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160612222831) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "sensor_id"
-    t.integer  "source",             default: 0
+    t.integer  "intention",          default: 0
   end
 
   add_index "sensor_readings", ["sensor_id"], name: "index_sensor_readings_on_sensor_id"

@@ -18,8 +18,8 @@ class Sensor < ActiveRecord::Base
     end
   end
 
-  def last_value(source = :real)
-    value = sensor_readings.send(source).last
+  def last_value(intention = :real)
+    value = sensor_readings.send(intention).last
     value && value.calibrated_value
   end
 
