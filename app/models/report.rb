@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_text_components(source)
+  def active_text_components(source = :real)
     text_components.select {|c| c.active?(source) }
   end
 end

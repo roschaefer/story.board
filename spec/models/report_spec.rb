@@ -9,6 +9,9 @@ RSpec.describe Report, type: :model do
 
 
   describe '#active_text_components' do
+    subject { report.active_text_components }
+    it { is_expected.to be_empty }
+
     context 'given a text component connected to a sensor via a certain condition' do
       let(:text_component) { create :text_component, report: report }
       let(:sensor)          { create :sensor }
