@@ -9,7 +9,11 @@ Feature: Write about the actual sensor value
     Given there is a sensor live report
 
   Scenario: Include markup in text component
-    Given for my current report I have these text components prepared:
+    Given I have these sensors and sensor types in my database
+      | Sensor    | Property    | Unit |
+      | Temp123   | Temperature | °C   |
+      | Bright456 | Light       | Lux  |
+    And for my sensors I have these text components prepared:
       | Sensor    | From  | To    | Text Component                               |
       | Temp123   | 30°C  | 40°C  | Wow, it's incredible { Temp123 }!            |
       | Bright456 | 70000 | 90000 | Take your sunglasses: { Bright456 } outside! |
@@ -20,5 +24,5 @@ Feature: Write about the actual sensor value
     When I visit the landing page
     Then I should see:
     """
-    Wow, it's incredible 32°C! Take your sunglasses: 85000 Lux outside!
+    Wow, it's incredible 32.0°C! Take your sunglasses: 85000.0Lux outside!
     """
