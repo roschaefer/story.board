@@ -114,10 +114,17 @@ Given(/^this text component should trigger for a value between (\d+)°C and (\d+
 end
 
 Given(/^for my current report I have these text components prepared:$/) do |table|
-  # table is a Cucumber::Core::Ast::DataTable
   table.hashes.each do |row|
     component = create(:text_component, report: Report.current, main_part: row['Text Component'])
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
+    create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
+  end
+end
+
+Given(/^for my sensors I have these text components prepared:$/) do |table|
+  table.hashes.each do |row|
+    component = create(:text_component, report: Report.current, main_part: row['Text Component'])
+    sensor = Sensor.find_by name: row['Sensor']
     create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
   end
 end
@@ -279,4 +286,11 @@ Then(/^the first row is the most recent sensor reading$/) do
   first_row = Sensor::Reading.find(id)
   most_recent = Sensor::Reading.order(:created_at).last
   expect(first_row.id).to eq most_recent.id
+end
+
+Given(/^I have these sensors and sensor types in my database$/) do |table|
+  table.hashes.each do |row|
+    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'])
+    create(:sensor, name: row['Sensor'], sensor_type: sensor_type, report: Report.current)
+  end
 end
