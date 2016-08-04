@@ -308,7 +308,7 @@ Then(/^I can watch a video stream that points to this url$/) do
 end
 
 When(/^I set the component to trigger only for recent data within the last (\d+) hours$/) do |hours|
-  fill_in "Within", with: hours
+  fill_in "Timeliness constraint", with: hours
 end
 
 Then(/^this text component has a timeliness constraint of (\d+) hours$/) do |hours|
