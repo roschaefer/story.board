@@ -1,5 +1,4 @@
 @76
-@wip
 Feature: Add timeliness constraint
   As a journalist
   I want to define that a text component will be triggered only for a recent sensor reading

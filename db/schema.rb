@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160804220913) do
+ActiveRecord::Schema.define(version: 20160804225417) do
 
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
@@ -70,10 +70,11 @@ ActiveRecord::Schema.define(version: 20160804220913) do
     t.text     "introduction"
     t.text     "main_part"
     t.text     "closing"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.integer  "report_id"
     t.integer  "priority"
+    t.integer  "timeliness_constraint"
   end
 
   add_index "text_components", ["report_id"], name: "index_text_components_on_report_id"

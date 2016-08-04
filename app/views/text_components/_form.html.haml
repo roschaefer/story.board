@@ -5,6 +5,7 @@
   = f.input :main_part
   = f.input :closing
   = f.input :priority, as: :radio_buttons, collection: TextComponent.priorities.keys
+  = f.input :timeliness_constraint, label: 'Within'
   %h3 Conditions
   #conditions
     = f.simple_fields_for :conditions do |condition|

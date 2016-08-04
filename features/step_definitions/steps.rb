@@ -312,5 +312,6 @@ When(/^I set the component to trigger only for recent data within the last (\d+)
 end
 
 Then(/^this text component has a timeliness constraint of (\d+) hours$/) do |hours|
+  @text_component.reload
   expect(@text_component.timeliness_constraint).to eq hours.to_i
 end
