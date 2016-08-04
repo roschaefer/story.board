@@ -1,4 +1,4 @@
-@wip
+@77
 Feature:Embed Livestream
   As a reader,
   I want to have a webcam livestream embedded in the report
