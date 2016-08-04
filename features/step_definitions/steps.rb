@@ -306,3 +306,11 @@ Then(/^I can watch a video stream that points to this url$/) do
   expect(page).to have_css('iframe')
   expect(find('iframe')['src']).to eq @url
 end
+
+When(/^I set the component to trigger only for recent data within the last (\d+) hours$/) do |hours|
+  fill_in "Within", with: hours
+end
+
+Then(/^this text component has a timeliness constraint of (\d+) hours$/) do |hours|
+  expect(@text_component.timeliness_constraint).to eq hours.to_i
+end
