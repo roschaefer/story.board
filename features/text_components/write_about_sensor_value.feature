@@ -1,5 +1,4 @@
 @23
-@wip
 Feature: Write about the actual sensor value
   As a journalist
   I want to include the actual value of a sensor in a text component

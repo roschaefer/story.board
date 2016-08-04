@@ -41,7 +41,7 @@ class ReportsController < ApplicationController
   private
 
   def report_params
-    params.require(:report).permit(:start_date)
+    params.require(:report).permit(:start_date, :video)
   end
 
   def generate_report(intention)

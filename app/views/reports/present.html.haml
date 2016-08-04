@@ -1,6 +1,10 @@
 %h1 Sensor Live Report
 %p
   Hey there! This is the live report of your experiment, automatically generated based on your sensor data! On every browser refresh, you will see a freshly generated live report on this page.
+
+- if @report.video
+  %iframe{width: 480, heigth: 394, src: @report.video, frameborder: 0, type: 'text/html'}
+
 %h3= @heading
 %p
   = @introduction

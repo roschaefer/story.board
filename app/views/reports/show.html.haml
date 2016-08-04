@@ -2,5 +2,8 @@
 %p
   %strong Start Date:
   = @report.start_date
+%p
+  %strong Video URL:
+  = @report.video
 = link_to 'Edit', edit_report_path(@report), :class => "btn btn-primary"
 = link_to 'Back', reports_path, :class => "btn btn-secondary"
