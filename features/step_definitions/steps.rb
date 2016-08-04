@@ -294,3 +294,15 @@ Given(/^I have these sensors and sensor types in my database$/) do |table|
     create(:sensor, name: row['Sensor'], sensor_type: sensor_type, report: Report.current)
   end
 end
+
+When(/^I add a video URL to the report$/) do
+  click_on "Edit"
+  @url = '//example.com/embedded/live/example?autoplay=1'
+  fill_in "Video URL", with: @url
+  click_on "Update Report"
+end
+
+Then(/^I can watch a video stream that points to this url$/) do
+  expect(page).to have_css('iframe')
+  expect(find('iframe')['src']).to eq @url
+end
