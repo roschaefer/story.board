@@ -347,3 +347,7 @@ Then(/^I see the new name in the settings menu above$/) do
   expect(page).to have_css('.dropdown-menu')
   expect(find('.dropdown-menu')).to have_text @report_name
 end
+
+Given(/^there is an active text component with the following main part:$/) do |main_part|
+  create(:text_component, main_part: main_part, report: Report.current)
+end
