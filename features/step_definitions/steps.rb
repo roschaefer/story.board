@@ -123,7 +123,7 @@ end
 
 Given(/^for my sensors I have these text components prepared:$/) do |table|
   table.hashes.each do |row|
-    component = create(:text_component, report: Report.current, main_part: row['Text Component'])
+    component = create(:text_component, report: Report.current, main_part: row['Text Component'], timeliness_constraint: row['Timeliness'])
     sensor = Sensor.find_by name: row['Sensor']
     create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
   end
