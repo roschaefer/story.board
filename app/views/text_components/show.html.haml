@@ -13,6 +13,9 @@
 %p
   %strong Priority:
   = @text_component.priority
+%p
+  %strong Within
+  = "the last #{@text_component.timeliness_constraint} hours"
 = link_to 'Edit', edit_text_component_path(@text_component), :class => "btn btn-primary"
 = link_to 'Destroy', text_component_path(@text_component), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
 = link_to 'Back', text_components_path, :class => "btn btn-secondary"

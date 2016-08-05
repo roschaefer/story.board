@@ -123,7 +123,7 @@ end
 
 Given(/^for my sensors I have these text components prepared:$/) do |table|
   table.hashes.each do |row|
-    component = create(:text_component, report: Report.current, main_part: row['Text Component'])
+    component = create(:text_component, report: Report.current, main_part: row['Text Component'], timeliness_constraint: row['Timeliness'])
     sensor = Sensor.find_by name: row['Sensor']
     create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
   end
@@ -132,7 +132,11 @@ end
 Given(/^the latested sensor data looks like this:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
-    create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i)
+    reading_attr = { sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, created_at: row['Created at']}
+    if reading_attr[:created_at]
+      reading_attr[:created_at] = eval(reading_attr[:created_at].downcase.gsub(' ','.'))
+    end
+    create(:sensor_reading, reading_attr)
   end
 end
 
@@ -305,4 +309,13 @@ end
 Then(/^I can watch a video stream that points to this url$/) do
   expect(page).to have_css('iframe')
   expect(find('iframe')['src']).to eq @url
+end
+
+When(/^I set the component to trigger only for recent data within the last (\d+) hours$/) do |hours|
+  fill_in "Timeliness constraint", with: hours
+end
+
+Then(/^this text component has a timeliness constraint of (\d+) hours$/) do |hours|
+  @text_component.reload
+  expect(@text_component.timeliness_constraint).to eq hours.to_i
 end
