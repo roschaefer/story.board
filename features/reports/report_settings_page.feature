@@ -16,7 +16,7 @@ Feature: Report Settings page
     And I click on update
     Then the live report about "Me Wired" will start on that date
 
-  @82 @wip
+  @82
   Scenario: Set the start date of the experiment
     When I change the name of the report to "Very good report"
     And I click on update
