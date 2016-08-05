@@ -338,4 +338,12 @@ When(/^the application archives the current report$/) do
   Rake::Task[task].invoke
 end
 
+When(/^I change the name of the report to "([^"]*)"$/) do |name|
+  @report_name = name
+  fill_in 'Name', with: @report_name
+end
 
+Then(/^I see the new name in the settings menu above$/) do
+  expect(page).to have_css('.dropdown-menu')
+  expect(find('.dropdown-menu')).to have_text @report_name
+end
