@@ -132,7 +132,11 @@ end
 Given(/^the latested sensor data looks like this:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
-    create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i)
+    reading_attr = { sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, created_at: row['Created at']}
+    if reading_attr[:created_at]
+      reading_attr[:created_at] = eval(reading_attr[:created_at].downcase.gsub(' ','.'))
+    end
+    create(:sensor_reading, reading_attr)
   end
 end
 
