@@ -351,3 +351,19 @@ end
 Given(/^there is an active text component with the following main part:$/) do |main_part|
   create(:text_component, main_part: main_part, report: Report.current)
 end
+
+Given(/^I have these active text components:$/) do |table|
+  table.hashes.each do |row|
+    create(:text_component, {
+      priority: row['Priority'],
+      heading: row['Heading'],
+      report: Report.current
+    })
+  end
+end
+
+Then(/^I should see only one of the following:$/) do |string|
+  parts = string.split('[OR]').collect {|p| p.strip }
+  seen_parts = parts.select {|p| page.text.include?(p) }
+  expect(seen_parts.length).to eq 1
+end
