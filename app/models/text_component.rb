@@ -7,7 +7,7 @@ class TextComponent < ActiveRecord::Base
   validates :report, presence: true
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 
-  enum priority: [ :low, :medium, :high]
+  enum priority: { low: 0, medium: 1, high: 2}
   after_initialize :set_defaults, unless: :persisted?
 
   def set_defaults

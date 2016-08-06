@@ -1,4 +1,4 @@
-@87 @wip
+@87
 Feature: Choose only one heading
   As a journalist
   I want the text generator to select only one heading for the final report, based on priority

@@ -5,6 +5,25 @@ RSpec.describe Text::Generator do
   let(:intention)      { :real }
   subject { described_class.new( report, intention) }
 
+  describe '#choose_heading' do
+    subject { super().choose_heading }
+    let(:report) { create(:report, text_components: text_components) }
+
+    context 'for text components with several headings and priorities' do
+      let(:text_components) do
+        [:low, :medium, :high].collect { |p| create(:text_component, heading: "Heading with priority #{p}", priority: p) }
+      end
+      it { is_expected.to eq 'Heading with priority high'}
+    end
+
+    context 'for text components with several headings but without priorities' do
+      let(:text_components) do
+        [:low, :medium, :high].collect { |p| create(:text_component, heading: "Heading with priority #{p}", priority: nil) }
+      end
+      it { is_expected.to include 'Heading'} # any of those headings
+    end
+  end
+
   describe '#generate' do
     subject { super().generate }
 
