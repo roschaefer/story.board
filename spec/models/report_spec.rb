@@ -7,6 +7,42 @@ RSpec.describe Report, type: :model do
     specify { expect(Report.current).to eql report }
   end
 
+  describe '#archive!' do
+    subject { report.archive! }
+    it 'stores a new record' do
+     expect{ subject } .to change{ Record.count }.from(0).to(1)
+    end
+
+    it 'adds a new record to the report' do
+     expect{ subject; report.reload }.to change{ report.records.size }.from(0).to(1)
+    end
+
+    context 'for :fake data' do
+      subject { report.archive!(:fake) }
+      it 'stores the intention along with the record' do
+        subject
+        expect(report.records.first.intention).to eq 'fake'
+      end
+    end
+
+    context 'when maximum limit is reached' do
+      before { Record::LIMIT.times { report.archive! } }
+      it 'number of records stay the same' do
+        expect{ subject }.not_to change{ report.records.size }
+      end
+
+      it 'can exceed for another intention' do
+        expect{ report.archive!(:fake) }.to change{ report.records.size }
+      end
+    end
+  end
+
+  describe '#compose' do
+    subject { report.compose }
+    it 'returns a record' do
+      is_expected.to be_kind_of Record
+    end
+  end
 
   describe '#active_text_components' do
     subject { report.active_text_components }

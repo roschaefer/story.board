@@ -6,10 +6,10 @@
   %iframe{width: 640, height: 360, src: @report.video, frameborder: 0, type: 'text/html'}
 
 .live-report
-  %h3= @heading
+  %h3= @record.heading
   %p
-    = @introduction
+    = @record.introduction
   %p
-    = @main_part
+    = @record.main_part
   %p
-    = @closing
+    = @record.closing

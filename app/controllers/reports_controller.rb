@@ -46,10 +46,6 @@ class ReportsController < ApplicationController
 
   def generate_report(intention)
     @report = Report.find(params[:id])
-    generated = Text::Generator.generate(@report, intention)
-    @heading      = generated[:heading]
-    @introduction = generated[:introduction]
-    @main_part    = generated[:main_part]
-    @closing      = generated[:closing]
+    @record = @report.compose(intention)
   end
 end
