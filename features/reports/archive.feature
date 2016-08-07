@@ -1,4 +1,4 @@
-@20 @wip
+@20
 Feature: Archive Reports
   As a reader
   I want to scroll down the previously generate live reports

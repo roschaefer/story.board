@@ -1,11 +1,11 @@
 namespace :archive do
   desc "Archive current report"
-  task :real do
+  task :real => :environment do
     Report.current.archive!(:real)
   end
 
   desc "Archive current preview"
-  task :fake do
+  task :fake => :environment do
     Report.current.archive!(:fake)
   end
 end
