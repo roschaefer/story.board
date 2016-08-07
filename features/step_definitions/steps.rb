@@ -1,5 +1,6 @@
 
-When(/^I visit the landing page$/) do
+When(/^I visit the landing page/) do
+  page.reset!
   visit root_path
 end
 
@@ -325,13 +326,16 @@ Given(/^I see the (?:current|new)? live report:$/) do |string|
   expect(find('.live-report')).to have_text string
 end
 
-When(/^I wait for five hours$/) do
-  Timecop.travel(5.hours.from_now)
-end
-
 Then(/^I can see the archived report:$/) do |string|
   expect(page).to have_css('.archived-report')
   expect(find('.archived-report')).to have_text string
+end
+
+When(/^the application archives the current report$/) do
+  load 'Rakefile'
+  schedule = Whenever::Test::Schedule.new
+  task = schedule.jobs[:rake].first[:task]
+  Rake::Task[task].invoke
 end
 
 

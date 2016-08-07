@@ -23,10 +23,11 @@ Feature: Archive Reports
     """
     Not very windy today.
     """
-    When I wait for five hours
+    When the application archives the current report
     And the latest sensor data looks like this:
       | Sensor | Calibrated Value |
       | Wind   | 50km/h           |
+    And I visit the landing page again
     Then I see the new live report:
     """
     Watch out, it's quite windy today
