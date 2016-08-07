@@ -16,7 +16,7 @@ Feature: Write about the actual sensor value
       | Sensor    | From  | To    | Text Component                               |
       | Temp123   | 30°C  | 40°C  | Wow, it's incredible { Temp123 }!            |
       | Bright456 | 70000 | 90000 | Take your sunglasses: { Bright456 } outside! |
-    And the latested sensor data looks like this:
+    And the latest sensor data looks like this:
       | Sensor    | Calibrated Value |
       | Temp123   | 32°C             |
       | Bright456 | 85000 Lux        |

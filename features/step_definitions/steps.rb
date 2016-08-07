@@ -129,7 +129,7 @@ Given(/^for my sensors I have these text components prepared:$/) do |table|
   end
 end
 
-Given(/^the latested sensor data looks like this:$/) do |table|
+Given(/^the latest sensor data looks like this:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
     reading_attr = { sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, created_at: row['Created at']}

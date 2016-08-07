@@ -11,7 +11,7 @@ Feature: Choose Text Component by Condition
       | Sensor    | From | To   | Text Component       |
       | Temp123   | 20°C | 25°C | It's nice today.     |
       | Bright456 | 0    | 3    | I can't see a thing! |
-    And the latested sensor data looks like this:
+    And the latest sensor data looks like this:
       | Sensor    | Calibrated Value |
       | Temp123   | 15°C             |
       | Bright456 | 2                |
