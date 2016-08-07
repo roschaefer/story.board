@@ -1,5 +1,6 @@
 
-When(/^I visit the landing page$/) do
+When(/^I visit the landing page/) do
+  page.reset!
   visit root_path
 end
 
@@ -129,7 +130,7 @@ Given(/^for my sensors I have these text components prepared:$/) do |table|
   end
 end
 
-Given(/^the latested sensor data looks like this:$/) do |table|
+Given(/^the latest sensor data looks like this:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
     reading_attr = { sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, created_at: row['Created at']}
@@ -319,3 +320,22 @@ Then(/^this text component has a timeliness constraint of (\d+) hours$/) do |hou
   @text_component.reload
   expect(@text_component.timeliness_constraint).to eq hours.to_i
 end
+
+Given(/^I see the (?:current|new)? live report:$/) do |string|
+  expect(page).to have_css('.live-report')
+  expect(find('.live-report')).to have_text string
+end
+
+Then(/^I can see the archived report:$/) do |string|
+  expect(page).to have_css('.archived-report')
+  expect(find('.archived-report')).to have_text string
+end
+
+When(/^the application archives the current report$/) do
+  load 'Rakefile'
+  schedule = Whenever::Test::Schedule.new
+  task = schedule.jobs[:rake].first[:task]
+  Rake::Task[task].invoke
+end
+
+

@@ -2,13 +2,23 @@
 %p
   Hey there! This is the live report of your experiment, automatically generated based on your sensor data! On every browser refresh, you will see a freshly generated live report on this page.
 
-- if @report.video
-  %iframe{width: 640, height: 360, src: @report.video, frameborder: 0, type: 'text/html'}
+.live-report
+  - if @report.video
+    %iframe{width: 640, height: 360, src: @report.video, frameborder: 0, type: 'text/html'}
+  %h3= @live_record.heading
+  %p
+    = @live_record.introduction
+  %p
+    = @live_record.main_part
+  %p
+    = @live_record.closing
 
-%h3= @heading
-%p
-  = @introduction
-%p
-  = @main_part
-%p
-  = @closing
+- @archived_records.each do |ar|
+  .archived-report
+    %h3= "#{ar.heading} (#{ar.created_at.to_formatted_s(:long)})"
+    %p
+      = ar.introduction
+    %p
+      = ar.main_part
+    %p
+      = ar.closing

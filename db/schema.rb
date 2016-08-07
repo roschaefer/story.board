@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160804225417) do
+ActiveRecord::Schema.define(version: 20160807152151) do
 
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 20160804225417) do
 
   add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id"
   add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id"
+
+  create_table "records", force: :cascade do |t|
+    t.string   "heading"
+    t.string   "introduction"
+    t.string   "main_part"
+    t.string   "closing"
+    t.integer  "report_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "intention",    default: 0
+  end
+
+  add_index "records", ["report_id"], name: "index_records_on_report_id"
 
   create_table "reports", force: :cascade do |t|
     t.date     "start_date"

@@ -13,11 +13,15 @@ class ReportsController < ApplicationController
   end
 
   def present
-    generate_report(:real)
+    @report = Report.find(params[:id])
+    @live_record = @report.compose(:real)
+    @archived_records = Record.real
   end
 
   def preview
-    generate_report(:fake)
+    @report = Report.find(params[:id])
+    @live_record = @report.compose(:fake)
+    @archived_records = Record.fake
     render 'present'
   end
 
@@ -42,14 +46,5 @@ class ReportsController < ApplicationController
 
   def report_params
     params.require(:report).permit(:start_date, :video)
-  end
-
-  def generate_report(intention)
-    @report = Report.find(params[:id])
-    generated = Text::Generator.generate(@report, intention)
-    @heading      = generated[:heading]
-    @introduction = generated[:introduction]
-    @main_part    = generated[:main_part]
-    @closing      = generated[:closing]
   end
 end

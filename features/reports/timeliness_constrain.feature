@@ -16,7 +16,7 @@ Feature: Add timeliness constraint
       | Noise1 | 50 dB  | 200 dB |            | It is quite loud         |
 
   Scenario: Read about a very recent event
-    Given the latested sensor data looks like this:
+    Given the latest sensor data looks like this:
       | Sensor | Calibrated Value | Created at   |
       | Noise1 | 121db            | 1 minute ago |
     When I visit the landing page
@@ -28,7 +28,7 @@ Feature: Add timeliness constraint
     """
 
   Scenario: Text components without timeliness constraints win
-    Given the latested sensor data looks like this:
+    Given the latest sensor data looks like this:
       | Sensor | Calibrated Value | Created at   |
       | Noise1 | 121db            | 2 hours ago  |
     When I visit the landing page

@@ -71,6 +71,7 @@ namespace :deploy do
     end
   end
 
+  after :finishing, 'whenever:update_crontab'
   after :finishing, :reassign_db_ownership
   after :finishing, :restart_daemon
 end
