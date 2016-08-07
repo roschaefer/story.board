@@ -5,10 +5,11 @@
 - if @report.video
   %iframe{width: 640, height: 360, src: @report.video, frameborder: 0, type: 'text/html'}
 
-%h3= @heading
-%p
-  = @introduction
-%p
-  = @main_part
-%p
-  = @closing
+.live-report
+  %h3= @heading
+  %p
+    = @introduction
+  %p
+    = @main_part
+  %p
+    = @closing

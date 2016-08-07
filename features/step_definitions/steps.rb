@@ -319,3 +319,19 @@ Then(/^this text component has a timeliness constraint of (\d+) hours$/) do |hou
   @text_component.reload
   expect(@text_component.timeliness_constraint).to eq hours.to_i
 end
+
+Given(/^I see the (?:current|new)? live report:$/) do |string|
+  expect(page).to have_css('.live-report')
+  expect(find('.live-report')).to have_text string
+end
+
+When(/^I wait for five hours$/) do
+  Timecop.travel(5.hours.from_now)
+end
+
+Then(/^I can see the archived report:$/) do |string|
+  expect(page).to have_css('.archived-report')
+  expect(find('.archived-report')).to have_text string
+end
+
+
