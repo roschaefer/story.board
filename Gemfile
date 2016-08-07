@@ -33,6 +33,7 @@ gem 'twitter-bootstrap-rails'
 gem 'haml-rails'
 gem 'simple_form'
 gem 'cocoon'
+gem 'whenever', :require => false
 
 group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low
