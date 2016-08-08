@@ -1,0 +1,12 @@
+- unless @report.variables.empty?
+  %table.table.variables-table
+    %thead
+      %tr
+        %th Key
+        %th Value
+    %tbody
+      - @report.variables.each do |v|
+        %tr
+          %td= v.key
+          %td= v.value
+
