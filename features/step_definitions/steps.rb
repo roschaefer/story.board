@@ -368,9 +368,24 @@ Then(/^I should see only one of the following:$/) do |string|
   expect(seen_parts.length).to eq 1
 end
 
-Given(/^I have these custom variables for my report$/) do |table|
+Given(/^I have these custom variables for my report:$/) do |table|
   table.hashes.each do |row|
     key, value = row['Key'], row['Value']
     create(:variable, report: Report.current, key: key, value: value)
   end
 end
+
+When(/^I edit the settings of my current live report$/) do
+  visit edit_report_path(Report.current)
+end
+
+When(/^I fill in "([^"]*)" with "([^"]*)"$/) do |label, value|
+  fill_in label, with: value
+end
+
+Then(/^I see that my custom variable "([^"]*)" has a value "([^"]*)"$/) do |key, value|
+  expect(page).to have_css('.variables-table')
+  row = find('tr', text: /#{key}/)
+  expect(row).to have_text(value)
+end
+
