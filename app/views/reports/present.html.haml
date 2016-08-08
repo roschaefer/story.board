@@ -15,7 +15,7 @@
 
 - @archived_records.each do |ar|
   .archived-report
-    %h3= "#{ar.heading} (#{ar.created_at.to_formatted_s(:long)})"
+    %h3= "#{ar.heading} (#{ar.created_at.to_formatted_s(:rfc822)})"
     %p
       = ar.introduction
     %p
