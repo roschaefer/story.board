@@ -50,4 +50,7 @@ SensorType.find_each do |p|
 end
 new_sensor_types.each { |t| t.save! }
 
-
+if Variable.all.empty?
+  v = Variable.new(report: Report.current, key: 'exemplar', value: 'Bertha')
+  v.save
+end
