@@ -8,7 +8,6 @@ Feature: Report: Edit Custom Variables
     Given there is a sensor live report
     And I am the journalist
 
-    @wip
   Scenario: Change the value of a variable
     Given I have these custom variables for my report:
       | Key         | Value |

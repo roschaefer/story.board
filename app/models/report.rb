@@ -3,6 +3,7 @@ class Report < ActiveRecord::Base
   has_many :sensors
   has_many :records
   has_many :variables, dependent: :destroy
+  accepts_nested_attributes_for :variables
 
   def self.current
     Report.first

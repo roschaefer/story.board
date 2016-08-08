@@ -45,6 +45,6 @@ class ReportsController < ApplicationController
   private
 
   def report_params
-    params.require(:report).permit(:name, :start_date, :video)
+    params.require(:report).permit(:name, :start_date, :video, variables_attributes: [:value, :id])
   end
 end

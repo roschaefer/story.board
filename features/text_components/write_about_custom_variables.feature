@@ -20,7 +20,7 @@ Feature: Render Custom Variables in Text Component Markup
     """
 
   Scenario: Write about custom variables
-    Given I have these custom variables for my report
+    Given I have these custom variables for my report:
       | Key    | Value |
       | person | Peter |
     Given there is an active text component with the following main part:
