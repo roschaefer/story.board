@@ -36,10 +36,19 @@ RSpec.describe Text::Generator do
 
       it { is_expected.to have_value("some content")}
 
-      context 'with markup for report' do
-        let(:report)         { create(:report, text_components: [text_component], name: 'Foobar') }
-        let(:main_part)      { "Say something about {report}." }
-        it { is_expected.to have_value("Say something about Foobar.")}
+      describe 'report markup' do
+        describe 'report name' do
+          let(:report)    { create(:report, text_components: [text_component], name: 'Foobar') }
+          let(:main_part) { "Say something about { report}." }
+          it { is_expected.to have_value("Say something about Foobar.")}
+        end
+
+        describe 'report variables' do
+          let(:report)    { create(:report, text_components: [text_component], variables: [variable]) }
+          let(:variable)  { create(:variable, key: 'cool_thing', value: 'sth. cool') }
+          let(:main_part) { "Say something about { cool_thing }." }
+          it { is_expected.to have_value("Say something about sth. cool.")}
+        end
       end
 
       context 'given a condition' do

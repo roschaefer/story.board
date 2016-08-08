@@ -19,7 +19,6 @@ Feature: Render Custom Variables in Text Component Markup
     Today is a good day for "The Experiment".
     """
 
-    @wip
   Scenario: Write about custom variables
     Given I have these custom variables for my report
       | Key    | Value |
