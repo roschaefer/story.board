@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807152151) do
+ActiveRecord::Schema.define(version: 20160808120630) do
 
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
@@ -91,5 +91,16 @@ ActiveRecord::Schema.define(version: 20160807152151) do
   end
 
   add_index "text_components", ["report_id"], name: "index_text_components_on_report_id"
+
+  create_table "variables", force: :cascade do |t|
+    t.string   "key"
+    t.string   "value"
+    t.integer  "report_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "variables", ["key"], name: "index_variables_on_key", unique: true
+  add_index "variables", ["report_id"], name: "index_variables_on_report_id"
 
 end
