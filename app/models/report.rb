@@ -22,7 +22,8 @@ class Report < ActiveRecord::Base
   end
 
   def compose(intention = :real)
-    generated = Text::Generator.generate(self, intention)
+    generator = Text::Generator.new(self, intention)
+    generated = generator.generate
     Record.new(generated.merge(report: self, intention: intention))
   end
 end

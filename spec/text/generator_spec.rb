@@ -2,9 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Text::Generator do
   let(:report)         { create(:report) }
+  let(:intention)      { :real }
+  subject { described_class.new( report, intention) }
 
   describe '#generate' do
-    subject { described_class.generate(report) }
+    subject { super().generate }
 
     it { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
 
@@ -14,6 +16,12 @@ RSpec.describe Text::Generator do
       let(:main_part)      { "some content" }
 
       it { is_expected.to have_value("some content")}
+
+      context 'with markup for report' do
+        let(:report)         { create(:report, text_components: [text_component], name: 'Foobar') }
+        let(:main_part)      { "Say something about {report}." }
+        it { is_expected.to have_value("Say something about Foobar.")}
+      end
 
       context 'given a condition' do
         let(:condition)      { create(:condition, sensor: sensor, text_component: text_component, from: 0, to: 10) }
@@ -29,20 +37,19 @@ RSpec.describe Text::Generator do
 
           it { is_expected.to have_value("some content")}
 
-
-          context 'with markup' do
+          context 'with markup for sensor' do
             let(:main_part)      { 'Sensor value: { SensorXY }' }
             it('renders sensor value') { is_expected.to have_value('Sensor value: 5.0°C')}
             context 'but with sensor data of different intention' do
               before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
 
               context 'render :fake report' do
-                subject { described_class.generate(report, :fake) }
+                let(:intention) { :fake }
                 it { is_expected.to have_value('Sensor value: 0.0°C')}
               end
 
               context 'render :real report' do
-                subject { described_class.generate(report, :real) }
+                let(:intention) { :real }
                 it { is_expected.to have_value('Sensor value: 5.0°C')}
               end
             end
