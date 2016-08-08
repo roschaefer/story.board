@@ -6,24 +6,33 @@ module Text
     end
 
     def generate
-      headings      = []
       introductions = []
       main_parts    = []
       closings      = []
       @report.active_text_components(@intention).each do |component|
-        headings      << component.heading.to_s
         introductions << render(component, :introduction)
         main_parts    << render(component, :main_part)
         closings      << render(component, :closing)
       end
 
       {
-        heading:       headings.join(" "),
+        heading:       choose_heading,
         introduction:  introductions.join(" "),
         main_part:     main_parts.join(" "),
         closing:       closings.join(" ")
       }
 
+    end
+
+    def choose_heading
+      components = @report.active_text_components(@intention)
+      return '' if components.empty?
+      groups = components.group_by {|c| TextComponent.priorities[c.priority]}
+      p_values = TextComponent.priorities.values.sort.reverse
+      p_values += [nil] # no priority is always lowest priority
+      p_values.each do |p|
+        return groups[p].sample.heading if groups[p].present?
+      end
     end
 
     def render(text_component, part)
