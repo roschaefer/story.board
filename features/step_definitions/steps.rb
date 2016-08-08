@@ -367,3 +367,10 @@ Then(/^I should see only one of the following:$/) do |string|
   seen_parts = parts.select {|p| page.text.include?(p) }
   expect(seen_parts.length).to eq 1
 end
+
+Given(/^I have these custom variables for my report$/) do |table|
+  table.hashes.each do |row|
+    key, value = row['Key'], row['Value']
+    create(:variable, report: Report.current, key: key, value: value)
+  end
+end

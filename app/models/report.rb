@@ -2,6 +2,7 @@ class Report < ActiveRecord::Base
   has_many :text_components
   has_many :sensors
   has_many :records
+  has_many :variables, dependent: :destroy
 
   def self.current
     Report.first
@@ -12,7 +13,7 @@ class Report < ActiveRecord::Base
   end
 
   def archive!(intention = :real)
-    new_record = compose(intention) 
+    new_record = compose(intention)
     Report.transaction do
       if Record.send(intention).count >= Record::LIMIT
         Record.send(intention).first.destroy

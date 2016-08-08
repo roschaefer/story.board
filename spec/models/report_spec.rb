@@ -7,6 +7,14 @@ RSpec.describe Report, type: :model do
     specify { expect(Report.current).to eql report }
   end
 
+  describe '#destroy' do
+    let(:variables) { {a: 1, b: 2, c: 3}.collect {|k,v| create(:variable, key: k, value: v)} }
+    let (:report) { create(:report, variables: variables) }
+    it 'destroys dependent variables' do
+      report
+      expect { report.destroy }.to change { Variable.count }.from(3).to(0)
+    end
+  end
   describe '#archive!' do
     subject { report.archive! }
     it 'stores a new record' do
