@@ -53,7 +53,7 @@ module Text
     def render_report(input)
       result = input.gsub(/({\s*report\s*})/, @report.name)
       @report.variables.each do |v|
-        result = input.gsub(/({\s*#{Regexp.quote(v.key)}\s*})/, v.value)
+        result = result.gsub(/({\s*#{Regexp.quote(v.key)}\s*})/, v.value)
       end
       result
     end
