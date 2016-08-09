@@ -50,7 +50,15 @@ SensorType.find_each do |p|
 end
 new_sensor_types.each { |t| t.save! }
 
-if Variable.all.empty?
-  v = Variable.new(report: Report.current, key: 'exemplar', value: 'Bertha')
+
+variable_hashes = [
+  { report: Report.current , key: 'exemplar' , value: 'Bertha' }         ,
+  { report: Report.current , key: 'bauer'    , value: 'Westrup' }        ,
+  { report: Report.current , key: 'hof'      , value: 'Westrup - Koch' } ,
+  { report: Report.current , key: 'kalb'     , value: 'Robert' }         ,
+]
+
+variable_hashes.each do |h|
+  v = Variable.new(h)
   v.save
 end
