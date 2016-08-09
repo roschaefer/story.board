@@ -44,10 +44,17 @@ RSpec.describe Text::Generator do
         end
 
         describe 'report variables' do
-          let(:report)    { create(:report, text_components: [text_component], variables: [variable]) }
-          let(:variable)  { create(:variable, key: 'cool_thing', value: 'sth. cool') }
+          let(:report)    { create(:report, text_components: [text_component], variables: variables) }
+          let(:variables) { [ create(:variable, key: 'cool_thing', value: 'sth. cool') ] }
           let(:main_part) { "Say something about { cool_thing }." }
           it { is_expected.to have_value("Say something about sth. cool.")}
+
+          context 'many variables' do
+            let(:main_part) { "Write about { v1 } and { v2 }." }
+            let(:variables) { [ create(:variable, key: 'v1', value: 'this'),
+                                create(:variable, key: 'v2', value: 'that'),] }
+            it { is_expected.to have_value("Write about this and that.")}
+          end
         end
       end
 
