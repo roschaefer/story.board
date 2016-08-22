@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160808120630) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
     t.integer  "to"
@@ -22,8 +25,8 @@ ActiveRecord::Schema.define(version: 20160808120630) do
     t.datetime "updated_at",        null: false
   end
 
-  add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id"
-  add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id"
+  add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id", using: :btree
+  add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id", using: :btree
 
   create_table "records", force: :cascade do |t|
     t.string   "heading"
@@ -36,7 +39,7 @@ ActiveRecord::Schema.define(version: 20160808120630) do
     t.integer  "intention",    default: 0
   end
 
-  add_index "records", ["report_id"], name: "index_records_on_report_id"
+  add_index "records", ["report_id"], name: "index_records_on_report_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.date     "start_date"
@@ -55,7 +58,7 @@ ActiveRecord::Schema.define(version: 20160808120630) do
     t.integer  "intention",          default: 0
   end
 
-  add_index "sensor_readings", ["sensor_id"], name: "index_sensor_readings_on_sensor_id"
+  add_index "sensor_readings", ["sensor_id"], name: "index_sensor_readings_on_sensor_id", using: :btree
 
   create_table "sensor_types", force: :cascade do |t|
     t.string   "property"
@@ -73,10 +76,10 @@ ActiveRecord::Schema.define(version: 20160808120630) do
     t.integer  "report_id"
   end
 
-  add_index "sensors", ["address"], name: "index_sensors_on_address", unique: true
-  add_index "sensors", ["name"], name: "index_sensors_on_name", unique: true
-  add_index "sensors", ["report_id"], name: "index_sensors_on_report_id"
-  add_index "sensors", ["sensor_type_id"], name: "index_sensors_on_sensor_type_id"
+  add_index "sensors", ["address"], name: "index_sensors_on_address", unique: true, using: :btree
+  add_index "sensors", ["name"], name: "index_sensors_on_name", unique: true, using: :btree
+  add_index "sensors", ["report_id"], name: "index_sensors_on_report_id", using: :btree
+  add_index "sensors", ["sensor_type_id"], name: "index_sensors_on_sensor_type_id", using: :btree
 
   create_table "text_components", force: :cascade do |t|
     t.string   "heading"
@@ -90,7 +93,7 @@ ActiveRecord::Schema.define(version: 20160808120630) do
     t.integer  "timeliness_constraint"
   end
 
-  add_index "text_components", ["report_id"], name: "index_text_components_on_report_id"
+  add_index "text_components", ["report_id"], name: "index_text_components_on_report_id", using: :btree
 
   create_table "variables", force: :cascade do |t|
     t.string   "key"
@@ -100,7 +103,10 @@ ActiveRecord::Schema.define(version: 20160808120630) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "variables", ["key"], name: "index_variables_on_key", unique: true
-  add_index "variables", ["report_id"], name: "index_variables_on_report_id"
+  add_index "variables", ["key"], name: "index_variables_on_key", unique: true, using: :btree
+  add_index "variables", ["report_id"], name: "index_variables_on_report_id", using: :btree
 
+  add_foreign_key "conditions", "sensors"
+  add_foreign_key "conditions", "text_components"
+  add_foreign_key "variables", "reports"
 end

@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'pg'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use SCSS for stylesheets
@@ -37,7 +39,6 @@ gem 'whenever', :require => false
 
 group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low
-  gem 'sqlite3'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -70,5 +71,4 @@ end
 
 group :production do
   gem 'puma'
-  gem 'pg'
 end
