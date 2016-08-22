@@ -1,0 +1,10 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: 10
+
+test: &test
+  <<: *default
+  database: travis_ci_test
+cucumber:
+  <<: *test
