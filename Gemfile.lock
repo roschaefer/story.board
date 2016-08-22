@@ -53,6 +53,8 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
+    capistrano-db-tasks (0.4)
+      capistrano (>= 3.0.0)
     capistrano-harrow (0.5.1)
     capistrano-rails (1.1.6)
       capistrano (~> 3.1)
@@ -317,6 +319,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capistrano (~> 3.4)
+  capistrano-db-tasks
   capistrano-rails (~> 1.1)
   capybara-screenshot
   cocoon

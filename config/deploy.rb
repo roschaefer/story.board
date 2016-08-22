@@ -1,3 +1,6 @@
+require 'capistrano-db-tasks'
+
+
 # config valid only for current version of Capistrano
 lock '3.5.0'
 
@@ -7,7 +10,7 @@ set :repo_url, 'https://github.com/roschaefer/story.board.git'
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '~/story.board'
+set :deploy_to, '/home/vicari/story.board'
 
 # Default value for :scm is :git
 # set :scm, :git
