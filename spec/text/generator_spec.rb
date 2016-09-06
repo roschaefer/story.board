@@ -73,7 +73,8 @@ RSpec.describe Text::Generator do
           it { is_expected.to have_value("some content")}
 
           context 'with markup for sensor' do
-            let(:main_part)      { 'Sensor value: { SensorXY }' }
+            let(:sensor)         { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
+            let(:main_part)      { 'Sensor value: { value(42) }' }
             it('renders sensor value') { is_expected.to have_value('Sensor value: 5.0°C')}
             context 'but with sensor data of different intention' do
               before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
