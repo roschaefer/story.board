@@ -103,14 +103,14 @@ RSpec.describe EventsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: 'new event name' }
       }
 
       it "updates the requested event" do
         event = Event.create! valid_attributes
         put :update, {:id => event.to_param, :event => new_attributes}, valid_session
         event.reload
-        skip("Add assertions for updated state")
+        expect(event.name).to eq 'new event name'
       end
 
       it "assigns the requested event as @event" do
