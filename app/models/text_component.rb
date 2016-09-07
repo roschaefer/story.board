@@ -22,7 +22,7 @@ class TextComponent < ActiveRecord::Base
 
   def conditions_fullfilled?(intention)
     conditions.all? do |condition|
-      reading = condition.last_reading(intention)
+      reading = condition.last_reading(intention: intention)
       if reading
         active = true
         active &= (condition.from <= reading.calibrated_value && reading.calibrated_value <= condition.to)
