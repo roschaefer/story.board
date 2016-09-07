@@ -18,7 +18,7 @@
 
 - @archived_records.each do |ar|
   .archived-report
-    %h3= "#{ar.heading} (#{ar.created_at.in_time_zone('Europe/Berlin').strftime('%-d.%-m. %Y, %H:%M Uhr')})"
+    %h3= "#{ar.heading} (#{ar.created_at.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_TIME_FORMAT)})"
     %p
       %strong
         = ar.introduction

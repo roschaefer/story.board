@@ -6,7 +6,7 @@ class EventDecorator
 
   def date
     date = @event.happened_at
-    date.in_time_zone('Europe/Berlin').strftime('%-d.%-m.%Y')
+    date.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_FORMAT)
   end
 
   def method_missing(m, *args, &block)
