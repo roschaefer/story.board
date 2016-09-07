@@ -46,6 +46,7 @@ class TextComponentsController < ApplicationController
     params.require(:text_component).permit(:heading, :introduction, :main_part,
                                            :closing, :priority, :report_id,
                                            :timeliness_constraint,
+                                           :event_ids => [],
                                            conditions_attributes: [:id, :sensor_id, :from, :to, :_destroy])
   end
 end
