@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe TextComponent, type: :model do
+  let(:text_component) { create :text_component }
+  let(:sensor) { create(:sensor) }
+
   context 'without a report' do
     specify { expect(build(:text_component, report: nil)).not_to be_valid }
   end
@@ -12,14 +15,30 @@ describe TextComponent, type: :model do
     end
   end
 
-  let(:text_component) { create :text_component }
+
+  describe '#events' do
+    subject { text_component.events }
+    let(:event) { create(:event, text_components: [text_component]) }
+    before { event }
+    it 'condition connects a text component and a sensor' do
+      is_expected.to include(event)
+    end
+  end
+
+  describe '#sensors' do
+    subject { text_component.sensors }
+    before { create(:condition, text_component: text_component, sensor: sensor) }
+    it 'condition connects a text component and a sensor' do
+      is_expected.to include(sensor)
+    end
+  end
+
   describe '#active?' do
     subject { text_component.active? }
     context 'without any conditions is considered active' do
       it { is_expected.to be_truthy }
     end
 
-    let(:sensor) { create :sensor }
     context 'with connected sensor' do
       let(:condition) { create :condition, sensor: sensor, text_component: text_component, from: 1, to: 3 }
       before { condition }
