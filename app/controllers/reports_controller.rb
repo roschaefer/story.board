@@ -15,13 +15,13 @@ class ReportsController < ApplicationController
   def present
     @report = Report.find(params[:id])
     @live_record = @report.compose(:real)
-    @archived_records = Record.real.reverse
+    @archived_records = Record.real.order(:created_at).reverse_order
   end
 
   def preview
     @report = Report.find(params[:id])
     @live_record = @report.compose(:fake)
-    @archived_records = Record.fake.reverse
+    @archived_records = Record.fake.order(:created_at).reverse_order
     render 'present'
   end
 
