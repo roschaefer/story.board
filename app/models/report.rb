@@ -14,12 +14,12 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_text_components(source = :real)
-    text_components.select {|c| c.active?(source) }
+  def active_text_components(intention: :real, at: DateTime.now)
+    text_components.select {|c| c.active?(intention: intention, at: at) }
   end
 
-  def archive!(intention = :real)
-    new_record = compose(intention)
+  def archive!(intention: :real)
+    new_record = compose(intention: intention)
     Report.transaction do
       if Record.send(intention).count >= Record::LIMIT
         Record.send(intention).first.destroy
@@ -28,8 +28,8 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def compose(intention = :real)
-    generator = Text::Generator.new(self, intention)
+  def compose(intention: :real, at: DateTime.now)
+    generator = Text::Generator.new(intention: intention, at: at, report: self)
     generated = generator.generate
     Record.new(generated.merge(report: self, intention: intention))
   end

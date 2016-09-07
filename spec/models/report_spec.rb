@@ -26,7 +26,7 @@ RSpec.describe Report, type: :model do
     end
 
     context 'for :fake data' do
-      subject { report.archive!(:fake) }
+      subject { report.archive!(intention: :fake) }
       it 'stores the intention along with the record' do
         subject
         expect(report.records.first.intention).to eq 'fake'
@@ -40,7 +40,7 @@ RSpec.describe Report, type: :model do
       end
 
       it 'can exceed for another intention' do
-        expect{ report.archive!(:fake) }.to change{ report.records.size }
+        expect{ report.archive!(intention: :fake) }.to change{ report.records.size }
       end
     end
   end
@@ -70,11 +70,11 @@ RSpec.describe Report, type: :model do
         end
 
         describe '#active_text_components :real' do
-          subject { report.active_text_components :real }
+          subject { report.active_text_components intention: :real }
           it { is_expected.not_to include text_component }
         end
         describe '#active_text_components :fake' do
-          subject { report.active_text_components :fake }
+          subject { report.active_text_components intention: :fake }
           it { is_expected.to include text_component }
         end
       end

@@ -60,11 +60,11 @@ describe TextComponent, type: :model do
         end
 
         describe '#active? :real' do
-          subject { text_component.active? :real }
+          subject { text_component.active? intention: :real }
           it { is_expected.to be_falsy }
         end
         describe '#active? :fake' do
-          subject { text_component.active? :fake }
+          subject { text_component.active? intention: :fake }
           it { is_expected.to be_truthy }
         end
       end

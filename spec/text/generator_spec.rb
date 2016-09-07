@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Text::Generator do
   let(:report)         { create(:report) }
   let(:intention)      { :real }
-  subject { described_class.new( report, intention) }
+  subject { described_class.new(report: report, intention: intention) }
 
   describe '#choose_heading' do
     subject { super().choose_heading }

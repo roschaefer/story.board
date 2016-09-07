@@ -35,5 +35,9 @@ Feature: Read about any point in time
     """
     Then according to the live report it is summer again!
     """
-    Now it is a really good summer.         |
+    Now it is a really good summer.
+    """
+    And I should NOT see:
+    """
+    When will there be a good summer again?
     """

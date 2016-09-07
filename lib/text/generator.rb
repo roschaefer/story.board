@@ -1,15 +1,16 @@
 module Text
   class Generator
-    def initialize(report, intention = :real)
+    def initialize(report:, intention: :real, at: DateTime.now)
       @report = report
       @intention = intention
+      @at = at
     end
 
     def generate
       introductions = []
       main_parts    = []
       closings      = []
-      @report.active_text_components(@intention).each do |component|
+      @report.active_text_components(intention: @intention, at: @at).each do |component|
         introductions << render(component, :introduction)
         main_parts    << render(component, :main_part)
         closings      << render(component, :closing)
@@ -25,7 +26,7 @@ module Text
     end
 
     def choose_heading
-      components = @report.active_text_components(@intention)
+      components = @report.active_text_components(intention: @intention)
       return '' if components.empty?
       groups = components.group_by {|c| TextComponent.priorities[c.priority]}
       p_values = TextComponent.priorities.values.sort.reverse
@@ -43,8 +44,8 @@ module Text
         rendered = template
         rendered = render_report(rendered)
         text_component.sensors.each do |sensor|
-          s = SensorDecorator.new(sensor, @intention)
-          rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value)
+          s = SensorDecorator.new(sensor)
+          rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value(at: @at, intention: @intention))
         end
         text_component.events.each do |event|
           e = EventDecorator.new(event)
