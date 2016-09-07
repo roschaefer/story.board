@@ -1,8 +1,10 @@
 %h1 Listing events
 
-%table
+%table.table.table-striped.table-hover
   %thead
     %tr
+      %th Name
+      %th Happened at
       %th
       %th
       %th
@@ -10,6 +12,8 @@
   %tbody
     - @events.each do |event|
       %tr
+        %td= event.name
+        %td= event.happened_at
         %td= link_to 'Show', event
         %td= link_to 'Edit', edit_event_path(event)
         %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
