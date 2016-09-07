@@ -395,14 +395,14 @@ end
 
 Given(/^I have these events in my database$/) do |table|
   table.hashes.each do |row|
-    create(:event, name: row['Event'])
+    create(:event, id: row['EventID'], name: row['Event'])
   end
 end
 
 Given(/^have some text components prepared that will trigger on a particular event$/) do |table|
   table.hashes.each do |row|
     event = Event.find_by(name: row['Event'])
-    create(:text_component, main_part: row['Main part'], events: [event])
+    create(:text_component, report: Report.current, main_part: row['Main part'], events: [event])
   end
 end
 

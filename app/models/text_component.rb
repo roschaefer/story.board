@@ -16,6 +16,11 @@ class TextComponent < ActiveRecord::Base
   end
 
   def active?(intention = :real)
+    conditions_fullfilled?(intention) && events_happened?
+  end
+
+
+  def conditions_fullfilled?(intention)
     conditions.all? do |condition|
       reading = condition.last_reading(intention)
       if reading
@@ -27,5 +32,9 @@ class TextComponent < ActiveRecord::Base
         false
       end
     end
+  end
+
+  def events_happened?
+    events.all? {|e| e.happened?}
   end
 end

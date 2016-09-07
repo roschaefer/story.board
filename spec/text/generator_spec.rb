@@ -69,7 +69,7 @@ RSpec.describe Text::Generator do
           describe 'markup for the day of the event' do
             let(:main_part)      { 'Day of your death: { date(42) }' }
             it 'renders the day of the event' do
-              is_expected.to have_value('Day of your death: February 2nd 2018')
+              is_expected.to have_value('Day of your death: 2.2.2018')
             end
           end
         end
