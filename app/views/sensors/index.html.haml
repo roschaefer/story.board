@@ -1,10 +1,12 @@
 %h1 Sensors
 %table.table.table-striped.table-hover
   %tr
+    %th ID
     %th Name
     %th Address
   - @sensors.each do |sensor|
     %tr
+      %td= sensor.id
       %td= link_to sensor.name, sensor_path(sensor)
       %td= sensor.address
 %p
