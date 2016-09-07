@@ -3,7 +3,8 @@
 
   .form-inputs
     = f.input :name
-    = f.input :happened_at
+    - unless @event.new_record?
+      = f.input :happened_at
 
   .form-actions
     = f.button :submit
