@@ -296,7 +296,11 @@ end
 Given(/^I have these sensors and sensor types in my database$/) do |table|
   table.hashes.each do |row|
     sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'])
-    create(:sensor, name: row['Sensor'], sensor_type: sensor_type, report: Report.current)
+    create(:sensor,
+           id: row['SensorID'].to_i,
+           name: row['Sensor'],
+           sensor_type: sensor_type,
+           report: Report.current)
   end
 end
 

@@ -44,7 +44,7 @@ module Text
         rendered = render_report(rendered)
         text_component.sensors.each do |sensor|
           s = SensorDecorator.new(sensor, @intention)
-          rendered.gsub!(/({\s*#{ Regexp.quote(s.name) }\s*})/, s.last_value)
+          rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value)
         end
         return rendered
       end

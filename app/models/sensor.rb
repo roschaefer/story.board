@@ -10,6 +10,10 @@ class Sensor < ActiveRecord::Base
   validates :address, presence: true, uniqueness: true
   validates :sensor_type, presence: true
 
+  def name_and_id
+    "#{name} (#{id})"
+  end
+
   def address=(value)
     if value.respond_to?(:start_with?) && value.start_with?("0x") # probably a hex code string
       super(value.hex)

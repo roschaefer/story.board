@@ -9,13 +9,13 @@ Feature: Write about the actual sensor value
 
   Scenario: Include markup in text component
     Given I have these sensors and sensor types in my database
-      | Sensor    | Property    | Unit |
-      | Temp123   | Temperature | °C   |
-      | Bright456 | Light       | Lux  |
+      | SensorID | Sensor    | Property    | Unit |
+      | 1        | Temp123   | Temperature | °C   |
+      | 2        | Bright456 | Light       | Lux  |
     And for my sensors I have these text components prepared:
-      | Sensor    | From  | To    | Text Component                               |
-      | Temp123   | 30°C  | 40°C  | Wow, it's incredible { Temp123 }!            |
-      | Bright456 | 70000 | 90000 | Take your sunglasses: { Bright456 } outside! |
+      | Sensor    | From  | To    | Text Component                              |
+      | Temp123   | 30°C  | 40°C  | Wow, it's incredible { value(1) }!          |
+      | Bright456 | 70000 | 90000 | Take your sunglasses: { value(2) } outside! |
     And the latest sensor data looks like this:
       | Sensor    | Calibrated Value |
       | Temp123   | 32°C             |
