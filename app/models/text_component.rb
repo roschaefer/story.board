@@ -1,6 +1,7 @@
 class TextComponent < ActiveRecord::Base
   belongs_to :report
   has_many :sensors, through: :conditions
+  has_and_belongs_to_many :events
   has_many :conditions
 
   validates :heading, :main_part, presence: true
