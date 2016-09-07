@@ -411,3 +411,23 @@ Given(/^the event "([^"]*)" has happened on "([^"]*)"$/) do |name, date|
   event.happened_at = DateTime.parse(date)
   event.save
 end
+
+Given(/^we have this sensor data in our database:$/) do |table|
+  table.hashes.each do |row|
+    sensor = Sensor.find_by(name: row['Sensor'])
+    create(:sensor_reading,
+            sensor: sensor,
+            calibrated_value: row['Calibrated value'],
+            created_at: row['Created at'])
+  end
+end
+
+When(/^I append the following parameter to the url:$/) do |string|
+  path = current_path + string
+  visit path
+end
+
+Then(/^according to the live report it is summer again!$/) do |string|
+  expect(page).to have_text(string)
+end
+
