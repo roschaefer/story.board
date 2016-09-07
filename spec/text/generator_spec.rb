@@ -58,6 +58,23 @@ RSpec.describe Text::Generator do
         end
       end
 
+      context 'given an event' do
+        let(:event)      { create(:event, id: 42, name: "DEATH", text_components: [text_component], happened_at: nil) }
+        before { event }
+        it('event must happen first') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
+        context 'has happened' do
+          before { event.happened_at = DateTime.parse('2018-02-02'); event.save! }
+          it { is_expected.to have_value("some content")}
+
+          describe 'markup for the day of the event' do
+            let(:main_part)      { 'Day of your death: { date(42) }' }
+            it 'renders the day of the event' do
+              is_expected.to have_value('Day of your death: February 2nd 2018')
+            end
+          end
+        end
+      end
+
       context 'given a condition' do
         let(:condition)      { create(:condition, sensor: sensor, text_component: text_component, from: 0, to: 10) }
         let(:sensor)         { create(:sensor, name: 'SensorXY', sensor_type: sensor_type) }
