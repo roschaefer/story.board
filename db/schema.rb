@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906224205) do
+ActiveRecord::Schema.define(version: 20160907130453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,21 @@ ActiveRecord::Schema.define(version: 20160906224205) do
 
   add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id", using: :btree
   add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "happened_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "events_text_components", id: false, force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "text_component_id"
+  end
+
+  add_index "events_text_components", ["event_id"], name: "index_events_text_components_on_event_id", using: :btree
+  add_index "events_text_components", ["text_component_id"], name: "index_events_text_components_on_text_component_id", using: :btree
 
   create_table "records", force: :cascade do |t|
     t.string   "heading"
