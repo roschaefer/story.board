@@ -393,3 +393,21 @@ Then(/^I see that my custom variable "([^"]*)" has a value "([^"]*)"$/) do |key,
   expect(row).to have_text(value)
 end
 
+Given(/^I have these events in my database$/) do |table|
+  table.hashes.each do |row|
+    create(:event, name: row['Event'])
+  end
+end
+
+Given(/^have some text components prepared that will trigger on a particular event$/) do |table|
+  table.hashes.each do |row|
+    event = Event.find_by(name: row['Event'])
+    create(:text_component, main_part: row['Main part'], events: [event])
+  end
+end
+
+Given(/^the event "([^"]*)" has happened on "([^"]*)"$/) do |name, date|
+  event = Event.find_by(name: name)
+  event.happened_at = DateTime.parse(date)
+  event.save
+end
