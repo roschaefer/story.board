@@ -5,4 +5,8 @@ class Event < ActiveRecord::Base
   def happened?
     ! happened_at.nil?
   end
+
+  def name_and_id
+    "#{name} (#{id})"
+  end
 end

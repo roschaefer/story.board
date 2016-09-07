@@ -46,6 +46,10 @@ module Text
           s = SensorDecorator.new(sensor, @intention)
           rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value)
         end
+        text_component.events.each do |event|
+          e = EventDecorator.new(event)
+          rendered.gsub!(/({\s*#{ Regexp.quote("date(#{e.id})") }\s*})/, e.date)
+        end
         return rendered
       end
     end
