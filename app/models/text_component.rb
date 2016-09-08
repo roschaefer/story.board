@@ -25,7 +25,8 @@ class TextComponent < ActiveRecord::Base
       reading = condition.last_reading(intention: intention, at: at)
       if reading
         active = true
-        active &= (condition.from <= reading.calibrated_value && reading.calibrated_value < condition.to)
+        active &= (condition.from.nil? || condition.from <= reading.calibrated_value)
+        active &= (condition.to.nil? ||reading.calibrated_value < condition.to)
         active &= (timeliness_constraint.nil? || (timeliness_constraint.hours.ago <= reading.created_at))
         active
       else
