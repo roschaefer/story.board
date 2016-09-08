@@ -14,18 +14,13 @@ class ReportsController < ApplicationController
 
   def present
     @report = Report.find(params[:id])
-    if params[:at]
-      point_in_time = DateTime.parse(params[:at])
-    else
-      point_in_time = DateTime.now
-    end
-    @live_record = @report.compose(intention: :real, at: point_in_time)
+    @live_record = @report.compose(intention: :real, at: query_params[:point_in_time])
     @archived_records = Record.real.order(:created_at).reverse_order
   end
 
   def preview
     @report = Report.find(params[:id])
-    @live_record = @report.compose(intention: :fake)
+    @live_record = @report.compose(intention: :fake, at: query_params[:point_in_time])
     @archived_records = Record.fake.order(:created_at).reverse_order
     render 'present'
   end
@@ -48,6 +43,15 @@ class ReportsController < ApplicationController
   end
 
   private
+  def query_params
+    result = {}
+    if params[:at]
+      result[:point_in_time] = DateTime.parse(params[:at])
+    else
+      result[:point_in_time] = DateTime.now
+    end
+    result
+  end
 
   def report_params
     params.require(:report).permit(:name, :start_date, :video, variables_attributes: [:value, :id])
