@@ -433,3 +433,19 @@ Then(/^according to the live report it is summer again!$/) do |string|
   expect(page).to have_text(string)
 end
 
+
+Given(/^there is a medium prioritized, active component with a really long text$/) do
+  main_part = "Blaaa" + 500.times.collect{ "a"}.join + "aaahhhh!"
+  create(:text_component,
+         report: Report.current,
+         main_part: main_part,
+         priority: :medium)
+end
+
+Then(/^I can see the main heading:$/) do |string|
+  expect(page).to have_css('.main-heading', text: string)
+end
+
+Then(/^I can see a subheading:$/) do |string|
+  expect(page).to have_css('.sub-heading', text: string)
+end
