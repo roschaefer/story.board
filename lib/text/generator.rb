@@ -1,31 +1,22 @@
 module Text
   class Generator
+    BREAK_AFTER = 500 # characters
+
     def initialize(report:, opts: {})
       @report = report
       @opts = opts
     end
 
     def generate
-      introductions = []
-      main_parts    = []
-      closings      = []
-      @report.active_text_components(@opts).each do |component|
-        introductions << render(component, :introduction)
-        main_parts    << render(component, :main_part)
-        closings      << render(component, :closing)
-      end
-
       {
         heading:       choose_heading,
-        introduction:  introductions.join(" "),
-        main_part:     main_parts.join(" "),
-        closing:       closings.join(" ")
+        introduction:  combine_introductions,
+        main_part:     combine_main_parts,
+        closing:       combine_closings
       }
-
     end
 
     def choose_heading
-      components = @report.active_text_components(@opts)
       return '' if components.empty?
       groups = components.group_by {|c| TextComponent.priorities[c.priority]}
       p_values = TextComponent.priorities.values.sort.reverse
@@ -35,6 +26,7 @@ module Text
       end
     end
 
+    private
     def render(text_component, part)
       template = text_component.send(part).to_s
       unless template =~ /({.*})/
@@ -60,6 +52,45 @@ module Text
         result = result.gsub(/({\s*#{Regexp.quote(v.key)}\s*})/, v.value)
       end
       result
+    end
+
+    def combine_introductions
+      introductions = components.collect do |component|
+        render(component, :introduction)
+      end
+      introductions.join(' ')
+    end
+
+    def combine_closings
+      closings = components.collect do |component|
+        render(component, :closing)
+      end
+      closings.join(' ')
+    end
+
+    def combine_main_parts
+      character_count = 0
+      result = ""
+      components.each_with_index do |component, i|
+        part = render(component, :main_part)
+        result += ' ' unless i == 0
+        result += part
+        character_count += part.length
+        if character_count >= BREAK_AFTER
+          next_component = components[i+1]
+          if next_component
+            # HACK: this generator knows the output medium
+            result += "<br/>"
+            result += "<h4 class\"sub-heading\">#{next_component.heading}</h4>"
+            character_count = 0 # reset character count
+          end
+        end
+      end
+      result
+    end
+
+    def components
+      @report.active_text_components(@opts)
     end
   end
 end
