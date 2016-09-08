@@ -15,14 +15,14 @@ class TextComponent < ActiveRecord::Base
     self.priority ||= :medium
   end
 
-  def active?(intention: :real, at: DateTime.now)
-    conditions_fullfilled?(intention: intention, at: at) && events_happened?
+  def active?(opts={})
+    conditions_fullfilled?(opts) && events_happened?
   end
 
 
-  def conditions_fullfilled?(intention: :real, at: DateTime.now)
+  def conditions_fullfilled?(opts={})
     conditions.all? do |condition|
-      reading = condition.last_reading(intention: intention, at: at)
+      reading = condition.last_reading(opts)
       if reading
         active = true
         active &= (condition.from.nil? || condition.from <= reading.calibrated_value)

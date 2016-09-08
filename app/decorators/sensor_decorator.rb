@@ -4,8 +4,8 @@ class SensorDecorator
     @sensor = sensor
   end
 
-  def last_value(at: DateTime.now, intention: :real)
-    r = @sensor.last_reading(at: at, intention: intention)
+  def last_value(opts={})
+    r = @sensor.last_reading(opts)
     v = r.calibrated_value
     u = @sensor.sensor_type.unit
     "#{format("%.1f", v)}#{u}"

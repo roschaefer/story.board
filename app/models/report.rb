@@ -14,8 +14,8 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_text_components(intention: :real, at: DateTime.now)
-    text_components.select {|c| c.active?(intention: intention, at: at) }
+  def active_text_components(opts={})
+    text_components.select {|c| c.active?(opts) }
   end
 
   def archive!(intention: :real)
@@ -28,9 +28,9 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def compose(intention: :real, at: DateTime.now)
-    generator = Text::Generator.new(intention: intention, at: at, report: self)
+  def compose(opts={})
+    generator = Text::Generator.new(report: self, opts: opts)
     generated = generator.generate
-    Record.new(generated.merge(report: self, intention: intention))
+    Record.new(generated.merge(report: self, intention: opts[:intention]))
   end
 end
