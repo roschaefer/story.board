@@ -44,14 +44,6 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested event as @event" do
-      event = Event.create! valid_attributes
-      get :show, {:id => event.to_param}, valid_session
-      expect(assigns(:event)).to eq(event)
-    end
-  end
-
   describe "GET #new" do
     it "assigns a new event as @event" do
       get :new, {}, valid_session
@@ -83,7 +75,7 @@ RSpec.describe EventsController, type: :controller do
 
       it "redirects to the created event" do
         post :create, {:event => valid_attributes}, valid_session
-        expect(response).to redirect_to(Event.last)
+        expect(response).to redirect_to(Event)
       end
     end
 
@@ -122,7 +114,7 @@ RSpec.describe EventsController, type: :controller do
       it "redirects to the event" do
         event = Event.create! valid_attributes
         put :update, {:id => event.to_param, :event => valid_attributes}, valid_session
-        expect(response).to redirect_to(event)
+        expect(response).to redirect_to(Event)
       end
     end
 
