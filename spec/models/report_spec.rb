@@ -26,7 +26,7 @@ RSpec.describe Report, type: :model do
     end
 
     context 'for :fake data' do
-      subject { report.archive!(:fake) }
+      subject { report.archive!(intention: :fake) }
       it 'stores the intention along with the record' do
         subject
         expect(report.records.first.intention).to eq 'fake'
@@ -40,7 +40,7 @@ RSpec.describe Report, type: :model do
       end
 
       it 'can exceed for another intention' do
-        expect{ report.archive!(:fake) }.to change{ report.records.size }
+        expect{ report.archive!(intention: :fake) }.to change{ report.records.size }
       end
     end
   end
@@ -54,11 +54,11 @@ RSpec.describe Report, type: :model do
 
   describe '#active_text_components' do
     subject { report.active_text_components }
+    let(:sensor)          { create :sensor }
     it { is_expected.to be_empty }
 
     context 'given a text component connected to a sensor via a certain condition' do
       let(:text_component) { create :text_component, report: report }
-      let(:sensor)          { create :sensor }
       before do
         create(:condition, sensor: sensor, text_component: text_component, from: 1, to: 3)
       end
@@ -70,13 +70,27 @@ RSpec.describe Report, type: :model do
         end
 
         describe '#active_text_components :real' do
-          subject { report.active_text_components :real }
+          subject { report.active_text_components intention: :real }
           it { is_expected.not_to include text_component }
         end
         describe '#active_text_components :fake' do
-          subject { report.active_text_components :fake }
+          subject { report.active_text_components intention: :fake }
           it { is_expected.to include text_component }
         end
+      end
+    end
+
+    context 'sensor reading value is upper boundary and lower boundary' do
+      let(:lower) { create(:text_component, report: report, heading: 'Lower') }
+      let(:upper) { create(:text_component, report: report, heading: 'Upper') }
+      before do
+        create(:sensor_reading, sensor: sensor, calibrated_value: 10)
+        create(:condition, text_component: lower, sensor: sensor, from: 0, to: 10)
+        create(:condition, text_component: upper, sensor: sensor, from: 10, to: 20)
+      end
+
+      it 'contains only one text component - the upper text component' do
+        expect(subject).to contain_exactly(upper)
       end
     end
   end

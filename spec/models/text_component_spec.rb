@@ -53,6 +53,33 @@ describe TextComponent, type: :model do
         it { is_expected.to be_falsy }
       end
 
+      context 'edge cases: a boundary of a condition is nil' do
+        [ {from: nil, to: 23,  value_in: 21, value_out: 24},
+          {from:23,   to: nil, value_in: 24, value_out: 21} ].each do |hash|
+          context ":from=#{hash[:from].inspect} but :to=#{hash[:to].inspect}" do
+            let(:condition) do
+              create(:condition,
+                     sensor: sensor,
+                     text_component: text_component,
+                     from: hash[:from],
+                     to: hash[:to])
+            end
+
+            describe 'extends to infinity' do
+              before { create :sensor_reading, sensor: sensor, calibrated_value: hash[:value_in] }
+              it { is_expected.to be_truthy }
+            end
+
+            describe 'opposite boundary still required' do
+              before { create :sensor_reading, sensor: sensor, calibrated_value: hash[:value_out] }
+              it { is_expected.to be_falsy}
+            end
+          end
+        end
+      end
+
+
+
       context 'with sensor readings of different intentions' do
         before do
           create :sensor_reading, sensor: sensor, calibrated_value: 0, intention: :real
@@ -60,11 +87,11 @@ describe TextComponent, type: :model do
         end
 
         describe '#active? :real' do
-          subject { text_component.active? :real }
+          subject { text_component.active? intention: :real }
           it { is_expected.to be_falsy }
         end
         describe '#active? :fake' do
-          subject { text_component.active? :fake }
+          subject { text_component.active? intention: :fake }
           it { is_expected.to be_truthy }
         end
       end

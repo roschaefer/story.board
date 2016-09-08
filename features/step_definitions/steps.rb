@@ -133,11 +133,13 @@ end
 Given(/^the latest sensor data looks like this:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
-    reading_attr = { sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, created_at: row['Created at']}
-    if reading_attr[:created_at]
-      reading_attr[:created_at] = eval(reading_attr[:created_at].downcase.gsub(' ','.'))
+    reading_attr = { sensor: sensor, calibrated_value: row['Calibrated Value'].to_i}
+    reading = create(:sensor_reading, reading_attr)
+    created_at_code = row['Created at']
+    if created_at_code
+      reading.created_at = eval(created_at_code.downcase.gsub(' ','.'))
+      reading.save!
     end
-    create(:sensor_reading, reading_attr)
   end
 end
 
@@ -411,3 +413,23 @@ Given(/^the event "([^"]*)" has happened on "([^"]*)"$/) do |name, date|
   event.happened_at = DateTime.parse(date)
   event.save
 end
+
+Given(/^we have this sensor data in our database:$/) do |table|
+  table.hashes.each do |row|
+    sensor = Sensor.find_by(name: row['Sensor'])
+    create(:sensor_reading,
+            sensor: sensor,
+            calibrated_value: row['Calibrated value'],
+            created_at: row['Created at'])
+  end
+end
+
+When(/^I append the following parameter to the url:$/) do |string|
+  path = current_path + string
+  visit path
+end
+
+Then(/^according to the live report it is summer again!$/) do |string|
+  expect(page).to have_text(string)
+end
+

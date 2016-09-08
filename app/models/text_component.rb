@@ -15,17 +15,18 @@ class TextComponent < ActiveRecord::Base
     self.priority ||= :medium
   end
 
-  def active?(intention = :real)
-    conditions_fullfilled?(intention) && events_happened?
+  def active?(opts={})
+    conditions_fullfilled?(opts) && events_happened?
   end
 
 
-  def conditions_fullfilled?(intention)
+  def conditions_fullfilled?(opts={})
     conditions.all? do |condition|
-      reading = condition.last_reading(intention)
+      reading = condition.last_reading(opts)
       if reading
         active = true
-        active &= (condition.from <= reading.calibrated_value && reading.calibrated_value <= condition.to)
+        active &= (condition.from.nil? || condition.from <= reading.calibrated_value)
+        active &= (condition.to.nil? ||reading.calibrated_value < condition.to)
         active &= (timeliness_constraint.nil? || (timeliness_constraint.hours.ago <= reading.created_at))
         active
       else

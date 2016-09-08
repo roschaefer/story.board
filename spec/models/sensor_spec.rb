@@ -20,6 +20,21 @@ describe Sensor, type: :model do
     end
   end
 
+  describe '#last_reading' do
+    let(:sensor) { build(:sensor) }
+    let(:first) { create(:sensor_reading, sensor: sensor, created_at: 5.seconds.ago) }
+    let(:second) { create(:sensor_reading, sensor: sensor, created_at: DateTime.now) }
+    before { first; second }
+
+    it 'returns last sensor reading by default' do
+      expect(sensor.last_reading).to eq second
+    end
+
+    it 'returns last sensor reading at a given point in time' do
+      expect(sensor.last_reading at: 3.seconds.ago).to eq first
+    end
+  end
+
   describe '#destroy' do
     it 'destroys all associated readings' do
       sensor = create(:sensor)

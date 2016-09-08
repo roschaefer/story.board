@@ -1,12 +1,11 @@
 class SensorDecorator
 
-  def initialize(sensor, intention = :real)
+  def initialize(sensor)
     @sensor = sensor
-    @intention = intention
   end
 
-  def last_value
-    r = @sensor.sensor_readings.send(@intention).last
+  def last_value(opts={})
+    r = @sensor.last_reading(opts)
     v = r.calibrated_value
     u = @sensor.sensor_type.unit
     "#{format("%.1f", v)}#{u}"

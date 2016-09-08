@@ -22,8 +22,8 @@ class Sensor < ActiveRecord::Base
     end
   end
 
-  def last_reading(intention = :real)
-    sensor_readings.send(intention).last
+  def last_reading(intention: :real, at: DateTime.now)
+    sensor_readings.send(intention).created_before(at).last
   end
 
 end

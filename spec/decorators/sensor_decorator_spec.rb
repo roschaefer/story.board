@@ -13,7 +13,7 @@ RSpec.describe SensorDecorator do
     it { is_expected.to eq '5.0°C'}
     context 'intention :fake' do
       before  { create(:sensor_reading, sensor: sensor, calibrated_value: -3, intention: :fake) }
-      subject { described_class.new(sensor, :fake).last_value }
+      subject { described_class.new(sensor).last_value(intention: :fake) }
       it { is_expected.to eq '-3.0°C'}
     end
   end
