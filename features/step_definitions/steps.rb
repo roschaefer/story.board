@@ -446,6 +446,6 @@ Then(/^I can see the main heading:$/) do |string|
   expect(page).to have_css('.main-heading', text: string)
 end
 
-Then(/^I can see the a subheading:$/) do |string|
+Then(/^I can see a subheading:$/) do |string|
   expect(page).to have_css('.sub-heading', text: string)
 end

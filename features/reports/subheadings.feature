@@ -16,7 +16,6 @@ Feature: Insert break and add sub-headings
     Given I have these active text components:
       | Priority | Heading                                   |
       | high     | Using headings in your report             |
-      | medium   | Recommended Headings for Business Reports |
       | low      | Wow, this is really boring                |
     But there is a medium prioritized, active component with a really long text
     When I visit the landing page
@@ -24,7 +23,7 @@ Feature: Insert break and add sub-headings
     """
     Using headings in your report
     """
-    And I can see the a subheading:
+    And I can see a subheading:
     """
     Wow, this is really boring
     """

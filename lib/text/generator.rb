@@ -18,15 +18,11 @@ module Text
 
     def choose_heading
       return '' if components.empty?
-      groups = components.group_by {|c| TextComponent.priorities[c.priority]}
-      p_values = TextComponent.priorities.values.sort.reverse
-      p_values += [nil] # no priority is always lowest priority
-      p_values.each do |p|
-        return groups[p].sample.heading if groups[p].present?
-      end
+      components.first.heading
     end
 
     private
+
     def render(text_component, part)
       template = text_component.send(part).to_s
       unless template =~ /({.*})/
@@ -81,7 +77,7 @@ module Text
           if next_component
             # HACK: this generator knows the output medium
             result += "<br/>"
-            result += "<h4 class\"sub-heading\">#{next_component.heading}</h4>"
+            result += "<h4 class=\"sub-heading\">#{next_component.heading}</h4>"
             character_count = 0 # reset character count
           end
         end
@@ -90,7 +86,13 @@ module Text
     end
 
     def components
-      @report.active_text_components(@opts)
+      if @components.nil?
+        @components = @report.active_text_components(@opts)
+        @components = components.shuffle
+        @components = components.sort_by {|c| TextComponent.priorities[c.priority] }
+        @components = components.reverse
+      end
+      @components
     end
   end
 end
