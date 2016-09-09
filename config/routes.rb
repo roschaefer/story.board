@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :actors
+  resources :actors do
+    post :activate
+  end
   resources :events, except: :show
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
