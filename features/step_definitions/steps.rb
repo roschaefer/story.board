@@ -449,3 +449,26 @@ end
 Then(/^I can see a subheading:$/) do |string|
   expect(page).to have_css('.sub-heading', text: string)
 end
+
+Given(/^my reporter box has the id "([^"]*)"$/) do |id|
+  # as long as we don't have the box, fake it
+  @box_id = id
+end
+
+Given(/^there is an actor that controls a light in my reporter box$/) do
+  @actor = create(:actor, name: "Light")
+end
+
+When(/^I visit the page of this actor$/) do
+  visit actor_path(@actor)
+end
+
+Then(/^a request will be sent to this url:$/) do |url|
+  last_command = Command.last
+  expect(last_command.actor.url).to eq url
+end
+
+Then(/^the request payload contains this data:$/) do |string|
+  last_command = Command.last
+  expect(last_command.payload).to eq string
+end
