@@ -15,7 +15,7 @@ RSpec.describe Actor, type: :model do
     end
 
     it 'created command belongs to actor' do
-      expect { subject }.to change { actor.commands.size }.from(0).to(1)
+      expect { subject }.to change { actor.reload; actor.commands.size }.from(0).to(1)
     end
 
     it 'created command is not yet executed' do
@@ -25,7 +25,7 @@ RSpec.describe Actor, type: :model do
 
     it 'created command\'s value == :on' do
       subject
-      expect(Command.last.value).to eq :on
+      expect(Command.last.value).to eq 'on'
     end
   end
 end
