@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @actor.name
+%p
+  %b Port:
+  = @actor.port
+%p
+  %b Function:
+  = @actor.function
+
+= link_to 'Edit', edit_actor_path(@actor)
+\|
+= link_to 'Back', actors_path

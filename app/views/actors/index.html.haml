@@ -1,0 +1,25 @@
+%h1 Listing actors
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Port
+      %th Function
+      %th
+      %th
+      %th
+
+  %tbody
+    - @actors.each do |actor|
+      %tr
+        %td= actor.name
+        %td= actor.port
+        %td= actor.function
+        %td= link_to 'Show', actor
+        %td= link_to 'Edit', edit_actor_path(actor)
+        %td= link_to 'Destroy', actor, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Actor', new_actor_path

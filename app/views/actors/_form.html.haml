@@ -1,0 +1,10 @@
+= simple_form_for(@actor) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :port
+    = f.input :function
+
+  .form-actions
+    = f.button :submit
