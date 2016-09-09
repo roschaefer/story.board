@@ -9,14 +9,14 @@ Feature: Manual trigger
 
   Scenario: Click on button to trigger the actor
     Given my reporter box has the id "0123456789abcdef"
-    Given there is an actor that controls a light in my reporter box
+    Given there is an actor with id "1" that controls a light in my reporter box
     When I visit the page of this actor
     And I click on "Activate"
     Then a request will be sent to this url:
     """
-    https://api.particle.io/v1/devices/0123456789abcdef/light
+    https://api.particle.io/v1/devices/0123456789abcdef/activate
     """
     And the request payload contains this data:
     """
-    args=on
+    args=1,1
     """

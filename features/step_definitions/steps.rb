@@ -455,8 +455,8 @@ Given(/^my reporter box has the id "([^"]*)"$/) do |id|
   @box_id = id
 end
 
-Given(/^there is an actor that controls a light in my reporter box$/) do
-  @actor = create(:actor, name: "Light")
+Given(/^there is an actor with id "([^"]*)" that controls a light in my reporter box$/) do |id|
+  @actor = create(:actor, id: id, name: "Light")
 end
 
 When(/^I visit the page of this actor$/) do
