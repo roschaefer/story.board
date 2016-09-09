@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907135830) do
+ActiveRecord::Schema.define(version: 20160909220808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "actors", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "port"
+    t.string   "function"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "actors", ["name"], name: "index_actors_on_name", unique: true, using: :btree
 
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
