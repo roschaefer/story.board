@@ -24,11 +24,11 @@ RSpec.describe ChainsController, type: :controller do
   # Chain. As you add validations to Chain, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { hashtag: '#superhashtag' }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { hashtag: nil }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +103,14 @@ RSpec.describe ChainsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { hashtag: '#itsanewhashtag' }
       }
 
       it "updates the requested chain" do
         chain = Chain.create! valid_attributes
         put :update, {:id => chain.to_param, :chain => new_attributes}, valid_session
         chain.reload
-        skip("Add assertions for updated state")
+        expect(chain.hashtag).to eq '#itsanewhashtag'
       end
 
       it "assigns the requested chain as @chain" do

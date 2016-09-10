@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Chain, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#hashtag' do
+    subject { build(:chain, hashtag: nil) }
+    it { is_expected.not_to be_valid }
+  end
 end
