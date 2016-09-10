@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910162827) do
+ActiveRecord::Schema.define(version: 20160910164751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,7 +147,12 @@ ActiveRecord::Schema.define(version: 20160910162827) do
     t.datetime "tweeted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "chain_id"
+    t.integer  "command_id"
   end
+
+  add_index "tweets", ["chain_id"], name: "index_tweets_on_chain_id", using: :btree
+  add_index "tweets", ["command_id"], name: "index_tweets_on_command_id", using: :btree
 
   create_table "variables", force: :cascade do |t|
     t.string   "key"
@@ -164,5 +169,7 @@ ActiveRecord::Schema.define(version: 20160910162827) do
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
   add_foreign_key "conditions", "text_components"
+  add_foreign_key "tweets", "chains"
+  add_foreign_key "tweets", "commands"
   add_foreign_key "variables", "reports"
 end
