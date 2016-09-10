@@ -499,13 +499,13 @@ Given(/^I have configured this chain:$/) do |table|
     actuator = Actuator.find_by(name: row['Actuator'])
     create(:chain,
            actuator: actuator,
-           hashtag: row['Hashtag'].gsub('#', ''),
+           hashtag: row['Hashtag'],
            function: row['Function'])
   end
 end
 
-When(/^we receive this tweet from user @vicari:$/) do |string|
-  create(:tweet, user: '@vicari', message: string)
+When(/^we receive this tweet from user @vicari for hashtag "([^"]*)":$/) do |hashtag, string|
+  create(:tweet, user: '@vicari', main_hashtag: hashtag, message: string)
 end
 
 Then(/^the following command is appended:$/) do |table|

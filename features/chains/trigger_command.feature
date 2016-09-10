@@ -12,7 +12,7 @@ Feature: Trigger command
     And I have configured this chain:
       | Actuator         | Function | Hashtag       |
       | Self-Destruction | activate | #end_of_world |
-    When we receive this tweet from user @vicari:
+    When we receive this tweet from user @vicari for hashtag "#end_of_world":
     """
     Hey guys! Today it's the #end_of_world as we know it. Enjoy!
     """

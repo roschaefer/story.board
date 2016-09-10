@@ -6,20 +6,17 @@ RSpec.describe Tweet, type: :model do
     it { is_expected.not_to be_valid }
 
     describe '#before_create' do
-      let(:chain) { create(:chain, hashtag: 'hashtag') }
-      let(:chain2) { create(:chain, hashtag: 'another') }
+      let(:tweet) do
+        Tweet.new(user: '@somebody',
+                  main_hashtag: '#hashtag',
+                  message: 'it is about #hashtag')
+      end
+      let(:chain) { create(:chain, hashtag: '#hashtag') }
+      let(:chain2) { create(:chain, hashtag: '#another') }
       it 'auto-assigns the correct chain' do
         chain; chain2 # create chains
-        tweet = Tweet.new(user: '@somebody', message: 'it is about #hashtag')
         tweet.save!
         expect(tweet.chain).to eq chain
-      end
-
-      it 'assigns the first matching chain' do
-        chain; chain2 # create chains
-        tweet = Tweet.new(user: '@somebody', message: 'it is about #another #hashtag')
-        tweet.save!
-        expect(tweet.chain).to eq chain2
       end
     end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910212027) do
+ActiveRecord::Schema.define(version: 20160910220547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,10 +146,11 @@ ActiveRecord::Schema.define(version: 20160910212027) do
     t.string   "user"
     t.text     "message"
     t.datetime "tweeted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.integer  "chain_id"
     t.integer  "command_id"
+    t.string   "main_hashtag"
   end
 
   add_index "tweets", ["chain_id"], name: "index_tweets_on_chain_id", using: :btree

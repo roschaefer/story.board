@@ -10,17 +10,13 @@ class Tweet < ActiveRecord::Base
   after_create :create_command
 
 
-  REGEX = /(?:\s|^)(?:#(?!(?:\d+|\w+?_|_\w+?)(?:\s|$)))(\w+)(?=\s|$)/i
-
-  def hashtags
-    message.scan(REGEX).flatten
-  end
-
   private
 
   def assign_chain
     unless chain
-      self.chain = Chain.find_by(hashtag: hashtags)
+      if main_hashtag
+        self.chain = Chain.find_by(hashtag: main_hashtag)
+      end
     end
   end
 
