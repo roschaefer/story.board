@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :actuators do
-    post :activate
+    member do
+      post :activate
+    end
   end
   resources :events, except: :show
   # The priority is based upon order of creation: first created -> highest priority.

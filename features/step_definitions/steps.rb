@@ -456,7 +456,7 @@ Given(/^my reporter box has the id "([^"]*)"$/) do |id|
 end
 
 Given(/^there is an actuator with id "([^"]*)" that controls a light in my reporter box$/) do |id|
-  @actuator = create(:actuator, id: id, name: "Light")
+  @actuator = create(:actuator, id: id, name: "Light", function: 'light')
 end
 
 When(/^I visit the page of this actuator$/) do
@@ -465,7 +465,7 @@ end
 
 Then(/^a request will be sent to this url:$/) do |url|
   last_command = Command.last
-  expect(last_command.actuator.url).to eq url
+  expect(last_command.url).to eq url
 end
 
 Then(/^the request payload contains this data:$/) do |string|

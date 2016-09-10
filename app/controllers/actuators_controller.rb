@@ -1,5 +1,5 @@
 class ActuatorsController < ApplicationController
-  before_action :set_actuator, only: [:show, :edit, :update, :destroy]
+  before_action :set_actuator, only: [:show, :edit, :activate, :update, :destroy]
 
   # GET /actuators
   # GET /actuators.json
@@ -22,6 +22,8 @@ class ActuatorsController < ApplicationController
   end
 
   def activate
+    @actuator.activate!
+    redirect_to @actuator
   end
 
   # POST /actuators
