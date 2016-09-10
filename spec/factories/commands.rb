@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :command do
     actuator nil
-    value "MyString"
+    function "activate"
     executed false
   end
 end
