@@ -23,9 +23,9 @@ RSpec.describe Actuator, type: :model do
       expect(Command.last).to be_pending
     end
 
-    it 'created command\'s value == :on' do
+    it 'created command\'s function == :activate' do
       subject
-      expect(Command.last.value).to eq 'on'
+      expect(Command.last.function).to eq 'activate'
     end
   end
 end

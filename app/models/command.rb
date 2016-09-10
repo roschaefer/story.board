@@ -1,5 +1,5 @@
 class Command < ActiveRecord::Base
-  enum value: {off: 0, on: 1}
+  enum function: [:activate, :deactivate]
   enum status: {pending: 0, executed: 1, errored: 2, dropped: 3}
 
   DEVICE_ID = '1e0033001747343339383037'
@@ -19,13 +19,8 @@ class Command < ActiveRecord::Base
     "https://api.particle.io/v1/devices/#{device_id}/#{function}"
   end
 
-  def function
-    mapping = { 'off' => 'deactivate', 'on' => 'activate'}
-    mapping[value]
-  end
-
   def argument
-    "#{actuator.id},#{Command.values[value]}"
+    "#{actuator.port}"
   end
 
   def run!

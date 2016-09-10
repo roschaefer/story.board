@@ -3,7 +3,7 @@ class Actuator < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def activate!(synchronous: false)
-    c = Command.create!(actuator: self, value: :on)
+    c = Command.create!(actuator: self, function: :activate)
     if synchronous
       c.run!
     end
