@@ -68,6 +68,8 @@ group :test do
   #   end
   gem 'poltergeist'
   gem 'capybara-screenshot'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :production do

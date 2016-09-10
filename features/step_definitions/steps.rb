@@ -470,5 +470,14 @@ end
 
 Then(/^the request payload contains this data:$/) do |string|
   last_command = Command.last
-  expect(last_command.payload).to eq string
+  payload = "args=" + last_command.argument
+  expect(payload).to eq string
 end
+
+When(/^I click the 'Activate' button to trigger the actuator$/) do
+  VCR.use_cassette(:activate_actuator) do
+    click_on 'Activate'
+  end
+end
+
+

@@ -8,6 +8,7 @@ require 'cucumber/rails'
 require 'cucumber/api_steps'
 require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
+require 'vcr'
 
 World(FactoryGirl::Syntax::Methods)
 
@@ -61,3 +62,11 @@ end
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 Capybara.javascript_driver = :poltergeist
+
+
+
+
+VCR.configure do |c|
+  c.hook_into :webmock
+  c.cassette_library_dir = 'features/cassettes'
+end
