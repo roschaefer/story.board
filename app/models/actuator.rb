@@ -8,4 +8,11 @@ class Actuator < ActiveRecord::Base
       c.run!
     end
   end
+
+  def deactivate!(synchronous: false)
+    c = Command.create!(actuator: self, function: :deactivate)
+    if synchronous
+      c.run!
+    end
+  end
 end
