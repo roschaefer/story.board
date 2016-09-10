@@ -19,17 +19,17 @@ http_interactions:
       - application/x-www-form-urlencoded
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
       Server:
       - nginx
       Date:
-      - Sat, 10 Sep 2016 11:30:21 GMT
+      - Sat, 10 Sep 2016 13:51:44 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '61'
+      - '98'
       Connection:
       - keep-alive
       Access-Control-Allow-Origin:
@@ -38,9 +38,11 @@ http_interactions:
       encoding: UTF-8
       string: |-
         {
-          "ok": false,
-          "error": "Function deactivate not found"
+          "id": "1e0033001747343339383037",
+          "last_app": "",
+          "connected": true,
+          "return_value": 4
         }
     http_version: 
-  recorded_at: Sat, 10 Sep 2016 11:30:21 GMT
+  recorded_at: Sat, 10 Sep 2016 13:51:44 GMT
 recorded_with: VCR 3.0.3
