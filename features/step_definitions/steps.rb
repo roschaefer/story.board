@@ -464,13 +464,11 @@ When(/^I visit the page of this actuator$/) do
 end
 
 Then(/^a request will be sent to this url:$/) do |url|
-  last_command = Command.last
-  expect(last_command.url).to eq url
+  expect(@command.url).to eq url
 end
 
 Then(/^the request payload contains this data:$/) do |string|
-  last_command = Command.last
-  payload = "args=" + last_command.argument
+  payload = "args=" + @command.argument
   expect(payload).to eq string
 end
 
@@ -478,6 +476,9 @@ When(/^I click the 'Activate' button to trigger the actuator$/) do
   VCR.use_cassette(:activate_actuator) do
     click_on 'Activate'
   end
+  @command = Command.last
 end
 
-
+Then(/^the command was successfully executed$/) do
+  expect(@command).to be_executed
+end

@@ -34,6 +34,12 @@ class Command < ActiveRecord::Base
       "args" => argument
     }
     uri = URI.parse(url)
-    Net::HTTP.post_form(uri, params)
+    response = Net::HTTP.post_form(uri, params)
+    if response.kind_of? Net::HTTPSuccess
+      self.status = 'executed'
+    else
+      self.status = 'errored'
+    end
+    save!
   end
 end
