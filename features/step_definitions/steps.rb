@@ -455,8 +455,8 @@ Given(/^my reporter box has the id "([^"]*)"$/) do |id|
   Command::DEVICE_ID = id
 end
 
-Given(/^there is an actuator with id "([^"]*)" that controls a light in my reporter box$/) do |id|
-  @actuator = create(:actuator, id: id, name: "Light", function: 'light')
+Given(/^there is an actuator with id "([^"]*)"/) do |id|
+  @actuator = create(:actuator, id: id)
 end
 
 When(/^I visit the page of this actuator$/) do

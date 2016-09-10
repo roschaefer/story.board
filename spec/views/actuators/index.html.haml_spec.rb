@@ -5,13 +5,11 @@ RSpec.describe "actuators/index", type: :view do
     assign(:actuators, [
       Actuator.create!(
         :port => 1,
-        :name => "Name1",
-        :function => "Function"
+        :name => "Name1"
       ),
       Actuator.create!(
         :name => "Name2",
-        :port => 1,
-        :function => "Function"
+        :port => 1
       )
     ])
   end
@@ -21,6 +19,5 @@ RSpec.describe "actuators/index", type: :view do
     assert_select "tr>td", :text => "Name1".to_s, :count => 1
     assert_select "tr>td", :text => "Name2".to_s, :count => 1
     assert_select "tr>td", :text => 1.to_s, :count => 2
-    assert_select "tr>td", :text => "Function".to_s, :count => 2
   end
 end

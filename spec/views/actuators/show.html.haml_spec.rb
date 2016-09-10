@@ -4,8 +4,7 @@ RSpec.describe "actuators/show", type: :view do
   before(:each) do
     @actuator = assign(:actuator, Actuator.create!(
       :name => "Name",
-      :port => 1,
-      :function => "Function"
+      :port => 1
     ))
   end
 
@@ -13,6 +12,5 @@ RSpec.describe "actuators/show", type: :view do
     render
     expect(rendered).to match(/Name/)
     expect(rendered).to match(/1/)
-    expect(rendered).to match(/Function/)
   end
 end
