@@ -63,10 +63,8 @@ end
 Cucumber::Rails::Database.javascript_strategy = :truncation
 Capybara.javascript_driver = :poltergeist
 
-
-
-
 VCR.configure do |c|
+  c.ignore_hosts '127.0.0.1', 'localhost'
   c.hook_into :webmock
   c.cassette_library_dir = 'features/cassettes'
 end
