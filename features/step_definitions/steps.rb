@@ -499,7 +499,7 @@ Given(/^I have configured this chain:$/) do |table|
     actuator = Actuator.find_by(name: row['Actuator'])
     create(:chain,
            actuator: actuator,
-           hashtag: row['Hashtag'],
+           hashtag: row['Hashtag'].gsub('#', ''),
            function: row['Function'])
   end
 end

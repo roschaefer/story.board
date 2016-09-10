@@ -3,8 +3,8 @@ class Tweet < ActiveRecord::Base
   belongs_to :command
 
   validates :user, presence: true
-  delegate :actuator, to: :chain
-  delegate :function, to: :chain
+  delegate :actuator, to: :chain, allow_nil: true
+  delegate :function, to: :chain, allow_nil: true
 
   before_create :assign_chain
   after_create :create_command
