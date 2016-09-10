@@ -1,6 +1,6 @@
-class CreateActors < ActiveRecord::Migration
+class CreateActuators < ActiveRecord::Migration
   def change
-    create_table :actors do |t|
+    create_table :actuators do |t|
       t.string :name
       t.integer :port
       t.string :function

@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe "actors/index", type: :view do
+RSpec.describe "actuators/index", type: :view do
   before(:each) do
-    assign(:actors, [
-      Actor.create!(
+    assign(:actuators, [
+      Actuator.create!(
         :port => 1,
         :name => "Name1",
         :function => "Function"
       ),
-      Actor.create!(
+      Actuator.create!(
         :name => "Name2",
         :port => 1,
         :function => "Function"
@@ -16,7 +16,7 @@ RSpec.describe "actors/index", type: :view do
     ])
   end
 
-  it "renders a list of actors" do
+  it "renders a list of actuators" do
     render
     assert_select "tr>td", :text => "Name1".to_s, :count => 1
     assert_select "tr>td", :text => "Name2".to_s, :count => 1

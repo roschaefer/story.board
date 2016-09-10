@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "actors/show", type: :view do
+RSpec.describe "actuators/show", type: :view do
   before(:each) do
-    @actor = assign(:actor, Actor.create!(
+    @actuator = assign(:actuator, Actuator.create!(
       :name => "Name",
       :port => 1,
       :function => "Function"

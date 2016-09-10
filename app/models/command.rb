@@ -1,3 +1,3 @@
 class Command < ActiveRecord::Base
-  belongs_to :actor
+  belongs_to :actuator
 end

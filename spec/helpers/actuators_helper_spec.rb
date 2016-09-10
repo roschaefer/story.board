@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 # Specs in this file have access to a helper object that includes
-# the ActorsHelper. For example:
+# the ActuatorsHelper. For example:
 #
-# describe ActorsHelper do
+# describe ActuatorsHelper do
 #   describe "string concat" do
 #     it "concats two strings with spaces" do
 #       expect(helper.concat_strings("this","that")).to eq("this that")
 #     end
 #   end
 # end
-RSpec.describe ActorsHelper, type: :helper do
+RSpec.describe ActuatorsHelper, type: :helper do
   pending "add some examples to (or delete) #{__FILE__}"
 end

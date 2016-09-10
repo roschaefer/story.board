@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :actor do
+  factory :actuator do
     name "MyString"
     port 1
     function "MyString"

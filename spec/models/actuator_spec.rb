@@ -1,21 +1,21 @@
 require 'rails_helper'
 require 'support/shared_examples/database_unique_attribute'
 
-RSpec.describe Actor, type: :model do
+RSpec.describe Actuator, type: :model do
 
   describe '#name' do
-    it_behaves_like 'database unique attribute', :actor, name: 'Whatever'
+    it_behaves_like 'database unique attribute', :actuator, name: 'Whatever'
   end
 
   describe '#activate!' do
-    let(:actor) { create(:actor) }
-    subject { actor.activate! }
+    let(:actuator) { create(:actuator) }
+    subject { actuator.activate! }
     it 'creates a command' do
       expect { subject }.to change { Command.count }.from(0).to(1)
     end
 
-    it 'created command belongs to actor' do
-      expect { subject }.to change { actor.reload; actor.commands.size }.from(0).to(1)
+    it 'created command belongs to actuator' do
+      expect { subject }.to change { actuator.reload; actuator.commands.size }.from(0).to(1)
     end
 
     it 'created command is not yet executed' do

@@ -1,5 +1,5 @@
 class AddUniqueConstraintToActorName < ActiveRecord::Migration
   def change
-    add_index :actors, :name, unique: true
+    add_index :actuators, :name, unique: true
   end
 end

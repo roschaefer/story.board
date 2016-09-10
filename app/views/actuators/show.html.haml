@@ -1,0 +1,17 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @actuator.name
+%p
+  %b Port:
+  = @actuator.port
+%p
+  %b Function:
+  = @actuator.function
+
+%p
+  = button_to 'Activate', {action: 'activate', actuator_id: @actuator.id}, {class: 'btn btn-primary'}
+
+= link_to 'Edit', edit_actuator_path(@actuator), :class => "btn btn-primary"
+= link_to 'Back', actuators_path, :class => "btn btn-secondary"

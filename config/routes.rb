@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :actors do
+  resources :actuators do
     post :activate
   end
   resources :events, except: :show
