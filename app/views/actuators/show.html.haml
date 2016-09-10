@@ -9,7 +9,15 @@
 %p
   %b Function:
   = @actuator.function
-
+%p
+  %h3 Commands
+  %table.table.table-striped.table-hover
+    %tr
+      %th Id
+      %th Created at
+      %th Value
+      %th Executed
+      = render @actuator.commands
 %p
   = button_to 'Activate', {action: 'activate', actuator_id: @actuator.id}, {class: 'btn btn-primary'}
 
