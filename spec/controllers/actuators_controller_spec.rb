@@ -24,11 +24,11 @@ RSpec.describe ActuatorsController, type: :controller do
   # Actuator. As you add validations to Actuator, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {name: 'Yo Actuator'}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {name: nil}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +103,14 @@ RSpec.describe ActuatorsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: 'It is a new beautiful name' }
       }
 
       it "updates the requested actuator" do
         actuator = Actuator.create! valid_attributes
         put :update, {:id => actuator.to_param, :actuator => new_attributes}, valid_session
         actuator.reload
-        skip("Add assertions for updated state")
+        expect(actuator.name).to eq 'It is a new beautiful name'
       end
 
       it "assigns the requested actuator as @actuator" do

@@ -61,7 +61,7 @@ class ActuatorsController < ApplicationController
   def destroy
     @actuator.destroy
     respond_to do |format|
-      format.html { redirect_to actors_url, notice: 'Actuator was successfully destroyed.' }
+      format.html { redirect_to actuators_url, notice: 'Actuator was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

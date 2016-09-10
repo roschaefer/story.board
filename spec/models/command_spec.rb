@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Command, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#status' do
+    it 'default is :pending' do
+      is_expected.to be_pending
+    end
+  end
 end
