@@ -7,7 +7,7 @@ Feature: Manual trigger
   Background:
     Given there is a sensor live report
     Given my reporter box has the id "1e0033001747343339383037"
-    Given there is an actuator with id "4711" that controls a light in my reporter box
+    Given there is an actuator connected at port "4" that controls a light in my reporter box
     And I visit the page of this actuator
 
   Scenario: Activate the actuator
@@ -18,7 +18,7 @@ Feature: Manual trigger
     """
     And the request payload contains this data:
     """
-    args=4711
+    args=4
     """
     And the command was successfully executed
 
@@ -30,6 +30,6 @@ Feature: Manual trigger
     """
     And the request payload contains this data:
     """
-    args=4711
+    args=4
     """
     And the command was successfully executed
