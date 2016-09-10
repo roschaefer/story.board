@@ -6,12 +6,12 @@ RSpec.describe "chains/index", type: :view do
       Chain.create!(
         :actuator => nil,
         :function => 'activate',
-        :hashtag => "Hashtag"
+        :hashtag => "#hashtag1"
       ),
       Chain.create!(
         :actuator => nil,
         :function => 'activate',
-        :hashtag => "Hashtag"
+        :hashtag => "#hashtag2"
       )
     ])
   end
@@ -19,6 +19,7 @@ RSpec.describe "chains/index", type: :view do
   it "renders a list of chains" do
     render
     assert_select "tr>td", :text => 'activate', :count => 2
-    assert_select "tr>td", :text => "Hashtag".to_s, :count => 2
+    assert_select "tr>td", :text => "#hashtag1".to_s, :count => 1
+    assert_select "tr>td", :text => "#hashtag2".to_s, :count => 1
   end
 end

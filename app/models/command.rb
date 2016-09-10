@@ -7,6 +7,7 @@ class Command < ActiveRecord::Base
   ACCESS_TOKEN = "fa56cdf00a6977ae9339e40908d72e09e1f37c29"
 
   belongs_to :actuator
+  has_one :tweet
 
   def device_id
     DEVICE_ID

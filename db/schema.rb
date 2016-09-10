@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910164751) do
+ActiveRecord::Schema.define(version: 20160910212027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20160910164751) do
   end
 
   add_index "chains", ["actuator_id"], name: "index_chains_on_actuator_id", using: :btree
+  add_index "chains", ["hashtag"], name: "index_chains_on_hashtag", unique: true, using: :btree
 
   create_table "commands", force: :cascade do |t|
     t.integer  "actuator_id"
