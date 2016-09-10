@@ -1,0 +1,10 @@
+= simple_form_for(@chain) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :actuator
+    = f.input :function
+    = f.input :hashtag
+
+  .form-actions
+    = f.button :submit

@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Actuator:
+  = @chain.actuator
+%p
+  %b Function:
+  = @chain.function
+%p
+  %b Hashtag:
+  = @chain.hashtag
+
+= link_to 'Edit', edit_chain_path(@chain)
+\|
+= link_to 'Back', chains_path
