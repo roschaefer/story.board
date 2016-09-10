@@ -473,7 +473,7 @@ Then(/^the request payload contains this data:$/) do |string|
 end
 
 When(/^I click the 'Activate' button to trigger the actuator$/) do
-  VCR.use_cassette(:activate_actuator) do
+  VCR.use_cassette('actuators/activate') do
     click_on 'Activate'
   end
   @command = Command.last
@@ -482,3 +482,11 @@ end
 Then(/^the command was successfully executed$/) do
   expect(@command).to be_executed
 end
+
+When(/^I click the 'Deactivate' button$/) do
+  VCR.use_cassette('actuators/deactivate') do
+    click_on 'Deactivate'
+  end
+  @command = Command.last
+end
+
