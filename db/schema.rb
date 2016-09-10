@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909222406) do
+ActiveRecord::Schema.define(version: 20160910085216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 20160909222406) do
 
   create_table "commands", force: :cascade do |t|
     t.integer  "actuator_id"
-    t.string   "value"
     t.boolean  "executed"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "value"
   end
 
   add_index "commands", ["actuator_id"], name: "index_commands_on_actuator_id", using: :btree

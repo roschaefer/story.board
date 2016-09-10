@@ -1,5 +1,8 @@
 class Command < ActiveRecord::Base
+  enum value: {off: 0, on: 1}
+
   DEVICE_ID = '1e0033001747343339383037'
+  ACCESS_TOKEN = "fa56cdf00a6977ae9339e40908d72e09e1f37c29"
 
   belongs_to :actuator
 
@@ -7,28 +10,27 @@ class Command < ActiveRecord::Base
     DEVICE_ID
   end
 
-  def url
-    url = "https://api.particle.io/v1/devices/#{device_id}"
-    if value == 'on'
-      url += '/activate'
-    else
-      url += '/deactivate'
-    end
-    url
+  def access_token
+    ACCESS_TOKEN
   end
 
-  def payload
-    if value == 'on'
-      "#{actuator.id},1"
-    else
-      "#{actuator.id},0"
-    end
+  def url
+    "https://api.particle.io/v1/devices/#{device_id}/#{function}"
+  end
+
+  def function
+    mapping = { 'off' => 'deactivate', 'on' => 'activate'}
+    mapping[value]
+  end
+
+  def argument
+    "#{actuator.id},#{Command.values[value]}"
   end
 
   def run!
     params = {
-      "access_token" => "fa56cdf00a6977ae9339e40908d72e09e1f37c29",
-      "args" => payload
+      "access_token" => access_token,
+      "args" => argument
     }
     uri = URI.parse(url)
     Net::HTTP.post_form(uri, params)
