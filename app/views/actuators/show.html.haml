@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @actuator.name
+%p
+  %b Port:
+  = @actuator.port
+%p
+  %h3 Commands
+  %table.table.table-striped.table-hover
+    %tr
+      %th Id
+      %th Created at
+      %th Function
+      %th Executed
+      = render @actuator.commands
+%p
+  = button_to 'Activate', [:activate, @actuator], {class: 'btn btn-primary'}
+%p
+  = button_to 'Deactivate', [:deactivate, @actuator], {class: 'btn btn-danger'}
+
+= link_to 'Edit', edit_actuator_path(@actuator), :class => "btn btn-primary"
+= link_to 'Back', actuators_path, :class => "btn btn-secondary"

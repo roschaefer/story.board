@@ -449,3 +449,44 @@ end
 Then(/^I can see a subheading:$/) do |string|
   expect(page).to have_css('.sub-heading', text: string)
 end
+
+Given(/^my reporter box has the id "([^"]*)"$/) do |id|
+  # as long as we don't have the box, fake it
+  Command::DEVICE_ID = id
+end
+
+Given(/^there is an actuator connected at port "([^"]*)"/) do |port|
+  @actuator = create(:actuator, port: port)
+end
+
+When(/^I visit the page of this actuator$/) do
+  visit actuator_path(@actuator)
+end
+
+Then(/^a request will be sent to this url:$/) do |url|
+  expect(@command.url).to eq url
+end
+
+Then(/^the request payload contains this data:$/) do |string|
+  payload = "args=" + @command.argument
+  expect(payload).to eq string
+end
+
+When(/^I click the 'Activate' button to trigger the actuator$/) do
+  VCR.use_cassette('actuators/activate') do
+    click_on 'Activate'
+  end
+  @command = Command.last
+end
+
+Then(/^the command was successfully executed$/) do
+  expect(@command).to be_executed
+end
+
+When(/^I click the 'Deactivate' button$/) do
+  VCR.use_cassette('actuators/deactivate') do
+    click_on 'Deactivate'
+  end
+  @command = Command.last
+end
+

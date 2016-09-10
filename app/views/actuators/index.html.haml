@@ -1,0 +1,23 @@
+%h1 Listing actuators
+
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th Name
+      %th Port
+      %th
+      %th
+      %th
+
+  %tbody
+    - @actuators.each do |actuator|
+      %tr
+        %td= actuator.name
+        %td= actuator.port
+        %td= link_to 'Show', actuator
+        %td= link_to 'Edit', edit_actuator_path(actuator)
+        %td= link_to 'Destroy', actuator, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Actuator', new_actuator_path, :class => "btn btn-primary"

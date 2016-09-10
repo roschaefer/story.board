@@ -25,5 +25,7 @@ module StoryBoard
 
 
     config.autoload_paths += %W(#{config.root}/lib/)
+
+    config.generators.helper = false
   end
 end
