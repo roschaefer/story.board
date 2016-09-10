@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910154241) do
+ActiveRecord::Schema.define(version: 20160910162827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,14 @@ ActiveRecord::Schema.define(version: 20160910154241) do
   end
 
   add_index "text_components", ["report_id"], name: "index_text_components_on_report_id", using: :btree
+
+  create_table "tweets", force: :cascade do |t|
+    t.string   "user"
+    t.text     "message"
+    t.datetime "tweeted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "variables", force: :cascade do |t|
     t.string   "key"
