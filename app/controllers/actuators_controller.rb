@@ -22,7 +22,7 @@ class ActuatorsController < ApplicationController
   end
 
   def activate
-    @actuator.activate!
+    @actuator.activate!(synchronous: true)
     redirect_to @actuator
   end
 
