@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910105949) do
+ActiveRecord::Schema.define(version: 20160910154241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 20160910105949) do
   end
 
   add_index "actuators", ["name"], name: "index_actuators_on_name", unique: true, using: :btree
+
+  create_table "chains", force: :cascade do |t|
+    t.integer  "actuator_id"
+    t.integer  "function"
+    t.string   "hashtag"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "chains", ["actuator_id"], name: "index_chains_on_actuator_id", using: :btree
 
   create_table "commands", force: :cascade do |t|
     t.integer  "actuator_id"
@@ -142,6 +152,7 @@ ActiveRecord::Schema.define(version: 20160910105949) do
   add_index "variables", ["key"], name: "index_variables_on_key", unique: true, using: :btree
   add_index "variables", ["report_id"], name: "index_variables_on_report_id", using: :btree
 
+  add_foreign_key "chains", "actuators"
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
   add_foreign_key "conditions", "text_components"

@@ -1,5 +1,6 @@
 class Command < ActiveRecord::Base
-  enum function: [:activate, :deactivate]
+  FUNCTIONS =  [:activate, :deactivate]
+  enum function: FUNCTIONS
   enum status: {pending: 0, executed: 1, errored: 2, dropped: 3}
 
   DEVICE_ID = '1e0033001747343339383037'
