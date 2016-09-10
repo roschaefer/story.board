@@ -20,7 +20,7 @@ RSpec.describe Actuator, type: :model do
 
     it 'created command is not yet executed' do
       subject
-      expect(Command.last.executed).to be_falsy
+      expect(Command.last).to be_pending
     end
 
     it 'created command\'s value == :on' do
