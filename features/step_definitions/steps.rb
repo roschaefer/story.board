@@ -452,7 +452,7 @@ end
 
 Given(/^my reporter box has the id "([^"]*)"$/) do |id|
   # as long as we don't have the box, fake it
-  @box_id = id
+  Command::DEVICE_ID = id
 end
 
 Given(/^there is an actuator with id "([^"]*)" that controls a light in my reporter box$/) do |id|

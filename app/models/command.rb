@@ -8,11 +8,13 @@ class Command < ActiveRecord::Base
   end
 
   def url
+    url = "https://api.particle.io/v1/devices/#{device_id}"
     if value == 'on'
-      "https://api.particle.io/v1/devices/#{device_id}/activate"
+      url += '/activate'
     else
-      "https://api.particle.io/v1/devices/#{device_id}/deactivate"
+      url += '/deactivate'
     end
+    url
   end
 
   def payload
