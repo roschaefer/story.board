@@ -19,7 +19,7 @@
       %th Executed
       = render @actuator.commands
 %p
-  = button_to 'Activate', {action: 'activate'}, {class: 'btn btn-primary'}
+  = button_to 'Activate', [:activate, @actuator], {class: 'btn btn-primary'}
 
 = link_to 'Edit', edit_actuator_path(@actuator), :class => "btn btn-primary"
 = link_to 'Back', actuators_path, :class => "btn btn-secondary"
