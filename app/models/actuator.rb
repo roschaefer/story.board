@@ -3,6 +3,7 @@ class Actuator < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def activate!
-    Command.create!(actuator: self, executed: false, value: :on)
+    c = Command.create!(actuator: self, executed: false, value: :on)
+    c.run!
   end
 end
