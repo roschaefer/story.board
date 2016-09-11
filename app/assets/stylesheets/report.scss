@@ -1,3 +1,246 @@
 // Place all the styles related to the report controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.logostyle {
+    margin: auto;
+    padding: 10px;
+}
+
+.menustyle {
+    margin: auto;
+    padding: 10px;
+}
+
+p, a {
+    display: block;
+    text-align: justify;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    line-height: 1.25em;
+    font-size:1.2em;
+    color:black;
+}
+
+
+.col-lg-9 h1, p, a.add_fields {                                       //Der Erklärbereich
+font-family: "Helvetica Neue","Helvetica","Arial", sans-serif;
+color: #005689;
+
+}
+
+
+.btn.btn-primary {
+font-family: "Helvetica Neue","Helvetica","Arial", sans-serif;
+font-size: 1em;
+padding:1em;
+margin:5px;
+min-width:200px;
+}
+
+
+h1, h3 {
+color: #005689;
+
+    }
+
+h1 {
+  font-size: 3em;
+  line-height: 1.25rem;
+  font-weight: 300;
+-webkit-margin-before: 0.4em;
+-webkit-margin-after: 0.6em;
+}
+
+h3 {
+  font-size: 2em;
+  line-height: 1.25rem;
+  font-weight: 300;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 0.6em;
+}
+
+h4 {
+color: #333;
+    font-size: 1.8em;
+    line-height: 1.25rem;
+    font-family: "Guardian Egyptian Web","Guardian Text Egyptian Web",Georgia,serif;
+    font-weight: 500;
+  -webkit-margin-before: 1.3em;
+-webkit-margin-after: 0.65em;
+    }
+
+
+.live-report.well h3 {
+    font-size: 3.2em; //Headline SLR
+    line-height: 2.5rem;
+    font-family: "Guardian Egyptian Web","Guardian Text Egyptian Web",Georgia,serif;
+    font-weight: normal;
+    padding-top: 0.25rem;
+    color: #414141;
+    -webkit-margin-before: 0.1em;
+    -webkit-margin-after: 0.1em;
+  }
+
+
+.live-report.well strong, p, b {       //Bodytext SLR
+  font-family: "Guardian Egyptian Web","Guardian Text Egyptian Web",Georgia,serif;
+    font-weight: normal;
+    margin-bottom: 0.375em;
+    color: #767676;
+    line-height: 1.5em;
+    -webkit-margin-after: 0.1em;
+}
+
+.live-report.well em {   //Author line SLR
+color: #767676;
+font-weight:lighter;
+font-size:1em;
+}
+
+.live-report.well p {   //Author line SLR
+  font-size:1em;
+  line-height: 1.5em;
+}
+
+.live-report.well h4 {   //Author line SLR
+  font-weight:bolder;
+  color:#005689;
+}
+
+.live-report.well img { // Author Portrait
+  height:180px;
+  width:auto;
+  border:solid #ccc 3px;
+  float:left;
+  margin:10px 10px 10px 0px;
+
+}
+.sharebar {
+  width:100px;
+    border:solid green 3px;
+}
+
+.generatemenu.well {                           //Menu-Box Generate
+  border: 5px, bold, #ccc;
+  background:#84194B;
+  border-radius: 10px;
+
+}
+.generatemenu.well h3 {
+  font-family: "Helvetica Neue","Arial", sans-serif;
+color:#FDADBA;
+font-size:1.8em;
+  -webkit-margin-before: 0.3em;
+  -webkit-margin-after: 0.3em;
+}
+
+.generatemenu.well ul,a {
+  font-weight: 500;
+  font-size: 0.9em;
+  color:#CFA1B7;}
+
+.generatemenu.well li.nav-header  {
+  font-size: 1.1em;
+  color:#FDADBA;
+}
+
+.live-report.well {
+  border: 5px, bold, #ccc;
+  background:#f9f9f9;
+  border-radius: 10px;
+  width:80%;
+  min-width:650px;
+  margin-left:10%;
+}
+
+.navbar-brand .navbar-brand.collapse ul, li, a
+{
+  color:#ffffff;
+}
+
+.navbar-collapse.collapse.navbar-responsive-collapse a
+{
+  color:#ffffff;
+
+}
+
+.navbar-collapse.collapse.navbar-responsive-collapse a:hover
+{
+  color:#ccc;
+  background:#00456E;
+
+}
+
+.nav.navbar-nav a {
+    color:#ffffff;
+    font-size:1.1em;
+}
+
+.navbar {
+  //#00456E;
+    background:#005689;
+    min-height: 110px;
+    color:white;
+  }
+
+  ul.dropdown-menu {    // Menu-Items
+    background:#00456E;
+
+  }
+
+.table-striped {
+  background:#AADCE6;
+}
+
+th {
+  color: #FFFFFF;
+  background: #005689;
+}
+
+td a {
+  color:black;
+
+}
+
+hr {
+color: #767676;
+
+width:100%;
+}
+
+strong {
+  font-size: 1em;
+  color: #005689;
+  font-weight:400;
+
+}
+
+footer {
+  text-align: center;
+  background:#484848;
+  min-height:100px;
+  width:100%
+}
+  footer p, footer strong {
+    text-align: center;
+    font-size: 0.8em;
+    color: #B0A151;
+    -webkit-margin-before: 0.2em;
+  -webkit-margin-after: 0.2em;
+  }
+
+  footer img {
+    align-content: center;
+    width:150px;
+    float:none;
+  }
+
+.navbar-brand {
+
+  font-size:3em;
+}
+
+a.navbar-brand a {  color:white;}

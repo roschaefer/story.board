@@ -1,21 +1,36 @@
 %h1 Sensor Live Report
-%p
+%hr
+%strong
   Hey there! This is the live report of your experiment, automatically generated based on your sensor data! On every browser refresh, you will see a freshly generated live report on this page.
+%hr
 
-.live-report
+.live-report.well
   - if @report.video
-    %iframe{width: 640, height: 360, src: @report.video, frameborder: 0, type: 'text/html'}
-  %h3.main-heading= "#{@live_record.heading} (aktuell generiert)"
+    %iframe{width: 640, height: 360, src: @report.video, frameborder: 1, type: 'text/html'}
+ 
+  %p
+  %img{:src => asset_path("bertha-portrait.jpg")}
+  %h4.main-heading= "Preview"
+  %h3.main-heading= "#{@live_record.heading}"
   %p
     %strong
       = @live_record.introduction
+    %p
     %em
-      Autor: Sensor Live System
+      Autor: Sensor-Live-System –
+      frisch für Sie generiert
+  
   %p
     = @live_record.main_part.html_safe
   %p
     = @live_record.closing
+  %p
+  %img{:src => asset_path("share-icons.jpg"), :style => "border: 1px; width: 100%; height:auto; padding:10px"}
+  %em Composed by an amiable computer exclusively for you. No Reporters Were Harmed.
 
+%hr
+ 
+ 
 - @archived_records.each do |ar|
   .archived-report
     %h3.main-heading= "#{ar.heading} (#{ar.created_at.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_TIME_FORMAT)})"
@@ -23,8 +38,9 @@
       %strong
         = ar.introduction
       %em
-        Autor: Sensor Live System
+        Autor: Sensor-Live-System
     %p
       = ar.main_part.html_safe
     %p
       = ar.closing
+    

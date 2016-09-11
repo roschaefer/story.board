@@ -1,13 +1,27 @@
 %p#notice= notice
-
+%hr
+%h3 Actuator Identifiers
 %p
-  %b Name:
+  %strong Actuator-Name:
   = @actuator.name
+  %strong (Choose a unique name for your actuator and stick or write the name on your device.) 
 %p
-  %b Port:
+  %strong Port:
   = @actuator.port
+  %strong (The port number is engraved at the back panel of your reporter.box.) 
 %p
-  %h3 Commands
+  = link_to 'Edit', edit_actuator_path(@actuator), :class => "btn btn-primary"
+%hr
+%h3 Manually Control Actuator
+%p
+  = button_to 'Activate', [:activate, @actuator], {class: 'btn btn-primary'}
+%p
+  = button_to 'Deactivate', [:deactivate, @actuator], {class: 'btn btn-danger'}
+%p
+  = link_to 'Back', actuators_path, :class => "btn btn-secondary"
+%hr
+  %h3 List of Actuator Commands
+  %strong These are all Commands executed for this actuator.
   %table.table.table-striped.table-hover
     %tr
       %th Id
@@ -15,10 +29,4 @@
       %th Function
       %th Executed
       = render @actuator.commands
-%p
-  = button_to 'Activate', [:activate, @actuator], {class: 'btn btn-primary'}
-%p
-  = button_to 'Deactivate', [:deactivate, @actuator], {class: 'btn btn-danger'}
-
-= link_to 'Edit', edit_actuator_path(@actuator), :class => "btn btn-primary"
-= link_to 'Back', actuators_path, :class => "btn btn-secondary"
+%hr

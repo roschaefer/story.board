@@ -1,4 +1,17 @@
 %h1 Sensors
+%hr
+%strong Sensors a measuring devices connected to your reporter.box. Sensors are the main triggers for sensor live reports. These are all your sensors available. Add a new one!
+%hr
+%h3 Manage Sensors
+%strong Do you have a new sensor? Register it here!
+%p
+=link_to new_sensor_path, {:class => "btn btn-primary btn-lg"} do
+  %span.glyphicon.glyphicon-plus-sign
+  Add new sensor
+
+%hr
+%h3 Listing Sensors
+%strong This is a list of all registered sensors. Click on them to see details or edit them.
 %table.table.table-striped.table-hover
   %tr
     %th ID
@@ -9,5 +22,4 @@
       %td= sensor.id
       %td= link_to sensor.name, sensor_path(sensor)
       %td= sensor.address
-%p
-= link_to 'Add new sensor', new_sensor_path, :class => "btn btn-primary"
+

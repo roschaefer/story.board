@@ -1,6 +1,7 @@
 !!! 5
 %html(lang="en")
   %head
+
     %meta(charset="utf-8")
     %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
@@ -23,9 +24,10 @@
       .container
         %button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse")
           %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        %a.navbar-brand(href="/") story.board
+        %img{:src => asset_path("storyboard_logo.png"),:class => "logostyle"}
+        %span.glyphicon.glyphicon-user 
+        %em  Sign in
+        %p
         .navbar-collapse.collapse.navbar-responsive-collapse
           %ul.nav.navbar-nav
             %li= link_to "Text Components", text_components_path
@@ -48,11 +50,21 @@
           = bootstrap_flash
           = yield
         .col-lg-3
-          .well.sidebar-nav
-            %h3 Reports
+          .generatemenu.well.sidebar-nav
+            %h3 Generate Reports
             %ul.nav.nav-list
-              %li.nav-header What your readers see
-              %li= link_to "Live-System", "/reports/current"
-              %li= link_to "Preview (Fake Data)", "/reports/current?preview=true"
+              %li.nav-header Take a look at the Sensor-Live-Report as your readers will see it.
+              %p
+              =link_to "/reports/current?preview=true", {:class => "btn btn-primary btn-lg"} do
+                %span.glyphicon.glyphicon-play-circle
+                Preview Test-System
+              =link_to "/reports/current", {:class => "btn btn-primary btn-lg"} do
+                %span.glyphicon.glyphicon-play-circle
+                Live-System
+              
+              
       %footer
-        %p &copy; Dr. Jakob Vicari
+        %p
+        %strong No Reporters Were Harmed.
+        %p &copy; Dr. Jakob Vicari, www.sensor-live-reportage.de – Unterstützt durch Mittel des
+        %img{:src => asset_path("miz-logo_v1_schrift_rechts.jpg")}

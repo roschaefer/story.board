@@ -1,15 +1,29 @@
-%h1= @sensor.name
+%h1=@sensor.name
+%hr
+%strong This is one of your sensors connected to reporter.box. Here you see all we know about our cute connected device.
+%hr
+%h3 Sensor Identifiers
+%strong All you need to know to identify your sensor. 
 %p
-  %strong ID:
+  %strong Sensor-ID:
   = @sensor.id
+  %strong (The Sensor-ID is story.boards unique internal identifier for this sensor.)
 %p
   %strong Name:
   = @sensor.name
+  %strong (You'll find the name engraved on the back of your sensor case.)
 %p
   %strong Address:
   = @sensor.address
+  %strong (You'll find this address engraved on the the back of your sensor case at the bottom in a small font size.)
 %p
+%p
+  = link_to 'Edit', edit_sensor_path(@sensor), :class => "btn btn-primary"
+  = link_to 'Destroy', sensor_path(@sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+  = link_to 'Back', sensors_path, :class => "btn btn-secondary"
+%hr
   %h3 Sensor Readings
+  %strong These are all real measured values of your sensor.
   %table#sensor-readings-table-real.table.table-striped.table-hover
     %tr
       %th Id
@@ -17,7 +31,9 @@
       %th Calibrated Value
       %th Uncalibrated Value
       = render @real_readings
-  %h3 Fake Data
+  %hr
+  %h3 Fake Readings for Testing
+  %strong This fake data is generated and use for generating the Preview-Reports.
   %table#sensor-readings-table-fake.table.table-striped.table-hover
     %tr
       %th Id
@@ -27,7 +43,4 @@
       = render @fake_readings
 %p
   = render "generate_fake_sample_data"
-%p
-  = link_to 'Edit', edit_sensor_path(@sensor), :class => "btn btn-primary"
-  = link_to 'Destroy', sensor_path(@sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
-= link_to 'Back', sensors_path, :class => "btn btn-secondary"
+%hr

@@ -1,9 +1,10 @@
 = simple_form_for @report do |r|
+  %h3 General Settings
   = r.input :name
   = r.input :start_date
   = r.input :video, label: "Video URL"
   - unless @report.variables.empty?
-    %h3 Custom variables
+    %h3 Custom Variables
     = r.simple_fields_for :variables do |vf|
       = vf.input :value, label: vf.object.key
   = r.button :submit

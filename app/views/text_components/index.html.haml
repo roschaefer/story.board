@@ -1,8 +1,21 @@
 %h1 Text Components
+%hr
+%strong Text components are the building blocks of sensor live report. They depend on conditions, commands or events.
+%hr
+%h3 Manage Text Components
+%strong The more text components the better the later report. Create one now!
+%p
+%p
+=link_to new_text_component_path, {:class => "btn btn-primary btn-lg"} do
+  %span.glyphicon.glyphicon-plus-sign
+  Create new text component
+
+%hr
+%h3 List Text Components
+%strong These are all of your wonderful text components used to build a sensor live report.
 %table.table.table-striped.table-hover
   %tr
     %th Heading
   - @text_components.each do |text_component|
     %tr
       %td= link_to text_component.heading, text_component_path(text_component)
-=link_to 'Add new text component', new_text_component_path, :class => "btn btn-primary"

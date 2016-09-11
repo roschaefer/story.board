@@ -1,5 +1,16 @@
-%h1 Listing events
+%h1 Events
+%hr
+%strong Events could happen once in a cycle of sensor-life-report. Events can change the directon of your story dramatically. They are set automatically or by hand.
+%hr
+%h3 Manage Events
+%p
+=link_to new_event_path, {:class => "btn btn-primary btn-lg"} do
+  %span.glyphicon.glyphicon-plus-sign
+  Create new event
 
+%hr
+%h3 Listing Events
+%strong These are all your events:
 %table.table.table-striped.table-hover
   %thead
     %tr
@@ -18,4 +29,4 @@
 
 %br
 
-= link_to 'New Event', new_event_path, :class => "btn btn-primary"
+

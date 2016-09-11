@@ -1,5 +1,17 @@
-%h1 Listing actuators
+%h1 Actuators
+%hr
+%strong Actuators are devices connected to a port at reporter.box. The reporter.box can switch them on and off. This ist done with chains. These are all your actuators:
+%hr
+%h3 Manage Actuators
+%strong Do you have a new device you would like to connect to the Sensor-Live-Report? Create a new actuator!
+%p
+=link_to new_actuator_path, {:class => "btn btn-primary btn-lg"} do
+  %span.glyphicon.glyphicon-plus-sign
+  Create new actuator
 
+%hr
+%h3 Listing Actuators
+%strong This is a list off all actuators.
 %table.table.table-striped.table-hover
   %thead
     %tr
@@ -19,5 +31,3 @@
         %td= link_to 'Destroy', actuator, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
-
-= link_to 'New Actuator', new_actuator_path, :class => "btn btn-primary"
