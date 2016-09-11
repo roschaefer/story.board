@@ -76,8 +76,9 @@ module Text
           next_component = components[i+1]
           if next_component
             # HACK: this generator knows the output medium
-            result += "<br/>"
+            result += "</p>"
             result += "<h4 class=\"sub-heading\">#{next_component.heading}</h4>"
+            result += "<p>"
             character_count = 0 # reset character count
           end
         end
