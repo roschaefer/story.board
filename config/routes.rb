@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :chains
   resources :actuators do
     member do
       post :activate

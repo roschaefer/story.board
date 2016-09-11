@@ -1,0 +1,25 @@
+%h1 Listing chains
+
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th Actuator
+      %th Function
+      %th Hashtag
+      %th
+      %th
+      %th
+
+  %tbody
+    - @chains.each do |chain|
+      %tr
+        %td= chain.actuator
+        %td= chain.function
+        %td= chain.hashtag
+        %td= link_to 'Show', chain
+        %td= link_to 'Edit', edit_chain_path(chain)
+        %td= link_to 'Destroy', chain, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Chain', new_chain_path, class: 'btn btn-primary'

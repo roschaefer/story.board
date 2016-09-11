@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910105949) do
+ActiveRecord::Schema.define(version: 20160910220547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 20160910105949) do
   end
 
   add_index "actuators", ["name"], name: "index_actuators_on_name", unique: true, using: :btree
+
+  create_table "chains", force: :cascade do |t|
+    t.integer  "actuator_id"
+    t.integer  "function"
+    t.string   "hashtag"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "chains", ["actuator_id"], name: "index_chains_on_actuator_id", using: :btree
+  add_index "chains", ["hashtag"], name: "index_chains_on_hashtag", unique: true, using: :btree
 
   create_table "commands", force: :cascade do |t|
     t.integer  "actuator_id"
@@ -131,6 +142,20 @@ ActiveRecord::Schema.define(version: 20160910105949) do
 
   add_index "text_components", ["report_id"], name: "index_text_components_on_report_id", using: :btree
 
+  create_table "tweets", force: :cascade do |t|
+    t.string   "user"
+    t.text     "message"
+    t.datetime "tweeted_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "chain_id"
+    t.integer  "command_id"
+    t.string   "main_hashtag"
+  end
+
+  add_index "tweets", ["chain_id"], name: "index_tweets_on_chain_id", using: :btree
+  add_index "tweets", ["command_id"], name: "index_tweets_on_command_id", using: :btree
+
   create_table "variables", force: :cascade do |t|
     t.string   "key"
     t.string   "value"
@@ -142,8 +167,11 @@ ActiveRecord::Schema.define(version: 20160910105949) do
   add_index "variables", ["key"], name: "index_variables_on_key", unique: true, using: :btree
   add_index "variables", ["report_id"], name: "index_variables_on_report_id", using: :btree
 
+  add_foreign_key "chains", "actuators"
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
   add_foreign_key "conditions", "text_components"
+  add_foreign_key "tweets", "chains"
+  add_foreign_key "tweets", "commands"
   add_foreign_key "variables", "reports"
 end

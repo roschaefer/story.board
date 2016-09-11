@@ -490,3 +490,29 @@ When(/^I click the 'Deactivate' button$/) do
   @command = Command.last
 end
 
+Given(/^there is an actuator called "([^"]*)" connected at port "([^"]*)"$/) do |name, port|
+  create(:actuator, name: name, port: port)
+end
+
+Given(/^I have configured this chain:$/) do |table|
+  table.hashes.each do |row|
+    actuator = Actuator.find_by(name: row['Actuator'])
+    create(:chain,
+           actuator: actuator,
+           hashtag: row['Hashtag'],
+           function: row['Function'])
+  end
+end
+
+When(/^we receive this tweet from user @vicari for hashtag "([^"]*)":$/) do |hashtag, string|
+  create(:tweet, user: '@vicari', main_hashtag: hashtag, message: string)
+end
+
+Then(/^the following command is appended:$/) do |table|
+  row = table.hashes.first
+  command = Command.last
+  expect(command.function).to eq row['Function']
+  expect(command.status).to eq row['Status']
+  expect(command.actuator.name).to eq row['Actuator']
+end
+
