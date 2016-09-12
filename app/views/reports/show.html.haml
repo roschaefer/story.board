@@ -14,5 +14,8 @@
 %h3 Markup Blocks
 %strong Markup Blocks (Text variables) are a great way to insert custom names in your text.components. They replace markup like {exemplar} in text-components.
 = render 'variables'
-= link_to 'Edit all Settings', edit_report_path(@report), :class => "btn btn-primary"
+%p
+=link_to edit_report_path(@report), {:class => "btn btn-primary btn-lg"} do
+  %span.glyphicon.glyphicon-cog
+  Edit Settings
 = link_to 'Back', reports_path, :class => "btn btn-secondary"
