@@ -25,14 +25,14 @@
     - @chains.each do |chain|
       %tr
         %td= chain.hashtag
-        %td= chain.actuator.name
-        %td= chain.function        
+        %td= chain.actuator_name
+        %td= chain.function
         %td
-          =link_to chain_path(chain) do    
+          =link_to chain_path(chain) do
             %i.fa.fa-eye
           =link_to edit_chain_path(chain) do
             %i.fa.fa-pencil-square-o
-          =link_to chain, :method => :delete, :data => { :confirm => 'Are you sure?' } do    
+          =link_to chain, :method => :delete, :data => { :confirm => 'Are you sure?' } do
             %i.fa.fa-trash-o
 
 %br
