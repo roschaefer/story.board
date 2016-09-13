@@ -1,4 +1,4 @@
-%h1 Edit Text Component 
+%h1 Edit Text Component
 %hr
 %strong Edit your text component titled »#{@text_component.heading}«. Kill your darlings!
 %hr
@@ -24,14 +24,14 @@
       = f.input :main_part
       = f.input :closing
       %hr
-    .textcomponent.well 
+    .textcomponent.well
       %h3 Behavior
       = f.input :priority, as: :radio_buttons, collection: TextComponent.priorities.keys
       = f.input :timeliness_constraint, hint: "Text component will be triggered for sensor readings within the last X hours"
       %hr
 
-  .form-actions 
-    = f.submit 'Create new text component', class:'btn-primary btn-md'
+  .form-actions
+    = f.submit class:'btn btn-primary btn-md'
 
 
 
