@@ -11,23 +11,30 @@
 
 %hr
 %h3 Listing Actuators
-%strong This is a list off all actuators.
+%strong This is a list off all actuators. Choose 
+%i.fa.fa-eye 
+%strong &nbsp to view an actuator,
+%i.fa.fa-pencil-square-o 
+%strong &nbsp to edit or
+%i.fa.fa-trash-o 
+%strong &nbsp to destroy it.
 %table.table.table-striped.table-hover
   %thead
     %tr
       %th Name
       %th Port
-      %th
-      %th
-      %th
 
   %tbody
     - @actuators.each do |actuator|
       %tr
-        %td= actuator.name
+        %td
+          =actuator.name
+          =link_to actuator_path(actuator) do    
+            %i.fa.fa-eye
+          =link_to edit_actuator_path(actuator) do
+            %i.fa.fa-pencil-square-o
+          =link_to actuator, :method => :delete, :data => { :confirm => 'Are you sure?' } do    
+            %i.fa.fa-trash-o 
         %td= actuator.port
-        %td= link_to 'Show', actuator
-        %td= link_to 'Edit', edit_actuator_path(actuator)
-        %td= link_to 'Destroy', actuator, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br

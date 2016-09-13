@@ -1,4 +1,7 @@
-%h1 Edit Text Component
+%h1 Edit Text Component 
+%hr
+%strong Edit your text component titled »#{@text_component.heading}«. Kill your darlings!
+%hr
 = simple_form_for @text_component do |f|
   = f.error_notification
   .form-inputs
@@ -12,7 +15,7 @@
         = f.simple_fields_for :conditions do |condition|
           = render 'condition_fields', f: condition
         .links
-          = link_to_add_association 'add condition', f, :conditions
+          = link_to_add_association "add condition", f, :conditions
     .textcomponent.well
       %h3 Text
       = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }

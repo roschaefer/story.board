@@ -24,6 +24,16 @@ p, a {
     color:black;
 }
 
+.fa, .fa:hover{
+    display: inline-block;
+  	text-decoration: none;
+    white-space: nowrap;
+  }
+td .fa, td a { display:inline; }
+.fa:hover {
+    color: #84194B;
+}
+
 
 .col-lg-9 h1, p, a.add_fields {                                       //Der Erklärbereich
 font-family: "Helvetica Neue","Helvetica","Arial", sans-serif;
@@ -128,6 +138,12 @@ font-size:1em;
   border-radius: 10px;
 
 }
+
+.generatemenu.well img {                           //Menu-Box Generate
+  float:right;
+  width:80px;
+  height: auto;
+  }
 .generatemenu.well h3 {
   font-family: "Helvetica Neue","Arial", sans-serif;
 color:#FDADBA;
@@ -166,7 +182,7 @@ font-size:1.8em;
 .textcomponent.well h4 {
   font-family: "Helvetica Neue","Arial", sans-serif;
   color:#FDADBA;
-  font-size:1.2em;  
+  font-size:1.2em;
 }
 
 .navbar-brand .navbar-brand.collapse ul, li, a

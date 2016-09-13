@@ -1,6 +1,6 @@
 %h1 Chains
 %hr
-%strong Chains connect social media triggers with specific actuators performed by reporter.box. e.g: A tweet with hashtag "#light_on" will switcg a light bulb connected to a reporter box on. These are all your chains:
+%strong Chains connect social media triggers with specific actuators performed by reporter.box. e.g: A tweet with hashtag "#light_on" will switch a light bulb connected to a reporter box on. These are all your chains:
 %hr
 %h3 Manage Chains
 %strong Create a new chain to make your sensor-live-report more interactive!
@@ -20,18 +20,20 @@
       %th Actuator
       %th Function
       %th Controls
-      %th
-      %th
 
   %tbody
     - @chains.each do |chain|
       %tr
         %td= chain.hashtag
-        %td= chain.actuator
+        %td= chain.actuator.name
         %td= chain.function        
-        %td= link_to 'Show', chain
-        %td= link_to 'Edit', edit_chain_path(chain)
-        %td= link_to 'Destroy', chain, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td
+          =link_to chain_path(chain) do    
+            %i.fa.fa-eye
+          =link_to edit_chain_path(chain) do
+            %i.fa.fa-pencil-square-o
+          =link_to chain, :method => :delete, :data => { :confirm => 'Are you sure?' } do    
+            %i.fa.fa-trash-o
 
 %br
 

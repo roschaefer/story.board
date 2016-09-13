@@ -1,8 +1,12 @@
+%h1 View Chain
+%hr
+%strong Chains connect social media triggers with specific actuators performed by reporter.box. e.g: A tweet with hashtag "#light_on" will switch a light bulb connected to a reporter box on. What should this one do?
+%hr
 %p#notice= notice
 
 %p
   %b Actuator:
-  = @chain.actuator
+  = @chain.actuator.name
 %p
   %b Function:
   = @chain.function
@@ -10,6 +14,5 @@
   %b Hashtag:
   = @chain.hashtag
 
-= link_to 'Edit', edit_chain_path(@chain)
-\|
-= link_to 'Back', chains_path
+= link_to 'Edit', edit_chain_path(@chain), :class => "btn btn-primary"
+= link_to 'Back', chains_path, :class => "btn btn-secondary"

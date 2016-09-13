@@ -7,15 +7,24 @@
 %p
 %p
 =link_to new_text_component_path, {:class => "btn btn-primary btn-lg"} do
-  %span.glyphicon.glyphicon-plus-sign
+  %span.fa.fa-plus-circle
   Create new text component
 
 %hr
-%h3 List Text Components
-%strong These are all of your wonderful text components used to build a sensor live report.
+%h3 List of Text Components
+%strong These are all of your wonderful text components used to build a sensor live report. Choose 
+%i.fa.fa-eye &nbsp to view the text component or 
+%i.fa.fa-pencil-square-o &nbsp to edit it.
+
 %table.table.table-striped.table-hover
   %tr
-    %th Heading
+    %th Heading    
   - @text_components.each do |text_component|
-    %tr
-      %td= link_to text_component.heading, text_component_path(text_component)
+    %tr 
+      %td
+        =text_component.heading
+        =link_to text_component_path(text_component) do    
+          %i.fa.fa-eye
+        =link_to edit_text_component_path(text_component) do
+          %i.fa.fa-pencil-square-o 
+        

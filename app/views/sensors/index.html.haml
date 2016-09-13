@@ -6,20 +6,27 @@
 %strong Do you have a new sensor? Register it here!
 %p
 =link_to new_sensor_path, {:class => "btn btn-primary btn-lg"} do
-  %span.glyphicon.glyphicon-plus-sign
+  %span.fa.fa-plus-circle
   Add new sensor
 
 %hr
 %h3 Listing Sensors
-%strong This is a list of all registered sensors. Click on them to see details or edit them.
+%strong This is a list of all registered sensors. Choose 
+%i.fa.fa-eye &nbsp to view the sensor or 
+%i.fa.fa-pencil-square-o &nbsp to edit it.
 %table.table.table-striped.table-hover
   %tr
-    %th ID
-    %th Name
+    %th Sensor-Name
+    %th ID 
     %th Address
   - @sensors.each do |sensor|
     %tr
+      %td
+        =sensor.name
+        =link_to sensor_path(sensor) do    
+          %i.fa.fa-eye
+        =link_to edit_sensor_path(sensor) do
+          %i.fa.fa-pencil-square-o 
       %td= sensor.id
-      %td= link_to sensor.name, sensor_path(sensor)
       %td= sensor.address
 

@@ -1,11 +1,17 @@
+%h1 Edit Sensor "#{@sensor.name}"
+%hr
+%strong This is the place to connect the real world with our text composer. Please specify name, address and type of each sensor you plan to use in your sensor-live-report.
+%hr
 = simple_form_for @sensor do |f|
   = f.error_notification
 
   .form-inputs
     = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }
     = f.input :name
+    %strong (You'll find the name engraved on the back of your sensor case.)
     = f.input :address
+    %strong (You'll find this address engraved on the the back of your sensor case at the bottom in a small font size.)
     = f.association :sensor_type, label_method: :property, value_method: :id
-
+    %strong (Choose type of the sensor.)
   .form-actions
   = f.button :submit

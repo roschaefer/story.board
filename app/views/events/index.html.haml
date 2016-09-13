@@ -5,28 +5,30 @@
 %h3 Manage Events
 %p
 =link_to new_event_path, {:class => "btn btn-primary btn-lg"} do
-  %span.glyphicon.glyphicon-plus-sign
+  %span.fa.fa-plus-circle
   Create new event
 
 %hr
 %h3 Listing Events
-%strong These are all your events:
+%strong These are all of your events. Choose 
+%i.fa.fa-trash-o &nbsp to destroy an event or 
+%i.fa.fa-pencil-square-o &nbsp to edit it.
 %table.table.table-striped.table-hover
   %thead
     %tr
       %th Name
       %th Happened at
-      %th
-      %th
 
   %tbody
     - @events.each do |event|
       %tr
-        %td= event.name
+        %td
+          =event.name
+          =link_to edit_event_path(event) do
+            %i.fa.fa-pencil-square-o 
+          =link_to event, :method => :delete, :data => { :confirm => 'Are you sure?' } do    
+            %i.fa.fa-trash-o
         %td= event.happened_at
-        %td= link_to 'Edit', edit_event_path(event)
-        %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
 %br
 
 

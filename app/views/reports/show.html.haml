@@ -1,4 +1,4 @@
-%h1 Settings for #{@report.name}
+%h1 Settings for Report »#{@report.name}«
 %hr
 %strong Individualize your Sensor-Live-Report! Change start date and variables.
 %hr
@@ -10,12 +10,16 @@
 %p
   %strong Video URL:
   = @report.video
-  %hr
+%p
+  =link_to edit_report_path(@report), {:class => "btn btn-primary btn-lg"} do
+    %i.fa.fa-cogs
+    Edit Settings
+%hr
 %h3 Markup Blocks
-%strong Markup Blocks (Text variables) are a great way to insert custom names in your text.components. They replace markup like {exemplar} in text-components.
+%strong Markup Blocks (Text variables) are a great way to insert custom names in your text.components. Markup like key {exemplar} in a text-component will be replaced with its value "Bertha".
 = render 'variables'
 %p
 =link_to edit_report_path(@report), {:class => "btn btn-primary btn-lg"} do
-  %span.glyphicon.glyphicon-cog
+  %i.fa.fa-cogs
   Edit Settings
 = link_to 'Back', reports_path, :class => "btn btn-secondary"

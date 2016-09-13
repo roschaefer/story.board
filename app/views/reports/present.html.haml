@@ -10,23 +10,31 @@
  
   %p
   %img{:src => asset_path("bertha-portrait.jpg")}
-  %h4.main-heading= "Preview"
+  %h4.main-heading
+    Tag 20
   %h3.main-heading= "#{@live_record.heading}"
   %p
     %strong
       = @live_record.introduction
     %p
     %em
-      Autor: Sensor-Live-System –
-      frisch für Sie generiert
+      Text: Sensor-Live-System
   
   %p
     = @live_record.main_part.html_safe
   %p
     = @live_record.closing
   %p
-  %img{:src => asset_path("share-icons.jpg"), :style => "border: 1px; width: 100%; height:auto; padding:10px"}
-  %em Composed by an amiable computer exclusively for you. No Reporters Were Harmed.
+  .spread
+    .twshare.left
+      %a.twitter-share-button.left{"data-count" => "horizontal", "data-via" => "roboterreporter", :href => "http://twitter.com/share?text=Eine packende Sensor-Live-Reportage:"} Tweet
+      %script{:src => "http://platform.twitter.com/widgets.js", :type => "text/javascript"}
+    .fshare.left{:style => 'padding-left: 0px; margin-left: 0px;'}
+      %script{:src => "http://connect.facebook.net/de_DE/all.js#xfbml=1"}
+      %fb:like{:layout => "button_count", :show_faces => "false", :width => "450"}
+    
+  %em Composed by an amiable computer just some seconds ago exclusively for you. No Reporters Were Harmed.
+  %p
 
 %hr
  

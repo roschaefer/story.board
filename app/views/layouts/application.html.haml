@@ -52,15 +52,16 @@
           = yield
         .col-lg-3
           .generatemenu.well.sidebar-nav
+            -# %img{:src => asset_path("storyboard_generator_logo.png")}
             %h3 Generate Reports
             %ul.nav.nav-list
               %li.nav-header Take a look at the Sensor-Live-Report as your readers will see it.
               %p
               =link_to "/reports/current?preview=true", {:class => "btn btn-primary btn-lg"} do
-                %span.glyphicon.glyphicon-play-circle
+                %span.fa.fa-play-circle-o
                 Preview Test-System
               =link_to "/reports/current", {:class => "btn btn-primary btn-lg"} do
-                %span.glyphicon.glyphicon-play-circle
+                %span.fa.fa-play-circle-o
                 Live-System
               
               
