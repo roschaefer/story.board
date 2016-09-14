@@ -74,6 +74,6 @@ namespace :deploy do
     end
   end
 
-  after :finishing, :reassign_db_ownership
-  after :finishing, :restart_daemon
+  after :finished, :reassign_db_ownership
+  after :finished, :restart_daemon
 end
