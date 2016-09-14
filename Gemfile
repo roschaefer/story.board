@@ -56,6 +56,7 @@ group :development do
   gem 'capistrano', '~> 3.4'
   gem 'capistrano-rails', '~> 1.1'
   gem "capistrano-db-tasks", require: false
+  gem 'highline'
   gem 'guard'
   gem 'guard-rspec', require: false
 end
