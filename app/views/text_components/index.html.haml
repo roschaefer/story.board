@@ -1,5 +1,6 @@
 %h1 Text Components
 %hr
+%i.fa.fa-info-circle
 %strong Text components are the building blocks of your sensor-live-report. They depend on conditions, commands or events. They are handcrafted with love.
 %hr
 %h3 Manage Text Components
@@ -22,8 +23,8 @@
   - @text_components.each do |text_component|
     %tr 
       %td
-        =text_component.heading
-        =link_to text_component_path(text_component) do    
+        =link_to text_component_path(text_component) do   
+          =text_component.heading 
           %i.fa.fa-eye
         =link_to edit_text_component_path(text_component) do
           %i.fa.fa-pencil-square-o 

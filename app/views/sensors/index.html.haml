@@ -1,5 +1,6 @@
 %h1 Sensors
 %hr
+%i.fa.fa-info-circle
 %strong Sensors a measuring devices connected to your reporter.box. Sensors are the main triggers for sensor live reports. These are all your sensors available. Add a new one!
 %hr
 %h3 Manage Sensors
@@ -22,8 +23,8 @@
   - @sensors.each do |sensor|
     %tr
       %td
-        =sensor.name
-        =link_to sensor_path(sensor) do    
+        =link_to sensor_path(sensor) do 
+          =sensor.name   
           %i.fa.fa-eye
         =link_to edit_sensor_path(sensor) do
           %i.fa.fa-pencil-square-o 

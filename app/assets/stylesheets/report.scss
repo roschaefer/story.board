@@ -2,6 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+// Colors
+$white : #fff;
+$darkgrey : #414141;
+$grey : #bdbdbd;
+$lightgrey:#F6F6F6;
+$darkblue:#005689;
+$lightblue:#AEDCE7; //#4BC6DF;
+$lightgreen:#57f27b;
+$lightred:#ff632b;
+$magenta:#84194B;
+$rose:#FDADBA;
+$white:#ffffff;
+
 .logostyle {
     margin: auto;
     padding: 10px;
@@ -21,23 +35,24 @@ p, a {
     -webkit-margin-end: 0px;
     line-height: 1.25em;
     font-size:1.2em;
-    color:black;
+  //  color:$darkgrey;
 }
 
 .fa, .fa:hover{
     display: inline-block;
   	text-decoration: none;
     white-space: nowrap;
+    color: $darkblue;
   }
 td .fa, td a { display:inline; }
 .fa:hover {
-    color: #84194B;
+    color: $magenta;
 }
 
 
 .col-lg-9 h1, p, a.add_fields {                                       //Der Erklärbereich
 font-family: "Helvetica Neue","Helvetica","Arial", sans-serif;
-color: #005689;
+color: $darkblue;
 
 }
 
@@ -52,7 +67,7 @@ min-width:200px;
 
 
 h1, h3 {
-color: #005689;
+color: $darkblue;
 
     }
 
@@ -73,7 +88,7 @@ h3 {
 }
 
 h4 {
-color: #333;
+color: $grey;
     font-size: 1.8em;
     line-height: 1.25rem;
     font-family: "Guardian Egyptian Web","Guardian Text Egyptian Web",Georgia,serif;
@@ -88,7 +103,7 @@ color: #333;
     font-family: "Guardian Egyptian Web","Guardian Text Egyptian Web",Georgia,serif;
     font-weight: normal;
     padding-top: 0.25rem;
-    color: #414141;
+    color: $darkgrey;
     -webkit-margin-before: 0.1em;
     -webkit-margin-after: 0.1em;
   }
@@ -98,13 +113,13 @@ color: #333;
   font-family: "Guardian Egyptian Web","Guardian Text Egyptian Web",Georgia,serif;
     font-weight: normal;
     margin-bottom: 0.375em;
-    color: #767676;
+    color: $darkgrey;
     line-height: 1.5em;
     -webkit-margin-after: 0.1em;
 }
 
 .live-report.well em {   //Author line SLR
-color: #767676;
+color: $darkgrey;
 font-weight:lighter;
 font-size:1em;
 }
@@ -116,13 +131,13 @@ font-size:1em;
 
 .live-report.well h4 {   //Author line SLR
   font-weight:bolder;
-  color:#005689;
+  color:$darkblue;
 }
 
 .live-report.well img { // Author Portrait
   height:180px;
   width:auto;
-  border:solid #ccc 3px;
+  border:solid $grey 3px;
   float:left;
   margin:10px 10px 10px 0px;
 
@@ -133,8 +148,8 @@ font-size:1em;
 }
 
 .generatemenu.well {                           //Menu-Box Generate
-  border: 5px, bold, #ccc;
-  background:#84194B;
+  border: 5px, bold, $grey;
+  background:$magenta;
   border-radius: 10px;
 
 }
@@ -146,7 +161,7 @@ font-size:1em;
   }
 .generatemenu.well h3 {
   font-family: "Helvetica Neue","Arial", sans-serif;
-color:#FDADBA;
+color:$rose;
 font-size:1.8em;
   -webkit-margin-before: 0.3em;
   -webkit-margin-after: 0.3em;
@@ -155,16 +170,19 @@ font-size:1.8em;
 .generatemenu.well ul,a {
   font-weight: 500;
   font-size: 0.9em;
-  color:#CFA1B7;}
+  color:$rose;}
 
+.generatemenu.well .fa {
+  color:$white;
+}
 .generatemenu.well li.nav-header  {
   font-size: 1.1em;
-  color:#FDADBA;
+  color:$rose;
 }
 
 .live-report.well {
-  border: 5px, bold, #ccc;
-  background:#f9f9f9;
+  border: 5px, bold, $darkgrey;
+  background:$lightgrey;
   border-radius: 10px;
   width:80%;
   min-width:650px;
@@ -172,8 +190,8 @@ font-size:1.8em;
 }
 
 .textcomponent.well {
-  border: 5px, bold, #ccc;
-  background:#f9f9f9;
+  border: 5px, bold, $darkgrey;
+  background:$grey;
   border-radius: 10px;
   width:80%;
   min-width:450px;
@@ -181,75 +199,103 @@ font-size:1.8em;
 
 .textcomponent.well h4 {
   font-family: "Helvetica Neue","Arial", sans-serif;
-  color:#FDADBA;
+  color:$darkgrey;
   font-size:1.2em;
+}
+
+.textcomponent.panel {
+  font-family: "Helvetica Neue","Arial", sans-serif;
+  color:$darkblue;
+  background:$lightgrey;
+  font-size:1.2em;
+  border-radius: 5px;
+}
+
+.textcomponent.panel.heading {
+  background:$magenta;
+  color: $white;
+  min-height: 40px;
+  }
+
+  .textcomponent.panel-title {
+      font-size: 1.3em;
+  }
+
+
+
+.textcomponent.panel h4 {
+  font-family: "Helvetica Neue","Arial", sans-serif;
+  color:$grey;
+  font-size:1.2em;
+  -webkit-margin-before: 0.1em;
+  padding: 0px;
 }
 
 .navbar-brand .navbar-brand.collapse ul, li, a
 {
-  color:#ffffff;
+  color:$white;
 }
 
 .navbar-collapse.collapse.navbar-responsive-collapse a
 {
-  color:#ffffff;
+  color:$white;
 
 }
 
 .navbar-collapse.collapse.navbar-responsive-collapse a:hover
 {
-  color:#ccc;
-  background:#00456E;
+  color:$grey;
+  background:$darkblue;
 
 }
 
 .nav.navbar-nav a {
-    color:#ffffff;
+    color:$white;
     font-size:1.1em;
 }
 
 .navbar {
   //#00456E;
-    background:#005689;
+    background:$darkblue;
     min-height: 110px;
     color:white;
   }
 
   ul.dropdown-menu {    // Menu-Items
-    background:#00456E;
+    background:$darkblue;
 
   }
 
 .table-striped {
-  background:#AADCE6;
+  background:$lightblue;
 }
 
 th {
-  color: #FFFFFF;
-  background: #005689;
+  color: $white;
+  background: $darkblue;
 }
 
 td a {
-  color:black;
+  color:$darkgrey;
 
 }
 
 hr {
-color: #767676;
+color: $darkgrey;
 
 width:100%;
 }
 
 strong {
   font-size: 1em;
-  color: #005689;
+  color: $darkblue;
   font-weight:400;
 
 }
 
 footer {
   text-align: center;
-  background:#484848;
+  background:$darkblue;
   min-height:100px;
   width:100%
   }
@@ -257,7 +303,7 @@ footer {
 footer p, footer strong {
     text-align: center;
     font-size: 0.8em;
-    color: #4BC6DF;
+    color: $lightblue;
     -webkit-margin-before: 0.2em;
   -webkit-margin-after: 0.2em;
   }
@@ -268,9 +314,20 @@ footer p, footer strong {
     float:none;
   }
 
-.navbar-brand {
+a.navbar-brand a {color:white;}
 
-  font-size:3em;
+#measure_range_slider .slider-track-high {
+	background: $lightgreen;
 }
 
-a.navbar-brand a {  color:white;}
+#measure_range_slider .slider-track-low {
+	background: $lightred;
+}
+
+#measure_range_slider .slider-selection, #time_range_slider .slider-selection  {
+  background: $lightblue;
+}
+
+#time_range_slider .slider-track-low, #time_range_slider .slider-track-high {
+	background: $grey
+}
