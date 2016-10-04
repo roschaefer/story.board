@@ -1,6 +1,7 @@
 = simple_form_for @report do |r|
   = r.input :name
   = r.input :start_date
+  = r.input :duration
   = r.input :video, label: "Video URL"
   - unless @report.variables.empty?
     %h3 Custom variables
