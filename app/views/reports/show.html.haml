@@ -2,6 +2,13 @@
 %p
   %strong Start Date:
   = @report.start_date
+- if @report.end_date
+  %p
+    %strong End date:
+    = @report.end_date
+%p
+  %strong Duration in days
+  = @report.duration
 %p
   %strong Video URL:
   = @report.video

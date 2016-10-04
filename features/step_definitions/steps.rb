@@ -168,6 +168,15 @@ When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_d
   select day, from: 'report_start_date_3i'
 end
 
+When(/^I choose "([^"]*)" to be the end date of the experiment$/) do |end_date|
+  @date = Date.parse(end_date)
+
+  day, month, year = end_date.split
+  select year, from: 'report_end_date_1i'
+  select month, from: 'report_end_date_2i'
+  select day, from: 'report_end_date_3i'
+end
+
 Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
   expect(Report.find_by(name: name).start_date).to eq @date
 end
@@ -516,3 +525,14 @@ Then(/^the following command is appended:$/) do |table|
   expect(command.actuator.name).to eq row['Actuator']
 end
 
+Then(/^I can see that the duration of the experiment is (\d+) days$/) do |number|
+  expect(page).to have_text("#{number} days")
+end
+
+When(/^enter "([^"]*)" as duration for my experiment$/) do |duration|
+  fill_in 'Duration', with: duration.to_i
+end
+
+Then(/^I can see that my experiment will end on "([^"]*)"$/) do |date|
+  expect(page).to have_text(date)
+end

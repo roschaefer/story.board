@@ -33,4 +33,10 @@ class Report < ActiveRecord::Base
     generated = generator.generate
     Record.new(generated.merge(report: self, intention: opts[:intention]))
   end
+
+  def end_date
+    if start_date && duration
+      start_date + duration.days
+    end
+  end
 end
