@@ -1,7 +1,16 @@
 .nested-fields
   = f.association :sensor, label_method: :name_and_id, value_method: :id
-  = f.input :from
-  = f.input :to
+  = f.input :from, placeholder: '0'
+  = f.input :to, placeholder: '10'
+  %h4 Range of Measurements:
+  1
+  %input{:id =>"measure_range", :type=>"text", :value[1]=>:from}
+  10
+  :javascript
+    new Slider("#measure_range", {id: "measure_range_slider", min: 1, max: 10, range: true, value: [3, 7],tooltip_position:'bottom',tooltip_split:'true' });
+    
+
+    
   = link_to_remove_association "remove condition", f
 
 

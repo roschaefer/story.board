@@ -1,7 +1,11 @@
 %h1 Editing actuator
+%hr
+%i.fa.fa-info-circle
+%strong Actuators are devices connected to a port at reporter.box. The reporter.box can switch them on and off. This ist done with chains. Edit your actuator now.
+%hr
 
 = render 'form'
 
-= link_to 'Show', @actuator
+= link_to 'Show', @actuator, :class => "btn btn-secondary"
 \|
-= link_to 'Back', actuators_path
+= link_to 'Back', actuators_path, :class => "btn btn-secondary"

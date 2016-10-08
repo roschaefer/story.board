@@ -1,3 +1,8 @@
+%h1 Overview Text Component
+%hr
+%strong This is your text component titled »#{@text_component.heading}« and the connected sensors. Read it or change it with EDIT.
+%hr
+%h3 Text
 %p
   %strong Heading:
   = @text_component.heading
@@ -10,6 +15,8 @@
 %p
   %strong Closing:
   = @text_component.closing
+%hr
+%h3 Behavior
 %p
   %strong Priority:
   = @text_component.priority

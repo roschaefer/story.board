@@ -1,25 +1,40 @@
-%h1 Listing chains
+%h1 Chains
+%hr
+%i.fa.fa-info-circle
+%strong Chains connect social media triggers with specific actuators performed by reporter.box. e.g: A tweet with hashtag "#light_on" will switch a light bulb connected to a reporter box on. These are all your chains:
+%hr
+%h3 Manage Chains
+%strong Create a new chain to make your sensor-live-report more interactive!
+%p
+=link_to new_chain_path, {:class => "btn btn-primary btn-lg"} do
+  %span.glyphicon.glyphicon-plus-sign
+  Create new chain
+
+%hr
+%h3 Listing chains
+%strong This is a list of all your chains. Click on them with actuator, function and hashtag.
 
 %table.table.table-striped.table-hover
   %thead
     %tr
+      %th Hashtag
       %th Actuator
       %th Function
-      %th Hashtag
-      %th
-      %th
-      %th
+      %th Controls
 
   %tbody
     - @chains.each do |chain|
       %tr
-        %td= chain.actuator
-        %td= chain.function
         %td= chain.hashtag
-        %td= link_to 'Show', chain
-        %td= link_to 'Edit', edit_chain_path(chain)
-        %td= link_to 'Destroy', chain, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= chain.actuator_name
+        %td= chain.function
+        %td
+          =link_to chain_path(chain) do
+            %i.fa.fa-eye
+          =link_to edit_chain_path(chain) do
+            %i.fa.fa-pencil-square-o
+          =link_to chain, :method => :delete, :data => { :confirm => 'Are you sure?' } do
+            %i.fa.fa-trash-o
 
 %br
 
-= link_to 'New Chain', new_chain_path, class: 'btn btn-primary'

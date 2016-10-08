@@ -1,8 +1,30 @@
 %h1 Text Components
+%hr
+%i.fa.fa-info-circle
+%strong Text components are the building blocks of your sensor-live-report. They depend on conditions, commands or events. They are handcrafted with love.
+%hr
+%h3 Manage Text Components
+%strong The more text components the better the later report. Create a new text component now!
+%p
+%p
+=link_to new_text_component_path, {:class => "btn btn-primary btn-lg"} do
+  %span.fa.fa-plus-circle
+  Add new text component
+
+%hr
+%h3 List of Text Components
+%strong These are all of your wonderful text components used to build a sensor live report. Choose 
+%i.fa.fa-eye &nbsp to view the text component or 
+%i.fa.fa-pencil-square-o &nbsp to edit it.
+
 %table.table.table-striped.table-hover
   %tr
-    %th Heading
+    %th Heading    
   - @text_components.each do |text_component|
-    %tr
-      %td= link_to text_component.heading, text_component_path(text_component)
-=link_to 'Add new text component', new_text_component_path, :class => "btn btn-primary"
+    %tr 
+      %td
+        =link_to text_component_path(text_component) do   
+          =text_component.heading 
+          %i.fa.fa-eye
+        =link_to edit_text_component_path(text_component) do
+          %i.fa.fa-pencil-square-o 
