@@ -1,14 +1,14 @@
-Feature: Choose Text Component by Condition
+Feature: Choose Trigger by Condition
   As a journalist
-  I want text components to appear in the live report only if certain conditions hold
+  I want triggers to appear in the live report only if certain conditions hold
   So the live report delivers some meaning about the recently received sensor readings
 
   Background:
     Given there is a sensor live report
 
   Scenario: Check if sensor reading is within range
-    Given for my current report I have these text components prepared:
-      | Sensor    | From | To   | Text Component       |
+    Given for my current report I have these triggers prepared:
+      | Sensor    | From | To   | Trigger       |
       | Temp123   | 20°C | 25°C | It's nice today.     |
       | Bright456 | 0    | 3    | I can't see a thing! |
     And the latest sensor data looks like this:

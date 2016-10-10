@@ -4,7 +4,7 @@ class Report < ActiveRecord::Base
   DATE_TIME_FORMAT = "#{DATE_FORMAT}, %H:%M Uhr"
 
 
-  has_many :text_components
+  has_many :triggers
   has_many :sensors
   has_many :records
   has_many :variables, dependent: :destroy
@@ -14,8 +14,8 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_text_components(opts={})
-    text_components.select {|c| c.active?(opts) }
+  def active_triggers(opts={})
+    triggers.select {|c| c.active?(opts) }
   end
 
   def archive!(intention: :real)

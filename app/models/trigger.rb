@@ -1,4 +1,4 @@
-class TextComponent < ActiveRecord::Base
+class Trigger < ActiveRecord::Base
   belongs_to :report
   has_many :sensors, through: :conditions
   has_and_belongs_to_many :events

@@ -1,6 +1,6 @@
-Feature: Create Text Component
+Feature: Create Trigger
   As a journalist
-  I want to create new text components for my live report
+  I want to create new triggers for my live report
   To control the input for the text generator
 
 
@@ -10,9 +10,9 @@ Feature: Create Text Component
   Scenario:
     Given I am the journalist
     When I visit the landing page
-    And I click on "Text Components" in my dashboard
-    And I click on "Add new text component" to create a new text component
+    And I click on "Triggers" in my dashboard
+    And I click on "Add new trigger" to create a new trigger
     And I type in some text for Heading, Introduction, Main part, Closing
     And I confirm the dialog
-    Then I have a new text component for my live report in the database
+    Then I have a new trigger for my live report in the database
 

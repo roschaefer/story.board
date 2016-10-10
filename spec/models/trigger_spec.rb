@@ -1,46 +1,46 @@
 require 'rails_helper'
 
-describe TextComponent, type: :model do
-  let(:text_component) { create :text_component }
+describe Trigger, type: :model do
+  let(:trigger) { create :trigger }
   let(:sensor) { create(:sensor) }
 
   context 'without a report' do
-    specify { expect(build(:text_component, report: nil)).not_to be_valid }
+    specify { expect(build(:trigger, report: nil)).not_to be_valid }
   end
 
   describe '#priority' do
     it 'defaults to :medium' do
-      text_component = build(:text_component)
-      expect(text_component.priority).to eq "medium"
+      trigger = build(:trigger)
+      expect(trigger.priority).to eq "medium"
     end
   end
 
 
   describe '#events' do
-    subject { text_component.events }
-    let(:event) { create(:event, text_components: [text_component]) }
+    subject { trigger.events }
+    let(:event) { create(:event, triggers: [trigger]) }
     before { event }
-    it 'condition connects a text component and a sensor' do
+    it 'condition connects a trigger and a sensor' do
       is_expected.to include(event)
     end
   end
 
   describe '#sensors' do
-    subject { text_component.sensors }
-    before { create(:condition, text_component: text_component, sensor: sensor) }
-    it 'condition connects a text component and a sensor' do
+    subject { trigger.sensors }
+    before { create(:condition, trigger: trigger, sensor: sensor) }
+    it 'condition connects a trigger and a sensor' do
       is_expected.to include(sensor)
     end
   end
 
   describe '#active?' do
-    subject { text_component.active? }
+    subject { trigger.active? }
     context 'without any conditions is considered active' do
       it { is_expected.to be_truthy }
     end
 
     context 'with connected sensor' do
-      let(:condition) { create :condition, sensor: sensor, text_component: text_component, from: 1, to: 3 }
+      let(:condition) { create :condition, sensor: sensor, trigger: trigger, from: 1, to: 3 }
       before { condition }
 
       context 'and last calibrated value in range' do
@@ -60,7 +60,7 @@ describe TextComponent, type: :model do
             let(:condition) do
               create(:condition,
                      sensor: sensor,
-                     text_component: text_component,
+                     trigger: trigger,
                      from: hash[:from],
                      to: hash[:to])
             end
@@ -87,11 +87,11 @@ describe TextComponent, type: :model do
         end
 
         describe '#active? :real' do
-          subject { text_component.active? intention: :real }
+          subject { trigger.active? intention: :real }
           it { is_expected.to be_falsy }
         end
         describe '#active? :fake' do
-          subject { text_component.active? intention: :fake }
+          subject { trigger.active? intention: :fake }
           it { is_expected.to be_truthy }
         end
       end

@@ -1,0 +1,21 @@
+%p
+  %strong Heading:
+  = @trigger.heading
+%p
+  %strong Introduction:
+  = @trigger.introduction
+%p
+  %strong Main Part:
+  = @trigger.main_part
+%p
+  %strong Closing:
+  = @trigger.closing
+%p
+  %strong Priority:
+  = @trigger.priority
+%p
+  %strong Within
+  = "the last #{@trigger.timeliness_constraint} hours"
+= link_to 'Edit', edit_trigger_path(@trigger), :class => "btn btn-primary"
+= link_to 'Destroy', trigger_path(@trigger), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+= link_to 'Back', triggers_path, :class => "btn btn-secondary"

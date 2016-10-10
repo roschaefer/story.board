@@ -9,7 +9,7 @@ Feature: Choose only one heading
     And I am the journalist
 
   Scenario: The highest prioritized heading is chosen for the report
-    Given I have these active text components:
+    Given I have these active triggers:
       | Priority | Heading                                   |
       | high     | Using headings in your report             |
       | low      | Recommended Headings for Business Reports |
@@ -25,7 +25,7 @@ Feature: Choose only one heading
 
 
   Scenario: In case of a draw, chose a heading randomly
-    Given I have these active text components:
+    Given I have these active triggers:
       | Priority | Heading                                   |
       | high     | Using headings in your report             |
       | high     | Basic report structure                    |

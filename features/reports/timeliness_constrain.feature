@@ -1,7 +1,7 @@
 @76
 Feature: Add timeliness constraint
   As a journalist
-  I want to define that a text component will be triggered only for a recent sensor reading
+  I want to define that a trigger will be triggered only for a recent sensor reading
   Because e.g. a loud noise from five days ago is not relevant anymore
 
   Background:
@@ -10,8 +10,8 @@ Feature: Add timeliness constraint
     Given I have these sensors and sensor types in my database
       | Sensor | Property | Unit |
       | Noise1 | Sound    | dB   |
-    Given for my sensors I have these text components prepared:
-      | Sensor | From   | To     | Timeliness | Text Component           |
+    Given for my sensors I have these triggers prepared:
+      | Sensor | From   | To     | Timeliness | Trigger           |
       | Noise1 | 100 dB | 200 dB | 1          | Holy sh** what was that? |
       | Noise1 | 50 dB  | 200 dB |            | It is quite loud         |
 

@@ -5,15 +5,15 @@ Feature: Insert break and add sub-headings
   Because small chunks of texts are easier to read
 
   Details:
-  * Every 500+ characters an automated break after last text component
-  * Heading of next text component becomes subheading
+  * Every 500+ characters an automated break after last trigger
+  * Heading of next trigger becomes subheading
 
   Background:
     Given there is a sensor live report
     And I am the journalist
 
   Scenario: In case of a draw, chose a heading randomly
-    Given I have these active text components:
+    Given I have these active triggers:
       | Priority | Heading                                   |
       | high     | Using headings in your report             |
       | low      | Wow, this is really boring                |

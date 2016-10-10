@@ -1,4 +1,4 @@
-= simple_form_for @text_component do |f|
+= simple_form_for @trigger do |f|
   = f.error_notification
 
   .form-inputs
@@ -7,7 +7,7 @@
     = f.input :introduction
     = f.input :main_part
     = f.input :closing
-    = f.input :priority, as: :radio_buttons, collection: TextComponent.priorities.keys
+    = f.input :priority, as: :radio_buttons, collection: Trigger.priorities.keys
     = f.input :timeliness_constraint, hint: "Text component will be triggered for sensor readings within the last X hours"
     #events
       = f.association :events, as: :check_boxes, label_method: :name_and_id

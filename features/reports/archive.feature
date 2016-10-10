@@ -9,8 +9,8 @@ Feature: Archive Reports
     And I have these sensors and sensor types in my database
       | Sensor | Property   | Unit |
       | Wind   | Wind force | km/h |
-    And for my sensors I have these text components prepared:
-      | Sensor | From | To | Text Component                     |
+    And for my sensors I have these triggers prepared:
+      | Sensor | From | To | Trigger                     |
       | Wind   | 0    | 40 | Not very windy today.              |
       | Wind   | 40   | 80 | Watch out, it's quite windy today. |
     And the latest sensor data looks like this:

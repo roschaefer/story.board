@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :reports
 
   root to: redirect('/reports/current')
-  resources :text_components
+  resources :triggers
   resources :sensors
   resources :sensor_readings, default: { format: :json }
   post 'sensor_readings/fake', to: 'sensor_readings#fake', default: { format: :json }

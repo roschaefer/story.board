@@ -8,8 +8,8 @@ Feature: Preview
     And I am the journalist
 
   Scenario: Show a Preview of the Live-Report based on Fake Data
-    Given for my current report I have these text components prepared:
-      | Sensor    | From | To   | Text Component                                  |
+    Given for my current report I have these triggers prepared:
+      | Sensor    | From | To   | Trigger                                  |
       | Temp123   | 30°C | 40°C | The consequences of global warming fall upon us |
       | Bright456 | 7    | 10   | Oh gosh, my eyes hurt!                          |
     And there is some generated test data:

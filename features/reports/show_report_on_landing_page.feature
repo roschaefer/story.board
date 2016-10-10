@@ -16,11 +16,11 @@ Feature: Show Report on Landing Page
   Scenario: Read about the Latest Data
     Given I have a sensor for the current report called "Temperature123"
     And this sensor just measured a temperature of 30°C
-    And I prepared a text component for this sensor with this introduction:
+    And I prepared a trigger for this sensor with this introduction:
     """
     Oh my god it's so hot right now! I'm dying.
     """
-    And this text component should trigger for a value between 25°C and 45°C
+    And this trigger should trigger for a value between 25°C and 45°C
     When I visit the landing page
     Then I should see:
     """

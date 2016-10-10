@@ -52,15 +52,15 @@ RSpec.describe Report, type: :model do
     end
   end
 
-  describe '#active_text_components' do
-    subject { report.active_text_components }
+  describe '#active_triggers' do
+    subject { report.active_triggers }
     let(:sensor)          { create :sensor }
     it { is_expected.to be_empty }
 
-    context 'given a text component connected to a sensor via a certain condition' do
-      let(:text_component) { create :text_component, report: report }
+    context 'given a trigger connected to a sensor via a certain condition' do
+      let(:trigger) { create :trigger, report: report }
       before do
-        create(:condition, sensor: sensor, text_component: text_component, from: 1, to: 3)
+        create(:condition, sensor: sensor, trigger: trigger, from: 1, to: 3)
       end
 
       context 'for sensor readings with a certain intent' do
@@ -69,27 +69,27 @@ RSpec.describe Report, type: :model do
           create(:sensor_reading, sensor: sensor, intention: :real, calibrated_value: 0)
         end
 
-        describe '#active_text_components :real' do
-          subject { report.active_text_components intention: :real }
-          it { is_expected.not_to include text_component }
+        describe '#active_triggers :real' do
+          subject { report.active_triggers intention: :real }
+          it { is_expected.not_to include trigger }
         end
-        describe '#active_text_components :fake' do
-          subject { report.active_text_components intention: :fake }
-          it { is_expected.to include text_component }
+        describe '#active_triggers :fake' do
+          subject { report.active_triggers intention: :fake }
+          it { is_expected.to include trigger }
         end
       end
     end
 
     context 'sensor reading value is upper boundary and lower boundary' do
-      let(:lower) { create(:text_component, report: report, heading: 'Lower') }
-      let(:upper) { create(:text_component, report: report, heading: 'Upper') }
+      let(:lower) { create(:trigger, report: report, heading: 'Lower') }
+      let(:upper) { create(:trigger, report: report, heading: 'Upper') }
       before do
         create(:sensor_reading, sensor: sensor, calibrated_value: 10)
-        create(:condition, text_component: lower, sensor: sensor, from: 0, to: 10)
-        create(:condition, text_component: upper, sensor: sensor, from: 10, to: 20)
+        create(:condition, trigger: lower, sensor: sensor, from: 0, to: 10)
+        create(:condition, trigger: upper, sensor: sensor, from: 10, to: 20)
       end
 
-      it 'contains only one text component - the upper text component' do
+      it 'contains only one trigger - the upper trigger' do
         expect(subject).to contain_exactly(upper)
       end
     end

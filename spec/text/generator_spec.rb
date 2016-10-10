@@ -7,18 +7,18 @@ RSpec.describe Text::Generator do
 
   describe '#choose_heading' do
     subject { super().choose_heading }
-    let(:report) { create(:report, text_components: text_components) }
+    let(:report) { create(:report, triggers: triggers) }
 
-    context 'for text components with several headings and priorities' do
-      let(:text_components) do
-        [:low, :medium, :high].collect { |p| create(:text_component, heading: "Heading with priority #{p}", priority: p) }
+    context 'for triggers with several headings and priorities' do
+      let(:triggers) do
+        [:low, :medium, :high].collect { |p| create(:trigger, heading: "Heading with priority #{p}", priority: p) }
       end
       it { is_expected.to eq 'Heading with priority high'}
     end
 
-    context 'for text components with several headings but without priorities' do
-      let(:text_components) do
-        [:low, :medium, :high].collect { |p| create(:text_component, heading: "Heading with priority #{p}", priority: nil) }
+    context 'for triggers with several headings but without priorities' do
+      let(:triggers) do
+        [:low, :medium, :high].collect { |p| create(:trigger, heading: "Heading with priority #{p}", priority: nil) }
       end
       it { is_expected.to include 'Heading'} # any of those headings
     end
@@ -29,22 +29,22 @@ RSpec.describe Text::Generator do
 
     it { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
 
-    context 'given text components' do
-      let(:report)         { create(:report, text_components: [text_component]) }
-      let(:text_component) { create(:text_component, main_part: main_part) }
+    context 'given triggers' do
+      let(:report)         { create(:report, triggers: [trigger]) }
+      let(:trigger) { create(:trigger, main_part: main_part) }
       let(:main_part)      { "some content" }
 
       it { is_expected.to have_value("some content")}
 
       describe 'report markup' do
         describe 'report name' do
-          let(:report)    { create(:report, text_components: [text_component], name: 'Foobar') }
+          let(:report)    { create(:report, triggers: [trigger], name: 'Foobar') }
           let(:main_part) { "Say something about { report}." }
           it { is_expected.to have_value("Say something about Foobar.")}
         end
 
         describe 'report variables' do
-          let(:report)    { create(:report, text_components: [text_component], variables: variables) }
+          let(:report)    { create(:report, triggers: [trigger], variables: variables) }
           let(:variables) { [ create(:variable, key: 'cool_thing', value: 'sth. cool') ] }
           let(:main_part) { "Say something about { cool_thing }." }
           it { is_expected.to have_value("Say something about sth. cool.")}
@@ -59,7 +59,7 @@ RSpec.describe Text::Generator do
       end
 
       context 'given an event' do
-        let(:event)      { create(:event, id: 42, name: "DEATH", text_components: [text_component], happened_at: nil) }
+        let(:event)      { create(:event, id: 42, name: "DEATH", triggers: [trigger], happened_at: nil) }
         before { event }
         it('event must happen first') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
         context 'has happened' do
@@ -76,7 +76,7 @@ RSpec.describe Text::Generator do
       end
 
       context 'given a condition' do
-        let(:condition)      { create(:condition, sensor: sensor, text_component: text_component, from: 0, to: 10) }
+        let(:condition)      { create(:condition, sensor: sensor, trigger: trigger, from: 0, to: 10) }
         let(:sensor)         { create(:sensor, name: 'SensorXY', sensor_type: sensor_type) }
         let(:sensor_type)    { create(:sensor_type, property: 'Temperature', unit: '°C') }
         before { condition }

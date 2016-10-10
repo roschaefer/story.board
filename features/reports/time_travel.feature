@@ -9,8 +9,8 @@ Feature: Read about any point in time
     And I have these sensors and sensor types in my database
       | Sensor       | Property    | Unit |
       | Summer-Antenna| Temperature | °C   |
-    And for my sensors I have these text components prepared:
-      | Sensor         | From | To | Text Component                          |
+    And for my sensors I have these triggers prepared:
+      | Sensor         | From | To | Trigger                          |
       | Summer-Antenna | 0    | 25 | When will there be a good summer again? |
       | Summer-Antenna | 25   | 40 | Now it is a really good summer.         |
     And we have this sensor data in our database:
