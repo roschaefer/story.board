@@ -9,7 +9,7 @@ Feature: Render Custom Variables in Trigger Markup
     Given my current live report is called "The Experiment"
 
   Scenario: Write about report
-    Given there is an active trigger with the following main part:
+    Given there is a triggered text component with the following main part:
     """
     Today is a good day for "{ report }".
     """
@@ -23,7 +23,7 @@ Feature: Render Custom Variables in Trigger Markup
     Given I have these custom variables for my report:
       | Key    | Value |
       | person | Peter |
-    Given there is an active trigger with the following main part:
+    Given there is a triggered text component with the following main part:
     """
     When { person } woke up this morning, he was very tired.
     """

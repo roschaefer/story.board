@@ -363,8 +363,8 @@ Then(/^I see the new name in the settings menu above$/) do
   expect(find('.dropdown-menu')).to have_text @report_name
 end
 
-Given(/^there is an active trigger with the following main part:$/) do |main_part|
-  create(:trigger, main_part: main_part, report: Report.current)
+Given(/^there is a triggered text component with the following main part:$/) do |main_part|
+  create(:text_component, main_part: main_part, report: Report.current)
 end
 
 Given(/^I have these active triggers:$/) do |table|
