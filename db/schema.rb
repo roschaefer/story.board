@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161004043253) do
+ActiveRecord::Schema.define(version: 20161011150336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,14 +49,14 @@ ActiveRecord::Schema.define(version: 20161004043253) do
   create_table "conditions", force: :cascade do |t|
     t.integer  "from"
     t.integer  "to"
-    t.integer  "text_component_id"
+    t.integer  "trigger_id"
     t.integer  "sensor_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "conditions", ["sensor_id"], name: "index_conditions_on_sensor_id", using: :btree
-  add_index "conditions", ["text_component_id"], name: "index_conditions_on_text_component_id", using: :btree
+  add_index "conditions", ["trigger_id"], name: "index_conditions_on_trigger_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "name"
@@ -67,13 +67,13 @@ ActiveRecord::Schema.define(version: 20161004043253) do
 
   add_index "events", ["name"], name: "index_events_on_name", unique: true, using: :btree
 
-  create_table "events_text_components", id: false, force: :cascade do |t|
+  create_table "events_triggers", id: false, force: :cascade do |t|
     t.integer "event_id"
-    t.integer "text_component_id"
+    t.integer "trigger_id"
   end
 
-  add_index "events_text_components", ["event_id"], name: "index_events_text_components_on_event_id", using: :btree
-  add_index "events_text_components", ["text_component_id"], name: "index_events_text_components_on_text_component_id", using: :btree
+  add_index "events_triggers", ["event_id"], name: "index_events_triggers_on_event_id", using: :btree
+  add_index "events_triggers", ["trigger_id"], name: "index_events_triggers_on_trigger_id", using: :btree
 
   create_table "records", force: :cascade do |t|
     t.string   "heading"
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20161004043253) do
   add_index "sensors", ["report_id"], name: "index_sensors_on_report_id", using: :btree
   add_index "sensors", ["sensor_type_id"], name: "index_sensors_on_sensor_type_id", using: :btree
 
-  create_table "text_components", force: :cascade do |t|
+  create_table "triggers", force: :cascade do |t|
     t.string   "heading"
     t.text     "introduction"
     t.text     "main_part"
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 20161004043253) do
     t.integer  "timeliness_constraint"
   end
 
-  add_index "text_components", ["report_id"], name: "index_text_components_on_report_id", using: :btree
+  add_index "triggers", ["report_id"], name: "index_triggers_on_report_id", using: :btree
 
   create_table "tweets", force: :cascade do |t|
     t.string   "user"
@@ -171,7 +171,7 @@ ActiveRecord::Schema.define(version: 20161004043253) do
   add_foreign_key "chains", "actuators"
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
-  add_foreign_key "conditions", "text_components"
+  add_foreign_key "conditions", "triggers"
   add_foreign_key "tweets", "chains"
   add_foreign_key "tweets", "commands"
   add_foreign_key "variables", "reports"
