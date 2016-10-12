@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012093917) do
+ActiveRecord::Schema.define(version: 20161012100915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,14 @@ ActiveRecord::Schema.define(version: 20161012093917) do
     t.integer "from_day"
     t.integer "to_day"
   end
+
+  create_table "text_components_triggers", force: :cascade do |t|
+    t.integer "text_component_id"
+    t.integer "trigger_id"
+  end
+
+  add_index "text_components_triggers", ["text_component_id"], name: "index_text_components_triggers_on_text_component_id", using: :btree
+  add_index "text_components_triggers", ["trigger_id"], name: "index_text_components_triggers_on_trigger_id", using: :btree
 
   create_table "triggers", force: :cascade do |t|
     t.string   "heading"
