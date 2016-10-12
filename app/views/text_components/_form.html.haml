@@ -1,0 +1,13 @@
+= simple_form_for(@text_component) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :heading
+    = f.input :introduction
+    = f.input :main_part
+    = f.input :closing
+    = f.input :from_day
+    = f.input :to_day
+
+  .form-actions
+    = f.button :submit

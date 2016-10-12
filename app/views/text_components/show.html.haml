@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Heading:
+  = @text_component.heading
+%p
+  %b Introduction:
+  = @text_component.introduction
+%p
+  %b Main part:
+  = @text_component.main_part
+%p
+  %b Closing:
+  = @text_component.closing
+%p
+  %b From day:
+  = @text_component.from_day
+%p
+  %b To day:
+  = @text_component.to_day
+
+= link_to 'Edit', edit_text_component_path(@text_component)
+\|
+= link_to 'Back', text_components_path
