@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TextComponent, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#heading' do
+    context 'empty' do
+      subject { build(:text_component, heading: '  ') }
+      it { is_expected.not_to be_valid }
+    end
+  end
 end

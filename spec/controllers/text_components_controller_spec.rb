@@ -24,11 +24,11 @@ RSpec.describe TextComponentsController, type: :controller do
   # TextComponent. As you add validations to TextComponent, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { heading: 'A heading'  }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { heading: nil  }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +103,15 @@ RSpec.describe TextComponentsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { heading: 'A new heading', main_part: 'Plus a main part' }
       }
 
       it "updates the requested text_component" do
         text_component = TextComponent.create! valid_attributes
         put :update, {:id => text_component.to_param, :text_component => new_attributes}, valid_session
         text_component.reload
-        skip("Add assertions for updated state")
+        expect(text_component.heading).to eq 'A new heading'
+        expect(text_component.main_part).to eq 'Plus a main part'
       end
 
       it "assigns the requested text_component as @text_component" do
