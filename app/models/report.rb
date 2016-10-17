@@ -5,6 +5,7 @@ class Report < ActiveRecord::Base
 
 
   has_many :triggers
+  has_many :text_components
   has_many :sensors
   has_many :records
   has_many :variables, dependent: :destroy

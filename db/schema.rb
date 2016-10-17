@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012100915) do
+ActiveRecord::Schema.define(version: 20161017132623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,7 +136,10 @@ ActiveRecord::Schema.define(version: 20161012100915) do
     t.text    "closing"
     t.integer "from_day"
     t.integer "to_day"
+    t.integer "report_id"
   end
+
+  add_index "text_components", ["report_id"], name: "index_text_components_on_report_id", using: :btree
 
   create_table "text_components_triggers", force: :cascade do |t|
     t.integer "text_component_id"
@@ -189,6 +192,7 @@ ActiveRecord::Schema.define(version: 20161012100915) do
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
   add_foreign_key "conditions", "triggers"
+  add_foreign_key "text_components", "reports"
   add_foreign_key "tweets", "chains"
   add_foreign_key "tweets", "commands"
   add_foreign_key "variables", "reports"
