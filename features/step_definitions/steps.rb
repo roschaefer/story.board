@@ -359,8 +359,8 @@ When(/^I change the name of the report to "([^"]*)"$/) do |name|
 end
 
 Then(/^I see the new name in the settings menu above$/) do
-  expect(page).to have_css('.dropdown-menu')
-  expect(find('.dropdown-menu')).to have_text @report_name
+  expect(page).to have_css('.dropdown.settings')
+  expect(find('.dropdown.settings .dropdown-menu')).to have_text @report_name
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
@@ -535,4 +535,8 @@ end
 
 Then(/^I can see that my experiment will end on "([^"]*)"$/) do |date|
   expect(page).to have_text(date)
+end
+
+When(/^I visit the sensors page$/) do
+  visit '/sensors'
 end
