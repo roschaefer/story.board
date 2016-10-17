@@ -15,8 +15,8 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_triggers(opts={})
-    triggers.select {|c| c.active?(opts) }
+  def active_text_components(opts={})
+    text_components.select {|c| c.active?(opts) }
   end
 
   def archive!(intention: :real)

@@ -4,7 +4,11 @@ FactoryGirl.define do
     introduction "MyText"
     main_part "MyText"
     closing "MyText"
-    from_day 1
-    to_day 1
+    from_day nil
+    to_day  nil
+
+    trait :active do
+      # active by default
+    end
   end
 end

@@ -23,18 +23,18 @@ module Text
 
     private
 
-    def render(trigger, part)
-      template = trigger.send(part).to_s
+    def render(text_component, part)
+      template = text_component.send(part).to_s
       unless template =~ /({.*})/
         return template
       else
         rendered = template
         rendered = render_report(rendered)
-        trigger.sensors.each do |sensor|
+        text_component.sensors.each do |sensor|
           s = SensorDecorator.new(sensor)
           rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value(@opts))
         end
-        trigger.events.each do |event|
+        text_component.events.each do |event|
           e = EventDecorator.new(event)
           rendered.gsub!(/({\s*#{ Regexp.quote("date(#{e.id})") }\s*})/, e.date)
         end
@@ -88,10 +88,10 @@ module Text
 
     def components
       if @components.nil?
-        @components = @report.active_triggers(@opts)
-        @components = components.shuffle
-        @components = components.sort_by {|c| Trigger.priorities[c.priority] }
-        @components = components.reverse
+        @components = @report.active_text_components(@opts)
+        #@components = components.shuffle
+        #@components = components.sort_by {|c| TextComponent.priorities[c.priority] }
+        #@components = components.reverse
       end
       @components
     end

@@ -1,8 +1,9 @@
 class Trigger < ActiveRecord::Base
   belongs_to :report
   has_many :sensors, through: :conditions
-  has_and_belongs_to_many :events
   has_many :conditions
+  has_and_belongs_to_many :events
+  has_and_belongs_to_many :text_components
 
   validates :heading, :main_part, presence: true
   validates :report, presence: true
