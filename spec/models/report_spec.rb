@@ -52,45 +52,76 @@ RSpec.describe Report, type: :model do
     end
   end
 
-  describe '#active_triggers' do
-    subject { report.active_triggers }
+  describe '#active_text_components' do
+    subject { report.active_text_components }
     let(:sensor)          { create :sensor }
     it { is_expected.to be_empty }
 
-    context 'given a trigger connected to a sensor via a certain condition' do
-      let(:trigger) { create :trigger, report: report }
-      before do
-        create(:condition, sensor: sensor, trigger: trigger, from: 1, to: 3)
+    context 'given report has one text_component' do
+      let(:report) do
+        report = super()
+        report.text_components << text_component
+        report.save
+        report
       end
 
-      context 'for sensor readings with a certain intent' do
+      let(:text_component) { create(:text_component) }
+      context 'given a trigger connected to a sensor via a certain condition' do
+        let(:trigger) { create :trigger, text_components: [text_component], report: report }
         before do
-          create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 2)
-          create(:sensor_reading, sensor: sensor, intention: :real, calibrated_value: 0)
+          create(:condition, sensor: sensor, trigger: trigger, from: 1, to: 3)
         end
 
-        describe '#active_triggers :real' do
-          subject { report.active_triggers intention: :real }
-          it { is_expected.not_to include trigger }
-        end
-        describe '#active_triggers :fake' do
-          subject { report.active_triggers intention: :fake }
-          it { is_expected.to include trigger }
+        context 'for sensor readings with a certain intent' do
+          before do
+            create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 2)
+            create(:sensor_reading, sensor: sensor, intention: :real, calibrated_value: 0)
+          end
+
+          describe '#active_text_components :real' do
+            subject { report.active_text_components intention: :real }
+            it { is_expected.not_to include text_component }
+          end
+
+          describe '#active_text_components :fake' do
+            subject { report.active_text_components intention: :fake }
+            it { is_expected.to include text_component }
+          end
         end
       end
     end
 
-    context 'sensor reading value is upper boundary and lower boundary' do
-      let(:lower) { create(:trigger, report: report, heading: 'Lower') }
-      let(:upper) { create(:trigger, report: report, heading: 'Upper') }
-      before do
-        create(:sensor_reading, sensor: sensor, calibrated_value: 10)
-        create(:condition, trigger: lower, sensor: sensor, from: 0, to: 10)
-        create(:condition, trigger: upper, sensor: sensor, from: 10, to: 20)
+    context 'if two text components meet each other at a boundary' do
+      let(:lower_component) do
+        text_component = create(:text_component, report: report)
+        trigger = create(:trigger, report: report, text_components: [text_component])
+        create(:condition, trigger: trigger, sensor: sensor, from: 0, to: 10)
+        text_component
       end
 
-      it 'contains only one trigger - the upper trigger' do
-        expect(subject).to contain_exactly(upper)
+      let(:upper_component) do
+        text_component = create(:text_component, report: report)
+        trigger = create(:trigger, report: report, text_components: [text_component])
+        create(:condition, trigger: trigger, sensor: sensor, from: 10, to: 20)
+        text_component
+      end
+
+      context 'sensor reading value hits upper boundary and lower boundary at the same time' do
+        before do
+          upper_component
+          lower_component
+          create(:sensor_reading, sensor: sensor, calibrated_value: 10)
+        end
+
+        describe'then the report contains only one active text component' do
+          it 'ie. the upper component' do
+            expect(subject).to contain_exactly(upper_component)
+          end
+
+          it 'and not the lower component' do
+            expect(subject).not_to contain_exactly(lower_component)
+          end
+        end
       end
     end
   end

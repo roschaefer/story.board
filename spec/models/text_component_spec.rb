@@ -44,4 +44,23 @@ RSpec.describe TextComponent, type: :model do
       end
     end
   end
+
+  describe '#priority' do
+    let(:text_component) { create(:text_component) }
+    subject { text_component.priority }
+    context 'empty triggers' do
+      it { is_expected.to be nil }
+    end
+
+    context 'many triggers with different priorities' do
+      before do
+        create(:trigger, text_components: [text_component], priority: :medium)
+        create(:trigger, text_components: [text_component], priority: :high)
+      end
+
+      it 'is the highest priority' do
+        is_expected.to eq 'high'
+      end
+    end
+  end
 end

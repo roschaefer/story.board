@@ -89,9 +89,9 @@ module Text
     def components
       if @components.nil?
         @components = @report.active_text_components(@opts)
-        #@components = components.shuffle
-        #@components = components.sort_by {|c| TextComponent.priorities[c.priority] }
-        #@components = components.reverse
+        @components = components.shuffle
+        @components = components.sort_by {|c| Trigger.priorities[c.priority] }
+        @components = components.reverse
       end
       @components
     end
