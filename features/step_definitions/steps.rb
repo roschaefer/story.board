@@ -116,9 +116,9 @@ end
 
 Given(/^for my current report I have these triggers prepared:$/) do |table|
   table.hashes.each do |row|
-    component = create(:trigger, report: Report.current, main_part: row['Trigger'])
+    trigger = create(:trigger, report: Report.current, name: row['Trigger'])
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
-    create(:condition, sensor: sensor, trigger: component, from: row['From'], to: row['To'])
+    create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
 
@@ -539,4 +539,14 @@ end
 
 When(/^I visit the sensors page$/) do
   visit '/sensors'
+end
+
+Given(/^these are the connections between text components and triggers:$/) do |table|
+  table.hashes.each do |row|
+    trigger = Trigger.find_by(name: row['Trigger'])
+    create(:text_component,
+           main_part: row['Text component'],
+           triggers: [trigger],
+           report: Report.current)
+  end
 end

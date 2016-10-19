@@ -5,7 +5,6 @@ class Trigger < ActiveRecord::Base
   has_and_belongs_to_many :events
   has_and_belongs_to_many :text_components
 
-  validates :heading, :main_part, presence: true
   validates :report, presence: true
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 

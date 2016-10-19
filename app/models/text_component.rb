@@ -5,7 +5,6 @@ class TextComponent < ActiveRecord::Base
   has_many :events, through: :triggers
   belongs_to :report
 
-
   def active?(opts={})
     triggers.all? {|t| t.active?(opts) }
   end

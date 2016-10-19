@@ -8,9 +8,13 @@ Feature: Choose Trigger by Condition
 
   Scenario: Check if sensor reading is within range
     Given for my current report I have these triggers prepared:
-      | Sensor    | From | To   | Trigger       |
-      | Temp123   | 20°C | 25°C | It's nice today.     |
-      | Bright456 | 0    | 3    | I can't see a thing! |
+      | Sensor    | From | To   | Trigger          |
+      | Temp123   | 20°C | 25°C | Nice temperature |
+      | Bright456 | 0    | 3    | Dark             |
+    And these are the connections between text components and triggers:
+      | Trigger          | Text component       |
+      | Nice temperature | It's nice today.     |
+      | Dark             | I can't see a thing! |
     And the latest sensor data looks like this:
       | Sensor    | Calibrated Value |
       | Temp123   | 15°C             |
