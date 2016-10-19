@@ -58,8 +58,8 @@ Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
   create :sensor, name: name, sensor_type: temperature_type
 end
 
-Given(/^I have a trigger with the heading "([^"]*)"$/) do |heading|
-  @trigger = create(:trigger, heading: heading)
+Given(/^I have a trigger with the name "([^"]*)"$/) do |name|
+  @trigger = create(:trigger, name: name)
 end
 
 When(/^I visit the edit page of this trigger$/) do
@@ -124,9 +124,9 @@ end
 
 Given(/^for my sensors I have these triggers prepared:$/) do |table|
   table.hashes.each do |row|
-    component = create(:trigger, report: Report.current, main_part: row['Trigger'], timeliness_constraint: row['Timeliness'])
+    trigger = create(:trigger, report: Report.current, name: row['Trigger'], timeliness_constraint: row['Timeliness'])
     sensor = Sensor.find_by name: row['Sensor']
-    create(:condition, sensor: sensor, trigger: component, from: row['From'], to: row['To'])
+    create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
 

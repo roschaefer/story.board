@@ -6,7 +6,7 @@ Feature: Connect with a condition
   @javascript
   Scenario: Edit the Trigger and Connect with a Condition
     Given I have a temperature sensor called "Temp23"
-    And I have a trigger with the heading "Das Grosse Zittern"
+    And I have a trigger with the name "Das Grosse Zittern"
     When I visit the edit page of this trigger
     And I add a condition
     And I choose the sensor "Temp23" to trigger this trigger
