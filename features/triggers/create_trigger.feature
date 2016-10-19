@@ -12,7 +12,7 @@ Feature: Create Trigger
     When I visit the landing page
     And I click on "Triggers" in my dashboard
     And I click on "Add new trigger" to create a new trigger
-    And I type in some text for Heading, Introduction, Main part, Closing
+    And I type in a name
     And I confirm the dialog
     Then I have a new trigger for my live report in the database
 

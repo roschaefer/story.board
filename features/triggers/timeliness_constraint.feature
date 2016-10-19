@@ -6,7 +6,7 @@ Feature: Add timeliness constraint
 
   Background:
     Given I have a temperature sensor called "LoudNoises"
-    And I have a trigger with the heading "BOOM! What was that?"
+    And I have a trigger with the name "BOOM! What was that?"
 
   Scenario: Add a timeliness constraint to a trigger
     When I visit the edit page of this trigger

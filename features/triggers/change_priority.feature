@@ -8,7 +8,7 @@ Feature: Text components: Priorities
     Given there is a sensor live report
 
   Scenario: Edit Trigger Priority
-    Given I have a trigger with the heading "Very Important"
+    Given I have a trigger with the name "Very Important"
     When I visit the landing page
     And I click on "Triggers" in my dashboard
     And I click on "Very Important" to view the trigger

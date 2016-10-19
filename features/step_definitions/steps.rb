@@ -194,10 +194,8 @@ When(/^I click on "([^"]*)"/) do |thing|
   click_on thing
 end
 
-When(/^I type in some text for (.*)$/) do |things|
-  things.split(',').each do |thing|
-    fill_in thing.strip, with: 'Blablablabla'
-  end
+When(/^I type in a name$/) do
+  fill_in 'Name', with: 'Blablablabla'
 end
 
 Then(/^I have a new trigger for my live report in the database$/) do
