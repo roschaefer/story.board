@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017132623) do
+ActiveRecord::Schema.define(version: 20161019123428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,10 +150,7 @@ ActiveRecord::Schema.define(version: 20161017132623) do
   add_index "text_components_triggers", ["trigger_id"], name: "index_text_components_triggers_on_trigger_id", using: :btree
 
   create_table "triggers", force: :cascade do |t|
-    t.string   "heading"
-    t.text     "introduction"
-    t.text     "main_part"
-    t.text     "closing"
+    t.string   "name"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.integer  "report_id"

@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :trigger do
-    heading "It's a heading"
-    main_part 'And of course we have a main part'
+    name "It's a name"
     association :report
 
 
