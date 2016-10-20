@@ -101,9 +101,8 @@ Given(/^this sensor just measured a .* of (\d+)°C$/) do |value|
   create(:sensor_reading, sensor: @sensor, calibrated_value: value)
 end
 
-Given(/^I prepared a trigger for this sensor with this introduction:$/) do |introduction|
-  @trigger = create(:trigger, report: Report.current, introduction: introduction)
-  create(:condition, trigger: @trigger, sensor: @sensor)
+Given(/^I prepared a text component with this introduction:$/) do |introduction|
+  @text_component = create(:text_component, report: Report.current, introduction: introduction)
 end
 
 Given(/^this trigger should trigger for a value between (\d+)°C and (\d+)°C$/) do |from, to|
@@ -555,3 +554,11 @@ Given(/^I have these text components with their highest priority:$/) do |table|
     create(:text_component, triggers: [trigger], heading: row['Heading'], report: Report.current)
   end
 end
+
+Given(/^and this component should trigger for a value between (\d+)°C and (\d+)°C$/) do |from, to|
+  condition = create(:condition, sensor: @sensor, from: from, to: to)
+  @text_component.triggers = [condition.trigger]
+  @text_component.save!
+end
+
+
