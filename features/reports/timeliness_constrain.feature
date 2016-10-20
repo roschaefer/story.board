@@ -11,9 +11,13 @@ Feature: Add timeliness constraint
       | Sensor | Property | Unit |
       | Noise1 | Sound    | dB   |
     Given for my sensors I have these triggers prepared:
-      | Sensor | From   | To     | Timeliness | Trigger           |
-      | Noise1 | 100 dB | 200 dB | 1          | Holy sh** what was that? |
-      | Noise1 | 50 dB  | 200 dB |            | It is quite loud         |
+      | Sensor | From   | To     | Timeliness | Trigger   |
+      | Noise1 | 100 dB | 200 dB | 1          | Very Loud |
+      | Noise1 | 50 dB  | 200 dB |            | Loud      |
+    And these are the connections between text components and triggers:
+      | Trigger   | Text component           |
+      | Very Loud | Holy sh** what was that? |
+      | Loud      | It is quite loud         |
 
   Scenario: Read about a very recent event
     Given the latest sensor data looks like this:

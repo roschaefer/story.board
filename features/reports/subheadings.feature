@@ -13,11 +13,11 @@ Feature: Insert break and add sub-headings
     And I am the journalist
 
   Scenario: In case of a draw, chose a heading randomly
-    Given I have these active triggers:
-      | Priority | Heading                                   |
-      | high     | Using headings in your report             |
-      | low      | Wow, this is really boring                |
-    But there is a medium prioritized, active component with a really long text
+    Given I have two short text commponents, that are active right now:
+      | Heading                       | Highest priority |
+      | Using headings in your report | high             |
+      | Wow, this is really boring    | low              |
+    But there is also a medium prioritized, active component with a really long text
     When I visit the landing page
     Then I can see the main heading:
     """

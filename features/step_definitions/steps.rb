@@ -440,12 +440,13 @@ Then(/^according to the live report it is summer again!$/) do |string|
 end
 
 
-Given(/^there is a medium prioritized, active component with a really long text$/) do
+Given(/^there is also a medium prioritized, active component with a really long text$/) do
   main_part = "Blaaa" + 500.times.collect{ "a"}.join + "aaahhhh!"
-  create(:trigger,
+  trigger = create(:trigger, :active, priority: :medium)
+  create(:text_component, :active,
          report: Report.current,
          main_part: main_part,
-         priority: :medium)
+         triggers: [trigger])
 end
 
 Then(/^I can see the main heading:$/) do |string|
@@ -561,4 +562,12 @@ Given(/^and this component should trigger for a value between (\d+)°C and (\d+)
   @text_component.save!
 end
 
-
+Given(/^I have two short text commponents, that are active right now:$/) do |table|
+  table.hashes.each do |row|
+    trigger = create(:trigger, :active, priority: row['Highest priority'])
+    create(:text_component,
+           heading: row['Heading'],
+           triggers: [trigger],
+           report: Report.current)
+  end
+end

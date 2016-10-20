@@ -10,9 +10,13 @@ Feature: Read about any point in time
       | Sensor       | Property    | Unit |
       | Summer-Antenna| Temperature | °C   |
     And for my sensors I have these triggers prepared:
-      | Sensor         | From | To | Trigger                          |
-      | Summer-Antenna | 0    | 25 | When will there be a good summer again? |
-      | Summer-Antenna | 25   | 40 | Now it is a really good summer.         |
+      | Sensor         | From | To | Trigger |
+      | Summer-Antenna | 0    | 25 | Cold    |
+      | Summer-Antenna | 25   | 40 | Hot     |
+    And these are the connections between text components and triggers:
+      | Trigger | Text component                          |
+      | Cold    | When will there be a good summer again? |
+      | Hot     | Now it is a really good summer.         |
     And we have this sensor data in our database:
       | Sensor         | Calibrated value | Created at |
       | Summer-Antenna | 40°C             | 2016-07-01 |
