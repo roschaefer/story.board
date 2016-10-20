@@ -12,8 +12,11 @@ Feature: Connect with events
       | EventID | Event         |
       | 1       | Judgement Day |
     And have some triggers prepared that will trigger on a particular event
-      | Event         | Main part                                                          |
-      | Judgement Day | At last! On { date(1) } all sinners tremble! Judgement day has come. |
+      | Event         | Name    |
+      | Judgement Day | The end |
+    And these are the connections between text components and triggers:
+      | Trigger | Text component                                                       |
+      | The end | At last! On { date(1) } all sinners tremble! Judgement day has come. |
     And the event "Judgement Day" has happened on "2017-01-01"
     When I visit the landing page
     Then I should see:

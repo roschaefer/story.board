@@ -411,7 +411,7 @@ end
 Given(/^have some triggers prepared that will trigger on a particular event$/) do |table|
   table.hashes.each do |row|
     event = Event.find_by(name: row['Event'])
-    create(:trigger, report: Report.current, main_part: row['Main part'], events: [event])
+    create(:trigger, report: Report.current, name: row['Name'], events: [event])
   end
 end
 
