@@ -548,3 +548,10 @@ Given(/^these are the connections between text components and triggers:$/) do |t
            report: Report.current)
   end
 end
+
+Given(/^I have these text components with their highest priority:$/) do |table|
+  table.hashes.each do |row|
+    trigger = create(:trigger, :active, priority: row['Highest priority'])
+    create(:text_component, triggers: [trigger], heading: row['Heading'], report: Report.current)
+  end
+end

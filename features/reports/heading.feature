@@ -9,10 +9,10 @@ Feature: Choose only one heading
     And I am the journalist
 
   Scenario: The highest prioritized heading is chosen for the report
-    Given I have these active triggers:
-      | Priority | Heading                                   |
-      | high     | Using headings in your report             |
-      | low      | Recommended Headings for Business Reports |
+    Given I have these text components with their highest priority:
+      | Heading                                   | Highest priority |
+      | Using headings in your report             | high             |
+      | Recommended Headings for Business Reports | low              |
     When I visit the landing page
     Then I should see:
     """
@@ -25,11 +25,11 @@ Feature: Choose only one heading
 
 
   Scenario: In case of a draw, chose a heading randomly
-    Given I have these active triggers:
-      | Priority | Heading                                   |
-      | high     | Using headings in your report             |
-      | high     | Basic report structure                    |
-      | medium   | Recommended Headings for Business Reports |
+    Given I have these text components with their highest priority:
+      | Heading                                   | Highest priority |
+      | Using headings in your report             | high             |
+      | Basic report structure                    | high             |
+      | Recommended Headings for Business Reports | medium           |
     When I visit the landing page
     Then I should see only one of the following:
     """

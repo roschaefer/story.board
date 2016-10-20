@@ -10,9 +10,13 @@ Feature: Archive Reports
       | Sensor | Property   | Unit |
       | Wind   | Wind force | km/h |
     And for my sensors I have these triggers prepared:
-      | Sensor | From | To | Trigger                     |
-      | Wind   | 0    | 40 | Not very windy today.              |
-      | Wind   | 40   | 80 | Watch out, it's quite windy today. |
+      | Sensor | From | To | Trigger     |
+      | Wind   | 0    | 40 | Not windy   |
+      | Wind   | 40   | 80 | Quite windy |
+    And these are the connections between text components and triggers:
+      | Trigger     | Text component                     |
+      | Not windy   | Not very windy today.              |
+      | Quite windy | Watch out, it's quite windy today. |
     And the latest sensor data looks like this:
       | Sensor | Calibrated Value |
       | Wind   | 10km/h           |
