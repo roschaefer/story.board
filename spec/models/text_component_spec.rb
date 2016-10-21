@@ -8,6 +8,13 @@ RSpec.describe TextComponent, type: :model do
     end
   end
 
+  describe '#report' do
+    context 'missing' do
+      subject { build(:text_component, report: nil) }
+      it { is_expected.not_to be_valid }
+    end
+  end
+
   describe '#triggers' do
     let(:text_component) { create(:text_component) }
     subject { text_component.triggers }

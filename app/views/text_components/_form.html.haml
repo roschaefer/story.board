@@ -2,7 +2,7 @@
   = f.error_notification
 
   .form-inputs
-    = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }
+    = f.association :report, :as => :hidden, :input_html => {:value => @report_id }
     = f.input :heading
     = f.input :introduction
     = f.input :main_part

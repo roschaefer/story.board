@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "text_components/edit", type: :view do
+  let(:report) { create(:report) }
   before(:each) do
     @text_component = assign(:text_component, TextComponent.create!(
       :heading => "MyString",
       :introduction => "MyText",
       :main_part => "MyText",
       :closing => "MyText",
+      :report_id => report.id,
       :from_day => 1,
       :to_day => 1
     ))

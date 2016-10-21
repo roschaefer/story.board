@@ -23,8 +23,9 @@ RSpec.describe TextComponentsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # TextComponent. As you add validations to TextComponent, be sure to
   # adjust the attributes here as well.
+  let(:report) { create(:report) }
   let(:valid_attributes) {
-    { heading: 'A heading'  }
+    { heading: 'A heading', report_id: report.id }
   }
 
   let(:invalid_attributes) {

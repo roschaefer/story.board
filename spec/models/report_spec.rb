@@ -7,6 +7,17 @@ RSpec.describe Report, type: :model do
     specify { expect(Report.current).to eql report }
   end
 
+  describe '#current_report_id' do
+    subject { Report.current_report_id }
+    it { is_expected.to be_nil }
+    context 'given a report' do
+      before { report }
+      it 'id of first report' do
+        is_expected.to eq report.id
+      end
+    end
+  end
+
   describe '#destroy' do
     let(:variables) { {a: 1, b: 2, c: 3}.collect {|k,v| create(:variable, key: k, value: v)} }
     let (:report) { create(:report, variables: variables) }

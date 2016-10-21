@@ -2,7 +2,7 @@
   = f.error_notification
 
   .form-inputs
-    = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }
+    = f.association :report, :as => :hidden, :input_html => {:value => @report_id }
     = f.input :name
     = f.input :priority, as: :radio_buttons, collection: Trigger.priorities.keys
     = f.input :timeliness_constraint, hint: "Text component will be triggered for sensor readings within the last X hours"

@@ -4,6 +4,7 @@ class TriggersController < ApplicationController
   end
 
   def new
+    @report_id = Report.current_report_id
     @trigger = Trigger.new
   end
 
@@ -12,6 +13,7 @@ class TriggersController < ApplicationController
   end
 
   def edit
+    @report_id = Report.current_report_id
     @trigger = Trigger.find(params[:id])
   end
 

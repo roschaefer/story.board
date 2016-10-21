@@ -7,6 +7,8 @@ FactoryGirl.define do
     from_day nil
     to_day  nil
 
+    association :report
+
     trait :active do
       # active by default
     end

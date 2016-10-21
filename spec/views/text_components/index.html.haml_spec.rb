@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "text_components/index", type: :view do
+  let(:report) { create(:report) }
   before(:each) do
     assign(:text_components, [
       TextComponent.create!(
@@ -8,6 +9,7 @@ RSpec.describe "text_components/index", type: :view do
         :introduction => "MyIntroduction",
         :main_part => "MyMainPart",
         :closing => "MyClosing",
+        :report_id => report.id,
         :from_day => 1,
         :to_day => 2
       ),
@@ -16,6 +18,7 @@ RSpec.describe "text_components/index", type: :view do
         :introduction => "MyIntroduction",
         :main_part => "MyMainPart",
         :closing => "MyClosing",
+        :report_id => report.id,
         :from_day => 1,
         :to_day => 2
       )
