@@ -338,6 +338,13 @@ Given(/^I see the (?:current|new)? live report:$/) do |string|
   expect(find('.live-report')).to have_text string
 end
 
+Then(/^I can see these pieces of text in the report:$/) do |table|
+  expect(page).to have_css('.live-report')
+  table.hashes.each do |row|
+    expect(find('.live-report')).to have_text row['Part']
+  end
+end
+
 Then(/^I can see the archived report:$/) do |string|
   expect(page).to have_css('.archived-report')
   expect(find('.archived-report')).to have_text string
@@ -366,9 +373,8 @@ end
 
 Given(/^I have these active triggers:$/) do |table|
   table.hashes.each do |row|
-    create(:trigger, {
-      priority: row['Priority'],
-      heading: row['Heading'],
+    create(:trigger, :active, {
+      name: row['Trigger'],
       report: Report.current
     })
   end
