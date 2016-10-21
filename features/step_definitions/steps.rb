@@ -577,3 +577,20 @@ Given(/^I have two short text commponents, that are active right now:$/) do |tab
            report: Report.current)
   end
 end
+
+Given(/^I have a text component with a heading "([^"]*)"$/) do |heading|
+  @text_component = create(:text_component, heading: heading, report: Report.current)
+end
+
+When(/^I visit the edit page of this text component$/) do
+  visit edit_text_component_path(@text_component)
+end
+
+When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
+  select trigger, from: 'text_component_trigger_ids'
+end
+
+Then(/^the text component is connected to both triggers$/) do
+  expect(@text_component.triggers.count).to eq 2
+end
+

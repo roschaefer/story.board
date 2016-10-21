@@ -69,6 +69,8 @@ class TextComponentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def text_component_params
-      params.require(:text_component).permit(:heading, :introduction, :main_part, :closing, :from_day, :to_day)
+      params.require(:text_component).permit(:heading, :introduction,
+                                             :main_part, :closing, :from_day,
+                                             :to_day, trigger_ids: [])
     end
 end

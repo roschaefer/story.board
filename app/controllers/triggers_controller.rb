@@ -43,10 +43,10 @@ class TriggersController < ApplicationController
   private
 
   def trigger_params
-    params.require(:trigger).permit(:heading, :introduction, :main_part,
-                                           :closing, :priority, :report_id,
-                                           :timeliness_constraint,
-                                           :event_ids => [],
-                                           conditions_attributes: [:id, :sensor_id, :from, :to, :_destroy])
+    params.require(:trigger).permit(:heading, :name,
+                                    :priority, :report_id,
+                                    :timeliness_constraint,
+                                    :event_ids => [],
+                                    conditions_attributes: [:id, :sensor_id, :from, :to, :_destroy])
   end
 end

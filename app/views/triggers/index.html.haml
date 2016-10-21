@@ -1,8 +1,10 @@
 %h1 Triggers
 %table.table.table-striped.table-hover
-  %tr
-    %th Name
-  - @triggers.each do |trigger|
+  %thead
     %tr
-      %td= link_to trigger.name, trigger_path(trigger)
+      %th Name
+  %tbody
+    - @triggers.each do |trigger|
+      %tr
+        %td= link_to trigger.name, trigger_path(trigger)
 =link_to 'Add new trigger', new_trigger_path, :class => "btn btn-primary"
