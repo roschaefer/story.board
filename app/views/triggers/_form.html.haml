@@ -14,6 +14,8 @@
         = render 'condition_fields', f: condition
       .links
         = link_to_add_association 'add condition', f, :conditions
+    #text_components
+      = f.association :text_components, label_method: :heading
 
   .form-actions
     %p
