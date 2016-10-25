@@ -33,6 +33,21 @@ describe Trigger, type: :model do
     end
   end
 
+  describe '#destroy' do
+    describe '#conditions' do
+      let(:conditions) do
+        create_list(:condition, 3, trigger: trigger)
+        create(:condition)
+      end
+      before { conditions }
+
+      it 'get destroyed' do
+        expect{ trigger.destroy }.to change{ Condition.count }.from(4).to(1)
+      end
+    end
+  end
+
+
   describe '#active?' do
     subject { trigger.active? }
     context 'without any conditions is considered active' do
