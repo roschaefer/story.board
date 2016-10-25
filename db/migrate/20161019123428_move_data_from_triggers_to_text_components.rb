@@ -2,6 +2,7 @@ class MoveDataFromTriggersToTextComponents < ActiveRecord::Migration
   def up
     Trigger.find_each do |t|
       TextComponent.create!(
+        report: Report.current,
         heading: t.heading,
         introduction: t.introduction,
         main_part: t.main_part,
