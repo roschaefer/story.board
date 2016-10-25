@@ -10,8 +10,7 @@ Feature: Generate Fake Sample Data
 
   @javascript
   Scenario: Generate Fake Sample Data
-    When I visit the landing page
-    And I click on "Sensors" in my dashboard
+    When I visit the sensors page
     And I click on "Temperature47" to see all the sensor readings
     And I click on "Generate Fake Sample Data"
     And I choose 10 random sensor readings with a value from 3°C to 20°C

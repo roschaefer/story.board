@@ -1,8 +1,25 @@
-%h1 Text Components
+%h1 Text components
+
 %table.table.table-striped.table-hover
-  %tr
-    %th Heading
-  - @text_components.each do |text_component|
+  %thead
     %tr
-      %td= link_to text_component.heading, text_component_path(text_component)
-=link_to 'Add new text component', new_text_component_path, :class => "btn btn-primary"
+      %th Heading
+      %th From day
+      %th To day
+      %th
+      %th
+      %th
+
+  %tbody
+    - @text_components.each do |text_component|
+      %tr
+        %td= text_component.heading
+        %td= text_component.from_day
+        %td= text_component.to_day
+        %td= link_to 'Show', text_component
+        %td= link_to 'Edit', edit_text_component_path(text_component)
+        %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Text component', new_text_component_path, :class => "btn btn-primary"

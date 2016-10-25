@@ -5,7 +5,7 @@ Feature: Report Settings page
 
   As a reporter
   I want to set an end date of my report
-  So text components can be aligned along a linear schedule
+  So triggers can be aligned along a linear schedule
   For convenience, the end date could also be entered in days
 
   Background:

@@ -3,7 +3,7 @@ class Sensor < ActiveRecord::Base
   belongs_to :sensor_type
   belongs_to :report
   has_many :conditions
-  has_many :text_components, through: :conditions
+  has_many :triggers, through: :conditions
 
   validates :report, presence: true
   validates :name, presence: true, uniqueness: true

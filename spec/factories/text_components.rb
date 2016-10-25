@@ -1,7 +1,16 @@
 FactoryGirl.define do
   factory :text_component do
-    heading "It's a heading"
-    main_part 'And of course we have a main part'
+    heading "MyString"
+    introduction "MyText"
+    main_part "MyText"
+    closing "MyText"
+    from_day nil
+    to_day  nil
+
     association :report
+
+    trait :active do
+      # active by default
+    end
   end
 end

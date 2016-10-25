@@ -9,18 +9,30 @@ RSpec.describe Text::Generator do
     subject { super().choose_heading }
     let(:report) { create(:report, text_components: text_components) }
 
-    context 'for text components with several headings and priorities' do
-      let(:text_components) do
-        [:low, :medium, :high].collect { |p| create(:text_component, heading: "Heading with priority #{p}", priority: p) }
-      end
-      it { is_expected.to eq 'Heading with priority high'}
-    end
+    context 'given several text_components' do
 
-    context 'for text components with several headings but without priorities' do
-      let(:text_components) do
-        [:low, :medium, :high].collect { |p| create(:text_component, heading: "Heading with priority #{p}", priority: nil) }
+      context 'every text component has a trigger with a different priority' do
+        let(:text_components) do
+          [
+            create(:text_component, heading: 'Text component 1', triggers: [create(:trigger, priority: :high)]),
+            create(:text_component, heading: 'Text component 2', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, heading: 'Text component 3', triggers: [create(:trigger, priority: :low)]),
+          ]
+        end
+
+        it { is_expected.to eq 'Text component 1'}
       end
-      it { is_expected.to include 'Heading'} # any of those headings
+
+      context 'every text component has a trigger with the same priority' do
+        let(:text_components) do
+          [
+            create(:text_component, heading: 'Text component 1', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, heading: 'Text component 2', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, heading: 'Text component 3', triggers: [create(:trigger, priority: :medium)]),
+          ]
+        end
+        it { is_expected.to match(/Text component/)} # any of those headings
+      end
     end
   end
 
@@ -29,7 +41,7 @@ RSpec.describe Text::Generator do
 
     it { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
 
-    context 'given text components' do
+    context 'given one text_component' do
       let(:report)         { create(:report, text_components: [text_component]) }
       let(:text_component) { create(:text_component, main_part: main_part) }
       let(:main_part)      { "some content" }
@@ -58,59 +70,68 @@ RSpec.describe Text::Generator do
         end
       end
 
-      context 'given an event' do
-        let(:event)      { create(:event, id: 42, name: "DEATH", text_components: [text_component], happened_at: nil) }
-        before { event }
-        it('event must happen first') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
-        context 'has happened' do
-          before { event.happened_at = DateTime.parse('2018-02-02'); event.save! }
-          it { is_expected.to have_value("some content")}
+      context 'given a trigger for the text component' do
+        let(:trigger) { create(:trigger, text_components: [text_component]) }
 
-          describe 'markup for the day of the event' do
-            let(:main_part)      { 'Day of your death: { date(42) }' }
-            it 'renders the day of the event' do
-              is_expected.to have_value('Day of your death: 2.2.2018')
+        context 'given an event' do
+          let(:event)      { create(:event, id: 42, name: "DEATH", triggers: [trigger], happened_at: nil) }
+          before { event }
+          it('event must happen first') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
+          context 'has happened' do
+            before { event.happened_at = DateTime.parse('2018-02-02'); event.save! }
+            it { is_expected.to have_value("some content")}
+
+            describe 'markup for the day of the event' do
+              let(:main_part)      { 'Day of your death: { date(42) }' }
+              it 'renders the day of the event' do
+                is_expected.to have_value('Day of your death: 2.2.2018')
+              end
             end
           end
         end
-      end
 
-      context 'given a condition' do
-        let(:condition)      { create(:condition, sensor: sensor, text_component: text_component, from: 0, to: 10) }
-        let(:sensor)         { create(:sensor, name: 'SensorXY', sensor_type: sensor_type) }
-        let(:sensor_type)    { create(:sensor_type, property: 'Temperature', unit: '°C') }
-        before { condition }
-        it('condition must hold') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
+        context 'given a condition' do
+          let(:condition)      { create(:condition, sensor: sensor, trigger: trigger, from: 0, to: 10) }
+          let(:sensor)         { create(:sensor, name: 'SensorXY', sensor_type: sensor_type) }
+          let(:sensor_type)    { create(:sensor_type, property: 'Temperature', unit: '°C') }
+          before { condition }
+          it('condition must hold') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
 
 
-        context 'given sensor data' do
-          let(:reading)        { create(:sensor_reading, sensor: sensor, calibrated_value: 5) }
-          before { report; reading }
+          context 'given sensor data' do
+            let(:reading)        { create(:sensor_reading, sensor: sensor, calibrated_value: 5) }
+            before { report; reading }
 
-          it { is_expected.to have_value("some content")}
+            it { is_expected.to have_value("some content")}
 
-          context 'with markup for sensor' do
-            let(:sensor)         { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
-            let(:main_part)      { 'Sensor value: { value(42) }' }
-            it('renders sensor value') { is_expected.to have_value('Sensor value: 5.0°C')}
-            context 'but with sensor data of different intention' do
-              before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
+            context 'with markup for sensor' do
+              let(:sensor)         { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
+              let(:main_part)      { 'Sensor value: { value(42) }' }
+              it('renders sensor value') { is_expected.to have_value('Sensor value: 5.0°C')}
+              context 'but with sensor data of different intention' do
+                before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
 
-              context 'render :fake report' do
-                let(:intention) { :fake }
-                it { is_expected.to have_value('Sensor value: 0.0°C')}
-              end
+                context 'render :fake report' do
+                  let(:intention) { :fake }
+                  it { is_expected.to have_value('Sensor value: 0.0°C')}
+                end
 
-              context 'render :real report' do
-                let(:intention) { :real }
-                it { is_expected.to have_value('Sensor value: 5.0°C')}
+                context 'render :real report' do
+                  let(:intention) { :real }
+                  it { is_expected.to have_value('Sensor value: 5.0°C')}
+                end
               end
             end
-          end
 
-          context 'with markup for missing sensor' do
-            let(:main_part)       { 'Sensor value: { SensorAB }' }
-            it('will be ignored') { is_expected.to have_value('Sensor value: { SensorAB }')}
+            context 'markup references an unknown sensor' do
+              let(:text_component)  { create(:text_component, :active, main_part: main_part) }
+              let(:main_part)       { "Sensor value: { valueOf(4711) }" }
+              it { expect(text_component.sensors.pluck(:id)).not_to include(4711)}
+              it { expect(text_component).to be_active }
+              describe 'markup' do
+                it('will be ignored') { is_expected.to have_value('Sensor value: { valueOf(4711) }')}
+              end
+            end
           end
         end
       end

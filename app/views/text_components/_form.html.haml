@@ -1,27 +1,16 @@
-= simple_form_for @text_component do |f|
+= simple_form_for(@text_component) do |f|
   = f.error_notification
 
   .form-inputs
-    = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }
+    = f.association :report, :as => :hidden, :input_html => {:value => @report_id }
     = f.input :heading
     = f.input :introduction
     = f.input :main_part
     = f.input :closing
-    = f.input :priority, as: :radio_buttons, collection: TextComponent.priorities.keys
-    = f.input :timeliness_constraint, hint: "Text component will be triggered for sensor readings within the last X hours"
-    #events
-      = f.association :events, as: :check_boxes, label_method: :name_and_id
-    %h3 Conditions
-    #conditions
-      = f.simple_fields_for :conditions do |condition|
-        = render 'condition_fields', f: condition
-      .links
-        = link_to_add_association 'add condition', f, :conditions
+    = f.input :from_day
+    = f.input :to_day
+    #triggers
+      = f.association :triggers, label_method: :name
 
   .form-actions
-    %p
-    = f.submit
-
-
-
-
+    = f.button :submit

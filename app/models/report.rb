@@ -4,6 +4,7 @@ class Report < ActiveRecord::Base
   DATE_TIME_FORMAT = "#{DATE_FORMAT}, %H:%M Uhr"
 
 
+  has_many :triggers
   has_many :text_components
   has_many :sensors
   has_many :records
@@ -12,6 +13,10 @@ class Report < ActiveRecord::Base
 
   def self.current
     Report.first
+  end
+
+  def self.current_report_id
+    self.current && self.current.id
   end
 
   def active_text_components(opts={})

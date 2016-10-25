@@ -1,15 +1,15 @@
 @83
-Feature: Render Custom Variables in Text Component Markup
+Feature: Render Custom Variables in Trigger Markup
   As a reporter
   I want to render custom variables in the markup of the report
-  To reference report-specific information in text components
+  To reference report-specific information in triggers
 
 
   Background:
     Given my current live report is called "The Experiment"
 
   Scenario: Write about report
-    Given there is an active text component with the following main part:
+    Given there is a triggered text component with the following main part:
     """
     Today is a good day for "{ report }".
     """
@@ -23,7 +23,7 @@ Feature: Render Custom Variables in Text Component Markup
     Given I have these custom variables for my report:
       | Key    | Value |
       | person | Peter |
-    Given there is an active text component with the following main part:
+    Given there is a triggered text component with the following main part:
     """
     When { person } woke up this morning, he was very tired.
     """

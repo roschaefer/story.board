@@ -1,99 +1,72 @@
 require 'rails_helper'
 
-describe TextComponent, type: :model do
-  let(:text_component) { create :text_component }
-  let(:sensor) { create(:sensor) }
-
-  context 'without a report' do
-    specify { expect(build(:text_component, report: nil)).not_to be_valid }
-  end
-
-  describe '#priority' do
-    it 'defaults to :medium' do
-      text_component = build(:text_component)
-      expect(text_component.priority).to eq "medium"
+RSpec.describe TextComponent, type: :model do
+  describe '#heading' do
+    context 'empty' do
+      subject { build(:text_component, heading: '  ') }
+      it { is_expected.not_to be_valid }
     end
   end
 
-
-  describe '#events' do
-    subject { text_component.events }
-    let(:event) { create(:event, text_components: [text_component]) }
-    before { event }
-    it 'condition connects a text component and a sensor' do
-      is_expected.to include(event)
+  describe '#report' do
+    context 'missing' do
+      subject { build(:text_component, report: nil) }
+      it { is_expected.not_to be_valid }
     end
   end
 
-  describe '#sensors' do
-    subject { text_component.sensors }
-    before { create(:condition, text_component: text_component, sensor: sensor) }
-    it 'condition connects a text component and a sensor' do
-      is_expected.to include(sensor)
-    end
+  describe '#triggers' do
+    let(:text_component) { create(:text_component) }
+    subject { text_component.triggers }
+    it { is_expected.to be_empty }
   end
 
   describe '#active?' do
+    let(:text_component) { create(:text_component) }
     subject { text_component.active? }
-    context 'without any conditions is considered active' do
-      it { is_expected.to be_truthy }
+    context 'triggers empty' do
+      it { is_expected.to be true }
+
+      context 'given one trigger' do
+        context 'active trigger' do
+          let(:text_component) { create(:text_component, triggers: [create(:trigger, :active)]) }
+          it { is_expected.to be true }
+        end
+
+        context 'inactive trigger' do
+          let(:text_component) { create(:text_component, triggers: [create(:trigger, :inactive)]) }
+          it { is_expected.to be false }
+        end
+      end
+      context 'given many triggers' do
+        let(:text_component) { create(:text_component, triggers: triggers) }
+        context'some are active, some are inactive' do
+          let(:triggers) { [create(:trigger, :inactive), create(:trigger, :active)] }
+          it { is_expected.to be false }
+        end
+        context'all active' do
+          let(:triggers) { create_list(:trigger, 2, :active) }
+          it { is_expected.to be true }
+        end
+      end
+    end
+  end
+
+  describe '#priority' do
+    let(:text_component) { create(:text_component) }
+    subject { text_component.priority }
+    context 'empty triggers' do
+      it { is_expected.to be nil }
     end
 
-    context 'with connected sensor' do
-      let(:condition) { create :condition, sensor: sensor, text_component: text_component, from: 1, to: 3 }
-      before { condition }
-
-      context 'and last calibrated value in range' do
-        before { create :sensor_reading, sensor: sensor, calibrated_value: 2 }
-        it { is_expected.to be_truthy }
+    context 'many triggers with different priorities' do
+      before do
+        create(:trigger, text_components: [text_component], priority: :medium)
+        create(:trigger, text_components: [text_component], priority: :high)
       end
 
-      context 'and last calibrated value outside range' do
-        before { create :sensor_reading, sensor: sensor, calibrated_value: 0 }
-        it { is_expected.to be_falsy }
-      end
-
-      context 'edge cases: a boundary of a condition is nil' do
-        [ {from: nil, to: 23,  value_in: 21, value_out: 24},
-          {from:23,   to: nil, value_in: 24, value_out: 21} ].each do |hash|
-          context ":from=#{hash[:from].inspect} but :to=#{hash[:to].inspect}" do
-            let(:condition) do
-              create(:condition,
-                     sensor: sensor,
-                     text_component: text_component,
-                     from: hash[:from],
-                     to: hash[:to])
-            end
-
-            describe 'extends to infinity' do
-              before { create :sensor_reading, sensor: sensor, calibrated_value: hash[:value_in] }
-              it { is_expected.to be_truthy }
-            end
-
-            describe 'opposite boundary still required' do
-              before { create :sensor_reading, sensor: sensor, calibrated_value: hash[:value_out] }
-              it { is_expected.to be_falsy}
-            end
-          end
-        end
-      end
-
-
-
-      context 'with sensor readings of different intentions' do
-        before do
-          create :sensor_reading, sensor: sensor, calibrated_value: 0, intention: :real
-          create :sensor_reading, sensor: sensor, calibrated_value: 2, intention: :fake
-        end
-
-        describe '#active? :real' do
-          subject { text_component.active? intention: :real }
-          it { is_expected.to be_falsy }
-        end
-        describe '#active? :fake' do
-          subject { text_component.active? intention: :fake }
-          it { is_expected.to be_truthy }
-        end
+      it 'is the highest priority' do
+        is_expected.to eq 'high'
       end
     end
   end

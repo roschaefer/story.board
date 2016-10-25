@@ -346,6 +346,7 @@ DEPENDENCIES
   jquery-rails
   pg
   poltergeist
+  pry
   puma
   rails (= 4.2.6)
   rspec-rails

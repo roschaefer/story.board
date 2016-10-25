@@ -58,12 +58,12 @@ Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
   create :sensor, name: name, sensor_type: temperature_type
 end
 
-Given(/^I have a text component with the heading "([^"]*)"$/) do |heading|
-  @text_component = create(:text_component, heading: heading)
+Given(/^I have a trigger with the name "([^"]*)"$/) do |name|
+  @trigger = create(:trigger, name: name)
 end
 
-When(/^I visit the edit page of this text component$/) do
-  visit edit_text_component_path(@text_component)
+When(/^I visit the edit page of this trigger$/) do
+  visit edit_trigger_path(@trigger)
 end
 
 When(/^I add a condition$/) do
@@ -71,7 +71,7 @@ When(/^I add a condition$/) do
   expect(page).to have_text('remove condition') # wait until it's there
 end
 
-When(/^I choose the sensor "([^"]*)" to trigger this text component$/) do |sensor|
+When(/^I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
   select sensor, from: 'Sensor'
 end
 
@@ -85,48 +85,47 @@ When(/^I click on update$/) do
   expect(page).to have_text('Edit') # wait until saved
 end
 
-Then(/^the text component is connected to the ([^"]*) sensor$/) do |property|
-  @text_component.reload
-  expect(@text_component.sensors).not_to be_empty
-  expect(@text_component.sensors.first.sensor_type.property).to eq property.capitalize
+Then(/^the trigger is connected to the ([^"]*) sensor$/) do |property|
+  @trigger.reload
+  expect(@trigger.sensors).not_to be_empty
+  expect(@trigger.sensors.first.sensor_type.property).to eq property.capitalize
 end
 
 Then(/^the condition has relevant values from (\d+) to (\d+)$/) do |arg1, arg2|
-  @text_component.reload
-  expect(@text_component.conditions.first.from).to eq arg1.to_i
-  expect(@text_component.conditions.first.to).to   eq arg2.to_i
+  @trigger.reload
+  expect(@trigger.conditions.first.from).to eq arg1.to_i
+  expect(@trigger.conditions.first.to).to   eq arg2.to_i
 end
 
 Given(/^this sensor just measured a .* of (\d+)°C$/) do |value|
   create(:sensor_reading, sensor: @sensor, calibrated_value: value)
 end
 
-Given(/^I prepared a text component for this sensor with this introduction:$/) do |introduction|
+Given(/^I prepared a text component with this introduction:$/) do |introduction|
   @text_component = create(:text_component, report: Report.current, introduction: introduction)
-  create(:condition, text_component: @text_component, sensor: @sensor)
 end
 
-Given(/^this text component should trigger for a value between (\d+)°C and (\d+)°C$/) do |from, to|
-  expect(@text_component.conditions.length).to eq 1 # sanity check - just in case
-  condition = @text_component.conditions.first
+Given(/^this trigger should trigger for a value between (\d+)°C and (\d+)°C$/) do |from, to|
+  expect(@trigger.conditions.length).to eq 1 # sanity check - just in case
+  condition = @trigger.conditions.first
   condition.from = from
   condition.to = to
   condition.save!
 end
 
-Given(/^for my current report I have these text components prepared:$/) do |table|
+Given(/^for my current report I have these triggers prepared:$/) do |table|
   table.hashes.each do |row|
-    component = create(:text_component, report: Report.current, main_part: row['Text Component'])
+    trigger = create(:trigger, report: Report.current, name: row['Trigger'])
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
-    create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
+    create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
 
-Given(/^for my sensors I have these text components prepared:$/) do |table|
+Given(/^for my sensors I have these triggers prepared:$/) do |table|
   table.hashes.each do |row|
-    component = create(:text_component, report: Report.current, main_part: row['Text Component'], timeliness_constraint: row['Timeliness'])
+    trigger = create(:trigger, report: Report.current, name: row['Trigger'], timeliness_constraint: row['Timeliness'])
     sensor = Sensor.find_by name: row['Sensor']
-    create(:condition, sensor: sensor, text_component: component, from: row['From'], to: row['To'])
+    create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
 
@@ -194,15 +193,13 @@ When(/^I click on "([^"]*)"/) do |thing|
   click_on thing
 end
 
-When(/^I type in some text for (.*)$/) do |things|
-  things.split(',').each do |thing|
-    fill_in thing.strip, with: 'Blablablabla'
-  end
+When(/^I type in a name$/) do
+  fill_in 'Name', with: 'Blablablabla'
 end
 
-Then(/^I have a new text component for my live report in the database$/) do
+Then(/^I have a new trigger for my live report in the database$/) do
   current_report = Report.current
-  expect(current_report.text_components).not_to be_empty
+  expect(current_report.triggers).not_to be_empty
 end
 
 When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)°C$/) do |quantity, from, to|
@@ -278,8 +275,8 @@ When(/^I select "([^"]*)" from the priorities$/) do |selection|
 end
 
 Then(/^my heading has become very important$/) do
-  @text_component.reload
-  expect(@text_component.priority).to eq 'high'
+  @trigger.reload
+  expect(@trigger.priority).to eq 'high'
 end
 
 Given(/^I have (\d+) entries for a sensor in my database$/) do |quantity|
@@ -331,14 +328,21 @@ When(/^I set the component to trigger only for recent data within the last (\d+)
   fill_in "Timeliness constraint", with: hours
 end
 
-Then(/^this text component has a timeliness constraint of (\d+) hours$/) do |hours|
-  @text_component.reload
-  expect(@text_component.timeliness_constraint).to eq hours.to_i
+Then(/^this trigger has a timeliness constraint of (\d+) hours$/) do |hours|
+  @trigger.reload
+  expect(@trigger.timeliness_constraint).to eq hours.to_i
 end
 
 Given(/^I see the (?:current|new)? live report:$/) do |string|
   expect(page).to have_css('.live-report')
   expect(find('.live-report')).to have_text string
+end
+
+Then(/^I can see these pieces of text in the report:$/) do |table|
+  expect(page).to have_css('.live-report')
+  table.hashes.each do |row|
+    expect(find('.live-report')).to have_text row['Part']
+  end
 end
 
 Then(/^I can see the archived report:$/) do |string|
@@ -359,19 +363,18 @@ When(/^I change the name of the report to "([^"]*)"$/) do |name|
 end
 
 Then(/^I see the new name in the settings menu above$/) do
-  expect(page).to have_css('.dropdown-menu')
-  expect(find('.dropdown-menu')).to have_text @report_name
+  expect(page).to have_css('.dropdown.settings')
+  expect(find('.dropdown.settings .dropdown-menu')).to have_text @report_name
 end
 
-Given(/^there is an active text component with the following main part:$/) do |main_part|
+Given(/^there is a triggered text component with the following main part:$/) do |main_part|
   create(:text_component, main_part: main_part, report: Report.current)
 end
 
-Given(/^I have these active text components:$/) do |table|
+Given(/^I have these active triggers:$/) do |table|
   table.hashes.each do |row|
-    create(:text_component, {
-      priority: row['Priority'],
-      heading: row['Heading'],
+    create(:trigger, :active, {
+      name: row['Trigger'],
       report: Report.current
     })
   end
@@ -410,10 +413,10 @@ Given(/^I have these events in my database$/) do |table|
   end
 end
 
-Given(/^have some text components prepared that will trigger on a particular event$/) do |table|
+Given(/^have some triggers prepared that will trigger on a particular event$/) do |table|
   table.hashes.each do |row|
     event = Event.find_by(name: row['Event'])
-    create(:text_component, report: Report.current, main_part: row['Main part'], events: [event])
+    create(:trigger, report: Report.current, name: row['Name'], events: [event])
   end
 end
 
@@ -443,12 +446,13 @@ Then(/^according to the live report it is summer again!$/) do |string|
 end
 
 
-Given(/^there is a medium prioritized, active component with a really long text$/) do
+Given(/^there is also a medium prioritized, active component with a really long text$/) do
   main_part = "Blaaa" + 500.times.collect{ "a"}.join + "aaahhhh!"
-  create(:text_component,
+  trigger = create(:trigger, :active, priority: :medium)
+  create(:text_component, :active,
          report: Report.current,
          main_part: main_part,
-         priority: :medium)
+         triggers: [trigger])
 end
 
 Then(/^I can see the main heading:$/) do |string|
@@ -536,3 +540,57 @@ end
 Then(/^I can see that my experiment will end on "([^"]*)"$/) do |date|
   expect(page).to have_text(date)
 end
+
+When(/^I visit the sensors page$/) do
+  visit '/sensors'
+end
+
+Given(/^these are the connections between text components and triggers:$/) do |table|
+  table.hashes.each do |row|
+    trigger = Trigger.find_by(name: row['Trigger'])
+    create(:text_component,
+           main_part: row['Text component'],
+           triggers: [trigger],
+           report: Report.current)
+  end
+end
+
+Given(/^I have these text components with their highest priority:$/) do |table|
+  table.hashes.each do |row|
+    trigger = create(:trigger, :active, priority: row['Highest priority'])
+    create(:text_component, triggers: [trigger], heading: row['Heading'], report: Report.current)
+  end
+end
+
+Given(/^and this component should trigger for a value between (\d+)°C and (\d+)°C$/) do |from, to|
+  condition = create(:condition, sensor: @sensor, from: from, to: to)
+  @text_component.triggers = [condition.trigger]
+  @text_component.save!
+end
+
+Given(/^I have two short text commponents, that are active right now:$/) do |table|
+  table.hashes.each do |row|
+    trigger = create(:trigger, :active, priority: row['Highest priority'])
+    create(:text_component,
+           heading: row['Heading'],
+           triggers: [trigger],
+           report: Report.current)
+  end
+end
+
+Given(/^I have a text component with a heading "([^"]*)"$/) do |heading|
+  @text_component = create(:text_component, heading: heading, report: Report.current)
+end
+
+When(/^I visit the edit page of this text component$/) do
+  visit edit_text_component_path(@text_component)
+end
+
+When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
+  select trigger, from: 'text_component_trigger_ids'
+end
+
+Then(/^the text component is connected to both triggers$/) do
+  expect(@text_component.triggers.count).to eq 2
+end
+

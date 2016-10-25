@@ -1,7 +1,7 @@
 @23
 Feature: Write about the actual sensor value
   As a journalist
-  I want to include the actual value of a sensor in a text component
+  I want to include the actual value of a sensor in a trigger
   So I can tell the reader that a particular value of e.g. 970 hPa is quite low
 
   Background:
@@ -12,10 +12,14 @@ Feature: Write about the actual sensor value
       | SensorID | Sensor    | Property    | Unit |
       | 1        | Temp123   | Temperature | °C   |
       | 2        | Bright456 | Light       | Lux  |
-    And for my sensors I have these text components prepared:
-      | Sensor    | From  | To    | Text Component                              |
-      | Temp123   | 30°C  | 40°C  | Wow, it's incredible { value(1) }!          |
-      | Bright456 | 70000 | 90000 | Take your sunglasses: { value(2) } outside! |
+    And for my sensors I have these triggers prepared:
+      | Sensor    | From  | To    | Trigger |
+      | Temp123   | 30°C  | 40°C  | Hot     |
+      | Bright456 | 70000 | 90000 | Bright  |
+    And these are the connections between text components and triggers:
+      | Trigger | Text component                              |
+      | Hot     | Wow, it's incredible { value(1) }!          |
+      | Bright  | Take your sunglasses: { value(2) } outside! |
     And the latest sensor data looks like this:
       | Sensor    | Calibrated Value |
       | Temp123   | 32°C             |
