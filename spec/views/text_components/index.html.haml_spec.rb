@@ -28,9 +28,6 @@ RSpec.describe "text_components/index", type: :view do
   it "renders a list of text_components" do
     render
     assert_select "tr>td", :text => "Heading".to_s, :count => 2
-    assert_select "tr>td", :text => "MyIntroduction".to_s, :count => 2
-    assert_select "tr>td", :text => "MyMainPart".to_s, :count => 2
-    assert_select "tr>td", :text => "MyClosing".to_s, :count => 2
     assert_select "tr>td", :text => 1.to_s, :count => 2
     assert_select "tr>td", :text => 2.to_s, :count => 2
   end

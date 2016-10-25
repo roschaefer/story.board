@@ -4,9 +4,6 @@
   %thead
     %tr
       %th Heading
-      %th Introduction
-      %th Main part
-      %th Closing
       %th From day
       %th To day
       %th
@@ -17,9 +14,6 @@
     - @text_components.each do |text_component|
       %tr
         %td= text_component.heading
-        %td= text_component.introduction
-        %td= text_component.main_part
-        %td= text_component.closing
         %td= text_component.from_day
         %td= text_component.to_day
         %td= link_to 'Show', text_component

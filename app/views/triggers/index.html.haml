@@ -3,8 +3,14 @@
   %thead
     %tr
       %th Name
+      %th
+      %th
+      %th
   %tbody
     - @triggers.each do |trigger|
       %tr
-        %td= link_to trigger.name, trigger_path(trigger)
+        %td= trigger.name
+        %td= link_to "Show", trigger
+        %td= link_to "Edit", edit_trigger_path(trigger)
+        %td= link_to "Destroy", trigger, method: :delete, data:  { confirm:  'Are you sure?' }
 =link_to 'Add new trigger', new_trigger_path, :class => "btn btn-primary"
