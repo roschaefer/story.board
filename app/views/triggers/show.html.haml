@@ -7,6 +7,38 @@
 %p
   %strong Within
   = "the last #{@trigger.timeliness_constraint} hours"
+%p
+  %strong Conditions
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Sensor
+        %th From
+        %th To
+    %tbody
+      - @trigger.conditions.each do |condition|
+        %tr
+          %td= condition.sensor.name
+          %td= condition.from
+          %td= condition.to
+%p
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Events
+    %tbody
+      - @trigger.events.each do |event|
+        %tr
+          %td= event.name
+%p
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Text components
+    %tbody
+      - @trigger.text_components.each do |tc|
+        %tr
+          %td= tc.heading
 = link_to 'Edit', edit_trigger_path(@trigger), :class => "btn btn-primary"
 = link_to 'Destroy', trigger_path(@trigger), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
 = link_to 'Back', triggers_path, :class => "btn btn-secondary"
