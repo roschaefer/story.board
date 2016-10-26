@@ -185,7 +185,7 @@ Given(/^my current live report is called "([^"]*)"$/) do |name|
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  click_on 'Settings'
+  click_on 'Reports'
   click_on name
 end
 
