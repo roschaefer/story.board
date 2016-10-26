@@ -2,6 +2,8 @@
   = f.error_notification
 
   .form-inputs
+    #triggers
+      = f.association :triggers, label_method: :name
     = f.association :report, :as => :hidden, :input_html => {:value => @report_id }
     = f.input :heading
     = f.input :introduction
@@ -9,8 +11,6 @@
     = f.input :closing
     = f.input :from_day
     = f.input :to_day
-    #triggers
-      = f.association :triggers, label_method: :name
 
   .form-actions
     = f.button :submit
