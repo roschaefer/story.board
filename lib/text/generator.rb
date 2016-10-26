@@ -90,8 +90,10 @@ module Text
       if @components.nil?
         @components = @report.active_text_components(@opts)
         @components = components.shuffle
+        @nil_priorities, @components = components.partition {|c| c.priority.nil? }
         @components = components.sort_by {|c| Trigger.priorities[c.priority] }
         @components = components.reverse
+        @components = @components + @nil_priorities
       end
       @components
     end

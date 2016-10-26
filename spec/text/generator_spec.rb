@@ -34,6 +34,17 @@ RSpec.describe Text::Generator do
         it { is_expected.to match(/Text component/)} # any of those headings
       end
     end
+
+    context 'given text_components without triggers' do
+        let(:text_components) do
+          [
+            create(:text_component, heading: 'Text component 1', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, heading: 'Text component 2', triggers: []),
+          ]
+        end
+        it { is_expected.to eq 'Text component 1'} # priority nil is lowest
+    end
+
   end
 
   describe '#generate' do
