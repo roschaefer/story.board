@@ -6,6 +6,7 @@ class Trigger < ActiveRecord::Base
   has_and_belongs_to_many :text_components
 
   validates :report, presence: true
+  validates :priority, presence: true
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 
   enum priority: { low: 0, medium: 1, high: 2}

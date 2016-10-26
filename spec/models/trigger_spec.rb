@@ -13,6 +13,12 @@ describe Trigger, type: :model do
       trigger = build(:trigger)
       expect(trigger.priority).to eq "medium"
     end
+
+    context 'missing' do
+      let(:trigger) { build(:trigger, priority: nil) }
+      subject { trigger }
+      it { is_expected.not_to be_valid }
+    end
   end
 
 
