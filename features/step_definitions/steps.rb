@@ -615,8 +615,6 @@ Given(/^it's the 2nd day of the experiment$/) do
 end
 
 When(/^I wait for (\d+) days$/) do |number|
-  report = Report.current
-  report.start_date = report.start_date - number.to_i.days
-  report.save
+  Timecop.travel(Time.now + number.to_i.days)
 end
 
