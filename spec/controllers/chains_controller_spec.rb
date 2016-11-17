@@ -39,7 +39,7 @@ RSpec.describe ChainsController, type: :controller do
   describe "GET #index" do
     it "assigns all chains as @chains" do
       chain = Chain.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, params: {}, session: valid_session
       expect(assigns(:chains)).to eq([chain])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe ChainsController, type: :controller do
   describe "GET #show" do
     it "assigns the requested chain as @chain" do
       chain = Chain.create! valid_attributes
-      get :show, {:id => chain.to_param}, valid_session
+      get :show, params: {:id => chain.to_param}, session: valid_session
       expect(assigns(:chain)).to eq(chain)
     end
   end
 
   describe "GET #new" do
     it "assigns a new chain as @chain" do
-      get :new, {}, valid_session
+      get :new, params: {}, session: valid_session
       expect(assigns(:chain)).to be_a_new(Chain)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe ChainsController, type: :controller do
   describe "GET #edit" do
     it "assigns the requested chain as @chain" do
       chain = Chain.create! valid_attributes
-      get :edit, {:id => chain.to_param}, valid_session
+      get :edit, params: {:id => chain.to_param}, session: valid_session
       expect(assigns(:chain)).to eq(chain)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe ChainsController, type: :controller do
     context "with valid params" do
       it "creates a new Chain" do
         expect {
-          post :create, {:chain => valid_attributes}, valid_session
+          post :create, params: {:chain => valid_attributes}, session: valid_session
         }.to change(Chain, :count).by(1)
       end
 
       it "assigns a newly created chain as @chain" do
-        post :create, {:chain => valid_attributes}, valid_session
+        post :create, params: {:chain => valid_attributes}, session: valid_session
         expect(assigns(:chain)).to be_a(Chain)
         expect(assigns(:chain)).to be_persisted
       end
 
       it "redirects to the created chain" do
-        post :create, {:chain => valid_attributes}, valid_session
+        post :create, params: {:chain => valid_attributes}, session: valid_session
         expect(response).to redirect_to(Chain.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved chain as @chain" do
-        post :create, {:chain => invalid_attributes}, valid_session
+        post :create, params: {:chain => invalid_attributes}, session: valid_session
         expect(assigns(:chain)).to be_a_new(Chain)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:chain => invalid_attributes}, valid_session
+        post :create, params: {:chain => invalid_attributes}, session: valid_session
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe ChainsController, type: :controller do
 
       it "updates the requested chain" do
         chain = Chain.create! valid_attributes
-        put :update, {:id => chain.to_param, :chain => new_attributes}, valid_session
+        put :update, params: {:id => chain.to_param, :chain => new_attributes}, session: valid_session
         chain.reload
         expect(chain.hashtag).to eq '#itsanewhashtag'
       end
 
       it "assigns the requested chain as @chain" do
         chain = Chain.create! valid_attributes
-        put :update, {:id => chain.to_param, :chain => valid_attributes}, valid_session
+        put :update, params: {:id => chain.to_param, :chain => valid_attributes}, session: valid_session
         expect(assigns(:chain)).to eq(chain)
       end
 
       it "redirects to the chain" do
         chain = Chain.create! valid_attributes
-        put :update, {:id => chain.to_param, :chain => valid_attributes}, valid_session
+        put :update, params: {:id => chain.to_param, :chain => valid_attributes}, session: valid_session
         expect(response).to redirect_to(chain)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe ChainsController, type: :controller do
     context "with invalid params" do
       it "assigns the chain as @chain" do
         chain = Chain.create! valid_attributes
-        put :update, {:id => chain.to_param, :chain => invalid_attributes}, valid_session
+        put :update, params: {:id => chain.to_param, :chain => invalid_attributes}, session: valid_session
         expect(assigns(:chain)).to eq(chain)
       end
 
       it "re-renders the 'edit' template" do
         chain = Chain.create! valid_attributes
-        put :update, {:id => chain.to_param, :chain => invalid_attributes}, valid_session
+        put :update, params: {:id => chain.to_param, :chain => invalid_attributes}, session: valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe ChainsController, type: :controller do
     it "destroys the requested chain" do
       chain = Chain.create! valid_attributes
       expect {
-        delete :destroy, {:id => chain.to_param}, valid_session
+        delete :destroy, params: {:id => chain.to_param}, session: valid_session
       }.to change(Chain, :count).by(-1)
     end
 
     it "redirects to the chains list" do
       chain = Chain.create! valid_attributes
-      delete :destroy, {:id => chain.to_param}, valid_session
+      delete :destroy, params: {:id => chain.to_param}, session: valid_session
       expect(response).to redirect_to(chains_url)
     end
   end

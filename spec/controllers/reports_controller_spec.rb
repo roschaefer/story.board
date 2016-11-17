@@ -19,7 +19,7 @@ RSpec.describe ReportsController, type: :controller do
   describe 'GET #present' do
     it "renders template 'present'" do
       create(:report, id: 1)
-      get :present, id: 1
+      get :present, params: {id: 1}
       expect(response).to render_template :present
     end
   end
