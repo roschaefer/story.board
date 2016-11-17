@@ -22,18 +22,18 @@
           %td= link_to 'Show', text_component
           %td= link_to 'Edit', edit_text_component_path(text_component)
           %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
-      - if @remaining_text_components
+    - if @remaining_text_components
+      %tr
+        %td{colspan: 6}
+          %strong Text components without triggers:
+      - @remaining_text_components.each do |text_component|
         %tr
-          %td{colspan: 6}
-            %strong Text components without triggers:
-        - @remaining_text_components.each do |text_component|
-          %tr
-            %td= text_component.heading
-            %td= text_component.from_day
-            %td= text_component.to_day
-            %td= link_to 'Show', text_component
-            %td= link_to 'Edit', edit_text_component_path(text_component)
-            %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
+          %td= text_component.heading
+          %td= text_component.from_day
+          %td= text_component.to_day
+          %td= link_to 'Show', text_component
+          %td= link_to 'Edit', edit_text_component_path(text_component)
+          %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

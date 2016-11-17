@@ -4,9 +4,9 @@ class TextComponentsController < ApplicationController
   # GET /text_components
   # GET /text_components.json
   def index
-    @triggers = Trigger.all
-    # TODO: refactor terrible n+1 problem here
-    @remaining_text_components = TextComponent.all.select{|t| t.triggers.empty?}
+    text_components = TextComponent.left_joins(:triggers)
+    @triggers = text_components.map{|t| t.triggers}.flatten.uniq
+    @remaining_text_components = text_components.select{|t| t.triggers.empty?}
   end
 
   # GET /text_components/1
