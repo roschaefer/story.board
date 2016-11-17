@@ -39,7 +39,7 @@ RSpec.describe ActuatorsController, type: :controller do
   describe "GET #index" do
     it "assigns all actuators as @actuators" do
       actuator = Actuator.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, params: {}, session: valid_session
       expect(assigns(:actuators)).to eq([actuator])
     end
   end
@@ -47,14 +47,14 @@ RSpec.describe ActuatorsController, type: :controller do
   describe "GET #show" do
     it "assigns the requested actuator as @actuator" do
       actuator = Actuator.create! valid_attributes
-      get :show, {:id => actuator.to_param}, valid_session
+      get :show, params: {:id => actuator.to_param}, session: valid_session
       expect(assigns(:actuator)).to eq(actuator)
     end
   end
 
   describe "GET #new" do
     it "assigns a new actuator as @actuator" do
-      get :new, {}, valid_session
+      get :new, params: {}, session: valid_session
       expect(assigns(:actuator)).to be_a_new(Actuator)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe ActuatorsController, type: :controller do
   describe "GET #edit" do
     it "assigns the requested actuator as @actuator" do
       actuator = Actuator.create! valid_attributes
-      get :edit, {:id => actuator.to_param}, valid_session
+      get :edit, params: {:id => actuator.to_param}, session: valid_session
       expect(assigns(:actuator)).to eq(actuator)
     end
   end
@@ -71,30 +71,30 @@ RSpec.describe ActuatorsController, type: :controller do
     context "with valid params" do
       it "creates a new Actuator" do
         expect {
-          post :create, {:actuator => valid_attributes}, valid_session
+          post :create, params: {:actuator => valid_attributes}, session: valid_session
         }.to change(Actuator, :count).by(1)
       end
 
       it "assigns a newly created actuator as @actuator" do
-        post :create, {:actuator => valid_attributes}, valid_session
+        post :create, params: {:actuator => valid_attributes}, session: valid_session
         expect(assigns(:actuator)).to be_a(Actuator)
         expect(assigns(:actuator)).to be_persisted
       end
 
       it "redirects to the created actuator" do
-        post :create, {:actuator => valid_attributes}, valid_session
+        post :create, params: {:actuator => valid_attributes}, session: valid_session
         expect(response).to redirect_to(Actuator.last)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved actuator as @actuator" do
-        post :create, {:actuator => invalid_attributes}, valid_session
+        post :create, params: {:actuator => invalid_attributes}, session: valid_session
         expect(assigns(:actuator)).to be_a_new(Actuator)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:actuator => invalid_attributes}, valid_session
+        post :create, params: {:actuator => invalid_attributes}, session: valid_session
         expect(response).to render_template("new")
       end
     end
@@ -108,20 +108,20 @@ RSpec.describe ActuatorsController, type: :controller do
 
       it "updates the requested actuator" do
         actuator = Actuator.create! valid_attributes
-        put :update, {:id => actuator.to_param, :actuator => new_attributes}, valid_session
+        put :update, params: {:id => actuator.to_param, :actuator => new_attributes}, session: valid_session
         actuator.reload
         expect(actuator.name).to eq 'It is a new beautiful name'
       end
 
       it "assigns the requested actuator as @actuator" do
         actuator = Actuator.create! valid_attributes
-        put :update, {:id => actuator.to_param, :actuator => valid_attributes}, valid_session
+        put :update, params: {:id => actuator.to_param, :actuator => valid_attributes}, session: valid_session
         expect(assigns(:actuator)).to eq(actuator)
       end
 
       it "redirects to the actuator" do
         actuator = Actuator.create! valid_attributes
-        put :update, {:id => actuator.to_param, :actuator => valid_attributes}, valid_session
+        put :update, params: {:id => actuator.to_param, :actuator => valid_attributes}, session: valid_session
         expect(response).to redirect_to(actuator)
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe ActuatorsController, type: :controller do
     context "with invalid params" do
       it "assigns the actuator as @actuator" do
         actuator = Actuator.create! valid_attributes
-        put :update, {:id => actuator.to_param, :actuator => invalid_attributes}, valid_session
+        put :update, params: {:id => actuator.to_param, :actuator => invalid_attributes}, session: valid_session
         expect(assigns(:actuator)).to eq(actuator)
       end
 
       it "re-renders the 'edit' template" do
         actuator = Actuator.create! valid_attributes
-        put :update, {:id => actuator.to_param, :actuator => invalid_attributes}, valid_session
+        put :update, params: {:id => actuator.to_param, :actuator => invalid_attributes}, session: valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -145,13 +145,13 @@ RSpec.describe ActuatorsController, type: :controller do
     it "destroys the requested actuator" do
       actuator = Actuator.create! valid_attributes
       expect {
-        delete :destroy, {:id => actuator.to_param}, valid_session
+        delete :destroy, params: {:id => actuator.to_param}, session: valid_session
       }.to change(Actuator, :count).by(-1)
     end
 
     it "redirects to the actuators list" do
       actuator = Actuator.create! valid_attributes
-      delete :destroy, {:id => actuator.to_param}, valid_session
+      delete :destroy, params: {:id => actuator.to_param}, session: valid_session
       expect(response).to redirect_to(actuators_url)
     end
   end

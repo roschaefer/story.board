@@ -4,7 +4,9 @@ class TextComponentsController < ApplicationController
   # GET /text_components
   # GET /text_components.json
   def index
-    @text_components = TextComponent.all
+    @triggers = Trigger.includes(:text_components)
+    @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
+    @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
   end
 
   # GET /text_components/1

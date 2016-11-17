@@ -21,17 +21,17 @@ RSpec.describe 'Assign sensor by address', type: :request do
     end
 
     it "creates a sensor reading" do
-      expect { post url, sensor_reading_params , headers }.to change { Sensor::Reading.count }.from(0).to(1)
+      expect { post url, params: sensor_reading_params , headers: headers }.to change { Sensor::Reading.count }.from(0).to(1)
     end
 
     it "assigns the correct sensor" do
-      post url,  sensor_reading_params , headers
+      post url, params: sensor_reading_params, headers: headers
       expect(Sensor::Reading.first.sensor).to eq light
     end
 
     it "rejects if sensor params empty" do
       data_hash = "{ \"calibrated_value\": 47, \"uncalibrated_value\": 11 }"
-      post url,  sensor_reading_params.merge(:data => data_hash) , headers
+      post url,  params: sensor_reading_params.merge(:data => data_hash), headers: headers
       expect(Sensor::Reading.count).to eq 0
     end
 
