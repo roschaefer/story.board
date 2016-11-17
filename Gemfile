@@ -45,6 +45,7 @@ group :development, :test do
   gem 'byebug'
   gem 'pry'
   gem 'whenever-test'
+  gem 'timecop'
 end
 
 group :development do

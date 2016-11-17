@@ -333,9 +333,11 @@ Then(/^this trigger has a timeliness constraint of (\d+) hours$/) do |hours|
   expect(@trigger.timeliness_constraint).to eq hours.to_i
 end
 
-Given(/^I see the (?:current|new)? live report:$/) do |string|
+Given(/^I see the (?:current|new)? live report/) do |string|
   expect(page).to have_css('.live-report')
-  expect(find('.live-report')).to have_text string
+  string.split('[...]').each do |part|
+    expect(find('.live-report')).to have_text part
+  end
 end
 
 Then(/^I can see these pieces of text in the report:$/) do |table|
@@ -592,5 +594,27 @@ end
 
 Then(/^the text component is connected to both triggers$/) do
   expect(@text_component.triggers.count).to eq 2
+end
+
+
+Given(/^I have these text components with the corresponding schedule in my database:$/) do |table|
+  table.hashes.each do |row|
+    create(:text_component,
+           main_part: row['Text component'],
+           report: Report.current,
+           from_day: row['From day'],
+           to_day: row['To day']
+          )
+  end
+end
+
+Given(/^it's the 2nd day of the experiment$/) do
+  report = Report.current
+  report.start_date = 2.days.ago
+  report.save
+end
+
+When(/^I wait for (\d+) days$/) do |number|
+  Timecop.travel(Time.now + number.to_i.days)
 end
 
