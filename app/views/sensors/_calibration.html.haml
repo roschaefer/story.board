@@ -1,3 +1,3 @@
-= button_tag "Start calibration", :id => 'start_calibration', :class => "btn btn-primary"
-= button_tag "Stop calibration", :id => 'stop_calibration', :class => "btn btn-primary"
+= button_to "Start calibration", {:action => 'calibrate'}, {:method => :put, :id => 'start_calibration', :class => "btn btn-primary",}
+= button_to "Stop calibration",  {:action => 'calibrate'}, {:method => :put, :id => 'stop_calibration',  :class => "btn btn-primary",}
 
