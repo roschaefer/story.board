@@ -51,4 +51,21 @@ describe Sensor, type: :model do
       expect(sensor.address).to eq 188
     end
   end
+
+  describe '#calibrate' do
+    let(:sensor) { create(:sensor) }
+    it 'might update both values at once' do
+      sensor_reading = Sensor::Reading.new(uncalibrated_value: 7.0)
+      sensor.calibrate(sensor_reading)
+      expect(sensor.max_value).to eq 7.0
+      expect(sensor.min_value).to eq 7.0
+    end
+
+    it 'behaves robust against nil values' do
+      sensor_reading = Sensor::Reading.new
+      sensor.calibrate(sensor_reading)
+      expect(sensor.max_value).to be_nil
+      expect(sensor.min_value).to be_nil
+    end
+  end
 end
