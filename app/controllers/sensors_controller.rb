@@ -37,6 +37,7 @@ class SensorsController < ApplicationController
 
   def calibrate
     @sensor.calibrating = ! @sensor.calibrating
+    @sensor.calibrated_at = Time.now
     @sensor.save!
     redirect_to 'show'
   end
