@@ -1,5 +1,5 @@
 class SensorsController < ApplicationController
-  before_action :set_sensor, only: [:show, :edit, :update, :destroy, :calibrate]
+  before_action :set_sensor, only: [:show, :edit, :update, :destroy, :start_calibration, :stop_calibration]
   def index
     @sensors = Sensor.all
   end
@@ -35,8 +35,16 @@ class SensorsController < ApplicationController
     redirect_to sensors_path
   end
 
-  def calibrate
-    @sensor.calibrating = ! @sensor.calibrating
+  def start_calibration
+    @sensor.max_value = nil
+    @sensor.min_value = nil
+    @sensor.calibrating = true
+    @sensor.save!
+    redirect_to 'show'
+  end
+
+  def stop_calibration
+    @sensor.calibrating = false
     @sensor.calibrated_at = Time.now
     @sensor.save!
     redirect_to 'show'

@@ -664,3 +664,18 @@ Then(/^I can see the calibration values on the sensor page$/) do
   expect(page).to have_text("17")
   expect(page).to have_text("3")
 end
+
+Given(/^this sensor was calibrated already$/) do
+  @sensor.max_value = 42
+  @sensor.min_value = -11
+  @sensor.calibrated_at = 1.day.ago
+  @sensor.save!
+end
+
+Then(/^the calibration values of this sensor will be cleared$/) do
+  @sensor.reload
+  expect(@sensor.max_value).to be_nil
+  expect(@sensor.min_value).to be_nil
+  expect(@sensor.calibrated_at).not_to be_nil
+end
+

@@ -22,7 +22,8 @@ Rails.application.routes.draw do
   resources :triggers
   resources :sensors do
     member do
-      put :calibrate
+      put :start_calibration
+      put :stop_calibration
     end
   end
   resources :sensor_readings, default: { format: :json }

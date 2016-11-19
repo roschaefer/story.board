@@ -17,3 +17,9 @@ Feature: Button for calibration
     Then the highest and lowest values will be stored as extreme values for the sensor
     And I can see the calibration values on the sensor page
 
+  Scenario: A second calibration will clear min and max values
+    Given I have a sensor for "Temperature"
+    And this sensor was calibrated already
+    When I visit its sensor page
+    And I click on "Start calibration"
+    Then the calibration values of this sensor will be cleared
