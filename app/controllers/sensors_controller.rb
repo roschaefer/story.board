@@ -1,16 +1,13 @@
 class SensorsController < ApplicationController
   before_action :set_sensor, only: [:show, :edit, :update, :destroy, :start_calibration, :stop_calibration]
+  before_action :set_readings, only: [:show, :start_calibration, :stop_calibration]
+
   def index
     @sensors = Sensor.all
   end
 
   def new
     @sensor = Sensor.new
-  end
-
-  def show
-    @real_readings = @sensor.sensor_readings.real.order(:created_at).last(50).reverse
-    @fake_readings = @sensor.sensor_readings.fake.order(:created_at).last(50).reverse
   end
 
   def create
@@ -36,23 +33,28 @@ class SensorsController < ApplicationController
   end
 
   def start_calibration
+    @sensor.calibrating = true
     @sensor.max_value = nil
     @sensor.min_value = nil
-    @sensor.calibrating = true
     @sensor.save!
-    redirect_to 'show'
+    render 'show'
   end
 
   def stop_calibration
     @sensor.calibrating = false
     @sensor.calibrated_at = Time.now
     @sensor.save!
-    redirect_to 'show'
+    render 'show'
   end
 
   private
   def set_sensor
     @sensor = Sensor.find(params[:id])
+  end
+
+  def set_readings
+    @real_readings = @sensor.sensor_readings.real.order(:created_at).last(50).reverse
+    @fake_readings = @sensor.sensor_readings.fake.order(:created_at).last(50).reverse
   end
 
   def sensor_params

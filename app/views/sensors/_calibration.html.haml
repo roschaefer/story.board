@@ -1,3 +1,16 @@
-= button_to "Start calibration", {:action => 'start_calibration'}, {:method => :put, :id => 'start_calibration', :class => "btn btn-primary",}
-= button_to "Stop calibration",  {:action => 'stop_calibration'}, {:method => :put, :id => 'stop_calibration',  :class => "btn btn-primary",}
+%h3 Calibration values:
+%p
+  - if @sensor.calibrating
+    %strong Sensor is calibrating!
+  - else
+    %strong Sensor not is calibrating.
+%p
+  %strong Maximum
+  = @sensor.max_value || 'None'
+  %strong Minimum
+  = @sensor.min_value || 'None'
+- if @sensor.calibrating
+  = button_to "Stop calibration",  {:action => 'stop_calibration'}, {:method => :put, :id => 'stop_calibration',  :class => "btn btn-primary",}
+- else
+  = button_to "Start calibration", {:action => 'start_calibration'}, {:method => :put, :id => 'start_calibration', :class => "btn btn-primary",}
 

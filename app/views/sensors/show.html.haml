@@ -28,12 +28,6 @@
 %p
   = render "generate_fake_sample_data"
 %p
-  %h3 Calibration values:
-  %strong Maximum
-  = @sensor.max_value || 'None'
-  %strong Minimum
-  = @sensor.min_value || 'None'
-%p
   = render "calibration"
 %p
   = link_to 'Edit', edit_sensor_path(@sensor), :class => "btn btn-primary"
