@@ -630,7 +630,7 @@ When(/^I visit its sensor page$/) do
   visit sensor_path(@sensor)
 end
 
-Then(/^all subsequent sensor readings will be intercepted for a while$/) do
+When(/^all subsequent sensor readings will be intercepted for a while$/) do
   # send and accept JSON
   header 'Accept', "application/json"
   header 'Content-Type', "application/json"
@@ -657,4 +657,10 @@ Then(/^the highest and lowest values will be stored as extreme values for the se
   expect(@sensor.max_value).to eq 17
   expect(@sensor.min_value).to eq 3
   expect(@sensor.calibrated_at).not_to be_nil
+end
+
+Then(/^I can see the calibration values on the sensor page$/) do
+  visit sensor_path(@sensor)
+  expect(page).to have_text("17")
+  expect(page).to have_text("3")
 end
