@@ -2,10 +2,15 @@ class SensorReadingsController < ApplicationController
   def create
     @sensor_reading = Sensor::Reading.new(sensor_reading_params)
     respond_to do |format|
-      if @sensor_reading.save
-        format.json { render json: @sensor_reading, status: :created, location: @sensor_reading }
+      if @sensor_reading.sensor && @sensor_reading.sensor.calibrating
+        @sensor_reading.sensor.calibrate(@sensor_reading)
+        format.json { render json: @sensor_reading, status: :accepted }
       else
-        format.json { render json: @sensor_reading.errors, status: :unprocessable_entity }
+        if @sensor_reading.save
+          format.json { render json: @sensor_reading, status: :created, location: @sensor_reading }
+        else
+          format.json { render json: @sensor_reading.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

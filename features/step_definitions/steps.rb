@@ -618,3 +618,64 @@ When(/^I wait for (\d+) days$/) do |number|
   Timecop.travel(Time.now + number.to_i.days)
 end
 
+Given(/^I have a sensor for "([^"]*)"$/) do |property|
+  @sensor = create(:sensor,
+         report: Report.current,
+         sensor_type: create(:sensor_type, property: property)
+        )
+
+end
+
+When(/^I visit its sensor page$/) do
+  visit sensor_path(@sensor)
+end
+
+When(/^all subsequent sensor readings will be intercepted for a while$/) do
+  # send and accept JSON
+  header 'Accept', "application/json"
+  header 'Content-Type', "application/json"
+
+  expect(@sensor.sensor_readings).to be_empty
+  @values = [3,5,7,11,13,17].shuffle
+  @values.each do |value|
+    input = {
+      "sensor_id": @sensor.id,
+      "calibrated_value": value,
+      "uncalibrated_value": value,
+    }.to_json
+    request '/sensor_readings', { method: :post, input: input }
+  end
+  expect(@sensor.sensor_readings).to be_empty
+end
+
+When(/^I visit the sensor page again$/) do
+  visit sensor_path(@sensor)
+end
+
+Then(/^the highest and lowest values will be stored as extreme values for the sensor$/) do
+  @sensor.reload
+  expect(@sensor.max_value).to eq 17
+  expect(@sensor.min_value).to eq 3
+  expect(@sensor.calibrated_at).not_to be_nil
+end
+
+Then(/^I can see the calibration values on the sensor page$/) do
+  visit sensor_path(@sensor)
+  expect(page).to have_text("17")
+  expect(page).to have_text("3")
+end
+
+Given(/^this sensor was calibrated already$/) do
+  @sensor.max_value = 42
+  @sensor.min_value = -11
+  @sensor.calibrated_at = 1.day.ago
+  @sensor.save!
+end
+
+Then(/^the calibration values of this sensor will be cleared$/) do
+  @sensor.reload
+  expect(@sensor.max_value).to be_nil
+  expect(@sensor.min_value).to be_nil
+  expect(@sensor.calibrated_at).not_to be_nil
+end
+

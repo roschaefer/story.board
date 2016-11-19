@@ -26,4 +26,9 @@ class Sensor < ActiveRecord::Base
     sensor_readings.send(intention).created_before(at).last
   end
 
+  def calibrate(sensor_reading)
+    value = sensor_reading.uncalibrated_value
+    self.min_value, self.max_value = [self.min_value, self.max_value, value].compact.minmax
+    self.save
+  end
 end
