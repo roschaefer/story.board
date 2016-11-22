@@ -17,3 +17,4 @@
 //= require_tree .
 //= require cocoon
 //= require bootstrap-slider
+//= require bootstrap-select

@@ -38,3 +38,64 @@
 %br
 
 = link_to 'New Text component', new_text_component_path, :class => "btn btn-primary"
+
+
+%br
+%br
+
+/ Button trigger modal
+%button.btn.btn-primary.btn-lg{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
+  Launch Trigger & Textkomponent modal
+/ Modal
+#modalTriggerText.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      /  %h4#myModalLabel.modal-title Modal title
+      .modal-body
+        %div
+          / Nav tabs
+          %ul.nav.nav-tabs{:role => "tablist"}
+            %li.active{:role => "presentation"}
+              %a{"aria-controls" => "use", "data-toggle" => "tab", :href => "#use", :role => "tab"} Use Trigger
+            %li{:role => "presentation"}
+              %a{"aria-controls" => "create", "data-toggle" => "tab", :href => "#create", :role => "tab"} Create with new Trigger
+          / Tab panes
+          .tab-content
+            #use.tab-pane.active{:role => "tabpanel"}
+
+
+            #create.tab-pane{:role => "tabpanel"} xyz
+
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{:type => "button"} Save changes
+
+
+%br
+%br  
+
+.row
+  .col-md-6
+    %select.selectpicker
+      %option Mustard
+      %option Ketchup
+      %option Relish
+  .col-md-6
+    %input{:type => "text",
+           :name => "somename",
+           'data-slider-id' => 'demo-data-slider',
+           'data-provide' => "slider",
+           'data-slider-min'=>"1",
+           'data-slider-max'=>"200",
+           'data-slider-step'=>"1",
+           }      
+
+
+%br
+%br  
+%br
+%br  
+           
