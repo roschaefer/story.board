@@ -7,6 +7,9 @@ class Trigger < ActiveRecord::Base
 
   validates :report, presence: true
   validates :priority, presence: true
+  validates :from_hour, inclusion: { in: 0..23 }, allow_blank: true
+  validates :to_hour, inclusion: { in: 0..23 }, allow_blank: true
+  validate :both_hours_are_given
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 
   enum priority: { low: 0, medium: 1, high: 2}
@@ -51,5 +54,16 @@ class Trigger < ActiveRecord::Base
 
   def events_happened?
     events.all? {|e| e.happened?}
+  end
+
+
+  private
+  def both_hours_are_given
+    if from_hour && to_hour.blank?
+      errors.add(:to_hour, "is missing")
+    end
+    if to_hour && from_hour.blank?
+      errors.add(:from_hour, "is missing")
+    end
   end
 end

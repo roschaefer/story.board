@@ -6,6 +6,8 @@
     = f.input :name
     = f.input :priority, as: :radio_buttons, collection: Trigger.priorities.keys
     = f.input :timeliness_constraint, hint: "Text component will be triggered for sensor readings within the last X hours"
+    = f.input :from_hour
+    = f.input :to_hour
     #events
       = f.association :events, as: :check_boxes, label_method: :name_and_id
     %h3 Conditions
