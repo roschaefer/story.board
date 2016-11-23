@@ -58,44 +58,169 @@
         %div
           / Nav tabs
           %ul.nav.nav-tabs{:role => "tablist"}
-            %li.active{:role => "presentation"}
-              %a{"aria-controls" => "use", "data-toggle" => "tab", :href => "#use", :role => "tab"} Use Trigger
             %li{:role => "presentation"}
+              %a{"aria-controls" => "use", "data-toggle" => "tab", :href => "#use", :role => "tab"} Use Trigger
+            %li.active{:role => "presentation"}
               %a{"aria-controls" => "create", "data-toggle" => "tab", :href => "#create", :role => "tab"} Create with new Trigger
           / Tab panes
           .tab-content
-            #use.tab-pane.active{:role => "tabpanel"}
+            #use.tab-pane{:role => "tabpanel"}
+              / Modal 1
+              .modal-inner
+                %h1
+                  Testing forms here:  
+                .row
+                  .col-md-6
+                    %label Trigger
+                    %select.selectpicker
+                      %option Kalt in der Nacht
+                      %option Warm in der Nacht
+                      %option Sonnenschein am Morgen
+                  .col-md-6
+                    %label Period
+                    %input{:type => "text",
+                          :name => "somename",
+                          'data-slider-id' => "slider-range",
+                          'data-provide'=> "slider",
+                          'data-slider-min'=>"0",
+                          'data-slider-max'=>"300",
+                          'data-slider-step'=>"1",
+                          'data-slider-range'=>true,
+                          'data-slider-value'=>"[30,150]",
+                          'data-slider-tooltip'=>"show",
+                          'data-slider-tooltip-split'=>"true",
+                          }     
+                .row
+                  .col-md-12
+                          
+                    %input{:type => "text",
+                           :name => "somename",
+                           'data-slider-id' => 'demo-data-slider',
+                           'data-provide' => "slider",
+                           'data-slider-min'=>"1",
+                           'data-slider-max'=>"200",
+                           'data-slider-step'=>"1",
+                           'data-slider-tooltip'=>"hide",
+                           }      
+
+                    %input{:type => "text",
+                          :name => "somename2",
+                          'data-slider-id'=>"slider",
+                          'data-provide'=>"slider",
+                          'data-slider-ticks'=>"['0', '100']",
+                          'data-slider-ticks-positions'=>"['20', '100']",
+                          'data-slider-ticks-labels'=>"['sdf0','sd100']",
+                          'data-slider-tooltip'=>"none",
+                          }  
+
+            #create.tab-pane.active{:role => "tabpanel"}
+              / Modal 2
+              .modal-inner
+                .row
+                  .col-md-6
+                    .form-group
+                      %label{:for => "Triggername"} Triggername
+                      %input#inputTriggername.form-control{:placeholder => "I am a Triggername", :type => "text"}/
+                  .col-md-6
+                    .form-group
+                      %label{:for => "Sensor"} Sensor
+                      %select.selectpicker
+                        %option Temperatur 1
+                        %option Temperatur 2
+                        %option Temperatur 3
+                .row
+                  .col-md-6
+                    .slider-group
+                      %label Values
+                      %input{:type => "text",
+                            :name => "somename",
+                            :class => "class",
+                            'data-slider-id' => "slider-range",
+                            'data-provide'=> "slider",
+                            'data-slider-min'=>"0",
+                            'data-slider-max'=>"100",
+                            'data-slider-step'=>"1",
+                            'data-slider-range'=>true,
+                            'data-slider-value'=>"[0,100]",
+                            'data-slider-tooltip'=>"always",
+                            'data-slider-tooltip-split'=>"true",
+                            }   
+                  .col-md-6
+                    .slider-group
+                      %label Timeliness Constraint     
+                      %input{:type => "text",
+                             :name => "somename",
+                             'data-slider-id' => 'slider-single-time',
+                             'data-provide' => "slider",
+                             'data-slider-min'=>"0",
+                             'data-slider-max'=>"10",
+                             'data-slider-step'=>"1",
+                             'data-slider-tooltip'=>"always",
+                             }     
+                .row
+                  .col-md-6
+                    .form-group
+                      %label{:for => "Event"} Event
+                      %select.selectpicker
+                        %option 5 Events
+                        %option 2 Events
+                        %option 1 Event
+                  .col-md-6
+                    .slider-group
+                      %label Uhrzeit
+                      %input{:type => "text",
+                            :name => "somename",
+                            'data-slider-id' => "slider-time-range",
+                            'data-provide'=> "slider",
+                            'data-slider-min'=>"0",
+                            'data-slider-max'=>"2400",
+                            'data-slider-step'=>"60",
+                            'data-slider-range'=>true,
+                            'data-slider-value'=>"[0,2400]",
+                            'data-slider-tooltip'=>"show",
+                            'data-slider-tooltip-split'=>"true",
+                            }   
+                .row
+                  .col-md-6
+                    .form-group
+                      %label{:for => "Event"} By chance
+                      %label.checkbox-inline
+                        %input#inlineCheckbox1{:type => "checkbox", :value => "option1"}/
+                        %span.checkbox-button yes
+                      %label.checkbox-inline
+                        %input#inlineCheckbox2{:type => "checkbox", :value => "option2"}/
+                        %span.checkbox-button no
+                  .col-md-6
+                    .form-group
+                      %label Triggercolor
+
+                .row
+                  .col-md-12
+                    %h2
+                      Create Textcomponent
+                  .col-md-12    
+                    .form-group
+                      %label{:for => "inputHeadline"} Headline
+                      %input#inputHeadline.form-control{:placeholder => "I am a Headline", :type => "text"}/
+                    .form-group
+                      %label{:for => "inputIntroduction"} Introduction
+                      %input#inputIntroduction.form-control{:placeholder => "I am a Introduction", :type => "text"}/
+                    .form-group
+                      %label{:for => "inputMainpart"} Mainpart
+                      %input#inputMainpart.form-control{:placeholder => "I am the mainpart", :type => "text"}/    
+                    .form-group
+                      %label{:for => "inputClosing"} Closing
+                      %input#inputClosing.form-control{:placeholder => "I am the Closing", :type => "text"}/
+                    .form-group
+                  .col-md-12
+                    %button.btn.btn-primary{:type => "button"} Preview
+                    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Discard
+                    %button.btn.btn-primary{:type => "button"} Save
 
 
-            #create.tab-pane{:role => "tabpanel"} xyz
 
-      .modal-footer
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-        %button.btn.btn-primary{:type => "button"} Save changes
-
-
-%br
-%br  
-
-.row
-  .col-md-6
-    %select.selectpicker
-      %option Mustard
-      %option Ketchup
-      %option Relish
-  .col-md-6
-    %input{:type => "text",
-           :name => "somename",
-           'data-slider-id' => 'demo-data-slider',
-           'data-provide' => "slider",
-           'data-slider-min'=>"1",
-           'data-slider-max'=>"200",
-           'data-slider-step'=>"1",
-           }      
+    -#  .modal-footer
+    -#    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+    -#    %button.btn.btn-primary{:type => "button"} Save changes
 
 
-%br
-%br  
-%br
-%br  
-           

@@ -2,3 +2,59 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#modalTriggerText {
+	.modal-header {
+		border: none;
+		min-height: 1px;
+		padding: 10px;
+	}
+}
+
+.modal-inner {
+	.row > div {
+		padding-top: 1.5em;
+		padding-bottom: 1em;
+	}
+	label {
+		display: block;
+
+		&.checkbox-inline {
+			display: inline;
+		}
+	}
+}
+
+.slider-group {
+	label {
+		margin-bottom: 3em;
+	}
+}
+
+#slider-range {
+
+	.slider-track-high, #slider12c .slider-track-high {
+		background: red;
+	}	
+
+	.slider-track-low, #slider12c .slider-track-low {
+		background: red;
+	}
+
+	.slider-selection {
+		background: green;
+	}
+
+}
+
+
+#slider-single-time {
+	.tooltip-inner:after {
+		content: ' min';
+	}
+}
+
+#slider-range {
+	.tooltip-inner:after {
+		content: ' °C';
+	}
+}

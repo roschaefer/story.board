@@ -6,3 +6,11 @@
   =require twitter-bootstrap-static/fontawesome
   =require bootstrap-slider
 */
+
+
+.checkbox-button {
+	background: #ccc;
+	display: inline-block;
+	padding: 5px;
+	border-radius: 4px;
+}
