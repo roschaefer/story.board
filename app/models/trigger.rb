@@ -17,7 +17,20 @@ class Trigger < ActiveRecord::Base
   end
 
   def active?(opts={})
-    conditions_fullfilled?(opts) && events_happened?
+    on_time? && conditions_fullfilled?(opts) && events_happened?
+  end
+
+  def on_time?
+    result = true
+    if from_hour && to_hour
+      if from_hour <= to_hour
+        result = (from_hour <= Time.now.hour ) && (Time.now.hour < to_hour)
+      else
+        # e.g. 21:00 -> 6:00
+        result = (Time.now.hour < to_hour ) || (from_hour <= Time.now.hour)
+      end
+    end
+    result
   end
 
 
