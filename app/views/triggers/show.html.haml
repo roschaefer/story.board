@@ -7,6 +7,10 @@
 %p
   %strong Within
   = "the last #{@trigger.timeliness_constraint} hours"
+- if @trigger.from_hour && @trigger.to_hour
+  %p
+    %strong Time of the day
+    = "every day between #{(Time.now.beginning_of_day + @trigger.from_hour.hours).strftime("%H:%M")} and #{(Time.now.beginning_of_day + @trigger.to_hour.hours).strftime("%H:%M")}"
 %p
   %strong Conditions
   %table.table.table-striped.table-hover
