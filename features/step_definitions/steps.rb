@@ -115,7 +115,10 @@ end
 
 Given(/^for my current report I have these triggers prepared:$/) do |table|
   table.hashes.each do |row|
-    trigger = create(:trigger, report: Report.current, name: row['Trigger'])
+    trigger = create(:trigger,
+                     report: Report.current,
+                     name: row['Trigger'],
+                     )
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
@@ -679,3 +682,21 @@ Then(/^the calibration values of this sensor will be cleared$/) do
   expect(@sensor.calibrated_at).not_to be_nil
 end
 
+Given(/^it's (\d+)am$/) do |hours|
+  Timecop.travel(Time.now.beginning_of_day + hours.to_i.hours)
+end
+
+When(/^I wait for (\d+) hours$/) do |hours|
+  Timecop.travel hours.to_i.hours.from_now
+end
+
+Given(/^some triggers are active at certain hours:$/) do |table|
+  table.hashes.each do |row|
+    create(:trigger,
+           report: Report.current,
+           name: row['Trigger'],
+           from_hour: row['From'],
+           to_hour: row['To'],
+          )
+  end
+end
