@@ -196,22 +196,7 @@
 
                 .row
                   .col-md-12
-                    %h2
-                      Create Textcomponent
-                  .col-md-12
-                    .form-group
-                      %label{:for => "inputHeadline"} Headline
-                      %input#inputHeadline.form-control{:placeholder => "I am a Headline", :type => "text"}/
-                    .form-group
-                      %label{:for => "inputIntroduction"} Introduction
-                      %input#inputIntroduction.form-control{:placeholder => "I am a Introduction", :type => "text"}/
-                    .form-group
-                      %label{:for => "inputMainpart"} Mainpart
-                      %input#inputMainpart.form-control{:placeholder => "I am the mainpart", :type => "text"}/
-                    .form-group
-                      %label{:for => "inputClosing"} Closing
-                      %input#inputClosing.form-control{:placeholder => "I am the Closing", :type => "text"}/
-                    .form-group
+                    = render 'form'
                   .col-md-12
                     %button.btn.btn-primary{:type => "button"} Preview
                     %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Discard

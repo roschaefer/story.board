@@ -7,6 +7,8 @@ class TextComponentsController < ApplicationController
     @triggers = Trigger.includes(:text_components)
     @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
     @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
+    @report_id = Report.current_report_id
+    @text_component = TextComponent.new
   end
 
   # GET /text_components/1
