@@ -13,7 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
+//
+// disable turbolinks for now: 'require turbolinks'
+//
 //= require_tree .
 //= require cocoon
 //= require bootstrap-slider
