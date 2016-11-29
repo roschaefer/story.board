@@ -2,131 +2,237 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#modalTriggerText {
-	.modal-header {
-		border: none;
-		min-height: 1px;
-		padding: 10px;
-	}
-}
+/*
 
-.modal-inner {
-	.row > div {
-		padding-top: 1.5em;
-		padding-bottom: 1em;
-	}
-	label {
-		display: block;
+COLORS
 
-		&.checkbox-inline {
-			display: inline;
+*/
+
+	$blue: #3e8acc;
+	$cyan: #56c0e0;
+	$green: #58b957;
+	$yellow: #f2ae43;
+	$red: #db524b;
+	$purple: #662d91;	
+
+
+
+/*
+
+TYPO
+
+*/
+	.small-text {
+		font-size: 12px;
+		color: #999;
+	}
+
+
+/*
+
+MODAL
+
+*/
+	#modalTriggerText {
+		.modal-header {
+			border: none;
+			min-height: 1px;
+			padding: 10px;
 		}
 	}
-}
 
+	.modal-inner {
+		.row > div {
+			padding-top: 1.5em;
+			padding-bottom: 1em;
+		}
+		label {
+			display: block;
 
-
-.slider-group {
-	label {
-		margin-bottom: 3em;
-	}
-}
-
-.slider.slider-horizontal {
-	width: 100%;
-}
-
-.slider-info {
-	width: 100%;
-	.slider-info-min {
-		float: left;
-		text-align: left;
-	}
-	.slider-info-max {
-		float: right;
-		text-align: right;
-	}
-}
-
-#slider-range {
-
-	.slider-track-high {
-		background: red;
-	}	
-
-	.slider-track-low {
-		background: red;
+			&.radio-inline {
+				display: inline;
+			}
+		}
 	}
 
-	.slider-selection {
-		background: green;
-	}
 
-}
 
-#slider-single {
-
-	.slider-track-high {
-		background: #ccc;
-	}	
-
-	.slider-track-low {
-		background: #444;
-	}
-
-	.slider-selection {
-		background: #999;
-	}
-
-}
-
-//hiding unformatted since formatter works
 /*
-.tooltip {
-	display: none;
-}
+
+SLIDER
+
+*/
+
+	.slider-group {
+		label {
+			margin-bottom: 3em;
+		}
+	}
+
+	.slider.slider-horizontal {
+		width: 100%;
+	}
+
+	.slider-info {
+		width: 100%;
+		@extend .small-text;
+		.slider-info-min {
+			float: left;
+			text-align: left;
+		}
+		.slider-info-max {
+			float: right;
+			text-align: right;
+		}
+	}
+
+	#slider-range {
+
+		.slider-track-high {
+			background: $red;
+		}	
+
+		.slider-track-low {
+			background: $red;
+		}
+
+		.slider-selection {
+			background: $green;
+		}
+
+	}
+
+	#slider-single {
+
+		.slider-track-high {
+			background: #ccc;
+		}	
+
+		.slider-track-low {
+			background: #444;
+		}
+
+		.slider-selection {
+			background: #999;
+		}
+
+	}
+
+	.slider-handle {
+		background-color: $blue;
+	}
+
+/*
+
+TRIGGERCOLOR
+
 */
 
 
-// #slider-single-time {
-// 	.tooltip-inner:after {
-// 		content: ' min';
-// 	}
-// }
 
-// #slider-range {
-// 	.tooltip-inner:after {
-// 		content: ' °C';
-// 	}
-// }
+	.green {
+		background: $green;
+	}
+	.blue {
+		background: $blue;
+	}
+	.cyan {
+		background: $cyan;
+	}
+	.yellow {
+		background: $yellow;
+	}
+	.red {
+		background: $red; 
+	}
+	.purple {
+		background: $purple;
+	}
 
 
-.triggercolor {
-	li { 
-		width: 32px;
-		height: 32px;
-		display: inline-block;
-		margin-right: 10px;
-		background: #ccc;
-		border: 4px solid #fff;
-		&.active {
-			border-color: #000; 
-		}
-		span {
+	.triggercolor {
+		margin: 0;
+		padding: 0;
+		text-align: left;
+		li { 
 			width: 32px;
 			height: 32px;
-			text-indent: -1000px;
-			overflow: hidden;
+			display: inline-block;
+			margin-right: 6px;
+			border: 3px solid #fff;
+			transition: border-color .3s;
+			cursor: pointer;
+			&.active,
+			&:hover {
+				opacity: 1;
+				border-color: #ccc; 
+			}
+			span {
+				width: 32px;
+				height: 32px;
+				text-indent: -1000px;
+				overflow: hidden;
+			}
+		} 
+
+
+	}	
+
+
+	.summary {
+		@extend .small-text;
+	}
+
+
+/*
+
+RADIO BOXES
+
+*/
+
+	.checkbox-button {
+		display: inline-block;
+		padding: 2px 5px;
+		border-radius: 4px;
+		color: #fff;
+		&.value-yes {
+			background: $green;
 		}
-	} 
-
-
-}	
-
-
-
+		&.value-no {
+			background: $red;
+		}
+	}
 
 
 
+
+
+/*
+
+Text-elements
+
+*/
+	.textelement {
+		background: $blue;
+		color: #fff;
+		border-radius: 3px;
+		width: 40px;
+		height: 40px;
+		float: left;
+		margin-right: 5px;
+		cursor: pointer;
+		transform: scale(1);
+		-webkit-transition: .3s ease-in-out;
+    	-moz-transition: .3s ease-in-out;
+    	-o-transition: .3s ease-in-out;
+    	transition: .3s ease-in-out;
+		&:hover {
+			transform: scale(1.12);
+		}
+		span {
+			font-size: 10px;
+			line-height: 40px;
+		}
+	}
 
 

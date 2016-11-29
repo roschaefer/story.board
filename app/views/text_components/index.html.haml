@@ -67,60 +67,81 @@
             #use.tab-pane{:role => "tabpanel"}
               / Modal 1
               .modal-inner
-                %h1
-                  Testing forms here:
                 .row
                   .col-md-6
-                    %label Trigger
-                    %select.selectpicker{:multiple => "multiple"}
-                      %optgroup{:label => "Picnic"}
-                        %option Mustard
-                        %option Ketchup
-                        %option Relish
-                      %optgroup{:label => "Camping"}
-                        %option Tent
-                        %option Flashlight
-                        %option Toilet Paper
-                    %select.selectpicker
-                      %option Kalt in der Nacht
-                      %option Warm in der Nacht
-                      %option Sonnenschein am Morgen
+                    .form-group
+                      %label{:for => "Trigger"} Trigger
+                      %select.selectpicker{:multiple => "multiple"}
+                        %optgroup{:label => "Wetter"}
+                          %option Schweres_Unwetter
+                          %option Der_erste_Schnee
+                          %option Frühlingsanfang
+                          %option Sommeranfang
+                        %optgroup{:label => "Befinden"}
+                          %option Euterentzündung_festgestellt
+                          %option Euterentzündung_überstanden
+                          %option Kuh_sieht_krank_aus
+                        %optgroup{:label => "Personen"}
+                          %option Kuhbewerter_da
+                          %option Klauenpfleger war da
+                          %option BjörnErichsen_betritt_Stall
+                      %select.selectpicker{:multiple => "multiple"}
+                        %option Kalt in der Nacht
+                        %option Warm in der Nacht
+                        %option Sonnenschein am Morgen
+                        %option Kalt in der Nacht
+                        %option Warm in der Nacht
+                        %option Sonnenschein am Morgen
+                        %option Kuhbewerter_da
+                        %option Klauenpfleger war da
+                        %option BjörnErichsen_betritt_Stall
                   .col-md-6
-                    %label Period
-                    %input{:type => "text",
-                          :name => "somename",
-                          'data-slider-id' => "slider-range",
-                          'data-provide'=> "slider",
-                          'data-slider-min'=>"0",
-                          'data-slider-max'=>"300",
-                          'data-slider-step'=>"1",
-                          'data-slider-range'=>true,
-                          'data-slider-value'=>"[30,150]",
-                          'data-slider-tooltip'=>"show",
-                          'data-slider-tooltip-split'=>"true",
-                          }
-                .row
+                    .form-group
+                      %label{:for => "Period"} Period 
+                      %input{:type => "text",
+                            :name => "somename",
+                            'data-slider-id' => "slider-range",
+                            'data-provide'=> "slider",
+                            'data-slider-min'=>"0",
+                            'data-slider-max'=>"100",
+                            'data-slider-step'=>"1",
+                            'data-slider-range'=>true,
+                            'data-slider-value'=>"[33,66]",
+                            'data-slider-tooltip'=>"always",
+                            'data-slider-tooltip-split'=>"true",
+                            }
+                      .slider-info
+                        .slider-info-min
+                          0
+                        .slider-info-max
+                          100         
                   .col-md-12
-
-                    %input{:type => "text",
-                           :name => "somename",
-                           'data-slider-id' => 'demo-data-slider',
-                           'data-provide' => "slider",
-                           'data-slider-min'=>"1",
-                           'data-slider-max'=>"200",
-                           'data-slider-step'=>"1",
-                           'data-slider-tooltip'=>"hide",
-                           }
-
-                    %input{:type => "text",
-                          :name => "somename2",
-                          'data-slider-id'=>"slider",
-                          'data-provide'=>"slider",
-                          'data-slider-ticks'=>"['0', '100']",
-                          'data-slider-ticks-positions'=>"['20', '100']",
-                          'data-slider-ticks-labels'=>"['sdf0','sd100']",
-                          'data-slider-tooltip'=>"none",
-                          }
+                    .form-group
+                      %label{:for => "Event"} By chance
+                      %label.radio-inline
+                        %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
+                        %span.checkbox-button.value-yes High
+                      %label.radio-inline
+                        %input#inlineRadio2{:checked => "checked", :name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
+                        %span.checkbox-button.value-no Mid 
+                      %label.radio-inline
+                        %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
+                        %span.checkbox-button.value-no Low   
+                  .col-md-12
+                    .summary
+                      %strong Sensor:  
+                      %span Temperatur 1 11°C - 17°C
+                      %strong Uhrzeit:  
+                      %span 08:00 - 20:00 Uhr
+                      %strong Timeless Constraint:  
+                      %span 2
+                      %strong Zufall:  
+                      %span Ja
+                      %strong Events:  
+                      %span "Kalb ist geboren", "10.000 Liter Milch"
+                  .col-md-12
+                    = render 'form'    
+  
 
             #create.tab-pane.active{:role => "tabpanel"}
               / Modal 2
@@ -150,7 +171,7 @@
                             'data-slider-max'=>"100",
                             'data-slider-step'=>"1",
                             'data-slider-range'=>true,
-                            'data-slider-value'=>"[0,100]",
+                            'data-slider-value'=>"[33,66]",
                             'data-slider-tooltip'=>"always",
                             'data-slider-tooltip-split'=>"true",
                             }
@@ -170,6 +191,7 @@
                              'data-slider-min'=>"0",
                              'data-slider-max'=>"10",
                              'data-slider-step'=>"1",
+                             'data-slider-value'=>"6",
                              'data-slider-tooltip'=>"always",
                              }
                       .slider-info
@@ -179,7 +201,7 @@
                           10       
                 .row
                   .col-md-12
-                    %button.btn.btn-secondary.btn-lg{:type => "button"} add Sensor
+                    %button.btn.btn-primary{:type => "button"} add Sensor
                 .row
                   .col-md-6
                     .form-group
@@ -200,7 +222,7 @@
                             'data-slider-max'=>"1439",
                             'data-slider-step'=>"60",
                             'data-slider-range'=>true,
-                            'data-slider-value'=>"[1,1439]",
+                            'data-slider-value'=>"[480,1020]",
                             'data-slider-tooltip'=>"always",
                             'data-slider-tooltip-split'=>"true",
                             }
@@ -211,36 +233,54 @@
                           23:59      
                 .row
                   .col-md-12
-                    .events
+                    .summary
                       %strong Events: 
                       %apan "Licht an", "10.000 Liter Milch"           
                 .row
                   .col-md-6
                     .form-group
                       %label{:for => "Event"} By chance
-                      %label.checkbox-inline
-                        %input#inlineCheckbox1{:type => "checkbox", :value => "option1"}/
-                        %span.checkbox-button yes
-                      %label.checkbox-inline
-                        %input#inlineCheckbox2{:type => "checkbox", :value => "option2"}/
-                        %span.checkbox-button no
+                      %label.radio-inline
+                        %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
+                        %span.checkbox-button.value-yes Yes
+                      %label.radio-inline
+                        %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
+                        %span.checkbox-button.value-no No  
                   .col-md-6
                     .form-group
                       %label Triggercolor
                       %ul.triggercolor 
                         %li.blue.active
-                          %span blue
+                          %span 
                         %li.green
-                          %span green
+                          %span 
                         %li.cyan
-                          %span cyan 
+                          %span  
                         %li.yellow
-                          %span yellow
+                          %span 
                         %li.red
-                          %span red
+                          %span 
                         %li.purple
-                          %span purple                                                                               
+                          %span                                                                                
                 .row
+                  .col-md-12
+                    %label Textelements
+                    .textelement-container
+                      .textelement
+                        %span
+                          Image
+                      .textelement
+                        %span
+                          Video
+                      .textelement
+                        %span
+                          Image
+                      .textelement
+                        %span
+                          Image      
+
+
+
                   .col-md-12
                     = render 'form'
                   .col-md-12
