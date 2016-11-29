@@ -24,19 +24,37 @@
 	}
 }
 
+
+
 .slider-group {
 	label {
 		margin-bottom: 3em;
 	}
 }
 
+.slider.slider-horizontal {
+	width: 100%;
+}
+
+.slider-info {
+	width: 100%;
+	.slider-info-min {
+		float: left;
+		text-align: left;
+	}
+	.slider-info-max {
+		float: right;
+		text-align: right;
+	}
+}
+
 #slider-range {
 
-	.slider-track-high, #slider12c .slider-track-high {
+	.slider-track-high {
 		background: red;
 	}	
 
-	.slider-track-low, #slider12c .slider-track-low {
+	.slider-track-low {
 		background: red;
 	}
 
@@ -46,15 +64,69 @@
 
 }
 
+#slider-single {
 
-#slider-single-time {
-	.tooltip-inner:after {
-		content: ' min';
+	.slider-track-high {
+		background: #ccc;
+	}	
+
+	.slider-track-low {
+		background: #444;
 	}
+
+	.slider-selection {
+		background: #999;
+	}
+
 }
 
-#slider-range {
-	.tooltip-inner:after {
-		content: ' °C';
-	}
+//hiding unformatted since formatter works
+/*
+.tooltip {
+	display: none;
 }
+*/
+
+
+// #slider-single-time {
+// 	.tooltip-inner:after {
+// 		content: ' min';
+// 	}
+// }
+
+// #slider-range {
+// 	.tooltip-inner:after {
+// 		content: ' °C';
+// 	}
+// }
+
+
+.triggercolor {
+	li { 
+		width: 32px;
+		height: 32px;
+		display: inline-block;
+		margin-right: 10px;
+		background: #ccc;
+		border: 4px solid #fff;
+		&.active {
+			border-color: #000; 
+		}
+		span {
+			width: 32px;
+			height: 32px;
+			text-indent: -1000px;
+			overflow: hidden;
+		}
+	} 
+
+
+}	
+
+
+
+
+
+
+
+

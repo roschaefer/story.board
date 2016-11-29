@@ -5,8 +5,11 @@
     = f.association :report, :as => :hidden, :input_html => {:value => @report_id }
     #triggers
       = f.association :triggers, label_method: :name
-    = f.input :from_day
-    = f.input :to_day
+    .row
+      .col-md-6  
+        = f.input :from_day
+      .col-md-6
+        = f.input :to_day
     = f.input :heading
     = f.input :introduction
     = f.input :main_part
