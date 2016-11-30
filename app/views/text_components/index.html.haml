@@ -68,6 +68,37 @@
               / Modal 1
               .modal-inner
                 .row
+                  .col-md-12
+
+                    .form-group#trigger1
+                      %label{:for => "Sensor"} Trigger 1
+                      %select.selectpicker#triggertype
+                        %option Trigger type
+                        %option Recently added
+                        %option Weather
+                        %option Health
+                        %option Recurring tasks
+                      %select.selectpicker#neutral
+                        %option <- Select type first
+                      %select.selectpicker#weather
+                        %option Der_erste_Schnee
+                        %option Frühlingsanfang
+                        %option Sommeranfang  
+
+                    .form-group#trigger2
+                      %label{:for => "Sensor"} Trigger 2
+                      %select.selectpicker
+                        %option Trigger type
+                        %option Recently added
+                        %option Weather
+                        %option Health
+                        %option Recurring tasks
+                      %select.selectpicker
+                        %option <- Select type first
+
+                    .add-trigger
+                      %button.btn.btn-primary.right{:type => "button"} Add another trigger
+                            
                   .col-md-6
                     .form-group
                       %label{:for => "Trigger"} Trigger

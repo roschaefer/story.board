@@ -52,6 +52,7 @@ jQuery(document).ready(function($) {
 	});
 	sliderTimeRange.slider('setValue',[480,1020]);
 
+
 	function minutesToTime(value){
 		minutes = parseInt(value % 60, 10),
     	hours = parseInt(value / 60 % 24, 10);
@@ -63,6 +64,33 @@ jQuery(document).ready(function($) {
     	}
 		return hours + ':' + minutes;
 	}
+
+/*
+
+	example multi select pattern
+
+*/
+
+	$('.form-group#trigger2').addClass('hidden');	
+	$('.add-trigger').addClass('hidden');
+
+	setTimeout(function(){
+
+		$('*[data-id="weather"]').parent().addClass('hidden');
+		//$('*[data-id="triggertype"]').siblings().find('.selectpicker').on('change', function(){
+		$('.selectpicker').on('change', function(){
+			$('*[data-id="weather"]').parent().removeClass('hidden');
+			$('*[data-id="neutral"]').parent().addClass('hidden');
+
+			$('.add-trigger').removeClass('hidden');
+			$('.add-trigger').click(function(event) {
+				$('.form-group#trigger2').removeClass('hidden');
+				$('.add-trigger').addClass('hidden');
+			});
+		});
+
+	}, 2000);
+	
 
 	
 
