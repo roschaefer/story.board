@@ -149,12 +149,32 @@ SLIDER
 
 /*
 
+TRIGGER SELECT
+
+*/
+	.trigger-row {
+		& > .col-md-1 {
+			padding-right: 0;
+		}
+	}
+	.trigger-number {
+		border: 1px solid #ccc;
+		line-height: 34px;
+		height: 34px;
+		width: 34px;
+		border-radius: 17px;
+		text-align: center;
+		vertical-align: middle;
+		display: inline-block;
+
+	}
+
+
+/*
+
 TRIGGERCOLOR
 
 */
-
-
-
 
 
 	.triggercolor {
@@ -203,6 +223,7 @@ RADIO BOXES
 		border-radius: 4px;
 		color: #fff;
 	}
+
 
 
 

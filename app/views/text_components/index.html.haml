@@ -69,63 +69,27 @@
               .modal-inner
                 .row
                   .col-md-12
-
-                    .form-group#trigger1
-                      %label{:for => "Sensor"} Trigger 1
-                      %select.selectpicker#triggertype
-                        %option Trigger type
-                        %option Recently added
-                        %option Weather
-                        %option Health
-                        %option Recurring tasks
-                      %select.selectpicker#neutral
-                        %option <- Select type first
-                      %select.selectpicker#weather
-                        %option Der_erste_Schnee
-                        %option Frühlingsanfang
-                        %option Sommeranfang  
-
-                    .form-group#trigger2
-                      %label{:for => "Sensor"} Trigger 2
-                      %select.selectpicker
-                        %option Trigger type
-                        %option Recently added
-                        %option Weather
-                        %option Health
-                        %option Recurring tasks
-                      %select.selectpicker
-                        %option <- Select type first
-
-                    .add-trigger
-                      %button.btn.btn-primary.right{:type => "button"} Add another trigger
-                            
-                  .col-md-6
-                    .form-group
-                      %label{:for => "Trigger"} Trigger
-                      %select.selectpicker{:multiple => "multiple"}
-                        %optgroup{:label => "Wetter"}
-                          %option Schweres_Unwetter
+                    %label{:for => "Trigger"} Triggers
+                    .form-group.trigger-row.row
+                      .col-md-1
+                        %label.trigger-number 1
+                      .col-md-5  
+                        %select.selectpicker#triggertype
+                          %option Trigger type
+                          %option Recently added
+                          %option Weather
+                          %option Health
+                          %option Recurring tasks
+                      .col-md-5    
+                        %select.selectpicker#neutral
+                          %option <- Select type first
                           %option Der_erste_Schnee
                           %option Frühlingsanfang
                           %option Sommeranfang
-                        %optgroup{:label => "Befinden"}
-                          %option Euterentzündung_festgestellt
-                          %option Euterentzündung_überstanden
-                          %option Kuh_sieht_krank_aus
-                        %optgroup{:label => "Personen"}
-                          %option Kuhbewerter_da
-                          %option Klauenpfleger war da
-                          %option BjörnErichsen_betritt_Stall
-                      %select.selectpicker{:multiple => "multiple"}
-                        %option Kalt in der Nacht
-                        %option Warm in der Nacht
-                        %option Sonnenschein am Morgen
-                        %option Kalt in der Nacht
-                        %option Warm in der Nacht
-                        %option Sonnenschein am Morgen
-                        %option Kuhbewerter_da
-                        %option Klauenpfleger war da
-                        %option BjörnErichsen_betritt_Stall
+                      .col-md-1 
+                        %button{:title => "remove"} x    
+                    .add-trigger
+                      %button.btn.btn-primary{:type => "button"} Add another trigger  
                   .col-md-6
                     .form-group
                       %label{:for => "Period"} Period 
@@ -146,7 +110,7 @@
                           0
                         .slider-info-max
                           100         
-                  .col-md-12
+                  .col-md-6
                     .form-group
                       %label{:for => "Event"} Priority
                       %label.radio-inline
@@ -184,12 +148,20 @@
                       %input#inputTriggername.form-control{:placeholder => "I am a Triggername", :type => "text"}/
                   .col-md-6
                     .form-group
+                      %label{:for => "Triggertype"} Trigger type
+                      %select.selectpicker#triggertype
+                        %option Weather
+                        %option Health
+                        %option Recurring tasks  
+                        %option etc 
+                .row
+                  .col-md-6
+                    .form-group
                       %label{:for => "Sensor"} Sensor
                       %select.selectpicker
                         %option Temperatur 1
                         %option Temperatur 2
                         %option Temperatur 3
-                .row
                   .col-md-6
                     .slider-group
                       %label Values
@@ -234,13 +206,33 @@
                   .col-md-12
                     %button.btn.btn-primary{:type => "button"} add Sensor
                 .row
-                  .col-md-6
-                    .form-group
-                      %label{:for => "Event"} Event
-                      %select.selectpicker
-                        %option 5 Events
-                        %option 2 Events
-                        %option 1 Event
+                  .col-md-12
+                    %label{:for => "Event"} Events
+                    .form-group.trigger-row.row
+                      .col-md-1
+                        %label.trigger-number 1
+                      .col-md-5  
+                        %select.selectpicker
+                          %option Event type
+                          %option Recently added
+                          %option Category 1
+                          %option Category 2
+                          %option etc
+                      .col-md-5    
+                        %select.selectpicker
+                          %option <- Select type first
+                          %option Event 1
+                          %option Event 2
+                          %option etc
+                      .col-md-1 
+                        %button{:title => "remove"} x    
+                    .add-trigger
+                      %button.btn.btn-primary{:type => "button"} Add another event  
+                  .col-md-12
+                    .summary
+                      %strong Events: 
+                      %apan "Licht an", "10.000 Liter Milch"      
+                .row      
                   .col-md-6
                     .slider-group
                       %label Uhrzeit
@@ -261,13 +253,7 @@
                         .slider-info-min
                           00:00
                         .slider-info-max
-                          23:59      
-                .row
-                  .col-md-12
-                    .summary
-                      %strong Events: 
-                      %apan "Licht an", "10.000 Liter Milch"           
-                .row
+                          23:59          
                   .col-md-6
                     .form-group
                       %label{:for => "Event"} By chance
@@ -277,7 +263,7 @@
                       %label.radio-inline
                         %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
                         %span.checkbox-button.bg-red No       
-                  .col-md-6
+                  .col-md-12
                     .form-group
                       %label Triggercolor
                       %ul.triggercolor 
