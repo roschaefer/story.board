@@ -22,13 +22,16 @@
 jQuery(document).ready(function($) {
 
 
+/*
+	adding custom formatters to sliders
+
+*/	
 	var sliderTemperature = $(".slider-temperature").slider({
 		formatter: function(value) {
 			return value + ' °C';
 		}	
 	});
 	sliderTemperature.slider('setValue',[33,66]);
-
 
 	var sliderMinutes = $(".slider-minutes").slider({
 		formatter: function(value) {
@@ -37,21 +40,12 @@ jQuery(document).ready(function($) {
 	});
 	sliderMinutes.slider('setValue',6);
 
-
 	var sliderTimeRange = $(".slider-time-range").slider({
-	    min: 0,
-		max: 1439,
-		range: true,
-		step: 5,
-		tooltip_split: true,
-		ticks_tooltip: true,
-		tooltip: 'always',
 		formatter: function(value) {
 			return minutesToTime(value);
 		}	
 	});
 	sliderTimeRange.slider('setValue',[480,1020]);
-
 
 	function minutesToTime(value){
 		minutes = parseInt(value % 60, 10),
@@ -65,12 +59,25 @@ jQuery(document).ready(function($) {
 		return hours + ':' + minutes;
 	}
 
+
+/* 
+
+	Select Trigger color
+
+*/
+	$('.triggercolor li').click(function(){
+		$(this).siblings().removeClass('active');
+		$(this).addClass('active');
+		console.log('Triggercolor selected')	
+	});
+
+
+
 /*
 
 	example multi select pattern
 
 */
-
 	$('.form-group#trigger2').addClass('hidden');	
 	$('.add-trigger').addClass('hidden');
 
@@ -90,8 +97,6 @@ jQuery(document).ready(function($) {
 		});
 
 	}, 2000);
-	
-
 	
 
 });

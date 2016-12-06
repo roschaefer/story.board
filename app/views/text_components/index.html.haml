@@ -148,16 +148,16 @@
                           100         
                   .col-md-12
                     .form-group
-                      %label{:for => "Event"} By chance
+                      %label{:for => "Event"} Priority
                       %label.radio-inline
                         %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
-                        %span.checkbox-button.value-yes High
+                        %span.checkbox-button.bg-green High
                       %label.radio-inline
                         %input#inlineRadio2{:checked => "checked", :name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
-                        %span.checkbox-button.value-no Mid 
+                        %span.checkbox-button.bg-blue Mid 
                       %label.radio-inline
                         %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
-                        %span.checkbox-button.value-no Low   
+                        %span.checkbox-button.bg-red Low   
                   .col-md-12
                     .summary
                       %strong Sensor:  
@@ -249,9 +249,9 @@
                             :class => "slider-time-range",
                             'data-slider-id'=>"slider-range",
                             'data-provide'=>"slider",
-                            'data-slider-min'=>"1",
+                            'data-slider-min'=>"0",
                             'data-slider-max'=>"1439",
-                            'data-slider-step'=>"60",
+                            'data-slider-step'=>"5",
                             'data-slider-range'=>true,
                             'data-slider-value'=>"[480,1020]",
                             'data-slider-tooltip'=>"always",
@@ -273,25 +273,25 @@
                       %label{:for => "Event"} By chance
                       %label.radio-inline
                         %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
-                        %span.checkbox-button.value-yes Yes
+                        %span.checkbox-button.bg-green Yes
                       %label.radio-inline
                         %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
-                        %span.checkbox-button.value-no No  
+                        %span.checkbox-button.bg-red No       
                   .col-md-6
                     .form-group
                       %label Triggercolor
                       %ul.triggercolor 
-                        %li.blue.active
+                        %li.bg-blue.active
                           %span 
-                        %li.green
+                        %li.bg-green
                           %span 
-                        %li.cyan
+                        %li.bg-cyan
                           %span  
-                        %li.yellow
+                        %li.bg-yellow
                           %span 
-                        %li.red
+                        %li.bg-red
                           %span 
-                        %li.purple
+                        %li.bg-purple
                           %span                                                                                
                 .row
                   .col-md-12

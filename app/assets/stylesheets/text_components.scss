@@ -16,6 +16,26 @@ COLORS
 	$purple: #662d91;	
 
 
+	.bg-green {
+		background: $green;
+	}
+	.bg-blue {
+		background: $blue;
+	}
+	.bg-cyan {
+		background: $cyan;
+	}
+	.bg-yellow {
+		background: $yellow;
+	}
+	.bg-red {
+		background: $red; 
+	}
+	.bg-purple {
+		background: $purple;
+	}
+
+
 
 /*
 
@@ -135,24 +155,6 @@ TRIGGERCOLOR
 
 
 
-	.green {
-		background: $green;
-	}
-	.blue {
-		background: $blue;
-	}
-	.cyan {
-		background: $cyan;
-	}
-	.yellow {
-		background: $yellow;
-	}
-	.red {
-		background: $red; 
-	}
-	.purple {
-		background: $purple;
-	}
 
 
 	.triggercolor {
@@ -200,12 +202,6 @@ RADIO BOXES
 		padding: 2px 5px;
 		border-radius: 4px;
 		color: #fff;
-		&.value-yes {
-			background: $green;
-		}
-		&.value-no {
-			background: $red;
-		}
 	}
 
 
