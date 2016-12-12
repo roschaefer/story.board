@@ -35,6 +35,9 @@ COLORS
 		background: $purple;
 	}
 
+	$calltoaction: $blue;
+	$selected: $blue;
+	$inactive: #ccc;
 
 
 /*
@@ -62,21 +65,39 @@ MODAL
 		.modal-header {
 			border: none;
 			min-height: 1px;
-			padding: 10px;
+			padding: 20px 0 0 0;
+			.close {
+				padding-right: 10px;
+			}
 		}
 	}
 
 	.modal-inner {
 		.row > div {
-			padding-top: 1.5em;
+			padding-top: 1em;
 			padding-bottom: 1em;
 		}
 		label {
-			display: block;
+			display: block;	
+			margin-bottom: 8px;
 
 			&.radio-inline {
 				display: inline;
 			}
+		}
+		.form-group {
+			margin-bottom: 0;	
+		}
+		.row h2 {
+			border-top: 1px solid #ddd;
+			padding-top: 1.5em;
+			margin-top: 30px;
+			
+		}
+		.row:first-child h2 {
+			border-top: none;
+			margin-top: 0;
+			padding-top: 1em;
 		}
 	}
 
@@ -90,7 +111,7 @@ SLIDER
 
 	.slider-group {
 		label {
-			margin-bottom: 3em;
+			margin-bottom: 38px;
 		}
 	}
 
@@ -114,15 +135,15 @@ SLIDER
 	#slider-range {
 
 		.slider-track-high {
-			background: $red;
+			background: $inactive;
 		}	
 
 		.slider-track-low {
-			background: $red;
+			background: $inactive;
 		}
 
 		.slider-selection {
-			background: $green;
+			background: $selected;
 		}
 
 	}
@@ -130,15 +151,15 @@ SLIDER
 	#slider-single {
 
 		.slider-track-high {
-			background: #ccc;
+			background: $inactive;
 		}	
 
 		.slider-track-low {
-			background: #444;
+			background: $inactive;
 		}
 
 		.slider-selection {
-			background: #999;
+			background: $selected;
 		}
 
 	}
@@ -153,7 +174,7 @@ TRIGGER SELECT
 
 */
 	.trigger-row {
-		& > .col-md-1 {
+		& > .col-sm-1 {
 			padding-right: 0;
 		}
 	}
@@ -172,6 +193,72 @@ TRIGGER SELECT
 
 /*
 
+SENSOR
+
+*/
+
+
+
+
+
+	.custom-multiple-select-row {
+		//border-bottom: 1px solid #ccc;
+		.slider-group {
+			margin-top: 2rem;
+		}
+		& > .col-sm-1 {
+			padding-right: 0;
+			
+		}
+		& > .col-sm-1:last-child {
+			padding-left: 0;
+		}	
+	}
+
+
+/* 
+
+to order! 
+
+*/
+
+.selected-element {
+	border: 1px solid #ccc;
+	background: #dfdfdf;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.seamless-textarea {
+	//background: #ddd;
+	padding: 20px 0;
+}
+.seamless-textarea textarea {
+	//font-family: Georgia, serif;
+	border: none;
+	margin: 0 auto;
+	display: block;
+	width: 100%;
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-top: 0;
+	border-bottom: 0;
+
+	&:first-child {
+		border-top: 1px solid #ccc; 
+		font-weight: bold;
+		font-size: 130%;
+	}
+	&:nth-child(2) {
+		font-weight: bold;
+	}
+	&:last-child {
+		border-bottom: 1px solid #ccc; 
+	}
+}
+
+/*
+
 TRIGGERCOLOR
 
 */
@@ -181,8 +268,12 @@ TRIGGERCOLOR
 		margin: 0;
 		padding: 0;
 		text-align: left;
+		display: flex;
+		justify-content: space-between;
+		
 		li { 
-			width: 32px;
+			flex-grow: 1;	
+			min-width: 32px;
 			height: 32px;
 			display: inline-block;
 			margin-right: 6px;

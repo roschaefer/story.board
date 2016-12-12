@@ -13,14 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
 //= require cocoon
 //= require bootstrap-slider
 //= require bootstrap-select
 
 jQuery(document).ready(function($) {
-
 
 /*
 	adding custom formatters to sliders
