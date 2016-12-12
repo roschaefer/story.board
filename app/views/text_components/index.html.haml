@@ -142,204 +142,181 @@
                   = render 'form'     
 
           #create.tab-pane.active{:role => "tabpanel"}
-          / Modal 2
-          .modal-inner
-            .row
-              .col-sm-12
-                %h2 Trigger
-                %div.help Define a new Trigger first.
-              .col-sm-6
-                .form-group
-                  %label{:for => "Triggername"} Triggername
-                  %input#inputTriggername.form-control{:placeholder => "I am a Triggername", :type => "text"}/
-              .col-sm-6
-                .form-group
-                  %label{:for => "Triggertype"} Trigger type
-                  %select.selectpicker#triggertype
-                    %option Weather
-                    %option Health
-                    %option Recurring tasks  
-                    %option etc 
-              .col-sm-12
-                .form-group
-                  %label Triggercolor
-                  %ul.triggercolor 
-                    %li.bg-blue.active
-                      %span 
-                    %li.bg-green
-                      %span 
-                    %li.bg-cyan
-                      %span  
-                    %li.bg-yellow
-                      %span 
-                    %li.bg-red
-                      %span 
-                    %li.bg-purple
-                      %span             
-            .row
-              .col-sm-12
-                %h2 Sensors
-                %div.help Select one or add multiple sensors.
-
-              .col-sm-12
-                .form-group.row.custom-multiple-select-row
-                  .col-sm-1
-                    %label.trigger-number 1
-                  .col-sm-5  
+            / Modal 2
+            .modal-inner
+              .row
+                .col-sm-12
+                  %h2 Trigger
+                  %div.help Define a new Trigger first.
+                .col-sm-6
+                  .form-group
+                    %label{:for => "Triggername"} Triggername
+                    %input#inputTriggername.form-control{:placeholder => "I am a Triggername", :type => "text"}/
+                .col-sm-6
+                  .form-group
+                    %label{:for => "Triggertype"} Trigger type
                     %select.selectpicker#triggertype
-                      %option Sensor type
-                      %option Recently added
                       %option Weather
                       %option Health
-                      %option Recurring tasks
-                    .slider-group
-                      %label Values
-                      %input{:type => "text",
-                            :name => "somename",
-                            :class => "slider-temperature",
-                            'data-slider-id' => "slider-range",
-                            'data-provide'=> "slider",
-                            'data-slider-min'=>"0",
-                            'data-slider-max'=>"100",
-                            'data-slider-step'=>"1",
-                            'data-slider-range'=>true,
-                            'data-slider-value'=>"[33,66]",
-                            'data-slider-tooltip'=>"always",
-                            'data-slider-tooltip-split'=>"true",
-                            }
-                      .slider-info
-                        .slider-info-min
-                          0 °C
-                        .slider-info-max
-                          100 °C        
-                  .col-sm-5    
-                    %select.selectpicker#neutral
-                      %option <- Select type first
-                      %option Ozone.1 – Messstation Umgehungsstrasse
-                      %option Methan.1 – Messstation Bauernhof
-                      %option Ozone.1 – Messstation Umgehungsstrasse
-                    .slider-group
-                      %label Timeliness Constraint
-                      %input{:type => "text",
-                             :name => "somename",
-                             :class => "slider-minutes",
-                             'data-slider-id' => 'slider-single',
-                             'data-provide' => "slider",
-                             'data-slider-min'=>"0",
-                             'data-slider-max'=>"10",
-                             'data-slider-step'=>"1",
-                             'data-slider-value'=>"6",
-                             'data-slider-tooltip'=>"always",
-                             }
-                      .slider-info
-                        .slider-info-min
-                          0
-                        .slider-info-max
-                          10  
-                  .col-sm-1
-                    %button.btn.btn-default{:type => "button"}
-                      %span.glyphicon.glyphicon-trash{"aria-hidden" => "true"}                 
-              .col-sm-12
-                %button.btn.btn-primary.centered-block{:type => "button"}
-                  %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
-                  Add another Sensor
-              
-                      
-            .row
-              .col-sm-12
-                %h2 Events    
-                %div.help Add one or more Events
-              .col-sm-12
-                .form-group.row.custom-multiple-select-row
-                  .col-sm-1
-                    %label.trigger-number 1
-                  .col-sm-5  
-                    %select.selectpicker
-                      %option Event type
-                      %option Recently added
-                      %option Category 1
-                      %option Category 2
-                      %option etc
-                  .col-sm-5    
-                    %select.selectpicker
-                      %option <- Select type first
-                      %option Event 1
-                      %option Event 2
-                      %option etc
-                  .col-sm-1
-                    %button.btn.btn-default{:type => "button"}
-                      %span.glyphicon.glyphicon-trash{"aria-hidden" => "true"}                   
-              .col-sm-12
-                %button.btn.btn-primary.centered-block{:type => "button"}
-                  %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
-                  Add another Event     
-            .row
-              .col-sm-12
-                %h2 Conditions 
-                %div.help Define the conditions   
-              .col-sm-6
-                .slider-group
-                  %label Uhrzeit
-                  %input{:type => "text",
-                        :name => "somename",
-                        :class => "slider-time-range",
-                        'data-slider-id'=>"slider-range",
-                        'data-provide'=>"slider",
-                        'data-slider-min'=>"0",
-                        'data-slider-max'=>"1439",
-                        'data-slider-step'=>"5",
-                        'data-slider-range'=>true,
-                        'data-slider-value'=>"[480,1020]",
-                        'data-slider-tooltip'=>"always",
-                        'data-slider-tooltip-split'=>"true",
-                        }
-                  .slider-info
-                    .slider-info-min
-                      00:00
-                    .slider-info-max
-                      23:59          
-              .col-sm-6
-                .form-group
-                  %label{:for => "Event"} By chance
-                  %label.radio-inline
-                    %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
-                    %span.checkbox-button.bg-green Yes
-                  %label.radio-inline
-                    %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
-                    %span.checkbox-button.bg-red No       
-                                                                                      
-            .row
-              .col-sm-12
-                %h2 Text
-                %div.help Please write the text here. To add dynamic fields, like temperature values via toolbar.
-              .col-sm-12
-                .textelement-container
-                  .textelement
-                    %span
-                      Image
-                  .textelement
-                    %span
-                      Video
-                  .textelement
-                    %span
-                      Image
-                  .textelement
-                    %span
-                      Image    
-            %div.seamless-textarea            
-              %textarea{:placeholder => "Title", :rows => "3"}
-              %textarea{:placeholder => "Introduction", :rows => "3"}
-              %textarea{:placeholder => "Main Part", :rows => "10"}
-              %textarea{:placeholder => "Closing", :rows => "3"}
-                           
+                      %option Recurring tasks  
+                      %option etc 
+                .col-sm-12
+                  .form-group
+                    %label Triggercolor
+                    %ul.triggercolor 
+                      %li.bg-blue.active
+                        %span 
+                      %li.bg-green
+                        %span 
+                      %li.bg-cyan
+                        %span  
+                      %li.bg-yellow
+                        %span 
+                      %li.bg-red
+                        %span 
+                      %li.bg-purple
+                        %span             
+              .row
+                .col-sm-12
+                  %h2 Sensors
+                  %div.help Select one or add multiple sensors.
 
-            .row    
-              .col-sm-12
-                = render 'form'
-              .col-sm-12
-                %button.btn.btn-primary{:type => "button"} Preview
-                %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Discard
-                %button.btn.btn-primary{:type => "button"} Save
+                .col-sm-12
+                  .form-group.row.custom-multiple-select-row
+                    .col-sm-1
+                      %label.trigger-number 1
+                    .col-sm-5  
+                      %select.selectpicker#triggertype
+                        %option Sensor type
+                        %option Recently added
+                        %option Weather
+                        %option Health
+                        %option Recurring tasks
+                      .slider-group
+                        %label Values
+                        %input{:type => "text",
+                              :name => "somename",
+                              :class => "slider-temperature",
+                              'data-slider-id' => "slider-range",
+                              'data-provide'=> "slider",
+                              'data-slider-min'=>"0",
+                              'data-slider-max'=>"100",
+                              'data-slider-step'=>"1",
+                              'data-slider-range'=>true,
+                              'data-slider-value'=>"[33,66]",
+                              'data-slider-tooltip'=>"always",
+                              'data-slider-tooltip-split'=>"true",
+                              }
+                        .slider-info
+                          .slider-info-min
+                            0 °C
+                          .slider-info-max
+                            100 °C        
+                    .col-sm-5    
+                      %select.selectpicker#neutral
+                        %option <- Select type first
+                        %option Ozone.1 – Messstation Umgehungsstrasse
+                        %option Methan.1 – Messstation Bauernhof
+                        %option Ozone.1 – Messstation Umgehungsstrasse
+                      .slider-group
+                        %label Timeliness Constraint
+                        %input{:type => "text",
+                               :name => "somename",
+                               :class => "slider-minutes",
+                               'data-slider-id' => 'slider-single',
+                               'data-provide' => "slider",
+                               'data-slider-min'=>"0",
+                               'data-slider-max'=>"10",
+                               'data-slider-step'=>"1",
+                               'data-slider-value'=>"6",
+                               'data-slider-tooltip'=>"always",
+                               }
+                        .slider-info
+                          .slider-info-min
+                            0
+                          .slider-info-max
+                            10  
+                    .col-sm-1
+                      %button.btn.btn-default{:type => "button"}
+                        %span.glyphicon.glyphicon-trash{"aria-hidden" => "true"}                 
+                .col-sm-12
+                  %button.btn.btn-primary.centered-block{:type => "button"}
+                    %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
+                    Add another Sensor
+                
+                        
+              .row
+                .col-sm-12
+                  %h2 Events    
+                  %div.help Add one or more Events
+                .col-sm-12
+                  .form-group.row.custom-multiple-select-row
+                    .col-sm-1
+                      %label.trigger-number 1
+                    .col-sm-5  
+                      %select.selectpicker
+                        %option Event type
+                        %option Recently added
+                        %option Category 1
+                        %option Category 2
+                        %option etc
+                    .col-sm-5    
+                      %select.selectpicker
+                        %option <- Select type first
+                        %option Event 1
+                        %option Event 2
+                        %option etc
+                    .col-sm-1
+                      %button.btn.btn-default{:type => "button"}
+                        %span.glyphicon.glyphicon-trash{"aria-hidden" => "true"}                   
+                .col-sm-12
+                  %button.btn.btn-primary.centered-block{:type => "button"}
+                    %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
+                    Add another Event     
+              
+              .row
+                .col-sm-12
+                  %h2 Conditions 
+                  %div.help Define the conditions   
+                .col-sm-6
+                  .slider-group
+                    %label Uhrzeit
+                    %input{:type => "text",
+                          :name => "somename",
+                          :class => "slider-time-range",
+                          'data-slider-id'=>"slider-range",
+                          'data-provide'=>"slider",
+                          'data-slider-min'=>"0",
+                          'data-slider-max'=>"1439",
+                          'data-slider-step'=>"5",
+                          'data-slider-range'=>true,
+                          'data-slider-value'=>"[480,1020]",
+                          'data-slider-tooltip'=>"always",
+                          'data-slider-tooltip-split'=>"true",
+                          }
+                    .slider-info
+                      .slider-info-min
+                        00:00
+                      .slider-info-max
+                        23:59          
+                .col-sm-6
+                  .form-group
+                    %label{:for => "Event"} By chance
+                    %label.radio-inline
+                      %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option1"}/
+                      %span.checkbox-button.bg-green Yes
+                    %label.radio-inline
+                      %input#inlineRadio2{:name => "inlineRadioOptions", :type => "radio", :value => "option2"}/
+                      %span.checkbox-button.bg-red No       
+                             
+
+              .row    
+                .col-sm-12
+                  = render 'form'
+                .col-sm-12
+                  %button.btn.btn-primary{:type => "button"} Preview
+                  %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Discard
+                  %button.btn.btn-primary{:type => "button"} Save
 
 
 
