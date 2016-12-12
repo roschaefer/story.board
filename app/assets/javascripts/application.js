@@ -47,15 +47,28 @@ jQuery(document).ready(function($) {
 
 	function minutesToTime(value){
 		minutes = parseInt(value % 60, 10),
-    	hours = parseInt(value / 60 % 24, 10);
-    	if( minutes < 10){
-    		minutes = '0' + minutes;
-    	}
-    	if( hours < 10){
-    		hours = '0' + hours;
-    	}
+  	hours = parseInt(value / 60 % 24, 10);
+  	if( minutes < 10){
+  		minutes = '0' + minutes;
+  	}
+  	if( hours < 10){
+  		hours = '0' + hours;
+  	}
+  	//console.log("here");
+  	//console.log(minutes);
 		return hours + ':' + minutes;
 	}
+
+	// check for lower max value
+	// todo: get the real values of min and max handlers, actually 
+	sliderTimeRange.on("slide", function(slideEvt) {
+		if( slideEvt.value[0] > slideEvt.value[1] ){
+			//$("#slider-range").addClass('lower-max-value');
+		} else {
+			//$("#slider-range").removeClass('lower-max-value');
+		}	
+	});
+
 
 
 /* 

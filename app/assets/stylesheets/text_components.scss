@@ -136,6 +136,9 @@ SLIDER
 
 		.slider-track-high {
 			background: $inactive;
+			.lower-max-value & {
+				background: red;
+			}
 		}	
 
 		.slider-track-low {
