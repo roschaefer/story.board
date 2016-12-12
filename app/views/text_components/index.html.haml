@@ -70,7 +70,7 @@
               .row
                 .col-sm-12
                   %label{:for => "Trigger"} Triggers
-                  .form-group.trigger-row.row
+                  .form-group.row.custom-multiple-select-row
                     .col-sm-1
                       %label.trigger-number 1
                     .col-sm-5  
@@ -86,10 +86,14 @@
                         %option Der_erste_Schnee
                         %option Frühlingsanfang
                         %option Sommeranfang
-                    .col-sm-1 
-                      %button{:title => "remove"} x    
-                  .add-trigger
-                    %button.btn.btn-primary{:type => "button"} Add another trigger  
+                    .col-sm-1
+                      %button.btn.btn-default{:type => "button"}
+                        %span.glyphicon.glyphicon-trash{"aria-hidden" => "true"}                 
+                .col-sm-12
+                  %button.btn.btn-primary.centered-block{:type => "button"}
+                    %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
+                    Add another Trigger
+              
                 .col-sm-6
                   .form-group
                     %label{:for => "Period"} Period 
