@@ -57,7 +57,7 @@ class TriggersController < ApplicationController
   end
 
   def trigger_params
-    params.require(:trigger).permit(:heading, :name,
+    params.require(:trigger).permit(:heading, :name, :from_hour, :to_hour,
                                     :priority, :report_id,
                                     :timeliness_constraint,
                                     :event_ids => [],

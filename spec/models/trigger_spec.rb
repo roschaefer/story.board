@@ -4,6 +4,40 @@ describe Trigger, type: :model do
   let(:trigger) { create :trigger }
   let(:sensor) { create(:sensor) }
 
+  describe 'to_hour' do
+    subject { trigger }
+    let(:trigger) { build(:trigger, attributes) }
+    let(:attributes) { {to_hour: 3 } }
+    context 'without #from_hour' do
+      it { is_expected.not_to be_valid }
+    end
+  end
+
+  describe 'from_hour' do
+    subject { trigger }
+    let(:trigger) { build(:trigger, attributes) }
+    let(:attributes) { { from_hour: 3 } }
+    context 'without #to_hour' do
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'given along with #to_hour' do
+      let(:attributes) { super().merge({ to_hour: 3 }) }
+      it { is_expected.to be_valid }
+
+      context 'below 0' do
+        let(:attributes) { super().merge({ from_hour: -1 }) }
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'above 23' do
+        let(:attributes) { super().merge({ from_hour: 24 }) }
+        it { is_expected.not_to be_valid }
+      end
+    end
+
+  end
+
   context 'without a report' do
     specify { expect(build(:trigger, report: nil)).not_to be_valid }
   end

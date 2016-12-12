@@ -49,6 +49,11 @@
       .col-sm-6
         = f.input :priority, collection: Trigger.priorities.keys, include_blank: false
     .row
+      .col-sm-6
+        = f.input :from_hour
+      .col-sm-6
+        = f.input :to_hour
+    .row
       .col-sm-12
         %h2 Events
         #events

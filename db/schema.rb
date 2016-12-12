@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161118185039) do
+ActiveRecord::Schema.define(version: 20161123131246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,8 @@ ActiveRecord::Schema.define(version: 20161118185039) do
     t.integer  "report_id"
     t.integer  "priority"
     t.integer  "timeliness_constraint"
+    t.integer  "from_hour"
+    t.integer  "to_hour"
     t.index ["report_id"], name: "index_triggers_on_report_id", using: :btree
   end
 
