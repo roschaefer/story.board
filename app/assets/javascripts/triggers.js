@@ -1,7 +1,7 @@
 var ready;
 
 ready = function() {
-  return $('#conditions').on('cocoon:after-insert', function(e, insertedItem) {
+  $('#conditions').on('cocoon:after-insert', function(e, insertedItem) {
     $("input.slider").slider();
     $('.slider-range').on('slide', function(slider){
       $(this).closest('.range-group').first().find('input.range-slider-min-value').val(slider.value[0]);

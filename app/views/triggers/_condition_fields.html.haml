@@ -1,12 +1,17 @@
 .row
   .nested-fields
-    .col-md-4
-      = f.association :sensor, label_method: :name_and_id, value_method: :id
-    .col-md-6
+    .col-sm-1
+      %label.trigger-number
+        - if f.index == 'new_conditions'
+          +
+        - else
+          = f.index + 1
+    .col-sm-3
+      = f.association :sensor, label_method: :name_and_id, value_method: :id, label: false, prompt: '...add Sensor'
+    .col-sm-6
       .range-group
-        = f.input :from, as: :string, input_html: { class: 'range-slider-min-value' }
-        = f.input :to, as: :string, input_html: { class: 'range-slider-max-value' }
-        %label Values
+        = f.input :from, as: :hidden, input_html: { class: 'range-slider-min-value' }
+        = f.input :to, as: :hidden, input_html: { class: 'range-slider-max-value' }
         .slider-group
           %input.slider-range{:type =>"text",
             :class => "slider form-control",
@@ -24,10 +29,9 @@
               0 °C
             .slider-info-max
               100 °C
-    .col-md-2
-      = f.label 'Remove condition'
+    .col-sm-2
       .btn-group.btn-group-justified{role: 'group'}
         .btn-group{role: 'group'}
-          = link_to_remove_association button_tag("remove", type: 'button', class: 'btn btn-danger'), f
+          = link_to_remove_association button_tag("Remove sensor", type: 'button', class: 'btn btn-danger'), f
 
 
