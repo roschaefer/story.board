@@ -50,8 +50,6 @@ TYPO
 		color: #999;
 	}
 
-
-
 	.hidden {
 		display: none;
 	}
@@ -322,37 +320,5 @@ RADIO BOXES
 		color: #fff;
 	}
 
-
-
-
-
-
-/*
-
-Text-elements
-
-*/
-	.textelement {
-		background: $blue;
-		color: #fff;
-		border-radius: 3px;
-		width: 40px;
-		height: 40px;
-		float: left;
-		margin-right: 5px;
-		cursor: pointer;
-		transform: scale(1);
-		-webkit-transition: .3s ease-in-out;
-    	-moz-transition: .3s ease-in-out;
-    	-o-transition: .3s ease-in-out;
-    	transition: .3s ease-in-out;
-		&:hover {
-			transform: scale(1.12);
-		}
-		span {
-			font-size: 10px;
-			line-height: 40px;
-		}
-	}
 
 
