@@ -17,7 +17,7 @@ RSpec.describe "text_components/new", type: :view do
 
     assert_select "form[action=?][method=?]", text_components_path, "post" do
 
-      assert_select "input#text_component_heading[name=?]", "text_component[heading]"
+      assert_select "textarea#text_component_heading[name=?]", "text_component[heading]"
 
       assert_select "textarea#text_component_introduction[name=?]", "text_component[introduction]"
 

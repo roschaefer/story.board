@@ -34,7 +34,7 @@
           = f.simple_fields_for :conditions do |condition|
             = render 'condition_fields', f: condition
           .links
-            = link_to_add_association button_tag('Add Sensor', type: 'button', class: 'btn btn-primary centered-block link-to-add-association'), f, :conditions
+            = link_to_add_association button_tag('Add sensor', type: 'button', class: 'btn btn-primary centered-block link-to-add-association'), f, :conditions
     .row
       .col-sm-12
         %h2 Additional conditions
@@ -62,7 +62,7 @@
   .form-actions
     .row
       .col-sm-12
-        = f.button :submit, 'Save', class: 'btn.btn-primary'
+        = f.button :submit, class: 'btn.btn-primary'
 
 
 
