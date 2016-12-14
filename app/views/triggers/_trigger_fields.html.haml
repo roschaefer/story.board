@@ -1,0 +1,64 @@
+.form-inputs
+  .row
+    .col-sm-12
+      %h2 Trigger
+      %div.help Define a new Trigger first.
+      = f.association :report, :as => :hidden, :input_html => {:value => @report_id }
+    .col-sm-6
+      = f.input :name
+    .col-sm-6
+      = label_tag(:trigger, 'Trigger group')
+      %input.form-control.string.optional.text_component_triggers_name{value: "Not implemented"}
+      -#= f.input :trigger_group, collection: ['Not implemented'], prompt: "Select trigger group", selected: 21
+    .col-sm-12
+      .form-group
+        %label Color
+        %ul.triggercolor 
+          %li.bg-blue.active
+            %span
+          %li.bg-green
+            %span
+          %li.bg-cyan
+            %span
+          %li.bg-yellow
+            %span
+          %li.bg-red
+            %span
+          %li.bg-purple
+            %span
+  .row
+    .col-sm-12
+      %h2 Sensor conditions
+      #conditions
+        = f.simple_fields_for :conditions do |condition|
+          = render 'triggers/condition_fields', f: condition
+        .links
+          = link_to_add_association button_tag('Add sensor', type: 'button', class: 'btn btn-primary centered-block link-to-add-association'), f, :conditions, partial: 'triggers/condition_fields'
+  .row
+    .col-sm-12
+      %h2 Additional conditions
+    .col-sm-6
+      = f.input :timeliness_constraint, hint: "Text component will be triggered for sensor readings within the last X hours", input_html: {'data-slider-id' => 'slider-single',
+        'data-provide' => "slider",
+       'data-slider-min'=>"0",
+       'data-slider-max'=>"12",
+       'data-slider-step'=>"1",
+       'data-slider-tooltip'=>"always" }
+    .col-sm-6
+      = f.input :priority, collection: Trigger.priorities.keys, include_blank: false
+  .row
+    .col-sm-6
+      = f.input :from_hour
+    .col-sm-6
+      = f.input :to_hour
+  .row
+    .col-sm-12
+      %h2 Events
+      #events
+        = f.association :events, label_method: :name_and_id, label: false
+
+- unless local_assigns[:create_trigger]
+  .form-actions
+    .row
+      .col-sm-12
+        = f.button :submit, class: 'btn.btn-primary'

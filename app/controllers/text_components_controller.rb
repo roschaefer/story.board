@@ -9,6 +9,7 @@ class TextComponentsController < ApplicationController
     @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
     @report_id = Report.current_report_id
     @text_component = TextComponent.new
+    @text_component.triggers.build
   end
 
   # GET /text_components/1
@@ -20,6 +21,7 @@ class TextComponentsController < ApplicationController
   def new
     @report_id = Report.current_report_id
     @text_component = TextComponent.new
+    @text_component.triggers.build
   end
 
   # GET /text_components/1/edit
@@ -31,6 +33,10 @@ class TextComponentsController < ApplicationController
   # POST /text_components.json
   def create
     @text_component = TextComponent.new(text_component_params)
+
+    @text_component.triggers.each do |trigger|
+      trigger.conditions.each {|c| c.trigger = trigger } # both trigger and condition are new and need to be connected
+    end
 
     respond_to do |format|
       if @text_component.save
@@ -75,8 +81,13 @@ class TextComponentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def text_component_params
-      params.require(:text_component).permit(:heading, :introduction,
-                                             :main_part, :closing, :from_day,
-                                             :to_day, :report_id, trigger_ids: [])
+      params.require(:text_component)
+        .permit(:heading, :introduction, :main_part, :closing, :from_day,
+                :to_day, :report_id, trigger_ids: [],
+                triggers_attributes: [:heading, :name, :from_hour, :to_hour,
+                                      :priority, :report_id,
+                                      :timeliness_constraint,
+                                      :event_ids => [],
+                                      conditions_attributes: [:id, :sensor_id, :from, :to, :_destroy]] )
     end
 end
