@@ -5,6 +5,8 @@ class TextComponent < ActiveRecord::Base
   has_many :events, through: :triggers
   belongs_to :report
 
+  accepts_nested_attributes_for :triggers
+
   def active?(opts={})
     on_time? && triggers.all? {|t| t.active?(opts) }
   end

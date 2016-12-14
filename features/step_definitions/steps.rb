@@ -67,17 +67,17 @@ When(/^I visit the edit page of this trigger$/) do
 end
 
 When(/^I add a condition$/) do
-  click_on 'add condition'
-  expect(page).to have_text('remove condition') # wait until it's there
+  find('button', text: /Add sensor/).click
+  expect(page).to have_text('Remove sensor') # wait until it's there
 end
 
 When(/^I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
-  select sensor, from: 'Sensor'
+  find('.choose_sensor').select sensor
 end
 
 When(/^I define a range from "([^"]*)" to "([^"]*)" to cover the relevant values$/) do |arg1, arg2|
-  fill_in 'From', with: arg1
-  fill_in 'To',   with: arg2
+  first('.range-slider-min-value', visible: false).set(arg1)
+  first('.range-slider-max-value', visible: false).set(arg2)
 end
 
 When(/^I click on update$/) do
@@ -274,7 +274,7 @@ When(/^by the way, the "([^"]*)" attribute above is a string$/) do |arg1|
 end
 
 When(/^I select "([^"]*)" from the priorities$/) do |selection|
-  choose selection
+  select selection, from: 'trigger_priority'
 end
 
 Then(/^my heading has become very important$/) do

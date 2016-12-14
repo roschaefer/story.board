@@ -36,6 +36,8 @@ gem 'haml-rails'
 gem 'simple_form'
 gem 'cocoon'
 gem 'whenever', :require => false
+gem 'bootstrap-slider-rails'
+gem 'bootstrap-select-rails'
 
 group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low

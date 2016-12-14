@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "text_components/index", type: :view do
   let(:report) { create(:report) }
   before(:each) do
+    assign(:text_component, TextComponent.new)
     assign(:triggers, [])
     assign(:remaining_text_components, [
       TextComponent.create!(

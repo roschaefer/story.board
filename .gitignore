@@ -18,3 +18,4 @@
 
 script/send_sensor_reading.sh
 rerun.txt
+*.DS_Store

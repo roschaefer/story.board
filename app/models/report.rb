@@ -34,7 +34,7 @@ class Report < ActiveRecord::Base
   end
 
   def compose(opts={})
-    generator = Text::Generator.new(report: self, opts: opts)
+    generator = ::Text::Generator.new(report: self, opts: opts)
     generated = generator.generate
     Record.new(generated.merge(report: self, intention: opts[:intention]))
   end

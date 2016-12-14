@@ -1,3 +1,355 @@
 // Place all the styles related to the TextComponents controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/*
+
+COLORS
+
+*/
+
+	$blue: #3e8acc;
+	$cyan: #56c0e0;
+	$green: #58b957;
+	$yellow: #f2ae43;
+	$red: #db524b;
+	$purple: #662d91;	
+
+
+	.bg-green {
+		background: $green;
+	}
+	.bg-blue {
+		background: $blue;
+	}
+	.bg-cyan {
+		background: $cyan;
+	}
+	.bg-yellow {
+		background: $yellow;
+	}
+	.bg-red {
+		background: $red; 
+	}
+	.bg-purple {
+		background: $purple;
+	}
+
+.bottom{
+   margin-bottom:3em;
+}
+	$calltoaction: $blue;
+	$selected: $blue;
+	$inactive: #ccc;
+
+
+/*
+
+TYPO
+
+*/
+	.small-text {
+		font-size: 12px;
+		color: #999;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+/*
+
+MODAL
+
+*/
+	#modalTriggerText {
+		.modal-header {
+			border: none;
+			min-height: 1px;
+			padding: 20px 0 0 0;
+			.close {
+				padding-right: 10px;
+			}
+		}
+	}
+
+	.modal-inner {
+		.row > div {
+			padding-top: 1em;
+			padding-bottom: 1em;
+		}
+		label {
+			display: block;	
+			margin-bottom: 8px;
+
+			&.radio-inline {
+				display: inline;
+			}
+		}
+		.form-group {
+			margin-bottom: 0;	
+		}
+		.row h2 {
+			border-top: 1px solid #ddd;
+			padding-top: 1.5em;
+			margin-top: 30px;
+			
+		}
+		.row:first-child h2 {
+			border-top: none;
+			margin-top: 0;
+			padding-top: 1em;
+		}
+	}
+
+  .form-inputs {
+    .row > div {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
+    label {
+      display: block;	
+      margin-bottom: 8px;
+
+      &.radio-inline {
+        display: inline;
+      }
+    }
+    .form-group {
+      margin-bottom: 0;	
+    }
+    .row h2 {
+      border-top: 1px solid #ddd;
+      padding-top: 1.5em;
+      margin-top: 30px;
+
+    }
+    .row:first-child h2 {
+      border-top: none;
+      margin-top: 0;
+      padding-top: 1em;
+    }
+  }
+
+
+/*
+
+SLIDER
+
+*/
+
+	.slider-group {
+		label {
+			margin-bottom: 38px;
+		}
+	}
+
+	.slider.slider-horizontal {
+		width: 100%;
+	}
+
+	.slider-info {
+		width: 100%;
+		@extend .small-text;
+		.slider-info-min {
+			float: left;
+			text-align: left;
+		}
+		.slider-info-max {
+			float: right;
+			text-align: right;
+		}
+	}
+
+	#slider-range {
+
+		.slider-track-high {
+			background: $inactive;
+			.lower-max-value & {
+				background: red;
+			}
+		}	
+
+		.slider-track-low {
+			background: $inactive;
+		}
+
+		.slider-selection {
+			background: $selected;
+		}
+
+	}
+
+	#slider-single {
+
+		.slider-track-high {
+			background: $inactive;
+		}	
+
+		.slider-track-low {
+			background: $inactive;
+		}
+
+		.slider-selection {
+			background: $selected;
+		}
+
+	}
+
+	.slider-handle {
+		background-color: $blue;
+	}
+
+/*
+
+TRIGGER SELECT
+
+*/
+	.trigger-row {
+		& > .col-sm-1 {
+			padding-right: 0;
+		}
+	}
+	.trigger-number {
+		border: 1px solid #ccc;
+		line-height: 34px;
+		height: 34px;
+		width: 34px;
+		border-radius: 17px;
+		text-align: center;
+		vertical-align: middle;
+		display: inline-block;
+
+	}
+
+
+/*
+
+SENSOR
+
+*/
+
+
+
+
+
+	.custom-multiple-select-row {
+		//border-bottom: 1px solid #ccc;
+		.slider-group {
+			margin-top: 2rem;
+		}
+		& > .col-sm-1 {
+			padding-right: 0;
+			
+		}
+		& > .col-sm-1:last-child {
+			padding-left: 0;
+		}	
+	}
+
+
+/* 
+
+to order! 
+
+*/
+
+.selected-element {
+	border: 1px solid #ccc;
+	background: #dfdfdf;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.seamless-textarea {
+	//background: #ddd;
+	padding: 20px 0;
+}
+.seamless-textarea textarea {
+	//font-family: Georgia, serif;
+	border: none;
+	margin: 0 auto;
+	display: block;
+	width: 100%;
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-top: 0;
+	border-bottom: 0;
+
+	&:first-child {
+		border-top: 1px solid #ccc; 
+		font-weight: bold;
+		font-size: 130%;
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+	}
+	&:nth-child(2) {
+		font-weight: bold;
+	}
+	&:last-child {
+		border-bottom: 1px solid #ccc;
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px; 
+	}
+}
+
+/*
+
+TRIGGERCOLOR
+
+*/
+
+
+	.triggercolor {
+		margin: 0;
+		padding: 0;
+		text-align: left;
+		display: flex;
+		justify-content: space-between;
+		
+		li { 
+			flex-grow: 1;	
+			min-width: 32px;
+			height: 32px;
+			display: inline-block;
+			margin-right: 6px;
+			border: 3px solid #fff;
+			transition: border-color .3s;
+			cursor: pointer;
+			&.active,
+			&:hover {
+				opacity: 1;
+				border-color: #ccc; 
+			}
+			span {
+				width: 32px;
+				height: 32px;
+				text-indent: -1000px;
+				overflow: hidden;
+			}
+		} 
+
+
+	}	
+
+
+	.summary {
+		@extend .small-text;
+	}
+
+
+/*
+
+RADIO BOXES
+
+*/
+
+	.checkbox-button {
+		display: inline-block;
+		padding: 2px 5px;
+		border-radius: 4px;
+		color: #fff;
+	}
+
+
+

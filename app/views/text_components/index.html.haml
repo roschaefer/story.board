@@ -38,3 +38,50 @@
 %br
 
 = link_to 'New Text component', new_text_component_path, :class => "btn btn-primary"
+
+
+%br
+%br
+
+/ Button trigger modal
+%button.btn.btn-primary.btn-lg{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
+  Launch Trigger & Textkomponent modal
+/ Modal
+#modalTriggerText.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %div
+          / Nav tabs
+          %ul.nav.nav-tabs{:role => "tablist"}
+            %li{:role => "presentation"}
+              %a{"aria-controls" => "use", "data-toggle" => "tab", :href => "#use", :role => "tab"} Use Trigger
+            %li.active{:role => "presentation"}
+              %a{"aria-controls" => "create", "data-toggle" => "tab", :href => "#create", :role => "tab"} Create with new Trigger
+      .modal-body
+     
+        / Tab panes
+        .tab-content
+          #use.tab-pane{:role => "tabpanel"}
+            / Modal 1
+            .modal-inner
+              .row
+                .col-sm-12
+                  %h2 New text component
+                  %div.help Use an existing trigger
+              .row
+                .col-sm-12
+                  = render 'form'
+          #create.tab-pane.active{:role => "tabpanel"}
+            / Modal 2
+            .modal-inner
+              .row
+                .col-sm-12
+                  = render 'form', create_trigger: true
+
+
+
+
+
