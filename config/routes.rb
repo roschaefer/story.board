@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :text_components
+  resources :text_components, except: [:edit, :new]
   resources :chains
   resources :actuators do
     member do

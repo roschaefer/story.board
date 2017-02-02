@@ -17,18 +17,6 @@ class TextComponentsController < ApplicationController
   def show
   end
 
-  # GET /text_components/new
-  def new
-    @report_id = Report.current_report_id
-    @text_component = TextComponent.new
-    @text_component.triggers.build
-  end
-
-  # GET /text_components/1/edit
-  def edit
-    @report_id = Report.current_report_id
-  end
-
   # POST /text_components
   # POST /text_components.json
   def create

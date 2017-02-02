@@ -1,5 +1,3 @@
-%p#notice= notice
-
 %p
   %b Heading:
   = @text_component.heading
@@ -19,6 +17,4 @@
   %b To day:
   = @text_component.to_day
 
-= link_to 'Edit', edit_text_component_path(@text_component)
-\|
 = link_to 'Back', text_components_path
