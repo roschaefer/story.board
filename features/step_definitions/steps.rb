@@ -587,10 +587,6 @@ Given(/^I have a text component with a heading "([^"]*)"$/) do |heading|
   @text_component = create(:text_component, heading: heading, report: Report.current)
 end
 
-When(/^I visit the edit page of this text component$/) do
-  visit edit_text_component_path(@text_component)
-end
-
 When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
   select trigger, from: 'text_component_trigger_ids'
 end
@@ -699,4 +695,17 @@ Given(/^some triggers are active at certain hours:$/) do |table|
            to_hour: row['To'],
           )
   end
+end
+
+When(/^I edit this text component$/) do
+  visit text_components_path
+  within('tr', text: @text_component.heading) do
+    click_on 'Edit'
+  end
+  expect(page).to have_text('Editing text component')
+end
+
+When(/^I update the text component$/) do
+  click_on 'Update'
+  expect(page).to have_text('Text component was successfully updated.')
 end

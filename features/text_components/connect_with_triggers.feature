@@ -6,16 +6,17 @@ Feature: Connect text components with triggers
   Background:
     Given there is a sensor live report
 
+  @javascript
   Scenario: Add two triggers to the text component
     Given I have these active triggers:
       | Trigger           |
       | Some situation    |
       | Another situation |
     And I have a text component with a heading "What's happening now?"
-    When I visit the edit page of this text component
+    When I edit this text component
     And I add a trigger and choose "Another situation"
     And I add another trigger and choose "Some situation"
-    And I click on update
+    And I update the text component
     Then the text component is connected to both triggers
 
 
