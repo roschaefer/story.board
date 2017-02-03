@@ -32,37 +32,37 @@
           %ul.dropdown-menu
             %li
               %a{:href => "#"}
-                %span.glyphicon.glyphicon-picture{"aria-hidden" => "true"} 
+                %span.glyphicon.glyphicon-picture{"aria-hidden" => "true"}
                 Picture
             %li
               %a{:href => "#"}
-                %span.glyphicon.glyphicon-facetime-video{"aria-hidden" => "true"} 
-                Video 
+                %span.glyphicon.glyphicon-facetime-video{"aria-hidden" => "true"}
+                Video
             %li
               %a{:href => "#"}
-                %span.glyphicon.glyphicon-play{"aria-hidden" => "true"} 
+                %span.glyphicon.glyphicon-play{"aria-hidden" => "true"}
                 Audio
             %li
               %a{:href => "#"}
-                %span.glyphicon.glyphicon-link{"aria-hidden" => "true"} 
+                %span.glyphicon.glyphicon-link{"aria-hidden" => "true"}
                 Link
-            %li.divider{:role => "separator"}  
+            %li.divider{:role => "separator"}
             %li
               %a{:href => "#"}
-                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"} 
+                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"}
                 Markup 1
             %li
               %a{:href => "#"}
-                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"} 
+                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"}
                 Markup 2
             %li
               %a{:href => "#"}
-                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"} 
+                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"}
                 Markup 3
-    %div.seamless-textarea
+    %div.seamless-textarea.text-component-input-fields
       = f.input :heading, as: :text, placeholder: 'Title', label: false
-      = f.input :introduction, as: :text, placeholder: 'Introduction', label: false
-      = f.input :main_part, as: :text, placeholder: 'Main part', label: false, input_html: { rows: 10}
+      = f.input :introduction, as: :text, placeholder: 'Introduction', label: false, input_html: { class: 'introduction' }
+      = f.input :main_part, as: :text, placeholder: 'Main part', label: false, input_html: { rows: 10 }
       = f.input :closing, as: :text, placeholder: 'Closing', label: false
   .form-actions
     = f.button :submit
