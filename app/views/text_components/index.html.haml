@@ -27,7 +27,7 @@
           %td= text_component.from_day
           %td= text_component.to_day
           %td
-            %button.btn.btn-link{"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
+            %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
               Edit
 
           %td= link_to 'Show', text_component
@@ -42,7 +42,7 @@
           %td= text_component.from_day
           %td= text_component.to_day
           %td
-            %button.btn.btn-link{"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
+            %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
               Edit
           %td= link_to 'Show', text_component
           %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
