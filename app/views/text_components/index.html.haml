@@ -1,5 +1,12 @@
 %h1 Text components
 
+- if @remaining_text_components
+  - @remaining_text_components.each do |text_component|
+    = render 'edit_modal', text_component: text_component
+- @triggers.each do |trigger|
+  - trigger.text_components.each do |text_component|
+    = render 'edit_modal', text_component: text_component
+
 %table.table.table-striped.table-hover
   %thead
     %tr
@@ -19,8 +26,11 @@
           %td= text_component.heading
           %td= text_component.from_day
           %td= text_component.to_day
+          %td
+            %button.btn.btn-link{"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
+              Edit
+
           %td= link_to 'Show', text_component
-          %td= link_to 'Edit', edit_text_component_path(text_component)
           %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
     - if @remaining_text_components
       %tr
@@ -31,22 +41,20 @@
           %td= text_component.heading
           %td= text_component.from_day
           %td= text_component.to_day
+          %td
+            %button.btn.btn-link{"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
+              Edit
           %td= link_to 'Show', text_component
-          %td= link_to 'Edit', edit_text_component_path(text_component)
           %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
 
-= link_to 'New Text component', new_text_component_path, :class => "btn btn-primary"
-
-
-%br
 %br
 
 / Button trigger modal
 %button.btn.btn-primary.btn-lg{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
   Launch Trigger & Textkomponent modal
 / Modal
+
 #modalTriggerText.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content
@@ -61,7 +69,6 @@
             %li.active{:role => "presentation"}
               %a{"aria-controls" => "create", "data-toggle" => "tab", :href => "#create", :role => "tab"} Create with new Trigger
       .modal-body
-     
         / Tab panes
         .tab-content
           #use.tab-pane{:role => "tabpanel"}
@@ -73,15 +80,10 @@
                   %div.help Use an existing trigger
               .row
                 .col-sm-12
-                  = render 'form'
+                  = render 'form', text_component: @text_component
           #create.tab-pane.active{:role => "tabpanel"}
             / Modal 2
             .modal-inner
               .row
                 .col-sm-12
-                  = render 'form', create_trigger: true
-
-
-
-
-
+                  = render 'form', text_component: @text_component, create_trigger: true

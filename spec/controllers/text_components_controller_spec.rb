@@ -53,21 +53,6 @@ RSpec.describe TextComponentsController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new text_component as @text_component" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:text_component)).to be_a_new(TextComponent)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested text_component as @text_component" do
-      text_component = TextComponent.create! valid_attributes
-      get :edit, params: {:id => text_component.to_param}, session: valid_session
-      expect(assigns(:text_component)).to eq(text_component)
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
       it "creates a new TextComponent" do
@@ -94,9 +79,9 @@ RSpec.describe TextComponentsController, type: :controller do
         expect(assigns(:text_component)).to be_a_new(TextComponent)
       end
 
-      it "re-renders the 'new' template" do
+      it "re-renders the 'index' template" do
         post :create, params: {:text_component => invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
+        expect(response).to render_template("index")
       end
     end
   end
@@ -135,10 +120,10 @@ RSpec.describe TextComponentsController, type: :controller do
         expect(assigns(:text_component)).to eq(text_component)
       end
 
-      it "re-renders the 'edit' template" do
+      it "re-renders the 'index' template" do
         text_component = TextComponent.create! valid_attributes
         put :update, params: {:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+        expect(response).to render_template("index")
       end
     end
   end

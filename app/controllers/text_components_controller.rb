@@ -17,18 +17,6 @@ class TextComponentsController < ApplicationController
   def show
   end
 
-  # GET /text_components/new
-  def new
-    @report_id = Report.current_report_id
-    @text_component = TextComponent.new
-    @text_component.triggers.build
-  end
-
-  # GET /text_components/1/edit
-  def edit
-    @report_id = Report.current_report_id
-  end
-
   # POST /text_components
   # POST /text_components.json
   def create
@@ -43,7 +31,7 @@ class TextComponentsController < ApplicationController
         format.html { redirect_to @text_component, notice: 'Text component was successfully created.' }
         format.json { render :show, status: :created, location: @text_component }
       else
-        format.html { render :new }
+        format.html { render :index }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +45,7 @@ class TextComponentsController < ApplicationController
         format.html { redirect_to @text_component, notice: 'Text component was successfully updated.' }
         format.json { render :show, status: :ok, location: @text_component }
       else
-        format.html { render :edit }
+        format.html { render :index }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
