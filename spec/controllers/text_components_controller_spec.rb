@@ -79,9 +79,9 @@ RSpec.describe TextComponentsController, type: :controller do
         expect(assigns(:text_component)).to be_a_new(TextComponent)
       end
 
-      it "re-renders the 'new' template" do
+      it "re-renders the 'index' template" do
         post :create, params: {:text_component => invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
+        expect(response).to render_template("index")
       end
     end
   end
@@ -120,10 +120,10 @@ RSpec.describe TextComponentsController, type: :controller do
         expect(assigns(:text_component)).to eq(text_component)
       end
 
-      it "re-renders the 'edit' template" do
+      it "re-renders the 'index' template" do
         text_component = TextComponent.create! valid_attributes
         put :update, params: {:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+        expect(response).to render_template("index")
       end
     end
   end

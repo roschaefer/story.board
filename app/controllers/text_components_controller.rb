@@ -31,7 +31,7 @@ class TextComponentsController < ApplicationController
         format.html { redirect_to @text_component, notice: 'Text component was successfully created.' }
         format.json { render :show, status: :created, location: @text_component }
       else
-        format.html { render :new }
+        format.html { render :index }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
@@ -45,7 +45,7 @@ class TextComponentsController < ApplicationController
         format.html { redirect_to @text_component, notice: 'Text component was successfully updated.' }
         format.json { render :show, status: :ok, location: @text_component }
       else
-        format.html { render :edit }
+        format.html { render :index }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
