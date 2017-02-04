@@ -1,3 +1,6 @@
+- if @text_component.errors.any?
+  - @text_component.errors.full_messages.each do |message|
+    .alert.alert-danger= message
 
 - if @remaining_text_components
   - @remaining_text_components.each do |text_component|
@@ -31,13 +34,13 @@
                   %div.help Use an existing trigger
               .row
                 .col-sm-12
-                  = render 'form', text_component: @text_component
+                  = render 'form', text_component: @new_text_component
           #create.tab-pane.active{:role => "tabpanel"}
             / Modal 2
             .modal-inner
               .row
                 .col-sm-12
-                  = render 'form', text_component: @text_component, create_trigger: true
+                  = render 'form', text_component: @new_text_component, create_trigger: true
 
 .row
   .col-sm-12

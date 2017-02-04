@@ -16,5 +16,14 @@
 %p
   %b To day:
   = @text_component.to_day
+%p
+  %h3 Triggers
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      = render @text_component.triggers
 
 = link_to 'Back', text_components_path

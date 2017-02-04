@@ -588,7 +588,11 @@ Given(/^I have a text component with a heading "([^"]*)"$/) do |heading|
 end
 
 When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
-  select trigger, from: 'text_component_trigger_ids'
+  unless page.has_css?('.dropdown-menu.inner')
+    find('.bootstrap-select').click
+    expect(page).to have_css('.dropdown-menu.inner')
+  end
+  find('li', text: trigger).click
 end
 
 Then(/^the text component is connected to both triggers$/) do
@@ -706,6 +710,12 @@ When(/^I edit this text component$/) do
 end
 
 When(/^I update the text component$/) do
+  # close choose trigger dropdown
+  if page.has_css?('.dropdown-menu.inner')
+    find('.bootstrap-select').click
+    expect(page).not_to have_css('.dropdown-menu.inner')
+  end
+
   click_on 'Update'
   expect(page).to have_text('Text component was successfully updated.')
 end
