@@ -1,15 +1,11 @@
 class TextComponentsController < ApplicationController
-  before_action :set_text_component, only: [:show, :edit, :update, :destroy]
+  before_action :set_text_component, only: [:show, :update, :destroy]
 
   # GET /text_components
   # GET /text_components.json
   def index
-    @triggers = Trigger.includes(:text_components)
-    @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
-    @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
-    @report_id = Report.current_report_id
-    @text_component = TextComponent.new
-    @text_component.triggers.build
+    set_triggers_and_text_components
+    @text_component = @new_text_component
   end
 
   # GET /text_components/1
@@ -31,7 +27,10 @@ class TextComponentsController < ApplicationController
         format.html { redirect_to @text_component, notice: 'Text component was successfully created.' }
         format.json { render :show, status: :created, location: @text_component }
       else
-        format.html { render :index }
+        format.html do
+          set_triggers_and_text_components
+          render :index
+        end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
@@ -45,7 +44,10 @@ class TextComponentsController < ApplicationController
         format.html { redirect_to @text_component, notice: 'Text component was successfully updated.' }
         format.json { render :show, status: :ok, location: @text_component }
       else
-        format.html { render :index }
+        format.html do
+          set_triggers_and_text_components
+          render :index
+        end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
@@ -65,6 +67,15 @@ class TextComponentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_text_component
       @text_component = TextComponent.find(params[:id])
+    end
+
+    def set_triggers_and_text_components
+      @new_text_component = TextComponent.new
+      @new_text_component.triggers.build
+      @triggers = Trigger.includes(:text_components)
+      @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
+      @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
+      @report_id = Report.current_report_id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
