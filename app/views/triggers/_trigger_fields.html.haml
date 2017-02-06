@@ -48,9 +48,9 @@
       = f.input :priority, collection: Trigger.priorities.keys, include_blank: false
   .row
     .col-sm-6
-      = f.input :from_hour
+      = f.input :from_hour, collection: 0..23
     .col-sm-6
-      = f.input :to_hour
+      = f.input :to_hour, collection: 0..23
   .row
     .col-sm-12
       %h2 Events
