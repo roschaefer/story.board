@@ -57,7 +57,7 @@
       #events
         = f.association :events, label_method: :name_and_id, label: false
 
-- unless local_assigns[:create_trigger]
+- unless local_assigns[:no_submit_button] # not a part of text component form
   .form-actions
     .row
       .col-sm-12
