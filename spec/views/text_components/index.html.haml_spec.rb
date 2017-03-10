@@ -4,7 +4,9 @@ RSpec.describe "text_components/index", type: :view do
   let(:report) { create(:report) }
   before(:each) do
     assign(:text_component, TextComponent.new)
-    assign(:new_text_component, TextComponent.new)
+    new_text_component = TextComponent.new
+    new_text_component.triggers.build
+    assign(:new_text_component, new_text_component)
     assign(:triggers, [])
     assign(:remaining_text_components, [
       TextComponent.create!(
@@ -26,6 +28,17 @@ RSpec.describe "text_components/index", type: :view do
         :to_day => 2
       )
     ])
+  end
+
+
+  it "does not show a duplicate submit button" do
+    render
+    expect(rendered).not_to include('Create Trigger')
+  end
+
+  it "shows trigger fields, e.g. the events menu" do
+    render
+    expect(rendered).to include('Events')
   end
 
   it "renders a list of text_components" do
