@@ -270,7 +270,7 @@ When(/^I choose an address "([^"]*)"$/) do |address|
 end
 
 When(/^by the way, the "([^"]*)" attribute above is a string$/) do |arg1|
-  # only documentation 
+  # only documentation
 end
 
 When(/^I select "([^"]*)" from the priorities$/) do |selection|
@@ -729,3 +729,46 @@ Given(/^we created a text component for it that is active right now$/) do
   create(:text_component, :active, main_part: main_part, channels: [@channel])
 end
 
+Given(/^I am a journalists who writes about the theory of relativity$/) do
+  create(:report)
+end
+
+Given(/is too difficult for everybody to understand$/) do
+  # documentation
+end
+
+Given(/^I created several text components already, explaining the topic on different levels$/) do
+  # documentation
+end
+
+Given(/^this is for the eggheads out there:$/) do |string|
+  @difficult_text = string
+  create(:text_component, main_part: @difficult_text)
+end
+
+Given(/^that is more easy to savvy:$/) do |string|
+  @easy = string
+  @easy_text_component = create(:text_component, main_part: @easy)
+end
+
+When(/^I edit the easier text component$/) do
+  visit edit_text_component_path(@easy_text_component)
+end
+
+When(/^choose "([^"]*)" as a channel and remove the default channel "([^"]*)"$/) do |new_channel, default_channel|
+  select new_channel, from: 'channels'
+  unselect default_channel, from: 'channels'
+end
+
+Then(/^only the difficult text will go into the main report$/) do
+  visit '/'
+  expect(@difficult).not_to be_empty
+  expect(page).to have_text(@difficult)
+end
+
+Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
+  channel = Channel.find_by(name: channel_name)
+  get "/channels/#{channel.id}"
+  expect(@easy).not_to be_empty
+  expect(response.body).to include(@easy)
+end
