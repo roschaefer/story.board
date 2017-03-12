@@ -10,7 +10,7 @@ Feature: Provide endpoint for each channel
 
   Scenario: GET request a channel
     Given I send and accept JSON
-    When I send a GET request to "/channels/42"
+    When I send a GET request to "/reports/1/channels/42"
     Then the response status should be "200"
     And the JSON response should be:
     """

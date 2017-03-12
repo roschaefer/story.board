@@ -5,7 +5,7 @@ RSpec.describe ChannelsController, type: :controller do
 
   describe "GET #show" do
     it "returns http success" do
-      get :show, params: {:id => 1}, session: valid_session, format: :json
+      get :show, params: {report_id: 1, :id => 1}, session: valid_session, format: :json
       expect(response).to have_http_status(:success)
     end
   end

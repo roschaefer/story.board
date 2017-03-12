@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :channels, only: [:show]
   resources :text_components, except: [:edit, :new]
   resources :chains
   resources :actuators do
@@ -17,7 +16,9 @@ Rails.application.routes.draw do
   get 'reports/current', to: 'reports#current', as: 'current_report'
   get 'reports/present/:id', to: 'reports#present', as: 'present_report'
   get 'reports/preview/:id', to: 'reports#preview', as: 'preview_report'
-  resources :reports
+  resources :reports do
+    resources :channels, only: [:show]
+  end
 
   root to: redirect('/reports/current')
   resources :triggers
