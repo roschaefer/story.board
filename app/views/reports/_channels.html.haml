@@ -1,0 +1,10 @@
+%table.table.variables-table
+  %thead
+    %tr
+      %th Name
+      %th Description
+  %tbody
+    - @report.channels.each do |c|
+      %tr
+        %td= link_to c.name, edit_report_channel_path(@report, c)
+        %td= c.description

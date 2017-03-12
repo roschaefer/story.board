@@ -1,0 +1,16 @@
+= form_for @channel, url: report_channel_path(@channel), class: "simple_form" do |f|
+  .form-inputs
+    .row
+      .col-sm-12
+        %h2 Channels
+    .row
+      .col-sm-6
+        = f.label :name, "Name"
+        = f.text_field :name, class: "form-control", label: "Name"
+      .col-sm-6
+        = f.label :description, "Description"
+        = f.text_field :description, class: "form-control", label: "Description"
+
+    .row
+      .col-sm-12
+        = f.button :submit, class: "btn btn-primary"

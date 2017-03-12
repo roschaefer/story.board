@@ -3,7 +3,9 @@ class TextComponent < ActiveRecord::Base
   has_and_belongs_to_many :triggers
   has_many :sensors, through: :triggers
   has_many :events, through: :triggers
+  has_and_belongs_to_many :channels
   belongs_to :report
+  belongs_to :publishing_context
 
   accepts_nested_attributes_for :triggers
 

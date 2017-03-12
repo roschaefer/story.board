@@ -21,6 +21,6 @@ Feature: Choose one or many channels
     Relativity. Boom. Awesome.
     """
     When I edit the easier text component
-    And choose "simple" as a channel and remove the default channel "sensorstory"
-    Then only the difficult text will go into the main report
-    And the easier text will go into the channel "simple"
+    And choose "simple" as a channel
+    And I update the text component
+    Then the easier text will go into the channel "simple"

@@ -716,7 +716,10 @@ When(/^I update the text component$/) do
     expect(page).not_to have_css('.dropdown-menu.inner')
   end
 
-  click_on 'Update'
+  within("#edit_text_component_#{@text_component.id}") do
+    click_on 'Update'
+  end
+
   expect(page).to have_text('Text component was successfully updated.')
 end
 
@@ -727,6 +730,10 @@ end
 Given(/^we created a text component for it that is active right now$/) do
   main_part = "If you think there is good in everybody, you haven't met everybody."
   create(:text_component, :active, main_part: main_part, channels: [@channel])
+end
+
+Given(/^there is a channel called "([^"]*)"$/) do |name|
+  create(:channel, name: name, report: create(:report))
 end
 
 Given(/^I am a journalists who writes about the theory of relativity$/) do
@@ -748,20 +755,18 @@ end
 
 Given(/^that is more easy to savvy:$/) do |string|
   @easy = string
-  @easy_text_component = create(:text_component, heading: "easy one", main_part: @easy)
+  @text_component = create(:text_component, heading: "easy one", main_part: @easy)
 end
 
 When(/^I edit the easier text component$/) do
   visit text_components_path
-  within('tr', text: @easy_text_component.heading) do
-    click_on 'Edit'
-  end
   expect(page).to have_text('Editing text component')
 end
 
-When(/^choose "([^"]*)" as a channel and remove the default channel "([^"]*)"$/) do |new_channel, default_channel|
-  select new_channel, from: 'channels'
-  unselect default_channel, from: 'channels'
+When(/^choose "([^"]*)" as a channel$/) do |channel|
+  within("#edit_text_component_#{@text_component.id}") do
+    select channel, from: 'text_component_channel_ids'
+  end
 end
 
 Then(/^only the difficult text will go into the main report$/) do
@@ -772,7 +777,7 @@ end
 
 Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
   channel = Channel.find_by(name: channel_name)
-  get "/channels/#{channel.id}"
+  visit "/reports/#{channel.report_id}/channels/#{channel.id}/edit"
   expect(@easy).not_to be_empty
-  expect(response.body).to include(@easy)
+  expect(page).to have_text(@easy)
 end
