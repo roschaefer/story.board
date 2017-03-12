@@ -748,11 +748,15 @@ end
 
 Given(/^that is more easy to savvy:$/) do |string|
   @easy = string
-  @easy_text_component = create(:text_component, main_part: @easy)
+  @easy_text_component = create(:text_component, heading: "easy one", main_part: @easy)
 end
 
 When(/^I edit the easier text component$/) do
-  visit edit_text_component_path(@easy_text_component)
+  visit text_components_path
+  within('tr', text: @easy_text_component.heading) do
+    click_on 'Edit'
+  end
+  expect(page).to have_text('Editing text component')
 end
 
 When(/^choose "([^"]*)" as a channel and remove the default channel "([^"]*)"$/) do |new_channel, default_channel|
