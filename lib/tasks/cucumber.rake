@@ -49,8 +49,8 @@ unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gem
         end
       end
     end
-    desc 'Alias for cucumber:ok'
-    task cucumber: 'cucumber:ok'
+    desc 'Alias for cucumber:all'
+    task cucumber: 'cucumber:all'
 
     task default: :cucumber
 
