@@ -5,7 +5,7 @@ Feature: Choose one or many channels
   In order to associate the text component with a channel
 
   Background:
-    Given there is a channel called "retards"
+    Given there is a channel called "simple"
     Given I am a journalists who writes about the theory of relativity
     But the theory of relativity is too difficult for everybody to understand
 
@@ -21,8 +21,6 @@ Feature: Choose one or many channels
     Relativity. Boom. Awesome.
     """
     When I edit the easier text component
-    And choose "retards" as a channel and remove the default channel "sensorstory"
+    And choose "simple" as a channel and remove the default channel "sensorstory"
     Then only the difficult text will go into the main report
-    And the easier text will go into the channel "retards"
-
-
+    And the easier text will go into the channel "simple"
