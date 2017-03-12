@@ -16,6 +16,11 @@
 %p
   %b To day:
   = @text_component.to_day
+
+- if @text_component.publishing_context
+  %p
+    %b Publishing Context:
+    = @text_component.publishing_context.name
 %p
   %h3 Triggers
   %table.table.table-striped.table-hover
@@ -25,5 +30,20 @@
         %th
     %tbody
       = render @text_component.triggers
+      %p
+  %h3 Channels
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      - @text_component.channels.each do |channel|
+        %tr
+          %td
+            = channel.name
+          %td
+            = link_to "Show", edit_report_channel_path(channel.report_id, channel)
+
 
 = link_to 'Back', text_components_path
