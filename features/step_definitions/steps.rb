@@ -589,7 +589,9 @@ end
 
 When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
   unless page.has_css?('.dropdown-menu.inner')
-    find('.bootstrap-select').click
+    within(".text_component_triggers") do
+      find('.bootstrap-select').click
+    end
     expect(page).to have_css('.dropdown-menu.inner')
   end
   find('li', text: trigger).click
@@ -712,7 +714,9 @@ end
 When(/^I update the text component$/) do
   # close choose trigger dropdown
   if page.has_css?('.dropdown-menu.inner')
-    find('.bootstrap-select').click
+    within(".text_component_triggers") do
+      find('.bootstrap-select').click
+    end
     expect(page).not_to have_css('.dropdown-menu.inner')
   end
 
