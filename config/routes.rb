@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :channels, only: [:show]
   resources :text_components, except: [:edit, :new]
   resources :chains
   resources :actuators do
