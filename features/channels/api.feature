@@ -9,7 +9,6 @@ Feature: Provide endpoint for each channel
     And we created a text component for it that is active right now
 
   Scenario: GET request a channel
-    Given I send and accept JSON
     When I send a GET request to "/reports/1/channels/42"
     Then the response status should be "200"
     And the JSON response should be:
