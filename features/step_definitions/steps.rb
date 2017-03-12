@@ -721,11 +721,11 @@ When(/^I update the text component$/) do
 end
 
 Given(/^our sensor live report has a channel "([^"]*)" with the id (\d+)$/) do |name, id|
-  #@channel = create(:channel, name: name, id: id)
+  @channel = create(:channel, name: name, id: id)
 end
 
 Given(/^we created a text component for it that is active right now$/) do
   main_part = "If you think there is good in everybody, you haven't met everybody."
-  #create(:text_component, :active, main_part: main_part, channels: [@channel])
+  create(:text_component, :active, main_part: main_part, channels: [@channel])
 end
 
