@@ -741,7 +741,7 @@ Given(/^there is a channel called "([^"]*)"$/) do |name|
 end
 
 Given(/^I am a journalists who writes about the theory of relativity$/) do
-  create(:report)
+  # documentation
 end
 
 Given(/is too difficult for everybody to understand$/) do
@@ -754,12 +754,12 @@ end
 
 Given(/^this is for the eggheads out there:$/) do |string|
   @difficult_text = string
-  create(:text_component, main_part: @difficult_text)
+  create(:text_component, main_part: @difficult_text, report: Report.current)
 end
 
 Given(/^that is more easy to savvy:$/) do |string|
   @easy = string
-  @text_component = create(:text_component, heading: "easy one", main_part: @easy)
+  @text_component = create(:text_component, heading: "easy one", main_part: @easy, report: Report.current)
 end
 
 When(/^I edit the easier text component$/) do
