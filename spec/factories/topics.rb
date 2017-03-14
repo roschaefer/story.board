@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :publishing_context do
+  factory :topic do
     
   end
 end

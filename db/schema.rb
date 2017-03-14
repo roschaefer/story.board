@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312171020) do
+ActiveRecord::Schema.define(version: 20170312124125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,12 +84,6 @@ ActiveRecord::Schema.define(version: 20170312171020) do
     t.index ["trigger_id"], name: "index_events_triggers_on_trigger_id", using: :btree
   end
 
-  create_table "publishing_contexts", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "records", force: :cascade do |t|
     t.string   "heading"
     t.string   "introduction"
@@ -153,8 +147,7 @@ ActiveRecord::Schema.define(version: 20170312171020) do
     t.integer "from_day"
     t.integer "to_day"
     t.integer "report_id"
-    t.integer "channel_id"
-    t.integer "publishing_context_id"
+    t.integer "topic_id"
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
 
@@ -163,6 +156,12 @@ ActiveRecord::Schema.define(version: 20170312171020) do
     t.integer "trigger_id"
     t.index ["text_component_id"], name: "index_text_components_triggers_on_text_component_id", using: :btree
     t.index ["trigger_id"], name: "index_text_components_triggers_on_trigger_id", using: :btree
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "triggers", force: :cascade do |t|

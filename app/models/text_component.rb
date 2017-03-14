@@ -5,7 +5,7 @@ class TextComponent < ActiveRecord::Base
   has_many :events, through: :triggers
   has_and_belongs_to_many :channels
   belongs_to :report
-  belongs_to :publishing_context
+  belongs_to :topic
 
   accepts_nested_attributes_for :triggers
 

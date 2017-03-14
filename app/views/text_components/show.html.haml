@@ -17,10 +17,10 @@
   %b To day:
   = @text_component.to_day
 
-- if @text_component.publishing_context
+- if @text_component.topic
   %p
-    %b Publishing Context:
-    = @text_component.publishing_context.name
+    %b Topic:
+    = @text_component.topic.name
 %p
   %h3 Triggers
   %table.table.table-striped.table-hover
