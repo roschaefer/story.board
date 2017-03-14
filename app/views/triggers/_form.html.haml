@@ -1,4 +1,8 @@
 = simple_form_for @trigger do |f|
   = f.error_notification
 
-  = render 'trigger_fields', f: f
+  = render 'trigger_fields', f: f do
+    .form-actions
+      .row
+        .col-sm-12
+          = f.button :submit, class: 'btn.btn-primary'
