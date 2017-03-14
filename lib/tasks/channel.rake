@@ -1,4 +1,4 @@
-namespace :topic do
+namespace :channel do
   desc "Create Default Topics and channel"
   task :create_default => :environment do
 
@@ -12,7 +12,7 @@ namespace :topic do
     Topic.find_or_create_by(name: "noise")
     Topic.find_or_create_by(name: "health")
 
-    Report.all.each do |report|
+    Report.find_each do |report|
       default_channel = Channel.find_or_create_by(
         report: report,
         name: "storyboard"

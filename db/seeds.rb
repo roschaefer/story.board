@@ -27,7 +27,7 @@ Topic.find_or_create_by(name: "calf")
 Topic.find_or_create_by(name: "noise")
 Topic.find_or_create_by(name: "health")
 
-Report.all.each do |report|
+Report.find_each do |report|
   default_channel = Channel.find_or_create_by(
     report: report,
     name: "storyboard"
