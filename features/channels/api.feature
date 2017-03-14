@@ -1,4 +1,4 @@
-@259 @wip
+@259
 Feature: Provide endpoint for each channel
   As a developer
   I want to have an endpoint for each channel which returns a message with the relevant text
@@ -19,4 +19,3 @@ Feature: Provide endpoint for each channel
     ]
     }
     """
-
