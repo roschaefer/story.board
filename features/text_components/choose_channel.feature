@@ -1,4 +1,4 @@
-@243
+@243 @javascript
 Feature: Choose one or many channels
   As a reporter
   I want to choose one or more channels for my text component
