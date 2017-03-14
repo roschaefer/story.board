@@ -37,10 +37,15 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
-  DatabaseCleaner.strategy = :transaction
+  if ENV['KEEPDATA'].present?
+    DatabaseCleaner.strategy = DatabaseCleaner::NullStrategy
+  else
+    DatabaseCleaner.strategy = :transaction
+  end
 rescue NameError
   raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
 end
+
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
@@ -61,7 +66,25 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
-Capybara.javascript_driver = :poltergeist
+
+
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
+Capybara.register_driver :firefox do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :firefox)
+end
+
+Capybara.configure do |config|
+  if ENV['BROWSER']
+    config.default_driver = ENV['BROWSER'].to_sym
+  else
+    config.javascript_driver = :poltergeist
+  end
+end
+
 
 VCR.configure do |c|
   c.ignore_hosts '127.0.0.1', 'localhost'
