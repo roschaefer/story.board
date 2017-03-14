@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get 'reports/preview/:id', to: 'reports#preview', as: 'preview_report'
 
   resources :reports do
-    resources :channels
+    resources :channels, only: [:edit, :show, :update]
   end
 
   root to: redirect('/reports/current')
