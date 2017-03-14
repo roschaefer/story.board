@@ -72,10 +72,10 @@ class TextComponentsController < ApplicationController
     def set_triggers_and_text_components
       @new_text_component = TextComponent.new
       @new_text_component.triggers.build
+      @new_text_component.report = Report.current
       @triggers = Trigger.includes(:text_components)
       @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
       @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
-      @report_id = Report.current_report_id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

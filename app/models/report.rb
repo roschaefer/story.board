@@ -15,10 +15,6 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def self.current_report_id
-    self.current && self.current.id
-  end
-
   def active_text_components(opts={})
     text_components.select {|c| c.active?(opts) }
   end

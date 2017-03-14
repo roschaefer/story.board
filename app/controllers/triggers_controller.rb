@@ -6,15 +6,14 @@ class TriggersController < ApplicationController
   end
 
   def new
-    @report_id = Report.current_report_id
     @trigger = Trigger.new
+    @trigger.report = Report.current
   end
 
   def show
   end
 
   def edit
-    @report_id = Report.current_report_id
   end
 
   def create
