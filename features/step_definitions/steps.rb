@@ -764,6 +764,9 @@ end
 
 When(/^I edit the easier text component$/) do
   visit text_components_path
+  within('tr', text: @text_component.heading) do
+    click_on 'Edit'
+  end
   expect(page).to have_text('Editing text component')
 end
 
