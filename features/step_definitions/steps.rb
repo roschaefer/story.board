@@ -270,7 +270,7 @@ When(/^I choose an address "([^"]*)"$/) do |address|
 end
 
 When(/^by the way, the "([^"]*)" attribute above is a string$/) do |arg1|
-  # only documentation 
+  # only documentation
 end
 
 When(/^I select "([^"]*)" from the priorities$/) do |selection|
@@ -589,7 +589,9 @@ end
 
 When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
   unless page.has_css?('.dropdown-menu.inner')
-    find('.bootstrap-select').click
+    within(".text_component_triggers") do
+      find('.bootstrap-select').click
+    end
     expect(page).to have_css('.dropdown-menu.inner')
   end
   find('li', text: trigger).click
@@ -712,11 +714,16 @@ end
 When(/^I update the text component$/) do
   # close choose trigger dropdown
   if page.has_css?('.dropdown-menu.inner')
-    find('.bootstrap-select').click
+    within(".text_component_triggers") do
+      find('.bootstrap-select').click
+    end
     expect(page).not_to have_css('.dropdown-menu.inner')
   end
 
-  click_on 'Update'
+  within("#edit_text_component_#{@text_component.id}") do
+    click_on 'Update'
+  end
+
   expect(page).to have_text('Text component was successfully updated.')
 end
 
@@ -729,3 +736,55 @@ Given(/^we created a text component for it that is active right now$/) do
   create(:text_component, :active, main_part: main_part, channels: [@channel])
 end
 
+Given(/^there is a channel called "([^"]*)"$/) do |name|
+  create(:channel, name: name, report: create(:report))
+end
+
+Given(/^I am a journalists who writes about the theory of relativity$/) do
+  # documentation
+end
+
+Given(/is too difficult for everybody to understand$/) do
+  # documentation
+end
+
+Given(/^I created several text components already, explaining the topic on different levels$/) do
+  # documentation
+end
+
+Given(/^this is for the eggheads out there:$/) do |string|
+  @difficult_text = string
+  create(:text_component, main_part: @difficult_text, report: Report.current)
+end
+
+Given(/^that is more easy to savvy:$/) do |string|
+  @easy = string
+  @text_component = create(:text_component, heading: "easy one", main_part: @easy, report: Report.current)
+end
+
+When(/^I edit the easier text component$/) do
+  visit text_components_path
+  within('tr', text: @text_component.heading) do
+    click_on 'Edit'
+  end
+  expect(page).to have_text('Editing text component')
+end
+
+When(/^choose "([^"]*)" as a channel$/) do |channel|
+  within("#edit_text_component_#{@text_component.id}") do
+    select channel, from: 'text_component_channel_ids'
+  end
+end
+
+Then(/^only the difficult text will go into the main report$/) do
+  visit '/'
+  expect(@difficult).not_to be_empty
+  expect(page).to have_text(@difficult)
+end
+
+Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
+  channel = Channel.find_by(name: channel_name)
+  visit "/reports/#{channel.report_id}/channels/#{channel.id}/edit"
+  expect(@easy).not_to be_empty
+  expect(page).to have_text(@easy)
+end

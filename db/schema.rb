@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161123131246) do
+ActiveRecord::Schema.define(version: 20170312123651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,22 @@ ActiveRecord::Schema.define(version: 20161123131246) do
     t.datetime "updated_at",  null: false
     t.index ["actuator_id"], name: "index_chains_on_actuator_id", using: :btree
     t.index ["hashtag"], name: "index_chains_on_hashtag", unique: true, using: :btree
+  end
+
+  create_table "channels", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "report_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["report_id"], name: "index_channels_on_report_id", using: :btree
+  end
+
+  create_table "channels_text_components", force: :cascade do |t|
+    t.integer "channel_id"
+    t.integer "text_component_id"
+    t.index ["channel_id"], name: "index_channels_text_components_on_channel_id", using: :btree
+    t.index ["text_component_id"], name: "index_channels_text_components_on_text_component_id", using: :btree
   end
 
   create_table "commands", force: :cascade do |t|
@@ -131,6 +147,7 @@ ActiveRecord::Schema.define(version: 20161123131246) do
     t.integer "from_day"
     t.integer "to_day"
     t.integer "report_id"
+    t.integer "topic_id"
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
 
@@ -139,6 +156,12 @@ ActiveRecord::Schema.define(version: 20161123131246) do
     t.integer "trigger_id"
     t.index ["text_component_id"], name: "index_text_components_triggers_on_text_component_id", using: :btree
     t.index ["trigger_id"], name: "index_text_components_triggers_on_trigger_id", using: :btree
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "triggers", force: :cascade do |t|

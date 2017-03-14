@@ -1,21 +1,8 @@
-%p
-  %b Heading:
-  = @text_component.heading
-%p
-  %b Introduction:
-  = @text_component.introduction
-%p
-  %b Main part:
-  = @text_component.main_part
-%p
-  %b Closing:
-  = @text_component.closing
-%p
-  %b From day:
-  = @text_component.from_day
-%p
-  %b To day:
-  = @text_component.to_day
+= render @text_component
+- if @text_component.topic
+  %p
+    %b Topic:
+    = @text_component.topic.name
 %p
   %h3 Triggers
   %table.table.table-striped.table-hover
@@ -25,5 +12,20 @@
         %th
     %tbody
       = render @text_component.triggers
+      %p
+  %h3 Channels
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      - @text_component.channels.each do |channel|
+        %tr
+          %td
+            = channel.name
+          %td
+            = link_to "Show", edit_report_channel_path(channel.report_id, channel)
+
 
 = link_to 'Back', text_components_path

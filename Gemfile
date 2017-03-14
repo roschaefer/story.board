@@ -73,6 +73,7 @@ group :test do
   gem 'database_cleaner'
   #   end
   gem 'poltergeist'
+  gem 'selenium-webdriver'
   gem 'capybara-screenshot'
   gem 'vcr'
   gem 'webmock'

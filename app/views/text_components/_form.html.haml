@@ -11,11 +11,24 @@
               = render 'triggers/trigger_fields', f: trigger
           - else
             = f.association :triggers, label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a trigger'}
+
+    .row
+      .col-sm-12
+        #topic
+          = f.association :topic, label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a topic'}
+
+
+    .row
+      .col-sm-12
+        #channels
+          = f.association :channels
+
     .row
       .col-sm-6
         = f.input :from_day
       .col-sm-6
         = f.input :to_day
+
     .row
       .col-sm-12
         %h2 Text

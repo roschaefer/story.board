@@ -82,7 +82,7 @@ class TextComponentsController < ApplicationController
     def text_component_params
       params.require(:text_component)
         .permit(:heading, :introduction, :main_part, :closing, :from_day,
-                :to_day, :report_id, trigger_ids: [],
+                :to_day, :report_id, :topic_id, trigger_ids: [], channel_ids: [],
                 triggers_attributes: [:heading, :name, :from_hour, :to_hour,
                                       :priority, :report_id,
                                       :timeliness_constraint,

@@ -9,6 +9,7 @@ class Report < ActiveRecord::Base
   has_many :sensors
   has_many :records
   has_many :variables, dependent: :destroy
+  has_many :channels
   accepts_nested_attributes_for :variables
 
   def self.current
