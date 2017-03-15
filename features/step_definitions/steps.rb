@@ -728,13 +728,17 @@ When(/^I update the text component$/) do
   expect(page).to have_text('Text component was successfully updated.')
 end
 
-Given(/^our sensor live report has a channel "([^"]*)" with the id (\d+)$/) do |name, id|
-  @channel = create(:channel, name: name, id: id)
+Given(/^our sensor live report has a channel "([^"]*)"$/) do |name|
+  @channel = create(:channel, name: name)
+end
+
+Given(/^a topic "([^"]*)"$/) do |name|
+  @topic = create(:topic, name: name)
 end
 
 Given(/^we created a text component for it that is active right now$/) do
-  main_part = "If you think there is good in everybody, you haven't met everybody."
-  create(:text_component, :active, main_part: main_part, channels: [@channel])
+  main_part = "Got milk?"
+  create(:text_component, :active, main_part: main_part, channels: [@channel], topic: @topic)
 end
 
 Given(/^there is a channel called "([^"]*)"$/) do |name|

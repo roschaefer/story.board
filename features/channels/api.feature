@@ -5,17 +5,18 @@ Feature: Provide endpoint for each channel
   In order to get the input for e.g. a chatbot
 
   Background:
-    Given our sensor live report has a channel "wisdom" with the id 42
+    Given our sensor live report has a channel "chatbot"
+    And a topic "milk_quality"
     And we created a text component for it that is active right now
 
   Scenario: GET request a channel
-    When I send a GET request to "/reports/1/channels/42"
+    When I send a GET request to "/chatbot/milk_quality"
     Then the response status should be "200"
     And the JSON response should be:
     """
     {
     "messages": [
-      {"text": "If you think there is good in everybody, you haven't met everybody."}
+      {"text": "Got milk?"}
     ]
     }
     """
