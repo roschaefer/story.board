@@ -5,11 +5,12 @@ Feature: Provide endpoint for each channel
   In order to get the input for e.g. a chatbot
 
   Background:
-    Given our sensor live report has a channel "wisdom" with the id 42
+    Given our sensor live report has a topic "wisdom" with the id 42
     And we created a text component for it that is active right now
+    Given this text component goes into the chatfuel channel and not the website
 
   Scenario: GET request a channel
-    When I send a GET request to "/reports/1/channels/42"
+    When I send a GET request to "/reports/1/chatfuel/topics/42"
     Then the response status should be "200"
     And the JSON response should be:
     """
@@ -19,3 +20,4 @@ Feature: Provide endpoint for each channel
     ]
     }
     """
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312123651) do
+ActiveRecord::Schema.define(version: 20170315000015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,8 +147,14 @@ ActiveRecord::Schema.define(version: 20170312123651) do
     t.integer "from_day"
     t.integer "to_day"
     t.integer "report_id"
-    t.integer "topic_id"
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
+  end
+
+  create_table "text_components_topics", force: :cascade do |t|
+    t.integer "text_component_id"
+    t.integer "topic_id"
+    t.index ["text_component_id"], name: "index_text_components_topics_on_text_component_id", using: :btree
+    t.index ["topic_id"], name: "index_text_components_topics_on_topic_id", using: :btree
   end
 
   create_table "text_components_triggers", force: :cascade do |t|
@@ -162,6 +168,7 @@ ActiveRecord::Schema.define(version: 20170312123651) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "channel"
   end
 
   create_table "triggers", force: :cascade do |t|
