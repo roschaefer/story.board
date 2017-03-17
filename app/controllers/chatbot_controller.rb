@@ -1,13 +1,11 @@
 class ChatbotController < ApplicationController
   def show
     # TODO order by priority and maybe have a fallback
-    chatbot_channel = Channel.find_by(name: "chatbot")
-    current_report = Report.current
-    tc = TextComponent
-      .where(report: current_report)
+    chatbot_channel = Channel.find_by(name: "chatbot", report: Report.current)
+
+    tc = chatbot_channel
+      .text_components
       .where(topic: Topic.find_by(name: params[:topic]))
-      .joins(:channels)
-      .where("channels.id = :channel_id", {channel_id: chatbot_channel.id})
       .first
 
     @response = {

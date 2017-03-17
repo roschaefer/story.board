@@ -729,7 +729,7 @@ When(/^I update the text component$/) do
 end
 
 Given(/^our sensor live report has a channel "([^"]*)"$/) do |name|
-  @channel = create(:channel, name: name)
+  @channel = create(:channel, name: name, report: Report.current).tap{|c| puts "the channel: #{c.inspect}"}
 end
 
 Given(/^a topic "([^"]*)"$/) do |name|

@@ -5,7 +5,8 @@ Feature: Provide endpoint for each channel
   In order to get the input for e.g. a chatbot
 
   Background:
-    Given our sensor live report has a channel "chatbot"
+    Given there is a sensor live report
+    And our sensor live report has a channel "chatbot"
     And a topic "milk_quality"
     And we created a text component for it that is active right now
 
