@@ -6,6 +6,11 @@ class ChatbotController < ApplicationController
     tc = chatbot_channel
       .text_components
       .where(topic: Topic.find_by(name: params[:topic]))
+      .select(&:active?)
+      .tap{|tcs| puts tcs.map(&:triggers).inspect}
+      .select(&:priority_raw)
+      .sort_by(&:priority_raw)
+      .reverse
       .first
 
     @response = {

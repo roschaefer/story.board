@@ -26,6 +26,10 @@ class TextComponent < ActiveRecord::Base
     result
   end
 
+  def priority_raw
+    Trigger.priorities[priority]
+  end
+
   def priority
     most_important_trigger = triggers.sort_by {|t| Trigger.priorities[t.priority] }.reverse.first
     most_important_trigger && most_important_trigger.priority
