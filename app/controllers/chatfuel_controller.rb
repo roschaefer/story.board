@@ -11,11 +11,15 @@ class ChatfuelController < ApplicationController
       .reverse
       .first
 
-    @response = {
-      messages: [
-        { text: tc.main_part.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
-      ]
-    }
-    render json: @response
+    if tc
+      @response = {
+        messages: [
+          { text: tc.main_part.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
+        ]
+      }
+      render json: @response
+    else
+      render json: {}, status: 404
+    end
   end
 end
