@@ -17,12 +17,6 @@
         #topic
           = f.association :topic, label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a topic'}
 
-
-    .row
-      .col-sm-12
-        #channels
-          = f.association :channels
-
     .row
       .col-sm-6
         = f.input :from_day
@@ -77,5 +71,10 @@
       = f.input :introduction, as: :text, placeholder: 'Introduction', label: false, input_html: { class: 'introduction' }
       = f.input :main_part, as: :text, placeholder: 'Main part', label: false, input_html: { rows: 10 }
       = f.input :closing, as: :text, placeholder: 'Closing', label: false
+    .row
+      .col-sm-1z2
+        %h2 Output
+        #channels
+          = f.association :channels
   .form-actions
     = f.button :submit
