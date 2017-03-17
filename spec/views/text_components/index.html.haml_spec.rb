@@ -1,7 +1,8 @@
 require 'rails_helper'
+require 'capybara/rspec'
 
 RSpec.describe "text_components/index", type: :view do
-  let(:report) { create(:report) }
+  let(:report) { create(:report, name: 'UniqueReportName') }
   before(:each) do
     assign(:text_component, TextComponent.new)
     new_text_component = TextComponent.new
@@ -39,6 +40,14 @@ RSpec.describe "text_components/index", type: :view do
   it "shows trigger fields, e.g. the events menu" do
     render
     expect(rendered).to include('Events')
+  end
+
+  it 'will never show two seperate report input fields in one form' do
+    render
+    parsed = Capybara.string(rendered)
+    parsed.all('form').each do |form|
+      expect(form).to have_text('UniqueReportName', count: 1)
+    end
   end
 
   it "renders a list of text_components" do

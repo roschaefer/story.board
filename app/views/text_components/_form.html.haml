@@ -8,7 +8,7 @@
         #triggers
           - if local_assigns[:create_trigger]
             = f.simple_fields_for :triggers do |trigger|
-              = render 'triggers/trigger_fields', f: trigger
+              = render 'triggers/trigger_fields', f: trigger, is_sub_form: true
           - else
             = f.association :triggers, label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a trigger'}
 

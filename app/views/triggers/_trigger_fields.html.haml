@@ -3,7 +3,7 @@
     .col-sm-12
       %h2 Trigger
       %div.help Define a new Trigger first.
-      = f.association :report
+      = f.association :report unless local_assigns[:is_sub_form]
     .col-sm-6
       = f.input :name
     .col-sm-6
@@ -13,7 +13,7 @@
     .col-sm-12
       .form-group
         %label Color
-        %ul.triggercolor 
+        %ul.triggercolor
           %li.bg-blue.active
             %span
           %li.bg-green
@@ -56,4 +56,9 @@
       %h2 Events
       #events
         = f.association :events, label_method: :name_and_id, label: false
-= yield
+
+- unless local_assigns[:is_sub_form]
+  .form-actions
+    .row
+      .col-sm-12
+        = f.button :submit, class: 'btn.btn-primary'
