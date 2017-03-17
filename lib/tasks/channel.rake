@@ -15,7 +15,7 @@ namespace :channel do
     Report.find_each do |report|
       default_channel = Channel.find_or_create_by(
         report: report,
-        name: "storyboard"
+        name: "sensorstory"
       ) do |c|
         c.description = "Default Channel"
       end

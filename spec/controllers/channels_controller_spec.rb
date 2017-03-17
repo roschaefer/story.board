@@ -12,7 +12,7 @@ RSpec.describe ChannelsController, type: :controller do
 
   describe 'GET #edit' do
     let(:report) { create(:report) }
-    let!(:channel) { create(:channel, name: "storyboard", report: report) }
+    let!(:channel) { create(:channel, name: "sensorstory", report: report) }
 
     it 'renders correct template' do
       get :edit, params: {id: channel.id, report_id: report.id}, session: valid_session
