@@ -1,6 +1,5 @@
 class ChatbotController < ApplicationController
   def show
-    # TODO order by priority and maybe have a fallback
     chatbot_channel = Channel.find_by(name: "chatbot", report: Report.current)
 
     tc = chatbot_channel
