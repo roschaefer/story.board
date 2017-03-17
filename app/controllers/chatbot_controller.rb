@@ -6,8 +6,8 @@ class ChatbotController < ApplicationController
       .text_components
       .where(topic: Topic.find_by(name: params[:topic]))
       .select(&:active?)
-      .select(&:priority_raw)
-      .sort_by(&:priority_raw)
+      .select(&:priority_index)
+      .sort_by(&:priority_index)
       .reverse
       .first
 

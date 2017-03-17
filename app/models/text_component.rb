@@ -26,7 +26,7 @@ class TextComponent < ActiveRecord::Base
     result
   end
 
-  def priority_raw
+  def priority_index
     Trigger.priorities[priority]
   end
 
