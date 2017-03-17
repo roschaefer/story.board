@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get 'reports/present/:id', to: 'reports#present', as: 'present_report'
   get 'reports/preview/:id', to: 'reports#preview', as: 'preview_report'
 
-  get 'chatbot/:topic', to: 'chatbot#show'
+  get 'chatfuel/:topic', to: 'chatfuel#show'
 
   resources :reports do
     resources :channels, only: [:edit, :show, :update]

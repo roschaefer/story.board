@@ -1,4 +1,4 @@
-class ChatbotController < ApplicationController
+class ChatfuelController < ApplicationController
   def show
     chatbot_channel = Channel.find_by(name: "chatbot", report: Report.current)
 
