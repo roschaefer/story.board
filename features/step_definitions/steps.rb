@@ -737,11 +737,10 @@ Given(/^a topic "([^"]*)"$/) do |name|
 end
 
 Given(/^we created a text component for it that is active right now$/) do
-  main_part = "Got milk?"
   create(
     :text_component,
     :active,
-    main_part: main_part,
+    main_part: "Got milk?",
     channels: [@channel],
     topic: @topic,
     triggers: [create(:trigger, priority: "high")]
