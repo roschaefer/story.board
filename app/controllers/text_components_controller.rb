@@ -19,6 +19,9 @@ class TextComponentsController < ApplicationController
     @text_component = TextComponent.new(text_component_params)
 
     @text_component.triggers.each do |trigger|
+      if trigger.report.nil?
+        trigger.report = @text_component.report
+      end
       trigger.conditions.each {|c| c.trigger = trigger } # both trigger and condition are new and need to be connected
     end
 
@@ -83,7 +86,7 @@ class TextComponentsController < ApplicationController
       params.require(:text_component)
         .permit(:heading, :introduction, :main_part, :closing, :from_day,
                 :to_day, :report_id, :topic_id, trigger_ids: [], channel_ids: [],
-                triggers_attributes: [:heading, :name, :from_hour, :to_hour,
+                triggers_attributes: [:name, :from_hour, :to_hour,
                                       :priority, :report_id,
                                       :timeliness_constraint,
                                       :event_ids => [],
