@@ -71,6 +71,15 @@ RSpec.describe TextComponentsController, type: :controller do
         post :create, params: {:text_component => valid_attributes}, session: valid_session
         expect(response).to redirect_to(TextComponent.last)
       end
+
+      describe 'with a new trigger' do
+        it 'assigns the report for the trigger, if missing' do
+          attributes = valid_attributes.merge(triggers_attributes: [{name: 'Trigger name', report_id: nil}])
+          expect {
+            post :create, params: {text_component: attributes}, session: valid_session
+          }.to change(Trigger, :count).by(1)
+        end
+      end
     end
 
     context "with invalid params" do
