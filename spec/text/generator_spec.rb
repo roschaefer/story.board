@@ -1,22 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Text::Generator do
-  let(:report)         { create(:report) }
-  let(:intention)      { :real }
+  let!(:sensorstory_channel)  { create(:channel, name: "sensorstory", report: report) }
+  let(:report)                { create(:report) }
+  let(:intention)             { :real }
   subject { described_class.new(report: report, opts: {intention: intention}) }
 
   describe '#choose_heading' do
     subject { super().choose_heading }
-    let(:report) { create(:report, text_components: text_components) }
+    let(:report) { create(:report) }
 
     context 'given several text_components' do
 
       context 'every text component has a trigger with a different priority' do
-        let(:text_components) do
+        let!(:text_components) do
           [
-            create(:text_component, heading: 'Text component 1', triggers: [create(:trigger, priority: :high)]),
-            create(:text_component, heading: 'Text component 2', triggers: [create(:trigger, priority: :medium)]),
-            create(:text_component, heading: 'Text component 3', triggers: [create(:trigger, priority: :low)]),
+            create(:text_component, report: report, heading: 'Text component 1', triggers: [create(:trigger, priority: :high)]),
+            create(:text_component, report: report, heading: 'Text component 2', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, report: report, heading: 'Text component 3', triggers: [create(:trigger, priority: :low)]),
           ]
         end
 
@@ -24,11 +25,11 @@ RSpec.describe Text::Generator do
       end
 
       context 'every text component has a trigger with the same priority' do
-        let(:text_components) do
+        let!(:text_components) do
           [
-            create(:text_component, heading: 'Text component 1', triggers: [create(:trigger, priority: :medium)]),
-            create(:text_component, heading: 'Text component 2', triggers: [create(:trigger, priority: :medium)]),
-            create(:text_component, heading: 'Text component 3', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, report: report, heading: 'Text component 1', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, report: report, heading: 'Text component 2', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, report: report, heading: 'Text component 3', triggers: [create(:trigger, priority: :medium)]),
           ]
         end
         it { is_expected.to match(/Text component/)} # any of those headings
@@ -36,10 +37,10 @@ RSpec.describe Text::Generator do
     end
 
     context 'given text_components without triggers' do
-        let(:text_components) do
+        let!(:text_components) do
           [
-            create(:text_component, heading: 'Text component 1', triggers: [create(:trigger, priority: :medium)]),
-            create(:text_component, heading: 'Text component 2', triggers: []),
+            create(:text_component, report: report, heading: 'Text component 1', triggers: [create(:trigger, priority: :medium)]),
+            create(:text_component, report: report, heading: 'Text component 2', triggers: []),
           ]
         end
         it { is_expected.to eq 'Text component 1'} # priority nil is lowest
@@ -53,21 +54,21 @@ RSpec.describe Text::Generator do
     it { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
 
     context 'given one text_component' do
-      let(:report)         { create(:report, text_components: [text_component]) }
-      let(:text_component) { create(:text_component, main_part: main_part) }
+      let(:report)         { create(:report) }
+      let!(:text_component) { create(:text_component, report: report, main_part: main_part) }
       let(:main_part)      { "some content" }
 
       it { is_expected.to have_value("some content")}
 
       describe 'report markup' do
         describe 'report name' do
-          let(:report)    { create(:report, text_components: [text_component], name: 'Foobar') }
+          let(:report)    { create(:report, name: 'Foobar') }
           let(:main_part) { "Say something about { report}." }
           it { is_expected.to have_value("Say something about Foobar.")}
         end
 
         describe 'report variables' do
-          let(:report)    { create(:report, text_components: [text_component], variables: variables) }
+          let(:report)    { create(:report, variables: variables) }
           let(:variables) { [ create(:variable, key: 'cool_thing', value: 'sth. cool') ] }
           let(:main_part) { "Say something about { cool_thing }." }
           it { is_expected.to have_value("Say something about sth. cool.")}
@@ -135,7 +136,7 @@ RSpec.describe Text::Generator do
             end
 
             context 'markup references an unknown sensor' do
-              let(:text_component)  { create(:text_component, :active, main_part: main_part) }
+              let!(:text_component)  { create(:text_component, :active, report: report, main_part: main_part) }
               let(:main_part)       { "Sensor value: { valueOf(4711) }" }
               it { expect(text_component.sensors.pluck(:id)).not_to include(4711)}
               it { expect(text_component).to be_active }

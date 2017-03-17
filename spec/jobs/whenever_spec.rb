@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'Whenever Schedule' do
   before do
@@ -12,7 +12,11 @@ describe 'Whenever Schedule' do
   end
 
   context 'with a report' do
-    before { create :report }
+    before do
+      sensorstory_channel = create :channel, name: "sensorstory"
+      create :report, channels: [sensorstory_channel]
+    end
+
     it 'creates records' do
       schedule = Whenever::Test::Schedule.new
       task = schedule.jobs[:rake].first[:task]

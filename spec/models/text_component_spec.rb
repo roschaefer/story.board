@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe TextComponent, type: :model do
+  describe '#create' do
+    let(:report) { create(:report) }
+    let!(:default_channel) { create(:channel, name: "sensorstory", report: report) }
+    subject { create(:text_component, report: report) }
+
+    it "has a channel assigned" do
+      expect(subject.channels).not_to be_empty
+    end
+  end
+
   describe '#heading' do
     context 'empty' do
       subject { build(:text_component, heading: '  ') }
