@@ -2,7 +2,10 @@ class Channel < ActiveRecord::Base
   has_and_belongs_to_many :text_components
   belongs_to :report
 
+  scope :chatbot,     -> { find_by(report: Report.current, name: "chatbot") }
+  scope :sensorstory, -> { find_by(report: Report.current, name: "sensorstory") }
+
   def self.default(report)
-    find_by(name: "sensorstory", report: report)
+    Channel.sensorstory
   end
 end
