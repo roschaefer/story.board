@@ -12,9 +12,11 @@ class ChatfuelController < ApplicationController
       .first
 
     if tc
+      text = Text::Renderer.new(text_component: tc).render(:main_part)
+
       @response = {
         messages: [
-          { text: tc.main_part.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
+          { text: text.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
         ]
       }
       render json: @response
