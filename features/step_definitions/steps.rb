@@ -743,7 +743,6 @@ Given(/^we created a text component for it that is active right now$/) do
     main_part: "Got milk?",
     channels: [@channel],
     topic: @topic,
-    triggers: [create(:trigger, priority: "high")]
   )
 end
 
