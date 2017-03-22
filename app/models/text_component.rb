@@ -9,7 +9,7 @@ class TextComponent < ActiveRecord::Base
 
   accepts_nested_attributes_for :triggers
 
-  before_create :assign_default_channel
+  validates :channels, presence: true
 
   def active?(opts={})
     on_time? && triggers.all? {|t| t.active?(opts) }
@@ -29,14 +29,5 @@ class TextComponent < ActiveRecord::Base
   def priority
     most_important_trigger = triggers.sort_by {|t| Trigger.priorities[t.priority] }.reverse.first
     most_important_trigger && most_important_trigger.priority
-  end
-
-  private
-
-  def assign_default_channel
-    if self.channels.empty?
-      default_channel = Channel.default(report)
-      self.channels << default_channel if default_channel
-    end
   end
 end
