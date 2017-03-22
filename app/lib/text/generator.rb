@@ -64,15 +64,7 @@ module Text
     end
 
     def components
-      if @components.nil?
-        @components = @report.active_sensor_story_components(@opts)
-        @components = @components.shuffle
-        @nil_priorities, @components = @components.partition {|c| c.priority.nil? }
-        @components = components.sort_by {|c| Trigger.priorities[c.priority] }
-        @components = components.reverse
-        @components = @components + @nil_priorities
-      end
-      @components
+      @compontents ||= Text::Sorter.sort(@report.text_components, @opts)
     end
   end
 end

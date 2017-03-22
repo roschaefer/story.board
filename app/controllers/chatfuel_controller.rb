@@ -2,14 +2,7 @@ class ChatfuelController < ApplicationController
   def show
     chatbot_channel = Channel.find_by(name: "chatbot", report: Report.current)
 
-    tc = chatbot_channel
-      .text_components
-      .where(topic: Topic.find_by(name: params[:topic]))
-      .select(&:active?)
-      .select(&:priority_index)
-      .sort_by(&:priority_index)
-      .reverse
-      .first
+    tc = Text::Sorter.sort(chatbot_channel.text_components, {}).first
 
     if tc
       text = Text::Renderer.new(text_component: tc).render(:main_part)
