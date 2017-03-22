@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'chatfuel/show'
+
   resources :text_components, except: [:edit, :new]
   resources :chains
   resources :actuators do
@@ -19,6 +21,8 @@ Rails.application.routes.draw do
 
   resources :reports do
     resources :channels, only: [:edit, :show, :update]
+
+    get 'chatfuel/topics/:topic_id', to: 'chatfuel#show'
   end
 
   root to: redirect('/reports/current')

@@ -727,13 +727,13 @@ When(/^I update the text component$/) do
   expect(page).to have_text('Text component was successfully updated.')
 end
 
-Given(/^our sensor live report has a channel "([^"]*)" with the id (\d+)$/) do |name, id|
-  @channel = create(:channel, name: name, id: id)
+Given(/^our sensor live report has a topic "([^"]*)" with the id (\d+)$/) do |name, id|
+  @topic = create(:topic, name: name, id: id)
 end
 
 Given(/^we created a text component for it that is active right now$/) do
   main_part = "If you think there is good in everybody, you haven't met everybody."
-  create(:text_component, :active, main_part: main_part, channels: [@channel])
+  @text_component = create(:text_component, :active, main_part: main_part, topics: [@topic])
 end
 
 Given(/^there is a channel called "([^"]*)"$/) do |name|
@@ -788,3 +788,11 @@ Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
   expect(@easy).not_to be_empty
   expect(page).to have_text(@easy)
 end
+
+Given(/^this text component goes into the chatfuel channel and not the website$/) do
+  expect(@text_component.topics.size).to eq 1
+  topic = @text_component.topics.first
+  topic.channel = :chatfuel
+  topic.save!
+end
+
