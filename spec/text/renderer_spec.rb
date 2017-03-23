@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Text::Renderer do
-  let!(:report)      { create(:report, text_components: text_components, variables: variables, name: report_name) }
+  let!(:report)      { create(:report, variables: variables, name: report_name) }
   let(:report_name) { 'ReportName' }
   let(:intention)      { :real }
   subject { described_class.new(text_component: text_component, opts: {intention: intention}) }
@@ -11,8 +11,7 @@ RSpec.describe Text::Renderer do
     subject { super().render(part) }
 
     context 'given one text_component' do
-      let(:text_components) { [text_component] }
-      let(:text_component)  { create(:text_component, main_part: main_part) }
+      let(:text_component)  { create(:text_component, report: report, main_part: main_part) }
       let(:main_part)       { "some content" }
       let(:variables)       { [] }
 
@@ -90,7 +89,7 @@ RSpec.describe Text::Renderer do
             end
 
             context 'markup references an unknown sensor' do
-              let(:text_component)  { create(:text_component, :active, main_part: main_part) }
+              let(:text_component)  { create(:text_component, :active, report: report, main_part: main_part) }
               let(:main_part)       { "Sensor value: { valueOf(4711) }" }
               it { expect(text_component.sensors.pluck(:id)).not_to include(4711)}
               it { expect(text_component).to be_active }

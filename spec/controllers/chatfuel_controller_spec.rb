@@ -23,7 +23,6 @@ RSpec.describe ChatfuelController, type: :controller do
         report: report,
         topic: topic,
         channels: [chatbot_channel],
-        triggers: [create(:trigger, priority: "high")],
         main_part: main_part
       )
     end

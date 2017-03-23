@@ -21,7 +21,7 @@ RSpec.describe Text::Sorter do
       end
     end
 
-    context 'given text_components without triggers' do
+    context 'text_components without triggers' do
       let(:expected_result) { text_components.reverse }
 
       let(:text_components) do
@@ -33,6 +33,32 @@ RSpec.describe Text::Sorter do
 
       it 'returns text sorted by trigger' do
         expect(subject.sort(text_components, opts)).to eq(expected_result)
+      end
+    end
+
+    context 'text components with same priority' do
+      let(:text_components) do
+        [
+          create(:text_component, heading: 'Text component 01', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 02', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 03', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 04', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 05', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 06', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 07', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 08', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 09', triggers: [create(:trigger, priority: :medium)]),
+          create(:text_component, heading: 'Text component 10', triggers: [create(:trigger, priority: :medium)]),
+        ]
+      end
+
+      it 'returns different text components' do
+
+        results = Array.new(10) do
+          subject.sort(text_components, opts).first.heading
+        end.uniq
+
+        expect(results.size).to be > 1
       end
     end
   end
