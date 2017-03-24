@@ -64,7 +64,7 @@ module Text
     end
 
     def components
-      @compontents ||= Text::Sorter.sort(@report.text_components, @opts)
+      @compontents ||= Text::Sorter.sort(@report.active_sensor_story_components, @opts)
     end
   end
 end
