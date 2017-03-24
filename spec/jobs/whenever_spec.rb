@@ -13,8 +13,7 @@ describe 'Whenever Schedule' do
 
   context 'with a report' do
     before do
-      sensorstory_channel = create :channel, name: "sensorstory"
-      create :report, channels: [sensorstory_channel]
+      create :channel, name: "sensorstory" # Report will be implicitly created
     end
 
     it 'creates records' do

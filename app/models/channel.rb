@@ -5,6 +5,8 @@ class Channel < ActiveRecord::Base
   scope :chatbot,     -> { find_by(report: Report.current, name: "chatbot") }
   scope :sensorstory, -> { find_by(report: Report.current, name: "sensorstory") }
 
+  validates :report, presence: true
+
   def self.default(report)
     Channel.sensorstory
   end

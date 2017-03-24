@@ -154,8 +154,7 @@ Given(/^I am the journalist$/) do
 end
 
 Given(/^there is a sensor live report/) do
-  default_channel = create(:channel, name: "sensorstory")
-  create(:report, channels: [default_channel])
+  create(:channel, name: "sensorstory") # report will be implicitly created
 end
 
 Given(/^I visit the settings page of the current report$/) do
@@ -185,8 +184,7 @@ Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
 end
 
 Given(/^my current live report is called "([^"]*)"$/) do |name|
-  default_channel = create(:channel, name: "sensorstory")
-  create(:report, name: name, channels: [default_channel])
+  default_channel = create(:channel, name: "sensorstory", report: create(:report, name: name))
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
@@ -375,7 +373,8 @@ Then(/^I see the new name in the settings menu above$/) do
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
-  create(:text_component, main_part: main_part, report: Report.current)
+  channel = create(:channel, name: "sensorstory")
+  create(:text_component, main_part: main_part, report: channel.report, channels: [channel])
 end
 
 Given(/^I have these active triggers:$/) do |table|
