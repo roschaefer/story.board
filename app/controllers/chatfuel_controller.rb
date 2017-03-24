@@ -1,6 +1,6 @@
 class ChatfuelController < ApplicationController
   def show
-    chatbot_channel = Channel.find_by(name: "chatbot", report: Report.current)
+    chatbot_channel = Channel.chatbot
 
     tc = Text::Sorter.sort(chatbot_channel.text_components, {}).first
 
