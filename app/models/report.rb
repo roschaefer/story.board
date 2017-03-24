@@ -3,7 +3,6 @@ class Report < ActiveRecord::Base
   DATE_FORMAT = '%-d.%-m.%Y'
   DATE_TIME_FORMAT = "#{DATE_FORMAT}, %H:%M Uhr"
 
-
   has_many :triggers
   has_many :text_components
   has_many :sensors
@@ -14,6 +13,16 @@ class Report < ActiveRecord::Base
 
   def self.current
     Report.first
+  end
+
+  def text_components_in_channel(channel_name)
+    channels
+      .find_by(name: channel_name)
+      .text_components
+  end
+
+  def active_sensor_story_components(opts={})
+    text_components_in_channel("sensorstory").select {|c| c.active?(opts) }
   end
 
   def active_text_components(opts={})

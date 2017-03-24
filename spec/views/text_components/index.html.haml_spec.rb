@@ -10,20 +10,16 @@ RSpec.describe "text_components/index", type: :view do
     assign(:new_text_component, new_text_component)
     assign(:triggers, [])
     assign(:remaining_text_components, [
-      TextComponent.create!(
+      create(
+        :text_component,
         :heading => "Heading",
-        :introduction => "MyIntroduction",
-        :main_part => "MyMainPart",
-        :closing => "MyClosing",
         :report_id => report.id,
         :from_day => 1,
         :to_day => 2
       ),
-      TextComponent.create!(
+      create(
+        :text_component,
         :heading => "Heading",
-        :introduction => "MyIntroduction",
-        :main_part => "MyMainPart",
-        :closing => "MyClosing",
         :report_id => report.id,
         :from_day => 1,
         :to_day => 2

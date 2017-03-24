@@ -5,8 +5,9 @@ Feature: Choose one or many channels
   In order to associate the text component with a channel
 
   Background:
-    Given there is a channel called "simple"
-    Given I am a journalists who writes about the theory of relativity
+    Given there is a sensor live report
+    And there is a channel called "simple"
+    And I am a journalists who writes about the theory of relativity
     But the theory of relativity is too difficult for everybody to understand
 
   Scenario: Replace default channel with another one
@@ -22,5 +23,7 @@ Feature: Choose one or many channels
     """
     When I edit the easier text component
     And choose "simple" as a channel
+    And unslect "sensorstory" as a channel
     And I update the text component
     Then the easier text will go into the channel "simple"
+    And the easier text will not appear in main story

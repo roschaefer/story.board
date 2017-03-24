@@ -24,8 +24,9 @@ RSpec.describe TextComponentsController, type: :controller do
   # TextComponent. As you add validations to TextComponent, be sure to
   # adjust the attributes here as well.
   let(:report) { create(:report) }
+  let(:channel) { create(:channel) }
   let(:valid_attributes) {
-    { heading: 'A heading', report_id: report.id }
+    { heading: 'A heading', report_id: report.id, channel_ids: [channel.id] }
   }
 
   let(:invalid_attributes) {
@@ -39,7 +40,7 @@ RSpec.describe TextComponentsController, type: :controller do
 
   describe "GET #index" do
     it "assigns all text_components as @text_components" do
-      text_component = TextComponent.create! valid_attributes
+      text_component = create(:text_component, valid_attributes)
       get :index, params: {}, session: valid_session
       expect(assigns(:remaining_text_components)).to eq([text_component])
     end
@@ -47,7 +48,7 @@ RSpec.describe TextComponentsController, type: :controller do
 
   describe "GET #show" do
     it "assigns the requested text_component as @text_component" do
-      text_component = TextComponent.create! valid_attributes
+      text_component = create(:text_component, valid_attributes)
       get :show, params: {:id => text_component.to_param}, session: valid_session
       expect(assigns(:text_component)).to eq(text_component)
     end
@@ -102,7 +103,7 @@ RSpec.describe TextComponentsController, type: :controller do
       }
 
       it "updates the requested text_component" do
-        text_component = TextComponent.create! valid_attributes
+        text_component = create(:text_component, valid_attributes)
         put :update, params: {:id => text_component.to_param, :text_component => new_attributes}, session: valid_session
         text_component.reload
         expect(text_component.heading).to eq 'A new heading'
@@ -110,13 +111,13 @@ RSpec.describe TextComponentsController, type: :controller do
       end
 
       it "assigns the requested text_component as @text_component" do
-        text_component = TextComponent.create! valid_attributes
+        text_component = create(:text_component, valid_attributes)
         put :update, params: {:id => text_component.to_param, :text_component => valid_attributes}, session: valid_session
         expect(assigns(:text_component)).to eq(text_component)
       end
 
       it "redirects to the text_component" do
-        text_component = TextComponent.create! valid_attributes
+        text_component = create(:text_component, valid_attributes)
         put :update, params: {:id => text_component.to_param, :text_component => valid_attributes}, session: valid_session
         expect(response).to redirect_to(text_component)
       end
@@ -124,13 +125,13 @@ RSpec.describe TextComponentsController, type: :controller do
 
     context "with invalid params" do
       it "assigns the text_component as @text_component" do
-        text_component = TextComponent.create! valid_attributes
+        text_component = create(:text_component, valid_attributes)
         put :update, params: {:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
         expect(assigns(:text_component)).to eq(text_component)
       end
 
       it "re-renders the 'index' template" do
-        text_component = TextComponent.create! valid_attributes
+        text_component = create(:text_component, valid_attributes)
         put :update, params: {:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
         expect(response).to render_template("index")
       end
@@ -139,14 +140,14 @@ RSpec.describe TextComponentsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested text_component" do
-      text_component = TextComponent.create! valid_attributes
+      text_component = create(:text_component, valid_attributes)
       expect {
         delete :destroy, params: {:id => text_component.to_param}, session: valid_session
       }.to change(TextComponent, :count).by(-1)
     end
 
     it "redirects to the text_components list" do
-      text_component = TextComponent.create! valid_attributes
+      text_component = create(:text_component, valid_attributes)
       delete :destroy, params: {:id => text_component.to_param}, session: valid_session
       expect(response).to redirect_to(text_components_url)
     end

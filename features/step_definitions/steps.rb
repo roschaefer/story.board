@@ -154,7 +154,7 @@ Given(/^I am the journalist$/) do
 end
 
 Given(/^there is a sensor live report/) do
-  create(:report)
+  create(:channel, name: "sensorstory") # report will be implicitly created
 end
 
 Given(/^I visit the settings page of the current report$/) do
@@ -184,7 +184,7 @@ Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
 end
 
 Given(/^my current live report is called "([^"]*)"$/) do |name|
-  create(:report, name: name)
+  default_channel = create(:channel, name: "sensorstory", report: create(:report, name: name))
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
@@ -373,7 +373,8 @@ Then(/^I see the new name in the settings menu above$/) do
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
-  create(:text_component, main_part: main_part, report: Report.current)
+  channel = create(:channel, name: "sensorstory")
+  create(:text_component, main_part: main_part, report: channel.report, channels: [channel])
 end
 
 Given(/^I have these active triggers:$/) do |table|
@@ -737,7 +738,7 @@ Given(/^we created a text component for it that is active right now$/) do
 end
 
 Given(/^there is a channel called "([^"]*)"$/) do |name|
-  create(:channel, name: name, report: create(:report))
+  create(:channel, name: name, report: Report.current)
 end
 
 Given(/^I am a journalists who writes about the theory of relativity$/) do
@@ -776,6 +777,12 @@ When(/^choose "([^"]*)" as a channel$/) do |channel|
   end
 end
 
+When(/^unslect "([^"]*)" as a channel$/) do |channel|
+  within("#edit_text_component_#{@text_component.id}") do
+    unselect channel, from: 'text_component_channel_ids'
+  end
+end
+
 Then(/^only the difficult text will go into the main report$/) do
   visit '/'
   expect(@difficult).not_to be_empty
@@ -787,4 +794,9 @@ Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
   visit "/reports/#{channel.report_id}/channels/#{channel.id}/edit"
   expect(@easy).not_to be_empty
   expect(page).to have_text(@easy)
+end
+
+Then(/^the easier text will not appear in main story$/) do
+  visit "/reports/current"
+  expect(page).not_to have_text(@easy)
 end

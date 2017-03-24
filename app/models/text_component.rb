@@ -9,6 +9,8 @@ class TextComponent < ActiveRecord::Base
 
   accepts_nested_attributes_for :triggers
 
+  validates :channels, presence: true
+
   def active?(opts={})
     on_time? && triggers.all? {|t| t.active?(opts) }
   end
