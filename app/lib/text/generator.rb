@@ -24,30 +24,7 @@ module Text
     private
 
     def render(text_component, part)
-      template = text_component.send(part).to_s
-      unless template =~ /({.*})/
-        return template
-      else
-        rendered = template
-        rendered = render_report(rendered)
-        text_component.sensors.each do |sensor|
-          s = SensorDecorator.new(sensor)
-          rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value(@opts))
-        end
-        text_component.events.each do |event|
-          e = EventDecorator.new(event)
-          rendered.gsub!(/({\s*#{ Regexp.quote("date(#{e.id})") }\s*})/, e.date)
-        end
-        return rendered
-      end
-    end
-
-    def render_report(input)
-      result = input.gsub(/({\s*report\s*})/, @report.name)
-      @report.variables.each do |v|
-        result = result.gsub(/({\s*#{Regexp.quote(v.key)}\s*})/, v.value)
-      end
-      result
+      Renderer.new(text_component: text_component, opts: @opts).render(part)
     end
 
     def combine_introductions
@@ -87,15 +64,7 @@ module Text
     end
 
     def components
-      if @components.nil?
-        @components = @report.active_sensor_story_components(@opts)
-        @components = @components.shuffle
-        @nil_priorities, @components = @components.partition {|c| c.priority.nil? }
-        @components = components.sort_by {|c| Trigger.priorities[c.priority] }
-        @components = components.reverse
-        @components = @components + @nil_priorities
-      end
-      @components
+      @compontents ||= Text::Sorter.sort(@report.active_sensor_story_components(@opts), @opts)
     end
   end
 end

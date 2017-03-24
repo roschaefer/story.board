@@ -15,14 +15,8 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def text_components_in_channel(channel_name)
-    channels
-      .find_by(name: channel_name)
-      .text_components
-  end
-
   def active_sensor_story_components(opts={})
-    text_components_in_channel("sensorstory").select {|c| c.active?(opts) }
+    Channel.sensorstory.text_components.select {|c| c.active?(opts) }
   end
 
   def active_text_components(opts={})
