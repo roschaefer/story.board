@@ -30,9 +30,16 @@ Topic.find_or_create_by(name: "health")
 Report.find_each do |report|
   default_channel = Channel.find_or_create_by(
     report: report,
-    name: "storyboard"
+    name: "sensorstory"
   ) do |c|
     c.description = "Default Channel"
+  end
+
+  chatbot_channel = Channel.find_or_create_by(
+    report: report,
+    name: "chatbot"
+  ) do |c|
+    c.description = "Chatbot Channel"
   end
 
   report.text_components.each do |text_component|
