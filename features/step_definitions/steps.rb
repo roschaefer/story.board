@@ -588,6 +588,10 @@ Given(/^I have a text component with a heading "([^"]*)"$/) do |heading|
   @text_component = create(:text_component, heading: heading, report: Report.current)
 end
 
+Given(/^we have a text component called "([^"]*)":$/) do |heading, text|
+  @text_component = create(:text_component, heading: heading, main_part: text, report: Report.current)
+end
+
 When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
   unless page.has_css?('.dropdown-menu.inner')
     within(".text_component_triggers") do
@@ -808,4 +812,30 @@ end
 Then(/^the easier text will not appear in main story$/) do
   visit "/reports/current"
   expect(page).not_to have_text(@easy)
+end
+
+Given(/^this text component has these questions and answers already:$/) do |table|
+  @question_answers = []
+  table.hashes.each do |row|
+    question_answer = create(:question_answer, text_component: @text_component, question: row['Question'], answer: row['Answer'])
+    @question_answers << question_answer
+  end
+end
+
+When(/^I enter the question:$/) do |string|
+  @question_text = string
+  fill_in :question, with: @question_text
+end
+
+When(/^I enter the answer:$/) do |string|
+  @answer_text = string
+  fill_in :answer, with: @answer_text
+end
+
+Then(/^a new question\/answer was added to the database$/) do
+  @text_component.reload
+  qa = (@text_component.question_answers.last)
+  expect(@question_answers).not_to include(qa)
+  expect(qa.question).to eq @question_text
+  expect(qa.answer).to eq @answer_text
 end
