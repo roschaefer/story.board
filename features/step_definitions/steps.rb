@@ -822,20 +822,32 @@ Given(/^this text component has these questions and answers already:$/) do |tabl
   end
 end
 
-When(/^I enter the question:$/) do |string|
+When(/^I fill the empty question with:$/) do |string|
   @question_text = string
-  fill_in :question, with: @question_text
+  find('.question-input', text: /^$/).set(@question_text)
 end
 
-When(/^I enter the answer:$/) do |string|
+When(/^I enter the missing answer:$/) do |string|
   @answer_text = string
-  fill_in :answer, with: @answer_text
+  find('.answer-input', text: /^$/).set(@answer_text)
 end
 
 Then(/^a new question\/answer was added to the database$/) do
   @text_component.reload
   qa = (@text_component.question_answers.last)
   expect(@question_answers).not_to include(qa)
-  expect(qa.question).to eq @question_text
-  expect(qa.answer).to eq @answer_text
+  expect(qa.question).to be_present
+  expect(qa.answer).to be_present
 end
+
+Then(/^I can see the new question and the answer on the page$/) do
+  expect(@question_text).to be_present
+  expect(@answer_text).to be_present
+  expect(page).to have_text(@question_text)
+  expect(page).to have_text(@answer_text)
+end
+
+When(/^I click the "([^"]*)" button$/) do |label|
+  click_button(label)
+end
+

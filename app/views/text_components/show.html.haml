@@ -3,6 +3,15 @@
   %b Topic:
   = @text_component.topic_name
 %p
+  %h3 Question/Answer
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Question
+        %th Answer
+    %tbody
+      = render @text_component.question_answers
+      %p
   %h3 Triggers
   %table.table.table-striped.table-hover
     %thead

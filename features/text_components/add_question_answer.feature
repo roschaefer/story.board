@@ -16,18 +16,19 @@ Feature: Add a new question/answer
     Ask me your questions, Bridgekeeper. I am not afraid.
     """
 
-  Scenario: Add two questions/answer pairs to a text component
+  @javascript
+  Scenario: Add a one more question/answer to a text component
     Given this text component has these questions and answers already:
       | Question              | Answer                      |
       | What...is your name?  | King Arthur of the Britons! |
       | What...is your quest? | I seek the Holy Grail!      |
     When I edit this text component
-    And I click on "Add a question and an answer"
-    And I enter the question:
+    And I click the "Add a question and an answer" button
+    And I fill the empty question with:
     """
     Bridgekeeper: What...is the airspeed velocity of an unladen swallow?
     """
-    And I enter the answer:
+    And I enter the missing answer:
     """
     Arthur: What do you mean, an African or a European swallow?
     ...
@@ -35,6 +36,7 @@ Feature: Add a new question/answer
     """
     And I click on "Update"
     Then a new question/answer was added to the database
+    And I can see the new question and the answer on the page
 
 
 
