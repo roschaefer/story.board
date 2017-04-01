@@ -97,6 +97,23 @@ RSpec.describe TextComponentsController, type: :controller do
   end
 
   describe "PUT #update" do
+    context 'attributes for question/answers' do
+      describe '_destroy' do
+        let(:text_component) { create(:text_component, question_answers: [question_answer]) }
+        let(:question_answer) { create(:question_answer) }
+        let(:question_answers_attributes) {
+          [ { id: question_answer.id, _destroy: 1 } ]
+        }
+
+        it "destroys associated question/answers" do
+          expect(text_component.question_answers).not_to be_empty
+          put :update, params: {:id => text_component.id, text_component: { question_answers_attributes: question_answers_attributes } }, session: valid_session
+          text_component.reload
+          expect(text_component.question_answers).to be_empty
+        end
+      end
+    end
+
     context "with valid params" do
       let(:new_attributes) {
         { heading: 'A new heading', main_part: 'Plus a main part' }
