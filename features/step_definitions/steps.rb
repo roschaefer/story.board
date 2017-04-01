@@ -824,11 +824,13 @@ end
 
 When(/^I fill the empty question with:$/) do |string|
   @question_text = string
+  expect(page).to have_css('.question-input')
   find('.question-input', text: /^$/).set(@question_text)
 end
 
 When(/^I enter the missing answer:$/) do |string|
   @answer_text = string
+  expect(page).to have_css('.answer-input')
   find('.answer-input', text: /^$/).set(@answer_text)
 end
 
