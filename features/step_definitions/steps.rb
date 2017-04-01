@@ -824,17 +824,16 @@ end
 
 When(/^I fill the empty question with:$/) do |string|
   @question_text = string
-  expect(page).to have_css('.question-input')
-  find('.question-input', text: /^$/).set(@question_text)
+  find(:fillable_field, 'Question', with: '').set(@question_text)
 end
 
 When(/^I enter the missing answer:$/) do |string|
   @answer_text = string
-  expect(page).to have_css('.answer-input')
-  find('.answer-input', text: /^$/).set(@answer_text)
+  find(:fillable_field, 'Answer', with: '').set(@answer_text)
 end
 
 Then(/^a new question\/answer was added to the database$/) do
+  expect(page).to have_text('Text component was successfully updated.')
   @text_component.reload
   qa = (@text_component.question_answers.last)
   expect(@question_answers).not_to include(qa)
@@ -851,5 +850,10 @@ end
 
 When(/^I click the "([^"]*)" button$/) do |label|
   click_button(label)
+end
+
+When(/^two more input fields pop up, one for the new question and one for the new answer$/) do
+  expect(page).to have_field('Question', with: '', count: 1)
+  expect(page).to have_field('Answer', with: '', count: 1)
 end
 

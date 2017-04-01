@@ -18,6 +18,8 @@ before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.travis.yml config/database.yml
 
+script: xvfb-run -a bundle exec rake
+
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_42bcee30061d_key -iv $encrypted_42bcee30061d_iv
     -in deploy_rsa.enc -out /tmp/deploy_rsa -d

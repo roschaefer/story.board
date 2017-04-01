@@ -43,8 +43,6 @@ group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low
   gem 'factory_girl_rails'
   gem 'rspec-rails'
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
   gem 'pry'
   gem 'whenever-test'
   gem 'timecop'
@@ -72,8 +70,8 @@ group :test do
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
   #   end
-  gem 'poltergeist'
   gem 'selenium-webdriver'
+  gem 'capybara-webkit'
   gem 'capybara-screenshot'
   gem 'vcr'
   gem 'webmock'
