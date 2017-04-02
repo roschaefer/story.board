@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe TextComponent, type: :model do
+  describe '#question_answers' do
+    it 'accepts nested attributes' do
+      text_component = build(:text_component, question_answers_attributes: [attributes_for(:question_answer)])
+      expect{ text_component.save }.to change{ QuestionAnswer.count }.from(0).to(1)
+    end
+  end
+
   describe '#create' do
     let(:report) { create(:report) }
     let!(:default_channel) { create(:channel, name: "sensorstory", report: report) }

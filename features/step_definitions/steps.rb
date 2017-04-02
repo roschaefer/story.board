@@ -588,6 +588,10 @@ Given(/^I have a text component with a heading "([^"]*)"$/) do |heading|
   @text_component = create(:text_component, heading: heading, report: Report.current)
 end
 
+Given(/^we have a text component called "([^"]*)":$/) do |heading, text|
+  @text_component = create(:text_component, heading: heading, main_part: text, report: Report.current)
+end
+
 When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
   unless page.has_css?('.dropdown-menu.inner')
     within(".text_component_triggers") do
@@ -809,3 +813,47 @@ Then(/^the easier text will not appear in main story$/) do
   visit "/reports/current"
   expect(page).not_to have_text(@easy)
 end
+
+Given(/^this text component has these questions and answers already:$/) do |table|
+  @question_answers = []
+  table.hashes.each do |row|
+    question_answer = create(:question_answer, text_component: @text_component, question: row['Question'], answer: row['Answer'])
+    @question_answers << question_answer
+  end
+end
+
+When(/^I fill the empty question with:$/) do |string|
+  @question_text = string
+  find(:fillable_field, 'Question', with: '').set(@question_text)
+end
+
+When(/^I enter the missing answer:$/) do |string|
+  @answer_text = string
+  find(:fillable_field, 'Answer', with: '').set(@answer_text)
+end
+
+Then(/^a new question\/answer was added to the database$/) do
+  expect(page).to have_text('Text component was successfully updated.')
+  @text_component.reload
+  qa = (@text_component.question_answers.last)
+  expect(@question_answers).not_to include(qa)
+  expect(qa.question).to be_present
+  expect(qa.answer).to be_present
+end
+
+Then(/^I can see the new question and the answer on the page$/) do
+  expect(@question_text).to be_present
+  expect(@answer_text).to be_present
+  expect(page).to have_text(@question_text)
+  expect(page).to have_text(@answer_text)
+end
+
+When(/^I click the "([^"]*)" button$/) do |label|
+  click_button(label)
+end
+
+When(/^two more input fields pop up, one for the new question and one for the new answer$/) do
+  expect(page).to have_field('Question', with: '', count: 1)
+  expect(page).to have_field('Answer', with: '', count: 1)
+end
+

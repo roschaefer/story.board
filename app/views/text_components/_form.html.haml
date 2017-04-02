@@ -72,7 +72,16 @@
       = f.input :main_part, as: :text, placeholder: 'Main part', label: false, input_html: { rows: 10 }
       = f.input :closing, as: :text, placeholder: 'Closing', label: false
     .row
-      .col-sm-1z2
+      .col-sm-12
+        %h2 Questions/Answers for Chatfuel
+        .container-fluid
+          = f.simple_fields_for :question_answers do |question_answer|
+            = render 'question_answers/fields', f: question_answer
+          .links
+            .row
+              = link_to_add_association button_tag("Add a question and an answer", type: 'button', class: 'btn btn-primary'), f, :question_answers, partial: 'question_answers/fields.html.haml'
+    .row
+      .col-sm-12
         %h2 Output
         #channels
           = f.association :channels

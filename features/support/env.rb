@@ -6,7 +6,6 @@
 
 require 'cucumber/rails'
 require 'cucumber/api_steps'
-require 'capybara/poltergeist'
 require 'capybara-screenshot/cucumber'
 require 'vcr'
 
@@ -81,7 +80,7 @@ Capybara.configure do |config|
   if ENV['BROWSER']
     config.default_driver = ENV['BROWSER'].to_sym
   else
-    config.javascript_driver = :poltergeist
+    config.javascript_driver = :webkit
   end
 end
 

@@ -6,6 +6,8 @@ class TextComponent < ActiveRecord::Base
   has_and_belongs_to_many :channels
   belongs_to :report
   belongs_to :topic
+  has_many :question_answers, inverse_of: :text_component
+  accepts_nested_attributes_for :question_answers, reject_if: :all_blank, allow_destroy: true
 
   accepts_nested_attributes_for :triggers
 

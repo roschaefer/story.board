@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312123651) do
+ActiveRecord::Schema.define(version: 20170331165247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,15 @@ ActiveRecord::Schema.define(version: 20170312123651) do
     t.integer "trigger_id"
     t.index ["event_id"], name: "index_events_triggers_on_event_id", using: :btree
     t.index ["trigger_id"], name: "index_events_triggers_on_trigger_id", using: :btree
+  end
+
+  create_table "question_answers", force: :cascade do |t|
+    t.text     "question"
+    t.text     "answer"
+    t.integer  "text_component_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["text_component_id"], name: "index_question_answers_on_text_component_id", using: :btree
   end
 
   create_table "records", force: :cascade do |t|
@@ -203,6 +212,7 @@ ActiveRecord::Schema.define(version: 20170312123651) do
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
   add_foreign_key "conditions", "triggers"
+  add_foreign_key "question_answers", "text_components"
   add_foreign_key "text_components", "reports"
   add_foreign_key "tweets", "chains"
   add_foreign_key "tweets", "commands"
