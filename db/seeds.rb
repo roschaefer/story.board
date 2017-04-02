@@ -35,7 +35,7 @@ Report.find_each do |report|
     c.description = "Default Channel"
   end
 
-  chatbot_channel = Channel.find_or_create_by(
+  Channel.find_or_create_by(
     report: report,
     name: "chatbot"
   ) do |c|
