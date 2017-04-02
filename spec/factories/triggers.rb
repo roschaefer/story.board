@@ -8,6 +8,12 @@ FactoryGirl.define do
       # is active by default
     end
 
+    trait :with_a_sensor_reading do
+      after(:create) do |trigger|
+        create(:sensor, :with_a_reading, triggers: [trigger])
+      end
+    end
+
     trait :inactive do
       after(:create) do |trigger|
         condition = create(:condition, trigger: trigger, from: 0, to: 5)

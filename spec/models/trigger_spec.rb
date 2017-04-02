@@ -4,6 +4,22 @@ describe Trigger, type: :model do
   let(:trigger) { create :trigger }
   let(:sensor) { create(:sensor) }
 
+  context 'given a sensor reading' do
+    subject { create(:trigger, :with_a_sensor_reading, params) }
+    describe '#timeliness_constraint' do
+      let(:params) { { timeliness_constraint: 3 } }
+      it { is_expected.to be_active }
+      context 'some hours later' do
+        it 'no longer relevant' do
+          expect(subject).to be_active
+          Timecop.travel(4.hours.from_now) do
+            expect(subject).not_to be_active
+          end
+        end
+      end
+    end
+  end
+
   describe 'to_hour' do
     subject { trigger }
     let(:trigger) { build(:trigger, attributes) }

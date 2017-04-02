@@ -9,4 +9,10 @@ FactoryGirl.define do
     association :sensor_type
     association :report
   end
+
+  trait :with_a_reading do
+    after(:create) do |sensor|
+      create(:sensor_reading, sensor: sensor)
+    end
+  end
 end
