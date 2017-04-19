@@ -8,8 +8,8 @@ class CreateDefaultChannels < ActiveRecord::Migration[5.0]
 
   def change
     # make sure at least one report is there
-    Report.find_or_create_by(name: 'Kuh Bertha') do |r|
-      r.start_date = Time.now
+    unless Report.first
+      Report.create!(name: 'Kuh Bertha', start_date: Time.now)
     end
 
     # for every report, create default channels
