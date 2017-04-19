@@ -6,6 +6,7 @@ class Channel < ActiveRecord::Base
   scope :sensorstory, -> { find_by(report: Report.current, name: "sensorstory") }
 
   validates :report, presence: true
+  validates :name, presence: true, uniqueness: true
 
   def self.default(report)
     Channel.sensorstory
