@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe ChatfuelController, type: :controller do
   let(:valid_session) { {} }
 
-  let!(:chatbot_channel)   { create :channel, report: report, name: "chatbot" }
-  let(:report)            { create(:report) }
+  let(:chatbot_channel)   { Channel.chatbot }
+  let(:report)            { Report.current }
   let(:topic_name)        { "milk_quality" }
   let(:topic)             { create(:topic, name: topic_name) }
 
@@ -17,7 +17,7 @@ RSpec.describe ChatfuelController, type: :controller do
 
   context "matching text component" do
     let(:main_part) { "Main Part" }
-    let!(:text_component) do
+    let(:text_component) do
       create(
         :text_component,
         report: report,
@@ -26,6 +26,8 @@ RSpec.describe ChatfuelController, type: :controller do
         main_part: main_part
       )
     end
+
+    before { text_component }
 
     it "returns expected text" do
       get :show, params: {topic: topic_name}, session: valid_session

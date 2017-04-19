@@ -13,7 +13,7 @@ describe 'Whenever Schedule' do
 
   context 'with a report' do
     before do
-      create :channel, name: "sensorstory" # Report will be implicitly created
+      expect(Report.current).to be_present
     end
 
     it 'creates records' do

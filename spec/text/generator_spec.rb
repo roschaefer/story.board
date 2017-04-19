@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Text::Generator do
-  let!(:sensorstory_channel)  { create(:channel, name: "sensorstory", report: report) }
-  let(:report)                { create(:report) }
+  let(:report)                { Report.current }
   let(:intention)             { :real }
   subject { described_class.new(report: report, opts: {intention: intention}) }
 
   context 'for text components with the same report and the same channel' do
-    let(:text_component_params) { { report: report, channels: [sensorstory_channel] } }
+    let(:text_component_params) { { report: report } }
 
     describe '#choose_heading' do
       subject { super().choose_heading }
