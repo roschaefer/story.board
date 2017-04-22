@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   get 'reports/preview/:id', to: 'reports#preview', as: 'preview_report'
 
   get 'chatfuel/:topic', to: 'chatfuel#show'
+  # route for chatfuel questions and answers
+  get 'chatfuel/:topic/qa/:id', to: 'chatfuel#showQuestionAndAnswer'
 
   resources :reports do
     resources :channels, only: [:edit, :show, :update]
