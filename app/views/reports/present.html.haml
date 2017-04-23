@@ -5,26 +5,8 @@
 .live-report
   - if @report.video
     %iframe{width: 640, height: 360, src: @report.video, frameborder: 0, type: 'text/html'}
-  %h3.main-heading= "#{@live_record.heading} (aktuell generiert)"
-  %p
-    %strong
-      = @live_record.introduction
-    %em
-      Autor: Sensor Live System
-  %p
-    = @live_record.main_part.html_safe
-  %p
-    = @live_record.closing
+  = render @live_record
 
 - @archived_records.each do |ar|
   .archived-report
-    %h3.main-heading= "#{ar.heading} (#{ar.created_at.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_TIME_FORMAT)})"
-    %p
-      %strong
-        = ar.introduction
-      %em
-        Autor: Sensor Live System
-    %p
-      = ar.main_part.html_safe
-    %p
-      = ar.closing
+    = render ar
