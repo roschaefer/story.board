@@ -154,7 +154,8 @@ Given(/^I am the journalist$/) do
 end
 
 Given(/^there is a sensor live report/) do
-  create(:channel, name: "sensorstory") # report will be implicitly created
+  expect(Report.current).to be_present
+  expect(Channel.sensorstory).to be_present
 end
 
 Given(/^I visit the settings page of the current report$/) do
@@ -184,7 +185,9 @@ Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
 end
 
 Given(/^my current live report is called "([^"]*)"$/) do |name|
-  default_channel = create(:channel, name: "sensorstory", report: create(:report, name: name))
+  report = Report.current
+  report.name = name
+  report.save
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
@@ -373,8 +376,7 @@ Then(/^I see the new name in the settings menu above$/) do
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
-  channel = create(:channel, name: "sensorstory")
-  create(:text_component, main_part: main_part, report: channel.report, channels: [channel])
+  create(:text_component, main_part: main_part, report: Report.current)
 end
 
 Given(/^I have these active triggers:$/) do |table|
@@ -733,7 +735,10 @@ When(/^I update the text component$/) do
 end
 
 Given(/^our sensor live report has a channel "([^"]*)"$/) do |name|
-  @channel = create(:channel, name: name, report: Report.current)
+  @channel =  Channel.find_by(name: name)
+  unless @channel
+    @channel = create(:channel, name: name, report: Report.current)
+  end
 end
 
 Given(/^a topic "([^"]*)"$/) do |name|

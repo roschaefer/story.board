@@ -10,7 +10,6 @@ RSpec.describe TextComponent, type: :model do
 
   describe '#create' do
     let(:report) { create(:report) }
-    let!(:default_channel) { create(:channel, name: "sensorstory", report: report) }
     subject { create(:text_component, report: report) }
 
     it "has a channel assigned" do

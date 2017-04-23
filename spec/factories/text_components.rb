@@ -9,7 +9,7 @@ FactoryGirl.define do
 
     association :report
 
-    channels { create_list(:channel, 1) }
+    channels { [Channel.sensorstory] }
 
     trait :active do
       # active by default

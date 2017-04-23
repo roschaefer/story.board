@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Report, type: :model do
-  let!(:sensorstory_channel)   { create(:channel, name: "sensorstory", report: report) }
   let(:report) { create(:report) }
-  context 'given a report' do
-    before { report }
-    specify { expect(Report.current).to eql report }
+
+  describe '#current' do
+    specify { expect(Report.current).to be_present }
   end
 
   describe '#destroy' do
