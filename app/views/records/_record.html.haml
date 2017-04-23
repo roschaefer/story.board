@@ -10,3 +10,10 @@
 = record.main_part.html_safe
 %p
   = record.closing
+- if record.question_answers
+  - record.question_answers.each do |qa_array|
+    - qa_array.each do |qa|
+      %p
+        = button_tag qa.question, data: {:resi => qa.id}, :class => "resi-question btn btn-primary"
+        %p{'class' => 'resi-answer', 'data-resi' => qa.id}= qa.answer
+

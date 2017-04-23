@@ -1,4 +1,4 @@
-@206 @wip
+@206
 Feature: Read more button
   As a reader who is sometimes more, sometimes less interested
   I want small reports with a "Read more" button

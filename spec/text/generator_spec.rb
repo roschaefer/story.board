@@ -65,6 +65,27 @@ RSpec.describe Text::Generator do
     end
   end
 
+  describe '#generate_record' do
+    subject { record.question_answers }
+    let(:record) { generator.generate_record }
+
+    let(:components) do
+      components = build_list(:text_component, 2, report: Report.current)
+      components.first.question_answers << build_list(:question_answer, 1, question: 'Idiots say what?', answer: 'What?')
+      components.last.question_answers << build_list(:question_answer, 1, question: 'Meaning of life?', answer: '42')
+      components
+    end
+
+    before do
+      allow(generator).to receive(:components) { components }
+    end
+
+    it 'adds question/answers as an array of arrays' do
+      is_expected.to be_kind_of Array
+      expect(subject.first).to respond_to :to_a
+    end
+  end
+
 
   context 'for text components with the same report and the same channel' do
     let(:text_component_params) { { report: report } }

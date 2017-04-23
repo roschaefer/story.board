@@ -35,8 +35,7 @@ class Report < ActiveRecord::Base
 
   def compose(opts={})
     generator = ::Text::Generator.new(report: self, opts: opts)
-    generated = generator.generate
-    Record.new(generated.merge(report: self, intention: opts[:intention]))
+    generator.generate_record
   end
 
   def end_date
