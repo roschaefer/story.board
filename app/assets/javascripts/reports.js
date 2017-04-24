@@ -5,9 +5,14 @@
 var ready;
 ready = function() {
   $('.resi-answer').hide();
+  $('.resi-question').hide();
+  $('.resi-thread .resi-question:first-child').show();
   $('.resi-question').click(function(){
     $(this).hide();
-    $(".resi-answer[data-resi='"+ $(this).attr('data-resi') +"']").show();
+    var nextAnswer = $(this).nextAll('.resi-answer').first();
+    var nextButton = $(this).nextAll('.resi-question').first();
+    nextButton.show();
+    nextAnswer.show();
   });
 };
 
