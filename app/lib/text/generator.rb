@@ -17,9 +17,7 @@ module Text
     end
 
     def generate_record
-      record = Record.new(generate.merge(report: @report, intention: @opts[:intention]))
-      record.question_answers = components.collect {|c| c.question_answers }.reject{|qa| qa.empty? }
-      record
+      Record.new(generate.merge(report: @report, intention: @opts[:intention]))
     end
 
     def choose_heading

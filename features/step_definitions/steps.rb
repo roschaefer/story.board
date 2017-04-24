@@ -887,7 +887,7 @@ Then(/^the button disappears and the answer shows up$/) do
 end
 
 Given(/^we have different text components, each having question\/answers$/) do
-  # sophistated test set up
+  # sophisticated test set up
   create(:important_text_component,
          heading: 'News from Bertha the cow',
          introduction: '',

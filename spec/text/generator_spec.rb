@@ -63,30 +63,27 @@ RSpec.describe Text::Generator do
         end
       end
     end
-  end
 
-  describe '#generate_record' do
-    subject { record.question_answers }
-    let(:record) { generator.generate_record }
+    describe 'question/answers' do
+      subject { Capybara.string(super()) }
 
-    let(:components) do
-      components = build_list(:text_component, 3, report: Report.current)
-      components.first.question_answers << build_list(:question_answer, 1, question: 'Idiots say what?', answer: 'What?')
-      components.last.question_answers << build_list(:question_answer, 1, question: 'Meaning of life?', answer: '42')
-      components
-    end
+      context 'one component with many question/answers' do
+        let(:question_answers) { build_list(:question_answer, 3) }
+        let(:components) { build_list(:text_component, 1, question_answers: question_answers) }
 
-    before do
-      allow(generator).to receive(:components) { components }
-    end
+        describe 'thread' do
+          it { is_expected.to have_css('.resi-thread', count: 1) }
+          it { is_expected.to have_css('.resi-thread .resi-question', count: 3) }
+          it { is_expected.to have_css('.resi-thread .resi-answer', count: 3) }
+        end
+      end
 
-    it 'adds question/answers as an array of arrays' do
-      expect(subject).to respond_to :to_a
-      expect(subject.first).to respond_to :to_a
-    end
-
-    it 'omits empty arrays' do
-      expect(subject.count).to eq 2
+      context 'many text components' do
+        let(:components) { build_list(:text_component, 3) }
+        describe 'threads' do
+          it { is_expected.to have_css('.resi-thread', count: 3) }
+        end
+      end
     end
   end
 
@@ -146,26 +143,26 @@ RSpec.describe Text::Generator do
         let!(:text_component) { create(:text_component, text_component_params.merge(main_part: main_part)) }
         let(:main_part)      { "some content" }
 
-        it { is_expected.to have_value("<p>some content</p>\n")}
+        specify { expect(subject[:main_part]).to include('some content') }
 
         describe 'report markup' do
           describe 'report name' do
             let(:report)    { create(:report, name: 'Foobar') }
             let(:main_part) { "Say something about { report}." }
-            it { is_expected.to have_value("<p>Say something about Foobar.</p>\n")}
+            specify { expect(subject[:main_part]).to include('Say something about Foobar.') }
           end
 
           describe 'report variables' do
             let(:report)    { create(:report, variables: variables) }
             let(:variables) { [ create(:variable, key: 'cool_thing', value: 'sth. cool') ] }
             let(:main_part) { "Say something about { cool_thing }." }
-            it { is_expected.to have_value("<p>Say something about sth. cool.</p>\n")}
+            specify { expect(subject[:main_part]).to include('Say something about sth. cool.') }
 
             context 'many variables' do
               let(:main_part) { "Write about { v1 } and { v2 }." }
               let(:variables) { [ create(:variable, key: 'v1', value: 'this'),
                                   create(:variable, key: 'v2', value: 'that'),] }
-              it { is_expected.to have_value("<p>Write about this and that.</p>\n")}
+              specify { expect(subject[:main_part]).to include('Write about this and that.') }
             end
           end
         end
@@ -179,12 +176,12 @@ RSpec.describe Text::Generator do
             it('event must happen first') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
             context 'has happened' do
               before { event.happened_at = DateTime.parse('2018-02-02'); event.save! }
-              it { is_expected.to have_value("<p>some content</p>\n")}
+              specify { expect(subject[:main_part]).to include('some content') }
 
               describe 'markup for the day of the event' do
                 let(:main_part)      { 'Day of your death: { date(42) }' }
                 it 'renders the day of the event' do
-                  is_expected.to have_value("<p>Day of your death: 2.2.2018</p>\n")
+                   expect(subject[:main_part]).to include('Day of your death: 2.2.2018')
                 end
               end
             end
@@ -202,23 +199,23 @@ RSpec.describe Text::Generator do
               let(:reading)        { create(:sensor_reading, sensor: sensor, calibrated_value: 5) }
               before { report; reading }
 
-              it { is_expected.to have_value("<p>some content</p>\n")}
+              specify { expect(subject[:main_part]).to include('some content') }
 
               context 'with markup for sensor' do
                 let(:sensor)         { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
                 let(:main_part)      { 'Sensor value: { value(42) }' }
-                it('renders sensor value') { is_expected.to have_value("<p>Sensor value: 5.0°C</p>\n")}
+                specify { expect(subject[:main_part]).to include('Sensor value: 5.0°C') }
                 context 'but with sensor data of different intention' do
                   before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
 
                   context 'render :fake report' do
                     let(:intention) { :fake }
-                    it { is_expected.to have_value("<p>Sensor value: 0.0°C</p>\n")}
+                    specify { expect(subject[:main_part]).to include('Sensor value: 0.0°C') }
                   end
 
                   context 'render :real report' do
                     let(:intention) { :real }
-                    it { is_expected.to have_value("<p>Sensor value: 5.0°C</p>\n")}
+                    specify { expect(subject[:main_part]).to include('Sensor value: 5.0°C') }
                   end
                 end
               end
@@ -229,7 +226,7 @@ RSpec.describe Text::Generator do
                 it { expect(text_component.sensors.pluck(:id)).not_to include(4711)}
                 it { expect(text_component).to be_active }
                 describe 'markup' do
-                  it('will be ignored') { is_expected.to have_value("<p>Sensor value: { valueOf(4711) }</p>\n")}
+                  it('will be ignored') { expect(subject[:main_part]).to include('Sensor value: { valueOf(4711) }') }
                 end
               end
             end
