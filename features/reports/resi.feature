@@ -13,7 +13,7 @@ Feature: Read more button
     And I click the button labeled with the question
     Then the button disappears and the answer shows up
 
-  @javascript @wip
+  @javascript
   Scenario: Many threads of question/answers can be visible at once, but only the next question of the thread
     Given we have different text components, each having question/answers
     And based on the input data, the current report might look like this:

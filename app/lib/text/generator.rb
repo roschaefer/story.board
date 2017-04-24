@@ -39,7 +39,14 @@ module Text
           end
           part += ' ' if part.present?
           part += render(current_component, :main_part)
+
+          part += ApplicationController.render(
+            partial: 'records/question_answers',
+            locals: { question_answers: current_component.question_answers }
+          )
+
         end
+
 
         result += ApplicationController.render(
           partial: 'records/split_part',

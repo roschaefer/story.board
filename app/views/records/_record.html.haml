@@ -10,11 +10,3 @@
 = record.main_part.html_safe
 %p
   = record.closing
-- if record.question_answers
-  .resi-group
-    - record.question_answers.each do |qa_array|
-      .resi-thread
-        - qa_array.each do |qa|
-          = button_tag "(* #{qa.question})", :class => "resi-question btn btn-link"
-          .resi-answer= qa.answer
-
