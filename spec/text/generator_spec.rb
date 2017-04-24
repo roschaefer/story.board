@@ -70,7 +70,7 @@ RSpec.describe Text::Generator do
     let(:record) { generator.generate_record }
 
     let(:components) do
-      components = build_list(:text_component, 2, report: Report.current)
+      components = build_list(:text_component, 3, report: Report.current)
       components.first.question_answers << build_list(:question_answer, 1, question: 'Idiots say what?', answer: 'What?')
       components.last.question_answers << build_list(:question_answer, 1, question: 'Meaning of life?', answer: '42')
       components
@@ -81,8 +81,12 @@ RSpec.describe Text::Generator do
     end
 
     it 'adds question/answers as an array of arrays' do
-      is_expected.to be_kind_of Array
+      expect(subject).to respond_to :to_a
       expect(subject.first).to respond_to :to_a
+    end
+
+    it 'omits empty arrays' do
+      expect(subject.count).to eq 2
     end
   end
 
