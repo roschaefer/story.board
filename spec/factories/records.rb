@@ -4,6 +4,5 @@ FactoryGirl.define do
     introduction "MyString"
     main_part "MyString"
     closing "MyString"
-    reference ""
   end
 end

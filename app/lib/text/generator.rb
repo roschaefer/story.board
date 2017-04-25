@@ -11,7 +11,7 @@ module Text
       {
         heading:       choose_heading,
         introduction:  combine_introductions,
-        main_part:     combine_main_parts,
+        main_part:     html_main_part,
         closing:       combine_closings
       }
     end
@@ -19,6 +19,33 @@ module Text
     def choose_heading
       return '' if components.empty?
       components.first.heading
+    end
+
+    def html_main_part
+      result = ""
+      part = ''
+      stack = components
+      until stack.empty? do
+        until part.length >= BREAK_AFTER || stack.empty? do
+          current_component = stack.shift
+          if result.present? # no subheading at the very beginning
+            subheading ||= current_component.heading
+          end
+          part += ' ' if part.present?
+          part += render(current_component, :main_part)
+        end
+
+        result += ApplicationController.render(
+          partial: 'records/split_part',
+          locals: { subheading: subheading, part: part }
+        )
+
+        # reset
+        part = ''
+        subheading = nil
+      end
+
+      result
     end
 
     private
@@ -41,27 +68,6 @@ module Text
       closings.join(' ')
     end
 
-    def combine_main_parts
-      character_count = 0
-      result = ""
-      components.each_with_index do |component, i|
-        part = render(component, :main_part)
-        result += ' ' unless i == 0
-        result += part
-        character_count += part.length
-        if character_count >= BREAK_AFTER
-          next_component = components[i+1]
-          if next_component
-            # HACK: this generator knows the output medium
-            result += "</p>"
-            result += "<h4 class=\"sub-heading\">#{next_component.heading}</h4>"
-            result += "<p>"
-            character_count = 0 # reset character count
-          end
-        end
-      end
-      result
-    end
 
     def components
       @compontents ||= Text::Sorter.sort(@report.active_sensor_story_components(@opts), @opts)
