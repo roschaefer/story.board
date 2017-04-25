@@ -2,7 +2,7 @@ require 'capistrano-db-tasks'
 
 
 # config valid only for current version of Capistrano
-lock '3.8.0'
+lock '3.8.1'
 
 set :application, 'story.board'
 set :repo_url, 'https://github.com/roschaefer/story.board.git'
