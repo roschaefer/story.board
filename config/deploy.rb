@@ -11,6 +11,9 @@ set :repo_url, 'https://github.com/roschaefer/story.board.git'
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/vicari/story.board'
+set :db_dump_dir, -> { File.join(current_path, 'db', 'backups') }
+set :disallow_pushing, true
+set :db_local_clean, false
 
 # Default value for :scm is :git
 # set :scm, :git
