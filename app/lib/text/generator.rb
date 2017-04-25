@@ -16,6 +16,10 @@ module Text
       }
     end
 
+    def generate_record
+      Record.new(generate.merge(report: @report, intention: @opts[:intention]))
+    end
+
     def choose_heading
       return '' if components.empty?
       components.first.heading
@@ -24,7 +28,7 @@ module Text
     def html_main_part
       result = ""
       part = ''
-      stack = components
+      stack = components.clone
       until stack.empty? do
         until part.length >= BREAK_AFTER || stack.empty? do
           current_component = stack.shift
@@ -33,7 +37,14 @@ module Text
           end
           part += ' ' if part.present?
           part += render(current_component, :main_part)
+
+          part += ApplicationController.render(
+            partial: 'records/question_answers',
+            locals: { question_answers: current_component.question_answers }
+          )
+
         end
+
 
         result += ApplicationController.render(
           partial: 'records/split_part',
@@ -68,9 +79,8 @@ module Text
       closings.join(' ')
     end
 
-
     def components
-      @compontents ||= Text::Sorter.sort(@report.active_sensor_story_components(@opts), @opts)
+      @components ||= Text::Sorter.sort(@report.active_sensor_story_components(@opts), @opts)
     end
   end
 end

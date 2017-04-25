@@ -862,3 +862,68 @@ When(/^two more input fields pop up, one for the new question and one for the ne
   expect(page).to have_field('Answer', with: '', count: 1)
 end
 
+Given(/^we have an active text component with these question\/answers:$/) do |table|
+  text_component = create(:text_component, report: Report.current)
+  table.hashes.each do |row|
+    @question = row['Question']
+    @answer   = row['Answer']
+    create(:question_answer, text_component: text_component, question: @question, answer: @answer)
+  end
+end
+
+When(/^I read the report$/) do
+  visit root_path
+end
+
+When(/^I click the button labeled with the question$/) do
+  expect(page).to have_text(@question)
+  expect(page).not_to have_text(@answer)
+  click_button @question
+end
+
+Then(/^the button disappears and the answer shows up$/) do
+  expect(page).to have_text(@anwer)
+  expect(page).not_to have_text(@question)
+end
+
+Given(/^we have different text components, each having question\/answers$/) do
+  # sophisticated test set up
+  create(:important_text_component,
+         heading: 'News from Bertha the cow',
+         introduction: '',
+         main_part: 'I gave eleven liters of milk today.',
+         closing: '',
+         question_answers: [
+          build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
+          build(:question_answer, question: 'Shall it become more?', answer: 'I hope for it.')
+          ]
+        )
+  create(:text_component,
+         heading: 'This heading will not be visible',
+         introduction: '',
+         main_part: 'It was hot and stuffy in the stable.',
+         closing: 'I hope it gets colder tomorrow.',
+        question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
+        )
+end
+
+def check_expanding_report(string)
+  parts = string.split('[...]')
+  parts.each do |part|
+    expect(page).to have_text(part.gsub("\n", ' '))
+  end
+end
+
+Given(/^based on the input data, the current report might look like this:$/) do |string|
+  visit root_path
+  check_expanding_report(string)
+end
+
+When(/^I click on the question "([^"]*)"$/) do |question|
+  find('.resi-question', text: question).click
+end
+
+Then(/^the text expands like this:$/) do |string|
+  check_expanding_report(string)
+end
+

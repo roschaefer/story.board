@@ -14,5 +14,12 @@ FactoryGirl.define do
     trait :active do
       # active by default
     end
+
+    factory :important_text_component do
+      after(:create) do |text_component|
+        create(:trigger, priority: :high, text_components: [text_component])
+      end
+    end
+
   end
 end

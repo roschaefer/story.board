@@ -1,0 +1,4 @@
+%span.resi-thread
+  - question_answers.each do |qa|
+    = button_tag "(* #{qa.question})", :class => "resi-question btn btn-link"
+    %span.resi-answer= qa.answer
