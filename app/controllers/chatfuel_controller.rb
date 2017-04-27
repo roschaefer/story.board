@@ -7,14 +7,17 @@ class ChatfuelController < ApplicationController
     if tc
       text = Text::Renderer.new(text_component: tc).render(:main_part)
 
-      @response = {
-        messages: [
-          { text: text.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
-        ]
-      }
-      render json: @response
+      qa = tc.question_answers
+
+      #Test API Request: http://localhost:3000/chatfuel/1
+      if qa
+          sendJsonResponse(text, 1, qa.find(1).question)
+      else
+          sendJsonResponse(text)
+      end
+
     else
-      render json: {}, status: 404
+     render json: {}, status: 404
     end
   end
 
@@ -35,10 +38,10 @@ class ChatfuelController < ApplicationController
 
               if tc.question_answers.exists?(qaId.to_i + 1)
                   # send answer + button for next question
-                  sendJsonResponse(qa.answer, qaId)
+                  sendJsonResponse(qa.answer, qaId.to_i + 1, tc.question_answers.find(qaId.to_i + 1).question)
               else
                   # send only answer for this question
-                  sendJsonResponse(qa.answer, qaId.to_i + 1)
+                  sendJsonResponse(qa.answer)
               end
           else
               render json: {}, status: 404
@@ -49,8 +52,8 @@ class ChatfuelController < ApplicationController
       end
   end
 
-  def sendJsonResponse(text, qaId)
-      if !qaId
+  def sendJsonResponse(text, qaId = 0, questionText = '')
+      if qaId.to_i == 0
           @response = {
             messages: [
               { text: text.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
@@ -70,8 +73,8 @@ class ChatfuelController < ApplicationController
                         "buttons": [
                           {
                             "type": "web_url",
-                            "url": chatfuel_qa_url(qaId), # generate url for next question
-                            "title": "Buy Item"
+                            "url": chatfuel_qa_url(params[:topic], qaId), #'test',  #generate url for next question
+                            "title": questionText.first(640) #question
                           }
                         ]
                       }
