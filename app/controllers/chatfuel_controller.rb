@@ -70,7 +70,7 @@ class ChatfuelController < ApplicationController
                         "buttons": [
                           {
                             "type": "web_url",
-                            "url": "https://petersapparel.parseapp.com/buy_item?item_id=100",
+                            "url": chatfuel_qa_url(qaId), # generate url for next question
                             "title": "Buy Item"
                           }
                         ]

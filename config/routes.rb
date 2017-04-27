@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   get 'chatfuel/:topic', to: 'chatfuel#show'
   # route for chatfuel questions and answers
-  get 'chatfuel/:topic/qa/:id', to: 'chatfuel#showQuestionAndAnswer'
+  get 'chatfuel/:topic/qa/:id', to: 'chatfuel#showQuestionAndAnswer', as: 'chatfuel_qa'
 
   resources :reports do
     resources :channels, only: [:edit, :show, :update]
