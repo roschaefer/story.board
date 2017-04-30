@@ -10,7 +10,7 @@ class ChatfuelController < ApplicationController
       qa = tc.question_answers
 
       #Test API Request: http://localhost:3000/chatfuel/1
-      if qa
+      if qa.exists?(1)
           sendJsonResponse(text, 1, qa.find(1).question)
       else
           sendJsonResponse(text)
