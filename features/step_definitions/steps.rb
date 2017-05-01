@@ -927,3 +927,23 @@ Then(/^the text expands like this:$/) do |string|
   check_expanding_report(string)
 end
 
+Given(/^we have an active text component for that topic with these question\/answers:$/) do |table|
+  @text_component = create(:text_component,
+                          channels: [Channel.chatbot],
+                          topic: @topic,
+                          main_part: 'The main part of the text component will be displayed here.')
+  table.hashes.each do |row|
+  create(:question_answer,
+         text_component: @text_component,
+         question: row['Question'],
+         answer: row['Answer'])
+  end
+end
+
+When(/^I click the question from the first scenario$/) do
+  request answer_to_question_path(text_component_id: @text_component.id, index: 2)
+end
+
+When(/^I click the question from the second scenario$/) do
+  request answer_to_question_path(text_component_id: @text_component.id, index: 3)
+end
