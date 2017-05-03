@@ -44,7 +44,7 @@ class ChatfuelController < ApplicationController
             text: "I have actually no idea how Chatfuel renders this part. Is it some text up front to the button?",
             buttons: [
               {
-                url: answer_to_question_url(text_component_id: @text_component, index: @text_components.question_answers.index(@next_question_answer)),
+                url: answer_to_question_url(text_component_id: @text_component, index: @text_component.question_answers.index(@next_question_answer)),
                 type: "json_plugin_url",
                 title: @next_question_answer.question
               }
