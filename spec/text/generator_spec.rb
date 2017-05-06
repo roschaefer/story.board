@@ -67,6 +67,25 @@ RSpec.describe Text::Generator do
     describe 'question/answers' do
       subject { Capybara.string(super()) }
 
+      describe 'markup' do
+        let(:components) { build_list(:text_component, 1, report: Report.current, question_answers: question_answers) }
+        let(:variables) { create_list(:variable, 1, key: 'name', value: 'Bertha') }
+        before { Report.current.variables << variables }
+        context 'in question' do
+          let(:question_answers) { build_list(:question_answer, 1, question: 'Do you know { name }?') }
+          it 'gets rendered' do
+            is_expected.to have_text 'Do you know Bertha?'
+          end
+        end
+
+        context 'in answer' do
+          let(:question_answers) { build_list(:question_answer, 1, answer: 'May I introduce - { name }.') }
+          it 'gets rendered' do
+            is_expected.to have_text 'May I introduce - Bertha.'
+          end
+        end
+      end
+
       context 'one component with many question/answers' do
         let(:question_answers) { build_list(:question_answer, 3) }
         let(:components) { build_list(:text_component, 1, question_answers: question_answers) }
