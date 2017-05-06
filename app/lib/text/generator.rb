@@ -40,7 +40,10 @@ module Text
 
           part += ApplicationController.render(
             partial: 'records/question_answers',
-            locals: { question_answers: current_component.question_answers }
+            locals: {
+              question_answers: current_component.question_answers,
+              opts: @opts
+            }
           )
 
         end
