@@ -4,7 +4,8 @@ RSpec.describe Text::Renderer do
   let!(:report)      { create(:report, variables: variables, name: report_name) }
   let(:report_name) { 'ReportName' }
   let(:intention)      { :real }
-  subject { described_class.new(text_component: text_component, opts: {intention: intention}) }
+  let(:renderer) { described_class.new(text_component: text_component, opts: {intention: intention}) }
+  subject { renderer }
 
   describe '#render' do
     let(:part) { :main_part }

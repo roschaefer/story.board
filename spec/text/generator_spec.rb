@@ -90,10 +90,21 @@ RSpec.describe Text::Generator do
 
   context 'for text components with the same report and the same channel' do
     let(:text_component_params) { { report: report } }
+    let(:report) { Report.current }
 
     describe '#choose_heading' do
       subject { generator.choose_heading }
-      let(:report) { create(:report) }
+
+      describe 'markup in heading' do
+        let(:text_component) { create(:text_component, text_component_params.merge(heading: "What's up { name }?")) }
+        let(:variable) { create(:variable, report: report, key: 'name', value: 'Bertha') }
+        before do
+          text_component
+          variable
+        end
+
+        it { is_expected.to eq "What's up Bertha?" }
+      end
 
       context 'given several text_components' do
 
