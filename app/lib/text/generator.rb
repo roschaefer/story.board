@@ -22,7 +22,7 @@ module Text
 
     def choose_heading
       return '' if components.empty?
-      components.first.heading
+      render(components.first, :heading)
     end
 
     def html_main_part
