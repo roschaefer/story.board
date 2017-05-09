@@ -3,7 +3,7 @@ class QuestionAnswer < ApplicationRecord
 
   belongs_to :text_component
 
-  validates :question, length: { maximum: 640 }
+  validates :question, length: { maximum: 20 }
   validates :answer, length: { maximum: 640 }
 
   [:question, :answer].each do |attribute|
