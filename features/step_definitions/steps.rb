@@ -941,9 +941,9 @@ Given(/^we have an active text component for that topic with these question\/ans
 end
 
 When(/^I click the question from the first scenario$/) do
-  request answer_to_question_path(text_component_id: @text_component.id, index: 2)
+  request answer_to_question_path(text_component_id: @text_component.id, index: 1)
 end
 
 When(/^I click the question from the second scenario$/) do
-  request answer_to_question_path(text_component_id: @text_component.id, index: 3)
+  request answer_to_question_path(text_component_id: @text_component.id, index: 2)
 end
