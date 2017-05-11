@@ -5,6 +5,7 @@ class TextComponentsController < ApplicationController
   # GET /text_components.json
   def index
     set_triggers_and_text_components
+    set_sensors_and_events
     @text_component = @new_text_component
   end
 
@@ -79,6 +80,11 @@ class TextComponentsController < ApplicationController
       @triggers = Trigger.includes(text_components: [:question_answers, :channels])
       @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
       @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
+    end
+
+    def set_sensors_and_events
+      @sensors = Sensor.all
+      @events = Event.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
