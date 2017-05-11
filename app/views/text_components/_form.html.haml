@@ -26,35 +26,34 @@
     %h2 Text
     %p.help Please write the text here. To add dynamic fields, like temperature values via toolbar.
     .text-editor
-      %ul.text-editor__toolbar
-        %li.text-editor__toolbar__item
-          %a.btn.btn-primary{:href => "#"}
-            %span.glyphicon.glyphicon-picture{"aria-label" => "Picture"}
-        %li.text-editor__toolbar__item
-          %a.btn.btn-primary{:href => "#"}
-            %span.glyphicon.glyphicon-facetime-video{"aria-label" => "Video"}
-        %li.text-editor__toolbar__item
-          %a.btn.btn-primary{:href => "#"}
-            %span.glyphicon.glyphicon-play{"aria-label" => "Audio"}
-        %li.text-editor__toolbar__item
-          %a.btn.btn-primary{:href => "#"}
-            %span.glyphicon.glyphicon-link{"aria-label" => "Link"}
-        %li.text-editor__toolbar__item
-          .dropdown
-            %a.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-              %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
+      .text-editor__toolbar
+        %ul.list-inline
+          %li
+            .text-editor__toolbar__item
+              %span.glyphicon.glyphicon-picture{"aria-label" => "Picture"}
+          %li
+            .text-editor__toolbar__item
+              %span.glyphicon.glyphicon-facetime-video{"aria-label" => "Video"}
+          %li
+            .text-editor__toolbar__item
+              %span.glyphicon.glyphicon-play{"aria-label" => "Audio"}
+          %li
+            .text-editor__toolbar__item
+              %span.glyphicon.glyphicon-link{"aria-label" => "Link"}
+          %li.dropdown
+            .text-editor__toolbar__item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
               Sensors
+              %span.caret{"aria-hidden" => "true"}
             %ul.dropdown-menu
               - @sensors.each do |sensor|
                 %li
                   %a{:href => "#", :data => {"editor" => {"markup-command" => "text", "markup-text" => "{value(#{sensor.id})}"}}}
                     = sensor.name
-        %li.text-editor__toolbar__item
-          .dropdown
-            %a.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-              %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
+          %li.dropdown
+            .text-editor__toolbar__item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
               Events
-            %ul.dropdown-menu
+              %span.caret{"aria-hidden" => "true"}
+            %ul.dropdown-menu.text-editor__toolbar__dropdown__menu
               - @events.each do |event|
                 %li
                   %a{:href => "#", :data => {"editor" => {"markup-command" => "text", "markup-text" => "{date(#{event.id})}"}}}
