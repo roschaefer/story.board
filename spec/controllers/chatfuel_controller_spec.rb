@@ -16,14 +16,13 @@ RSpec.describe ChatfuelController, type: :controller do
   end
 
   context "matching text component" do
-    let(:main_part) { "Main Part" }
     let(:text_component) do
       create(
         :text_component,
         report: report,
         topic: topic,
         channels: [chatbot_channel],
-        main_part: main_part
+        main_part: "The main part"
       )
     end
 
@@ -32,8 +31,8 @@ RSpec.describe ChatfuelController, type: :controller do
     it "returns expected text" do
       get :show, params: {topic: topic_name}, session: valid_session
       expect(response.code).to eq("200")
-      response = assigns(:response)
-      expect(response[:messages].first[:text]).to eq(main_part)
+      json_response = JSON.parse(response.body)
+      expect(json_response["messages"].first["text"]).to eq("The main part")
     end
   end
 end
