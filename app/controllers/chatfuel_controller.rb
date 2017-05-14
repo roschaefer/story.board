@@ -27,19 +27,11 @@ class ChatfuelController < ApplicationController
   private
 
   def json_response
-    if @text_component
-      text = Text::Renderer.new(text_component: @text_component).render(:main_part)
-      messages =  [
-        { text: text.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
-      ]
-      @content = text.first(640);
-    end
-
     if @question_answer
-      messages =  [
-        { text: @question_answer.answer }
-      ]
-      @content = @question_answer.answer;
+      content = @question_answer.answer
+    else
+      text = Text::Renderer.new(text_component: @text_component).render(:main_part)
+      content = text.first(640);
     end
 
     if @next_question_answer
@@ -48,7 +40,7 @@ class ChatfuelController < ApplicationController
           attachment: {
             payload: {
               template_type: "button",
-              text: "#{@content}",
+              text: "#{content}",
               buttons: [
                 {
                   url: answer_to_question_url(text_component_id: @text_component, index: @text_component.question_answers.index(@next_question_answer) + 1),
@@ -60,6 +52,10 @@ class ChatfuelController < ApplicationController
             type: "template"
           }
         }
+      ]
+    else
+      messages =  [
+        { text: content.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
       ]
     end
 
