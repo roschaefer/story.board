@@ -5,7 +5,7 @@ Feature: Read more question
   In order not to be overwhelmed by the amount of text
   Background:
     Given a topic "milk_quality"
-    And we have an active text component for that topic with these question/answers:
+    And we have an active text component with the id 1 for that topic with these question/answers:
       | Question                              | Answer        |
       | What do you call a sleeping cow?      | A bull-dozer. |
       | What has one horn and gives milk?     | A milk truck. |
@@ -24,7 +24,7 @@ Feature: Read more question
               "text": "The main part of the text component will be displayed here.",
               "buttons": [
                 {
-                  "url": "http://example.org/chatfuel/text_components/178/answer_to_question/1",
+                  "url": "http://example.org/chatfuel/text_components/1/answer_to_question/1",
                   "type":"json_plugin_url",
                   "title":"What do you call a sleeping cow?"
                 }
@@ -51,7 +51,7 @@ Feature: Read more question
               "text": "A bull-dozer.",
               "buttons": [
                 {
-                  "url": "http://example.org/chatfuel/text_components/179/answer_to_question/2",
+                  "url": "http://example.org/chatfuel/text_components/1/answer_to_question/2",
                   "type":"json_plugin_url",
                   "title": "What has one horn and gives milk?"
                 }
