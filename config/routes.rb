@@ -19,7 +19,6 @@ Rails.application.routes.draw do
 
   get 'chatfuel/:topic', to: 'chatfuel#show'
   # route for chatfuel questions and answers
-  get 'chatfuel/:topic/qa/:id', to: 'chatfuel#showQuestionAndAnswer', as: 'chatfuel_qa'
   get 'chatfuel/text_components/:text_component_id/answer_to_question/:index', to: 'chatfuel#answer_to_question', as: 'answer_to_question'
 
   resources :reports do
