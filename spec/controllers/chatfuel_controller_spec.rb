@@ -7,32 +7,43 @@ RSpec.describe ChatfuelController, type: :controller do
   let(:report)            { Report.current }
   let(:topic_name)        { "milk_quality" }
   let(:topic)             { create(:topic, name: topic_name) }
+  let(:params) { { topic: topic_name } }
 
-  context "no text components" do
-    it "returns 404" do
-      get :show, params: {topic: topic_name}, session: valid_session
-      expect(response.code).to eq("404")
-    end
-  end
-
-  context "matching text component" do
-    let(:text_component) do
-      create(
-        :text_component,
-        report: report,
-        topic: topic,
-        channels: [chatbot_channel],
-        main_part: "The main part"
-      )
+  describe 'GET' do
+    subject do
+      get action, params: params, session: valid_session
+      response
     end
 
-    before { text_component }
+    describe 'show' do
+      let(:action) { :show }
 
-    it "returns expected text" do
-      get :show, params: {topic: topic_name}, session: valid_session
-      expect(response.code).to eq("200")
-      json_response = JSON.parse(response.body)
-      expect(json_response["messages"].first["text"]).to eq("The main part")
+      context "no text components" do
+        it "returns 404" do
+          expect(subject.code).to eq("404")
+        end
+      end
+
+      context "matching text component" do
+        let(:text_component) do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [chatbot_channel],
+            main_part: "The main part"
+          )
+        end
+
+        before { text_component }
+
+        it { is_expected.to have_http_status(:ok) }
+
+        it "returns expected text" do
+          json_response = JSON.parse(subject.body)
+          expect(json_response["messages"].first["text"]).to eq("The main part")
+        end
+      end
     end
   end
 end
