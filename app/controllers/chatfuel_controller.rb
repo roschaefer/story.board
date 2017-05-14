@@ -16,8 +16,12 @@ class ChatfuelController < ApplicationController
     @text_component = TextComponent.includes(:question_answers).find(params[:text_component_id])
     index = params[:index].to_i - 1
     @question_answer = @text_component.question_answers[index]
-    @next_question_answer = @text_component.question_answers[index + 1]
-    render json: json_response
+    if @question_answer
+      @next_question_answer = @text_component.question_answers[index + 1]
+      render json: json_response
+    else
+      render json: {}, status: 404
+    end
   end
 
   private
