@@ -8,6 +8,10 @@ module Text
 
     def render(part)
       template = @text_component.send(part).to_s
+      render_string(template)
+    end
+
+    def render_string(template)
       unless template =~ /({.*})/
         return template
       else

@@ -22,7 +22,7 @@ module Text
 
     def choose_heading
       return '' if components.empty?
-      components.first.heading
+      render(components.first, :heading)
     end
 
     def html_main_part
@@ -40,7 +40,10 @@ module Text
 
           part += ApplicationController.render(
             partial: 'records/question_answers',
-            locals: { question_answers: current_component.question_answers }
+            locals: {
+              question_answers: current_component.question_answers,
+              opts: @opts
+            }
           )
 
         end
