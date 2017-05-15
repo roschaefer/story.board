@@ -33,6 +33,7 @@ class TextComponentsController < ApplicationController
       else
         format.html do
           set_triggers_and_text_components
+          set_sensors_and_events
           render :index
         end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
@@ -50,6 +51,7 @@ class TextComponentsController < ApplicationController
       else
         format.html do
           set_triggers_and_text_components
+          set_sensors_and_events
           render :index
         end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
