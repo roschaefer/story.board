@@ -11,4 +11,4 @@ Feature: Character-Limit for Question Input field
     Given I am writing a query to the chatbox
     I enter a message that is maximum 20 letters long
     I click on submit
-    Then there should be an expectation for the cucumber scenario
+    Then the question should be posted to the chatbox
