@@ -50,7 +50,7 @@ RSpec.describe "text_components/index", type: :view do
     expect(rendered).to include('Events')
   end
 
-  it "contains dropdown menus for sensors and events to insert markup into textareas"
+  it "contains dropdown menus for sensors and events to insert markup into textareas" do
     render
     parsed = Capybara.string(rendered)
     parsed.all('form').each do |form|
