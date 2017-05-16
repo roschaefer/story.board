@@ -76,7 +76,7 @@ class TextComponentsController < ApplicationController
       @new_text_component = TextComponent.new
       @new_text_component.triggers.build
       @new_text_component.report = Report.current
-      @triggers = Trigger.includes(:text_components)
+      @triggers = Trigger.includes(text_components: [:question_answers, :channels])
       @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
       @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
     end
