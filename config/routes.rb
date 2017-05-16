@@ -25,7 +25,6 @@ Rails.application.routes.draw do
     resources :channels, only: [:edit, :show, :update]
   end
 
-  root to: redirect('/reports/current')
   resources :triggers
   resources :sensors do
     member do
@@ -35,6 +34,9 @@ Rails.application.routes.draw do
   end
   resources :sensor_readings, default: { format: :json }
   post 'sensor_readings/fake', to: 'sensor_readings#fake', default: { format: :json }
+
+
+  root to: redirect('/reports/current')
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
