@@ -987,3 +987,53 @@ Then(/^I can see that Jane was assigned to the text component$/) do
   end
 end
 
+Given(/^we have these text components:$/) do |table|
+  table.hashes.each do |row|
+    if row['Assignee'].present?
+      assignee = User.find_by(email: row['Assignee']) || create(:user, email: row['Assignee'])
+    else
+      assignee = nil
+    end
+    create(:text_component, heading: row['Text component'], assignee: assignee)
+  end
+end
+
+Given(/^my own account is "([^"]*)"$/) do |email|
+  @user = create(:user, email: email)
+end
+
+def log_in(user)
+  visit '/users/sign_in'
+  fill_in "user_email", :with => user.email
+  fill_in "user_password", :with => user.password
+  click_button "Log in"
+end
+
+Given(/^I am logged in$/) do
+  log_in(@user)
+end
+
+When(/^I click on the dropdown menu with my user account on the top right$/) do
+  click_on @user.email
+  click_on 'Text components assigned to me'
+end
+
+Then(/^I am on the text components page with only those assigned to me$/) do
+  expect(page).to have_current_path("/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
+end
+
+Given(/^I am on the text components page$/) do
+  visit text_components_path
+end
+
+When(/^I choose "([^"]*)" from "([^"]*)"$/) do |thing, options|
+  select thing, from: options
+end
+
+Then(/^I see only the text component "([^"]*)"$/) do |heading|
+  within('table.text-components-table') do
+    expect(page).to have_css('tr.text-component', count: 1)
+    expect(page).to have_css('tr.text-component', text: heading)
+  end
+end
+
