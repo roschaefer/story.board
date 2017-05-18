@@ -9,6 +9,18 @@ RSpec.describe "text_components/index", type: :view do
     new_text_component.triggers.build
     assign(:new_text_component, new_text_component)
     assign(:triggers, [])
+    assign(:sensors, [
+      create(
+        :sensor,
+        :name => "Sensor Name",
+      )
+    ])
+    assign(:events, [
+      create(
+        :event,
+        :name => "Event Name",
+      )
+    ])
     assign(:remaining_text_components, [
       create(
         :text_component,
@@ -36,6 +48,14 @@ RSpec.describe "text_components/index", type: :view do
   it "shows trigger fields, e.g. the events menu" do
     render
     expect(rendered).to include('Events')
+  end
+
+  it "contains dropdown menus for sensors and events to insert markup into textareas" do
+    render
+    parsed = Capybara.string(rendered)
+    parsed.all('form').each do |form|
+      expect(form).to have_selector('.text-editor__toolbar__item.dropdown-toggle', :count => 2)
+    end
   end
 
   it 'will never show two seperate report input fields in one form' do

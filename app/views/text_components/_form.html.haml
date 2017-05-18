@@ -23,63 +23,41 @@
       .col-sm-6
         = f.input :to_day
 
-    .row
-      .col-sm-12
-        %h2 Text
-        %div.help Please write the text here. To add dynamic fields, like temperature values via toolbar.
-      .col-sm-12
-        / Split button
-        .btn-group.pull-right
-          %button.btn.btn-primary{:type => "button"}
-            %span.glyphicon.glyphicon-plus{"aria-hidden" => "true"}
-            Ingredients
-          %button.btn.btn-primary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-            %span.caret
-            %span.sr-only
-          %ul.dropdown-menu
-            %li
-              %a{:href => "#"}
-                %span.glyphicon.glyphicon-picture{"aria-hidden" => "true"}
-                Picture
-            %li
-              %a{:href => "#"}
-                %span.glyphicon.glyphicon-facetime-video{"aria-hidden" => "true"}
-                Video
-            %li
-              %a{:href => "#"}
-                %span.glyphicon.glyphicon-play{"aria-hidden" => "true"}
-                Audio
-            %li
-              %a{:href => "#"}
-                %span.glyphicon.glyphicon-link{"aria-hidden" => "true"}
-                Link
-            %li.divider{:role => "separator"}
-            %li
-              %a{:href => "#"}
-                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"}
-                Markup 1
-            %li
-              %a{:href => "#"}
-                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"}
-                Markup 2
-            %li
-              %a{:href => "#"}
-                %span.glyphicon.glyphicon-tag{"aria-hidden" => "true"}
-                Markup 3
-    %div.seamless-textarea.text-component-input-fields
-      = f.input :heading, as: :text, placeholder: 'Title', label: false
-      = f.input :introduction, as: :text, placeholder: 'Introduction', label: false, input_html: { class: 'introduction' }
-      = f.input :main_part, as: :text, placeholder: 'Main part', label: false, input_html: { rows: 10 }
-      = f.input :closing, as: :text, placeholder: 'Closing', label: false
-    .row
-      .col-sm-12
-        %h2 Questions/Answers for Chatfuel
-        .container-fluid
-          = f.simple_fields_for :question_answers do |question_answer|
-            = render 'question_answers/fields', f: question_answer
-          .links
-            .row
-              = link_to_add_association button_tag("Add a question and an answer", type: 'button', class: 'btn btn-primary'), f, :question_answers, partial: 'question_answers/fields.html.haml'
+    %h2 Text
+    %p.help Please write the text here. To add dynamic fields, like temperature values via toolbar.
+    .text-editor
+      .text-editor__toolbar
+        %ul.list-inline
+          %li.dropdown
+            .text-editor__toolbar__item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+              Sensors
+              %span.caret{"aria-hidden" => "true"}
+            %ul.dropdown-menu
+              - @sensors.each do |sensor|
+                %li
+                  %a{:href => "#", :data => {"editor" => {"markup-command" => "text", "markup-text" => "{value(#{sensor.id})}"}}}
+                    = sensor.name
+          %li.dropdown
+            .text-editor__toolbar__item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+              Events
+              %span.caret{"aria-hidden" => "true"}
+            %ul.dropdown-menu.text-editor__toolbar__dropdown__menu
+              - @events.each do |event|
+                %li
+                  %a{:href => "#", :data => {"editor" => {"markup-command" => "text", "markup-text" => "{date(#{event.id})}"}}}
+                    = event.name
+      .seamless-textarea.text-component-input-fields
+        = f.input :heading, as: :text, :placeholder => 'Title', :label => false, :input_html => { :class => 'text-editor__field'}
+        = f.input :introduction, as: :text, :placeholder => 'Introduction', :label => false, :input_html => { :class => ['text-editor__field', 'introduction'] }
+        = f.input :main_part, as: :text, :placeholder => 'Main part', :label => false, :input_html => { :rows => 10, :class => 'text-editor__field' }
+        = f.input :closing, as: :text, :placeholder => 'Closing', :label => false, :input_html => { :class => 'text-editor__field'}
+      %h2 Questions/Answers for Chatfuel
+      .container-fluid
+        = f.simple_fields_for :question_answers do |question_answer|
+          = render 'question_answers/fields', f: question_answer
+        .links
+          .row
+            = link_to_add_association button_tag("Add a question and an answer", type: 'button', class: 'btn btn-primary'), f, :question_answers, partial: 'question_answers/fields.html.haml'
     .row
       .col-sm-12
         %h2 Output

@@ -4,7 +4,7 @@ class TextComponentsController < ApplicationController
   # GET /text_components
   # GET /text_components.json
   def index
-    set_triggers_and_text_components
+    set_instance_variables
     @text_component = @new_text_component
   end
 
@@ -31,7 +31,7 @@ class TextComponentsController < ApplicationController
         format.json { render :show, status: :created, location: @text_component }
       else
         format.html do
-          set_triggers_and_text_components
+          set_instance_variables
           render :index
         end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
@@ -48,7 +48,7 @@ class TextComponentsController < ApplicationController
         format.json { render :show, status: :ok, location: @text_component }
       else
         format.html do
-          set_triggers_and_text_components
+          set_instance_variables
           render :index
         end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
@@ -72,13 +72,15 @@ class TextComponentsController < ApplicationController
       @text_component = TextComponent.find(params[:id])
     end
 
-    def set_triggers_and_text_components
+    def set_instance_variables
       @new_text_component = TextComponent.new
       @new_text_component.triggers.build
       @new_text_component.report = Report.current
       @triggers = Trigger.includes(text_components: [:question_answers, :channels])
       @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
       @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
+      @sensors = Sensor.all
+      @events = Event.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -263,7 +263,6 @@ to order!
 
 .seamless-textarea {
   //background: #ddd;
-  padding: 20px 0;
 }
 .seamless-textarea textarea {
   //font-family: Georgia, serif;
@@ -360,4 +359,49 @@ RADIO BOXES
   .introduction {
     font-style: italic;
   }
+}
+
+
+/*
+ * TEXT-EDITOR
+ */
+
+/* quick fix solving issues with sticky elements inside modals */
+.modal.in .modal-dialog {
+  transform: none;
+}
+
+.text-editor {
+
+}
+
+.text-editor__toolbar {
+  position: sticky;
+  top: 0;
+
+  /* magic numbers, should be replaced by bootstrap’s coresponsing variables */
+  margin: 0 -15px 15px;
+  padding: 0 15px;
+
+  background-color: #efefef;
+}
+
+.text-editor__toolbar__item {
+  display: inline-block;
+  cursor: pointer;
+
+  /* magic numbers, see above */
+  padding: 15px 5px;
+
+  &:hover {
+    color: darken(#428bca, 10);
+  }
+}
+
+.text-editor__toolbar__item .glyphicon {
+  font-size: 1.25em;
+  /* resetting the icon position */
+  line-height: .8; /* 1/1.25 */
+  top: .125em; /* (1.25-1)/2 */
+
 }
