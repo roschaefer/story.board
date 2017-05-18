@@ -49,7 +49,7 @@
   .col-sm-12
     = form_tag(text_components_path, method: :get) do
       = label :filter, :assignee_id, 'By assignee'
-      = collection_select(:filter, :assignee_id, User.all, :id, :email, include_blank: true)
+      = collection_select(:filter, :assignee_id, User.all, :id, :email, include_blank: true, selected: @filter[:assignee_id])
       = submit_tag 'Filter'
 .row
   .col-sm-12
