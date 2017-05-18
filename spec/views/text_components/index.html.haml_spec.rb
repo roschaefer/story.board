@@ -3,6 +3,23 @@ require 'capybara/rspec'
 
 RSpec.describe "text_components/index", type: :view do
   let(:report) { create(:report, name: 'UniqueReportName') }
+  let(:text_components) do
+    [create(
+        :text_component,
+        :heading => "Heading",
+        :report_id => report.id,
+        :from_day => 1,
+        :to_day => 2
+      ),
+      create(
+        :text_component,
+        :heading => "Heading",
+        :report_id => report.id,
+        :from_day => 1,
+        :to_day => 2
+      )]
+  end
+
   before(:each) do
     assign(:text_component, TextComponent.new)
     new_text_component = TextComponent.new
@@ -21,22 +38,8 @@ RSpec.describe "text_components/index", type: :view do
         :name => "Event Name",
       )
     ])
-    assign(:remaining_text_components, [
-      create(
-        :text_component,
-        :heading => "Heading",
-        :report_id => report.id,
-        :from_day => 1,
-        :to_day => 2
-      ),
-      create(
-        :text_component,
-        :heading => "Heading",
-        :report_id => report.id,
-        :from_day => 1,
-        :to_day => 2
-      )
-    ])
+    assign(:text_components, text_components)
+    assign(:trigger_groups, text_components.group_by {|t| t.triggers })
   end
 
 
