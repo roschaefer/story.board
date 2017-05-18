@@ -53,7 +53,8 @@ RSpec.describe "text_components/index", type: :view do
   it "contains dropdown menus for sensors and events to insert markup into textareas" do
     render
     parsed = Capybara.string(rendered)
-    parsed.all('form').each do |form|
+    expect(parsed).to have_css('form.edit_text_component')
+    parsed.all('form.edit_text_component').each do |form|
       expect(form).to have_selector('.text-editor__toolbar__item.dropdown-toggle', :count => 2)
     end
   end
@@ -61,7 +62,8 @@ RSpec.describe "text_components/index", type: :view do
   it 'will never show two seperate report input fields in one form' do
     render
     parsed = Capybara.string(rendered)
-    parsed.all('form').each do |form|
+    expect(parsed).to have_css('form.edit_text_component')
+    parsed.all('form.edit_text_component').each do |form|
       expect(form).to have_text('UniqueReportName', count: 1)
     end
   end
