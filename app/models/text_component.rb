@@ -6,6 +6,7 @@ class TextComponent < ActiveRecord::Base
   has_and_belongs_to_many :channels
   belongs_to :report
   belongs_to :topic
+  belongs_to :assignee, class_name: 'User'
   has_many :question_answers, inverse_of: :text_component
   accepts_nested_attributes_for :question_answers, reject_if: :all_blank, allow_destroy: true
 
@@ -14,6 +15,7 @@ class TextComponent < ActiveRecord::Base
   validates :channels, presence: true
 
   delegate :name, to: :topic, prefix: true, allow_nil: true
+  delegate :email, to: :assignee, prefix: true, allow_nil: true
 
   def active?(opts={})
     on_time? && triggers.all? {|t| t.active?(opts) }

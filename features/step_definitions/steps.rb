@@ -710,12 +710,16 @@ Given(/^some triggers are active at certain hours:$/) do |table|
   end
 end
 
-When(/^I edit this text component$/) do
+def edit_existing_text_component
   visit text_components_path
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
   expect(page).to have_text('Editing text component')
+end
+
+When(/^I edit this text component$/) do
+  edit_existing_text_component
 end
 
 When(/^I update the text component$/) do
@@ -961,3 +965,25 @@ end
 When(/^I click the question from the second scenario$/) do
   request answer_to_question_path(text_component_id: @text_component.id, index: 2)
 end
+
+Given(/^we have these users in our database$/) do |table|
+  table.hashes.each do |row|
+    create(:user, email: row['Email'])
+  end
+end
+
+When(/^I edit an existing text component$/) do
+  @text_component = create(:text_component)
+  edit_existing_text_component
+end
+
+When(/^I choose "([^"]*)" from the dropdown menu "([^"]*)"$/) do |option, select|
+  select option, from: select
+end
+
+Then(/^I can see that Jane was assigned to the text component$/) do
+  within '.assignee' do
+    expect(page).to have_text 'jane.doe@example.org'
+  end
+end
+
