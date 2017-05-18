@@ -2,12 +2,8 @@
   - @text_component.errors.full_messages.each do |message|
     .alert.alert-danger= message
 
-- if @remaining_text_components
-  - @remaining_text_components.each do |text_component|
-    = render 'edit_modal', text_component: text_component
-- @triggers.each do |trigger|
-  - trigger.text_components.each do |text_component|
-    = render 'edit_modal', text_component: text_component
+- @text_components.each do |text_component|
+  = render 'edit_modal', text_component: text_component
 
 #modalTriggerText.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
@@ -51,7 +47,13 @@
       Create new text component
 .row
   .col-sm-12
-    %table.table.table-striped.table-hover
+    = form_tag(text_components_path, method: :get) do
+      = label :filter, :assignee_id, 'By assignee'
+      = collection_select(:filter, :assignee_id, User.all, :id, :email, include_blank: true)
+      = submit_tag 'Filter'
+.row
+  .col-sm-12
+    %table.table.table-striped.table-hover.text-components-table
       %thead
         %tr
           %th Heading
@@ -61,12 +63,15 @@
           %th
           %th
       %tbody
-        - @triggers.each do |trigger|
+        - @trigger_groups.each do |triggers, text_components|
           %tr
             %td{colspan: 6}
-              %strong= trigger.name
-          - trigger.text_components.each do |text_component|
-            %tr
+              - unless triggers.empty?
+                %strong= triggers.map(&:name).join
+              - else
+                %strong Text components without triggers
+          - text_components.each do |text_component|
+            %tr.text-component
               %td= text_component.heading
               %td= text_component.from_day
               %td= text_component.to_day
@@ -74,20 +79,6 @@
                 %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
                   Edit
 
-              %td= link_to 'Show', text_component
-              %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
-        - if @remaining_text_components
-          %tr
-            %td{colspan: 6}
-              %strong Text components without triggers:
-          - @remaining_text_components.each do |text_component|
-            %tr
-              %td= text_component.heading
-              %td= text_component.from_day
-              %td= text_component.to_day
-              %td
-                %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
-                  Edit
               %td= link_to 'Show', text_component
               %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
