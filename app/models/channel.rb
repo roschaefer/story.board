@@ -1,11 +1,9 @@
 class Channel < ActiveRecord::Base
   has_and_belongs_to_many :text_components
-  belongs_to :report
 
-  scope :chatbot,     -> { find_by(report: Report.current, name: "chatbot") }
-  scope :sensorstory, -> { find_by(report: Report.current, name: "sensorstory") }
+  scope :chatbot,     -> { find_by(name: "chatbot") }
+  scope :sensorstory, -> { find_by(name: "sensorstory") }
 
-  validates :report, presence: true
   validates :name, presence: true, uniqueness: true
 
   def self.default(report)
