@@ -38,8 +38,10 @@ RSpec.describe "text_components/index", type: :view do
         :name => "Event Name",
       )
     ])
+    assign(:filter, {})
     assign(:text_components, text_components)
-    assign(:trigger_groups, text_components.group_by {|t| t.triggers })
+    assign(:text_components_without_triggers, text_components)
+    assign(:trigger_groups, [])
   end
 
 

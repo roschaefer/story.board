@@ -1,0 +1,10 @@
+%tr.text-component
+  %td= text_component.heading
+  %td= text_component.from_day
+  %td= text_component.to_day
+  %td
+    %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
+      Edit
+
+  %td= link_to 'Show', text_component
+  %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }

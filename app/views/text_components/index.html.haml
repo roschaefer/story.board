@@ -64,24 +64,19 @@
           %th
           %th
       %tbody
-        - @trigger_groups.each do |triggers, text_components|
+        - @trigger_groups.each do |trigger_names, text_components|
           %tr
             %td{colspan: 6}
-              - unless triggers.empty?
-                %strong= triggers.map(&:name).join
-              - else
-                %strong Text components without triggers
+              %strong= trigger_names
           - text_components.each do |text_component|
-            %tr.text-component
-              %td= text_component.heading
-              %td= text_component.from_day
-              %td= text_component.to_day
-              %td
-                %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
-                  Edit
+            = render 'text_component_row', text_component: text_component
+        - if @text_components_without_triggers
+          %tr
+            %td{colspan: 6}
+              %strong Text components without triggers
+          - @text_components_without_triggers.each do |text_component|
+            = render 'text_component_row', text_component: text_component
 
-              %td= link_to 'Show', text_component
-              %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 .row
   .col-sm-12

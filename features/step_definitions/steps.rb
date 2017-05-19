@@ -158,10 +158,6 @@ Given(/^there is a sensor live report/) do
   expect(Channel.sensorstory).to be_present
 end
 
-Given(/^I visit the settings page of the current report$/) do
-  visit edit_report_path(Report.current)
-end
-
 When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_date|
   @date = Date.parse(start_date)
 
@@ -169,15 +165,6 @@ When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_d
   select year, from: 'report_start_date_1i'
   select month, from: 'report_start_date_2i'
   select day, from: 'report_start_date_3i'
-end
-
-When(/^I choose "([^"]*)" to be the end date of the experiment$/) do |end_date|
-  @date = Date.parse(end_date)
-
-  day, month, year = end_date.split
-  select year, from: 'report_end_date_1i'
-  select month, from: 'report_end_date_2i'
-  select day, from: 'report_end_date_3i'
 end
 
 Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
@@ -537,10 +524,6 @@ Then(/^the following command is appended:$/) do |table|
   expect(command.actuator.name).to eq row['Actuator']
 end
 
-Then(/^I can see that the duration of the experiment is (\d+) days$/) do |number|
-  expect(page).to have_text("#{number} days")
-end
-
 When(/^enter "([^"]*)" as duration for my experiment$/) do |duration|
   fill_in 'Duration', with: duration.to_i
 end
@@ -805,12 +788,6 @@ When(/^unslect "([^"]*)" as a channel$/) do |channel|
   end
 end
 
-Then(/^only the difficult text will go into the main report$/) do
-  visit '/'
-  expect(@difficult).not_to be_empty
-  expect(page).to have_text(@difficult)
-end
-
 Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
   channel = Channel.find_by(name: channel_name)
   visit "/reports/#{channel.report_id}/channels/#{channel.id}/edit"
@@ -1037,3 +1014,9 @@ Then(/^I see only the text component "([^"]*)"$/) do |heading|
   end
 end
 
+
+When(/^I filter by assignee "([^"]*)"$/) do |assignee_name|
+  click_on '...choose a user'
+  find('li', text: assignee_name).click
+  click_on 'Filter'
+end

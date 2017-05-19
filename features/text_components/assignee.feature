@@ -32,6 +32,5 @@ Feature: Assignee
   @javascript
   Scenario: Filter by assignee
     Given I am on the text components page
-    When I choose "john.doe@example.org" from "By assignee"
-    And I click on "Filter"
+    When I filter by assignee "john.doe@example.org"
     Then I see only the text component "Homicide victims rarely talk to police"

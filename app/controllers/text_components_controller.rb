@@ -79,6 +79,8 @@ class TextComponentsController < ApplicationController
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
       filter_text_components
       @trigger_groups = @text_components.group_by {|t| t.triggers }
+      @trigger_groups = @trigger_groups.map{|key, value|  [key.map(&:name).join(', '), value] }.to_h
+      @text_components_without_triggers = @trigger_groups.delete('')
 
       @sensors = Sensor.all
       @events = Event.all
