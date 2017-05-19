@@ -1014,9 +1014,25 @@ Then(/^I see only the text component "([^"]*)"$/) do |heading|
   end
 end
 
-
 When(/^I filter by assignee "([^"]*)"$/) do |assignee_name|
   click_on '...choose a user'
   find('li', text: assignee_name).click
   click_on 'Filter'
+end
+
+Given(/^I am on the text components show page because I just edited one$/) do
+  text_component = create(:text_component)
+  visit text_component_path(text_component)
+end
+
+Given(/^I landed on the "([^"]*)" page because I just edited that component$/) do |url|
+  create(:text_component, id: url[/\d+/])
+  visit url
+end
+
+Then(/^the edit modal pops up, allowing me to correct mistakes$/) do
+  expect(page).to have_text('Editing text component')
+  fill_in 'text_component_heading', with: 'Another heading'
+  click_on 'Update Text component'
+  expect(page).to have_css('b', text: 'Another heading')
 end
