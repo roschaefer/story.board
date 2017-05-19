@@ -1211,3 +1211,23 @@ Given(/^for that diary entry we have some text components and question answers$/
   create(:text_component, report: report)
   create(:text_component, report: Report.current) # this should not go into the diary entry
 end
+
+Given(/^that someone is querying to the chatbot$/) do
+  visit text_components_path
+end
+
+Given(/^I am writing a query to the chatbox$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^I enter a message that is maximum (\d+) letters long$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^I click on submit$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the question should be posted to the chatbox$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
