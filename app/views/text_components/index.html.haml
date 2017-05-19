@@ -76,8 +76,6 @@
               %strong Text components without triggers
           - @text_components_without_triggers.each do |text_component|
             = render 'text_component_row', text_component: text_component
-
-
 .row
   .col-sm-12
     %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
