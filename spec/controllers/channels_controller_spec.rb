@@ -5,22 +5,21 @@ RSpec.describe ChannelsController, type: :controller do
 
   describe "GET #show" do
     it "returns http success" do
-      get :show, params: {report_id: 1, :id => 1}, session: valid_session, format: :json
+      get :show, params: {:id => 1}, session: valid_session, format: :json
       expect(response).to have_http_status(:success)
     end
   end
 
   describe 'GET #edit' do
-    let(:report) { Report.current }
     let(:channel) { Channel.sensorstory }
 
     it 'renders correct template' do
-      get :edit, params: {id: channel.id, report_id: report.id}, session: valid_session
+      get :edit, params: {id: channel.id}, session: valid_session
       expect(response).to render_template :edit
     end
 
     it 'assigns expected channel' do
-      get :edit, params: {id: channel.id, report_id: report.id}, session: valid_session
+      get :edit, params: {id: channel.id}, session: valid_session
       expect(assigns(:channel)).to eq channel
     end
   end

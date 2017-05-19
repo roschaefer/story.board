@@ -743,7 +743,7 @@ Given(/^we created a text component for it that is active right now$/) do
 end
 
 Given(/^there is a channel called "([^"]*)"$/) do |name|
-  create(:channel, name: name, report: Report.current)
+  create(:channel, name: name)
 end
 
 Given(/^I am a journalists who writes about the theory of relativity$/) do
@@ -790,7 +790,7 @@ end
 
 Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
   channel = Channel.find_by(name: channel_name)
-  visit "/reports/#{channel.report_id}/channels/#{channel.id}/edit"
+  visit edit_channel_path(channel)
   expect(@easy).not_to be_empty
   expect(page).to have_text(@easy)
 end
