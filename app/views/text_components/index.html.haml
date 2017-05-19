@@ -47,10 +47,11 @@
       Create new text component
 .row
   .col-sm-12
-    = form_tag(text_components_path, method: :get) do
-      = label :filter, :assignee_id, 'By assignee'
-      = collection_select(:filter, :assignee_id, User.all, :id, :email, include_blank: true, selected: @filter[:assignee_id])
-      = submit_tag 'Filter'
+    = form_tag(text_components_path, {method: :get}) do
+      .form-group
+        = label :filter, :assignee_id, 'By assignee', class: 'col-2 col-form-label'
+        = collection_select(:filter, :assignee_id, User.all, :id, :email, {include_blank: true, selected: @filter[:assignee_id]}, {'class' => 'selectpicker', 'title' => '...choose a user'})
+      = submit_tag 'Filter', class: 'col-2 btn btn-primary btn-lg pull-right'
 .row
   .col-sm-12
     %table.table.table-striped.table-hover.text-components-table
