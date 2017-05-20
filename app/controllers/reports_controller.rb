@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  before_action :authenticate_user!, only: [:edit, :update]
+
   def current
     current_report = Report.current
     if current_report

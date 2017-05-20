@@ -1,5 +1,6 @@
 class TriggersController < ApplicationController
   before_action :set_trigger, only: [:show, :edit, :update, :destroy]
+  #before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
     @triggers = Trigger.all

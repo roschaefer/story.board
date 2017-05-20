@@ -1,4 +1,6 @@
 class SensorReadingsController < ApplicationController
+  before_action :authenticate_user!, only: [:create]
+
   def create
     @sensor_reading = Sensor::Reading.new(sensor_reading_params)
     respond_to do |format|
