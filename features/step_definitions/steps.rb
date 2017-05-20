@@ -1217,17 +1217,17 @@ Given(/^that someone is querying to the chatbot$/) do
 end
 
 Given(/^I am writing a query to the chatbox$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  #documentation
 end
 
 Given(/^I enter a message that is maximum (\d+) letters long$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+  #documentation
 end
 
 Given(/^I click on submit$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  #documentation
 end
 
 Then(/^the question should be posted to the chatbox$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  #documentation
 end

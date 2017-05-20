@@ -8,7 +8,7 @@ Feature: Character-Limit for Question Input field
     Given that someone is querying to the chatbot
 
   Scenario:
-    Given I am writing a query to the chatbox
-    And I enter a message that is over 20 letters long
+    Given I am writing a question to the chatbot
+    And I enter a message that is over 20 characters long
     And I click on submit
     Then I should see an error message
