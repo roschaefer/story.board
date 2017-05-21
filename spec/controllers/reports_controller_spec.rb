@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ReportsController, type: :controller do
+  login_user
 
   describe 'GET #current' do
     it 'redirects to current report' do

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ChannelsController, type: :controller do
+  login_user
+
   let(:valid_session) { {} }
 
   describe "GET #show" do

@@ -19,6 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe ChainsController, type: :controller do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # Chain. As you add validations to Chain, be sure to
