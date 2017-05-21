@@ -158,10 +158,6 @@ Given(/^there is a sensor live report/) do
   expect(Channel.sensorstory).to be_present
 end
 
-Given(/^I visit the settings page of the current report$/) do
-  visit edit_report_path(Report.current)
-end
-
 When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_date|
   @date = Date.parse(start_date)
 
@@ -169,15 +165,6 @@ When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_d
   select year, from: 'report_start_date_1i'
   select month, from: 'report_start_date_2i'
   select day, from: 'report_start_date_3i'
-end
-
-When(/^I choose "([^"]*)" to be the end date of the experiment$/) do |end_date|
-  @date = Date.parse(end_date)
-
-  day, month, year = end_date.split
-  select year, from: 'report_end_date_1i'
-  select month, from: 'report_end_date_2i'
-  select day, from: 'report_end_date_3i'
 end
 
 Then(/^the live report about "([^"]*)" will start on that date$/) do |name|
@@ -537,10 +524,6 @@ Then(/^the following command is appended:$/) do |table|
   expect(command.actuator.name).to eq row['Actuator']
 end
 
-Then(/^I can see that the duration of the experiment is (\d+) days$/) do |number|
-  expect(page).to have_text("#{number} days")
-end
-
 When(/^enter "([^"]*)" as duration for my experiment$/) do |duration|
   fill_in 'Duration', with: duration.to_i
 end
@@ -805,12 +788,6 @@ When(/^unslect "([^"]*)" as a channel$/) do |channel|
   end
 end
 
-Then(/^only the difficult text will go into the main report$/) do
-  visit '/'
-  expect(@difficult).not_to be_empty
-  expect(page).to have_text(@difficult)
-end
-
 Then(/^the easier text will go into the channel "([^"]*)"$/) do |channel_name|
   channel = Channel.find_by(name: channel_name)
   visit "/reports/#{channel.report_id}/channels/#{channel.id}/edit"
@@ -987,3 +964,59 @@ Then(/^I can see that Jane was assigned to the text component$/) do
   end
 end
 
+Given(/^we have these text components:$/) do |table|
+  table.hashes.each do |row|
+    if row['Assignee'].present?
+      assignee = User.find_by(email: row['Assignee']) || create(:user, email: row['Assignee'])
+    else
+      assignee = nil
+    end
+    create(:text_component, heading: row['Text component'], assignee: assignee)
+  end
+end
+
+Given(/^my own account is "([^"]*)"$/) do |email|
+  @user = create(:user, email: email)
+end
+
+def log_in(user)
+  visit '/users/sign_in'
+  fill_in "user_email", :with => user.email
+  fill_in "user_password", :with => user.password
+  click_button "Log in"
+end
+
+Given(/^I am logged in$/) do
+  log_in(@user)
+end
+
+When(/^I click on the dropdown menu with my user account on the top right$/) do
+  click_on @user.email
+  click_on 'Text components assigned to me'
+end
+
+Then(/^I am on the text components page with only those assigned to me$/) do
+  expect(page).to have_current_path("/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
+end
+
+Given(/^I am on the text components page$/) do
+  visit text_components_path
+end
+
+When(/^I choose "([^"]*)" from "([^"]*)"$/) do |thing, options|
+  select thing, from: options
+end
+
+Then(/^I see only the text component "([^"]*)"$/) do |heading|
+  within('table.text-components-table') do
+    expect(page).to have_css('tr.text-component', count: 1)
+    expect(page).to have_css('tr.text-component', text: heading)
+  end
+end
+
+
+When(/^I filter by assignee "([^"]*)"$/) do |assignee_name|
+  click_on '...choose a user'
+  find('li', text: assignee_name).click
+  click_on 'Filter'
+end

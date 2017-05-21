@@ -3,6 +3,23 @@ require 'capybara/rspec'
 
 RSpec.describe "text_components/index", type: :view do
   let(:report) { create(:report, name: 'UniqueReportName') }
+  let(:text_components) do
+    [create(
+        :text_component,
+        :heading => "Heading",
+        :report_id => report.id,
+        :from_day => 1,
+        :to_day => 2
+      ),
+      create(
+        :text_component,
+        :heading => "Heading",
+        :report_id => report.id,
+        :from_day => 1,
+        :to_day => 2
+      )]
+  end
+
   before(:each) do
     assign(:text_component, TextComponent.new)
     new_text_component = TextComponent.new
@@ -21,22 +38,10 @@ RSpec.describe "text_components/index", type: :view do
         :name => "Event Name",
       )
     ])
-    assign(:remaining_text_components, [
-      create(
-        :text_component,
-        :heading => "Heading",
-        :report_id => report.id,
-        :from_day => 1,
-        :to_day => 2
-      ),
-      create(
-        :text_component,
-        :heading => "Heading",
-        :report_id => report.id,
-        :from_day => 1,
-        :to_day => 2
-      )
-    ])
+    assign(:filter, {})
+    assign(:text_components, text_components)
+    assign(:text_components_without_triggers, text_components)
+    assign(:trigger_groups, [])
   end
 
 
@@ -53,7 +58,8 @@ RSpec.describe "text_components/index", type: :view do
   it "contains dropdown menus for sensors and events to insert markup into textareas" do
     render
     parsed = Capybara.string(rendered)
-    parsed.all('form').each do |form|
+    expect(parsed).to have_css('form.edit_text_component')
+    parsed.all('form.edit_text_component').each do |form|
       expect(form).to have_selector('.text-editor__toolbar__item.dropdown-toggle', :count => 2)
     end
   end
@@ -61,7 +67,8 @@ RSpec.describe "text_components/index", type: :view do
   it 'will never show two seperate report input fields in one form' do
     render
     parsed = Capybara.string(rendered)
-    parsed.all('form').each do |form|
+    expect(parsed).to have_css('form.edit_text_component')
+    parsed.all('form.edit_text_component').each do |form|
       expect(form).to have_text('UniqueReportName', count: 1)
     end
   end

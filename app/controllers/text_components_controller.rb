@@ -76,11 +76,21 @@ class TextComponentsController < ApplicationController
       @new_text_component = TextComponent.new
       @new_text_component.triggers.build
       @new_text_component.report = Report.current
-      @triggers = Trigger.includes(text_components: [:question_answers, :channels])
-      @remaining_text_components = TextComponent.left_joins(:triggers).includes(:triggers).distinct
-      @remaining_text_components = @remaining_text_components.select{|t| t.triggers.empty?}
+      @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
+      filter_text_components
+      @trigger_groups = @text_components.group_by {|t| t.triggers }
+      @trigger_groups = @trigger_groups.map{|key, value|  [key.map(&:name).join(', '), value] }.to_h
+      @text_components_without_triggers = @trigger_groups.delete('')
+
       @sensors = Sensor.all
       @events = Event.all
+    end
+
+    def filter_text_components
+      @filter = params[:filter] || {}
+      if @filter[:assignee_id].present?
+        @text_components = @text_components.where(assignee_id: @filter[:assignee_id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

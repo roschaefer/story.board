@@ -42,7 +42,7 @@ RSpec.describe TextComponentsController, type: :controller do
     it "assigns all text_components as @text_components" do
       text_component = create(:text_component, valid_attributes)
       get :index, params: {}, session: valid_session
-      expect(assigns(:remaining_text_components)).to eq([text_component])
+      expect(assigns(:text_components)).to eq([text_component])
     end
   end
 
