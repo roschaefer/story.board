@@ -1,10 +1,11 @@
 class TextComponentsController < ApplicationController
   before_action :set_text_component, only: [:show, :update, :destroy]
+  before_action :set_form_data, only: [:show, :index]
 
   # GET /text_components
   # GET /text_components.json
   def index
-    set_instance_variables
+    set_index_data
     @text_component = @new_text_component
   end
 
@@ -31,7 +32,7 @@ class TextComponentsController < ApplicationController
         format.json { render :show, status: :created, location: @text_component }
       else
         format.html do
-          set_instance_variables
+          set_index_data
           render :index
         end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
@@ -48,7 +49,7 @@ class TextComponentsController < ApplicationController
         format.json { render :show, status: :ok, location: @text_component }
       else
         format.html do
-          set_instance_variables
+          set_index_data
           render :index
         end
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
@@ -72,7 +73,12 @@ class TextComponentsController < ApplicationController
       @text_component = TextComponent.find(params[:id])
     end
 
-    def set_instance_variables
+    def set_form_data
+      @sensors = Sensor.all
+      @events = Event.all
+    end
+
+    def set_index_data
       @new_text_component = TextComponent.new
       @new_text_component.triggers.build
       @new_text_component.report = Report.current
@@ -81,9 +87,7 @@ class TextComponentsController < ApplicationController
       @trigger_groups = @text_components.group_by {|t| t.triggers }
       @trigger_groups = @trigger_groups.map{|key, value|  [key.map(&:name).join(', '), value] }.to_h
       @text_components_without_triggers = @trigger_groups.delete('')
-
-      @sensors = Sensor.all
-      @events = Event.all
+      set_form_data
     end
 
     def filter_text_components

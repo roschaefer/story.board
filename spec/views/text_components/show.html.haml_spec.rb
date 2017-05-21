@@ -11,6 +11,8 @@ RSpec.describe "text_components/show", type: :view do
       :from_day => 1,
       :to_day => 2
     ))
+    @sensors = assign(:sensors, Sensor.all)
+    @events = assign(:events, Event.all)
   end
 
   it "renders attributes in <p>" do
