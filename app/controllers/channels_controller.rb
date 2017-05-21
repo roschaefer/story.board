@@ -10,7 +10,7 @@ class ChannelsController < ApplicationController
   def update
     respond_to do |format|
       if @channel.update(channel_params)
-        format.html { redirect_to edit_report_channel_path(@channel), notice: 'Channel was successfully updated.' }
+        format.html { redirect_to edit_channel_path(@channel), notice: 'Channel was successfully updated.' }
         format.json { render :edit, status: :ok, location: @channel }
       else
         format.html { render :edit }
@@ -26,6 +26,6 @@ class ChannelsController < ApplicationController
   end
 
   def set_channel
-    @channel = Channel.find_by(id: params[:id], report_id: params[:report_id])
+    @channel = Channel.find_by(id: params[:id])
   end
 end

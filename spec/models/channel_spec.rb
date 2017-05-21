@@ -7,11 +7,6 @@ RSpec.describe Channel, type: :model do
     it { is_expected.to be_valid }
   end
 
-  describe 'channel without report' do
-    subject { build(:channel, report: nil) }
-    it { is_expected.not_to be_valid }
-  end
-
   describe '#name' do
     it_behaves_like 'database unique attribute', :channel, name: 'TheChannel'
   end

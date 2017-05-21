@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516131349) do
+ActiveRecord::Schema.define(version: 20170518133810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,11 +36,9 @@ ActiveRecord::Schema.define(version: 20170516131349) do
   create_table "channels", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "report_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["name"], name: "index_channels_on_name", unique: true, using: :btree
-    t.index ["report_id"], name: "index_channels_on_report_id", using: :btree
   end
 
   create_table "channels_text_components", force: :cascade do |t|
@@ -224,7 +222,7 @@ ActiveRecord::Schema.define(version: 20170516131349) do
     t.integer  "report_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["key"], name: "index_variables_on_key", unique: true, using: :btree
+    t.index ["key"], name: "index_variables_on_key", using: :btree
     t.index ["report_id"], name: "index_variables_on_report_id", using: :btree
   end
 
