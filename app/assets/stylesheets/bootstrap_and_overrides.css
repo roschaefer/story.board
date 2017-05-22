@@ -23,3 +23,111 @@
 		margin: 0 auto;
 		display: block;
 	}
+
+
+a.dropdown-toggle {
+    font-size: 1.5em;
+}
+
+a.navbar-brand {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 3em;
+}
+
+div.col-lg-9 h1 {
+    font-size: 3em;
+}
+
+div.col-sm-12 {
+    background-color: #ffffff;
+}
+
+div.col-sm-12 h1 {
+    color: #2b6791;
+    font-size: 4em;
+}
+
+div.col-sm-4 {
+    padding-top: 5px;
+}
+
+div.col-sm-8 {
+    height: 80px;
+    padding-top: 5px;
+}
+
+div.col-sm-8 p {
+    font-size: .8em;
+    font-weight: bold;
+    padding-top: .4em;
+}
+
+div.navbar-collapse.collapse.navbar-responsive-collapse {
+}
+
+div.navbar.navbar-default.navbar-static-top {
+    background-color: #2b6791;
+    height: 80px;
+    vertical-align: bottom;
+}
+
+div.row {
+    height: 0;
+}
+
+div.well.sidebar-nav {
+    border-color: #2b6791;
+    border-style: solid;
+    border-width: 1px;
+    color: #1e1547;
+    background-color: #2b6791;
+}
+
+li.active a {
+    font-weight: bold;
+}
+
+p.help {
+    font-style: italic;
+}
+
+thead tr th {
+    font-size: 1.3em;
+    height: 4em;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+tr td strong {
+    color: #ff9500;
+    text-transform: uppercase;
+}
+
+ul.nav.nav-list li a {
+    font-weight: bold;
+}
+
+ul.nav.nav-tabs li a {
+    font-weight: bold;
+}
+
+ul.nav.navbar-nav li a {
+    font-size: 1.5em;
+    color: #ffffff;
+}
+
+ul.nav.navbar-nav ul a {
+    font-size: 1.2em;
+    color: #000000;
+}
+
+div.well.sidebar-nav h3 {
+    color: #ffffff;
+}
+
+li.nav-header {
+    color: #ffffff;
+}
+
+
