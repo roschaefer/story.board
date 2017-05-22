@@ -21,10 +21,12 @@ RSpec.describe 'Assign sensor by address', type: :request do
     end
 
     it "creates a sensor reading" do
+      login_user
       expect { post url, params: sensor_reading_params , headers: headers }.to change { Sensor::Reading.count }.from(0).to(1)
     end
 
     it "assigns the correct sensor" do
+      login_user
       post url, params: sensor_reading_params, headers: headers
       expect(Sensor::Reading.first.sensor).to eq light
     end
