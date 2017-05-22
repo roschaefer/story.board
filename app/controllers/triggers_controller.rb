@@ -1,6 +1,6 @@
 class TriggersController < ApplicationController
   before_action :set_trigger, only: [:show, :edit, :update, :destroy]
-  #before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy] unless Rails.env.test?
 
   def index
     @triggers = Trigger.all

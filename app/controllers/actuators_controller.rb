@@ -1,6 +1,6 @@
 class ActuatorsController < ApplicationController
   before_action :set_actuator, only: [:show, :edit, :activate, :deactivate, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :edit, :activate, :deactivate, :create, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :activate, :deactivate, :create, :update, :destroy] unless Rails.env.test?
 
   # GET /actuators
   # GET /actuators.json

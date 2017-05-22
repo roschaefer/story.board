@@ -1,7 +1,7 @@
 class SensorsController < ApplicationController
   before_action :set_sensor, only: [:show, :edit, :update, :destroy, :start_calibration, :stop_calibration]
   before_action :set_readings, only: [:show, :start_calibration, :stop_calibration]
-  before_action :authenticate_user!, only: [:new, :create, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :update, :destroy] unless Rails.env.test?
 
   def index
     @sensors = Sensor.all
