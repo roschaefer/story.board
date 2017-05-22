@@ -3,6 +3,9 @@
   %td= text_component.from_day
   %td= text_component.to_day
   %td
+    - if status_class_mapping = {'draft' => 'default', 'fact_checked' => 'warning', 'published' => 'success'} and status_class_mapping.key? text_component.publication_status
+      %span{:class => ['label', "label-#{status_class_mapping[text_component.publication_status]}"]}= text_component.publication_status
+  %td
     %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
       Edit
 
