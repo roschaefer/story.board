@@ -108,7 +108,7 @@ RSpec.describe Text::Generator do
 
 
   context 'for text components with the same report and the same channel' do
-    let(:text_component_params) { { report: report, publication_status: 2 } }
+    let(:text_component_params) { { report: report } }
     let(:report) { Report.current }
 
     describe '#choose_heading' do
