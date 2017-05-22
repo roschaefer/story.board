@@ -120,7 +120,7 @@ Given(/^for my current report I have these triggers prepared:$/) do |table|
     trigger = create(:trigger,
                      report: Report.current,
                      name: row['Trigger'],
-                     )
+                    )
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
@@ -439,9 +439,9 @@ Given(/^we have this sensor data in our database:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
     create(:sensor_reading,
-            sensor: sensor,
-            calibrated_value: row['Calibrated value'],
-            created_at: row['Created at'])
+           sensor: sensor,
+           calibrated_value: row['Calibrated value'],
+           created_at: row['Created at'])
   end
 end
 
@@ -629,9 +629,9 @@ end
 
 Given(/^I have a sensor for "([^"]*)"$/) do |property|
   @sensor = create(:sensor,
-         report: Report.current,
-         sensor_type: create(:sensor_type, property: property)
-        )
+                   report: Report.current,
+                   sensor_type: create(:sensor_type, property: property)
+                  )
 
 end
 
@@ -887,9 +887,9 @@ Given(/^we have different text components, each having question\/answers$/) do
          main_part: 'I gave eleven liters of milk today.',
          closing: '',
          question_answers: [
-          build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
-          build(:question_answer, question: 'Shall it become more?', answer: 'I hope for it.')
-          ]
+           build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
+           build(:question_answer, question: 'Shall it become more?', answer: 'I hope for it.')
+  ]
         )
   create(:text_component,
          report: Report.current,
@@ -897,7 +897,7 @@ Given(/^we have different text components, each having question\/answers$/) do
          introduction: '',
          main_part: 'It was hot and stuffy in the stable.',
          closing: 'I hope it gets colder tomorrow.',
-        question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
+         question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
         )
 end
 
@@ -923,29 +923,29 @@ end
 
 Given(/^we have an active text component for that topic with these question\/answers:$/) do |table|
   @text_component = create(:text_component,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.')
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.')
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
 Given(/^we have an active text component with the id (\d+) for that topic with these question\/answers:$/) do |id, table|
   @text_component = create(:text_component,
                            report: Report.current,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.',
-                          id: id)
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.',
+                           id: id)
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
