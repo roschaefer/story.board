@@ -86,25 +86,4 @@ RSpec.describe TextComponent, type: :model do
       end
     end
   end
-
-  describe '#publication_status' do
-    let(:text_component) { create(:text_component) }
-    subject { text_component.publication_status }
-
-    context 'default value for publication_status' do
-      it 'is in draft mode' do
-        is_expected.to eq 'draft'
-      end
-    end
-
-    context 'status set to published' do
-      before do
-        text_component.published!
-      end
-      
-      it 'is published' do
-        is_expected.to eq 'published'
-      end
-    end
-  end
 end
