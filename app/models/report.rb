@@ -19,11 +19,7 @@ class Report < ActiveRecord::Base
   end
 
   def visible_sensor_story_components(opts={})
-    if opts[:intention] == :real
-      active_sensor_story_components.select { |c| c.published? }
-    else
-      active_sensor_story_components
-    end
+    active_sensor_story_components(opts).select {|c| c.published? }
   end
 
   def active_text_components(opts={})
