@@ -366,6 +366,10 @@ Given(/^there is a triggered text component with the following main part:$/) do 
   create(:text_component, main_part: main_part, report: Report.current)
 end
 
+Given(/^there is an unpublished text component with the following main part:$/) do |main_part|
+  create(:text_component, main_part: main_part, report: Report.current, publication_status: 0)
+end
+
 Given(/^I have these active triggers:$/) do |table|
   table.hashes.each do |row|
     create(:trigger, :active, {
