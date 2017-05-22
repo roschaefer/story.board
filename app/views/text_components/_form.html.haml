@@ -3,6 +3,11 @@
 
   .form-inputs
     = f.association :report
+
+    .row
+      .col-sm-12
+        = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status', placeholder: 'Select a status...'
+
     .row
       .col-sm-12
         #triggers
