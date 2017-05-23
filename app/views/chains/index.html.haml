@@ -7,8 +7,9 @@
       %th Function
       %th Hashtag
       %th
-      %th
-      %th
+      - if user_signed_in?
+        %th
+        %th
 
   %tbody
     - @chains.each do |chain|
@@ -17,9 +18,11 @@
         %td= chain.function
         %td= chain.hashtag
         %td= link_to 'Show', chain
-        %td= link_to 'Edit', edit_chain_path(chain)
-        %td= link_to 'Destroy', chain, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        - if user_signed_in?
+          %td= link_to 'Edit', edit_chain_path(chain)
+          %td= link_to 'Destroy', chain, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Chain', new_chain_path, class: 'btn btn-primary'
+- if user_signed_in?
+  = link_to 'New Chain', new_chain_path, class: 'btn btn-primary'

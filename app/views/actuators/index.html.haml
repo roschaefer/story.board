@@ -6,8 +6,9 @@
       %th Name
       %th Port
       %th
-      %th
-      %th
+      - if user_signed_in?
+        %th
+        %th
 
   %tbody
     - @actuators.each do |actuator|
@@ -15,9 +16,10 @@
         %td= actuator.name
         %td= actuator.port
         %td= link_to 'Show', actuator
-        %td= link_to 'Edit', edit_actuator_path(actuator)
-        %td= link_to 'Destroy', actuator, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        - if user_signed_in?
+          %td= link_to 'Edit', edit_actuator_path(actuator)
+          %td= link_to 'Destroy', actuator, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
-
-= link_to 'New Actuator', new_actuator_path, :class => "btn btn-primary"
+- if user_signed_in?
+  = link_to 'New Actuator', new_actuator_path, :class => "btn btn-primary"

@@ -43,6 +43,9 @@
       - @trigger.text_components.each do |tc|
         %tr
           %td= tc.heading
-= link_to 'Edit', edit_trigger_path(@trigger), :class => "btn btn-primary"
-= link_to 'Destroy', trigger_path(@trigger), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+
+- if user_signed_in?
+  = link_to 'Edit', edit_trigger_path(@trigger), :class => "btn btn-primary"
+  = link_to 'Destroy', trigger_path(@trigger), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+
 = link_to 'Back', triggers_path, :class => "btn btn-secondary"
