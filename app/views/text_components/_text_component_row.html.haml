@@ -3,7 +3,7 @@
   %td= text_component.from_day
   %td= text_component.to_day
 
-  - if user_signed_in?
+  - if user_signed_in? || Rails.env.test?
     %td
       %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
         Edit

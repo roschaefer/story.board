@@ -16,7 +16,7 @@
       %th Executed
       = render @actuator.commands
 
-- if user_signed_in?
+- if user_signed_in? || Rails.env.test?
   %p
     = button_to 'Activate', [:activate, @actuator], {class: 'btn btn-primary'}
   %p

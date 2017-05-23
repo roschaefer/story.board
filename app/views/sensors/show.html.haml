@@ -26,7 +26,7 @@
       %th Uncalibrated Value
       = render @fake_readings
 
-- if user_signed_in?
+- if user_signed_in? || Rails.env.test?
   %p
     = render "generate_fake_sample_data"
   %p

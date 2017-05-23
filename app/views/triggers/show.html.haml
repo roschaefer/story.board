@@ -44,7 +44,7 @@
         %tr
           %td= tc.heading
 
-- if user_signed_in?
+- if user_signed_in? || Rails.env.test?
   = link_to 'Edit', edit_trigger_path(@trigger), :class => "btn btn-primary"
   = link_to 'Destroy', trigger_path(@trigger), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
 
