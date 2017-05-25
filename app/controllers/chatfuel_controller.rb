@@ -53,6 +53,26 @@ class ChatfuelController < ApplicationController
           }
         }
       ]
+    elsif @question_answer && !@next_question_answer
+      topic = @text_component.topic
+      messages =  [
+          {
+          attachment: {
+            payload: {
+              template_type: "button",
+              text: "#{content}",
+              buttons: [
+                {
+                  type: "show_block",
+                  block_name: "cont_" + topic.name,
+                  title: "Zurück",
+                }
+            ]
+            },
+            type: "template"
+          }
+        }
+      ]
     else
       messages =  [
         { text: content.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request

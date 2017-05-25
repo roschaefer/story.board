@@ -40,20 +40,22 @@ RSpec.describe "Chatfuel", type: :request do
       end
 
       context 'text component with just one question_answer' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
         let(:question_answer) { create(:question_answer, question: 'What up?', answer: 'The sun') }
-        before { create(:text_component, id: 1, question_answers: [question_answer]) }
+        before { create(:text_component, id: 1, question_answers: [question_answer], topic: topic) }
 
         it { is_expected.to have_http_status(:ok) }
 
         it 'reveals the answer to the question' do
           json_response = JSON.parse(subject.body)
-          expect(json_response['messages'][0]['text']).to eq 'The sun'
+          expect(json_response['messages'][0]['attachment']['payload']['text']).to eq 'The sun'
         end
       end
 
       context 'text component with two question_answers' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
         let(:question_answers) { create_list(:question_answer, 2, question: 'What up?', answer: 'The sun') }
-        before { create(:text_component, id: 1, question_answers: question_answers) }
+        before { create(:text_component, id: 1, question_answers: question_answers, topic: topic) }
 
         it 'reveals the answer to the question' do
           json_response = JSON.parse(subject.body)
@@ -68,9 +70,9 @@ RSpec.describe "Chatfuel", type: :request do
         describe 'index == 2' do
           let(:index) { 2 }
 
-          it 'reveals last answer as a single message' do
+          it 'reveals last answer to the question' do
             json_response = JSON.parse(subject.body)
-            expect(json_response['messages'][0]['text']).to eq 'The sun'
+            expect(json_response['messages'][0]['attachment']['payload']['text']).to eq 'The sun'
           end
         end
       end
