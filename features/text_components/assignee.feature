@@ -4,12 +4,12 @@ Feature: Assignee
   To manage responsibilities among the team
 
   Background:
-    Given my own account is "me@example.org"
+    Given my user name is "Myself"
     And we have these text components:
-      | Text component                         | Assignee             |
-      | Cow urine makes for juicy lemons       |                      |
-      | Man arrested for everything            | me@example.org       |
-      | Homicide victims rarely talk to police | john.doe@example.org |
+      | Text component                         | Assignee |
+      | Cow urine makes for juicy lemons       |          |
+      | Man arrested for everything            | Myself   |
+      | Homicide victims rarely talk to police | John Doe |
 
   @javascript
   Scenario: Assign user
