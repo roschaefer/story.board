@@ -945,7 +945,7 @@ end
 
 Given(/^we have these users in our database$/) do |table|
   table.hashes.each do |row|
-    create(:user, email: row['Email'])
+    create(:user, name: row['Email'])
   end
 end
 
@@ -967,7 +967,7 @@ end
 Given(/^we have these text components:$/) do |table|
   table.hashes.each do |row|
     if row['Assignee'].present?
-      assignee = User.find_by(email: row['Assignee']) || create(:user, email: row['Assignee'])
+      assignee = User.find_by(name: row['Assignee']) || create(:user, name: row['Assignee'])
     else
       assignee = nil
     end

@@ -14,10 +14,10 @@ Feature: Assignee
   @javascript
   Scenario: Assign user
     Given we have these users in our database
-      | Email                |
-      | jane.doe@example.org |
+      | Email    |
+      | Jane Doe |
     When I edit an existing text component
-    And I choose "jane.doe@example.org" from the dropdown menu "Assignee"
+    And I choose "Jane Doe" from the dropdown menu "Assignee"
     And I click on "Update Text component"
     Then I can see that Jane was assigned to the text component
 
@@ -32,5 +32,5 @@ Feature: Assignee
   @javascript
   Scenario: Filter by assignee
     Given I am on the text components page
-    When I filter by assignee "john.doe@example.org"
+    When I filter by assignee "John Doe"
     Then I see only the text component "Homicide victims rarely talk to police"
