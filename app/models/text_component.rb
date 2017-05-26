@@ -15,7 +15,7 @@ class TextComponent < ActiveRecord::Base
   validates :channels, presence: true
 
   delegate :name, to: :topic, prefix: true, allow_nil: true
-  delegate :email, to: :assignee, prefix: true, allow_nil: true
+  delegate :name, to: :assignee, prefix: true, allow_nil: true
 
   def active?(opts={})
     on_time? && triggers.all? {|t| t.active?(opts) }
