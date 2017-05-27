@@ -1,4 +1,3 @@
-@javascript
 Feature: Connect text components with triggers
   As a journalist
   I want to connect triggers with text components on the text components page
@@ -8,6 +7,7 @@ Feature: Connect text components with triggers
     Given there is a sensor live report
     And I am the journalist
 
+  @javascript
   Scenario: Add two triggers to the text component
     Given I have these active triggers:
       | Trigger           |

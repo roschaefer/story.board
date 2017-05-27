@@ -181,7 +181,7 @@ Given(/^my current live report is called "([^"]*)"$/) do |name|
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  click_on 'Reports'
+  click_on 'Report settings'
   click_on name
 end
 
@@ -361,8 +361,8 @@ When(/^I change the name of the report to "([^"]*)"$/) do |name|
 end
 
 Then(/^I see the new name in the settings menu above$/) do
-  expect(page).to have_css('.dropdown.settings')
-  expect(find('.dropdown.settings .dropdown-menu')).to have_text @report_name
+  expect(page).to have_css('.dropdown.report-settings')
+  expect(find('.dropdown.report-settings .dropdown-menu')).to have_text @report_name
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
@@ -949,7 +949,7 @@ Given(/^we have these users in our database$/) do |table|
 end
 
 When(/^I edit an existing text component$/) do
-  @text_component = create(:text_component)
+  @text_component = create(:text_component, report: Report.current)
   edit_existing_text_component
 end
 
@@ -967,13 +967,9 @@ Given(/^we have these text components:$/) do |table|
   table.hashes.each do |row|
     assignee = nil
     if row['Assignee'].present?
-<<<<<<< HEAD
       assignee = User.find_by(name: row['Assignee']) || create(:user, name: row['Assignee'])
     else
       assignee = nil
-=======
-      assignee = User.find_by(email: row['Assignee']) || create(:user, email: row['Assignee'])
->>>>>>> plant cucumber for #348
     end
 
     report = Report.current
@@ -1103,4 +1099,10 @@ end
 Given(/^I(?: first)? navigate to the text component page$/) do
   expect(page).to have_css('a', text: 'Text Components')
   click_on 'Text Components'
+end
+
+When(/^I click on the preview of the current report$/) do
+  within('#report-menu-current') do
+    click_on 'Preview'
+  end
 end
