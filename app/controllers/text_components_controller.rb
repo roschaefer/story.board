@@ -92,6 +92,7 @@ class TextComponentsController < ApplicationController
     end
 
     def filter_text_components
+      @text_components = @text_components.where(report: @report)
       @filter = params[:filter] || {}
       if @filter[:assignee_id].present?
         @text_components = @text_components.where(assignee_id: @filter[:assignee_id])

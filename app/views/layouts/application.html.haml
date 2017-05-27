@@ -39,14 +39,20 @@
                 %li= link_to "Chains", chains_path
             %li= link_to "Triggers", report_triggers_path(@report)
             %li= link_to "Text Components", report_text_components_path(@report)
-            %li.dropdown.settings
-              %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
-                Reports
+            %li.dropdown
+              %a#current_report.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                = @report.name
                 %span.caret
               %ul.dropdown-menu
+                %li.dropdown-header Settings
+                %li= link_to @report.name, report_path(@report)
+                %li.divider{role:'separator'}
+                %li.dropdown-header Preview
                 - Report.find_each do |report|
-                  %li
-                    %a{:href => report_path(report)}=report.name
+                  %li= link_to report.name, preview_report_path(report)
+                %li.dropdown-header Present
+                - Report.find_each do |report|
+                  %li.present-report= link_to report.name, present_report_path(report)
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li.dropdown
