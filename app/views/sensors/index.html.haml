@@ -7,9 +7,8 @@
   - @sensors.each do |sensor|
     %tr
       %td= sensor.id
-      %td= link_to sensor.name, sensor_path(sensor)
+      %td= link_to sensor.name, report_sensor_path(@report, sensor)
       %td= sensor.address
 
 - if user_signed_in?
-  %p
-  = link_to 'Add new sensor', new_sensor_path, :class => "btn btn-primary"
+  %p= link_to 'Add new sensor', new_report_sensor_path(@report, @sensor), :class => "btn btn-primary"

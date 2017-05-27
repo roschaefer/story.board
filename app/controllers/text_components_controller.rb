@@ -29,7 +29,7 @@ class TextComponentsController < ApplicationController
 
     respond_to do |format|
       if @text_component.save
-        format.html { redirect_to @text_component, notice: 'Text component was successfully created.' }
+        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully created.' }
         format.json { render :show, status: :created, location: @text_component }
       else
         format.html do
@@ -46,7 +46,7 @@ class TextComponentsController < ApplicationController
   def update
     respond_to do |format|
       if @text_component.update(text_component_params)
-        format.html { redirect_to @text_component, notice: 'Text component was successfully updated.' }
+        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
         format.json { render :show, status: :ok, location: @text_component }
       else
         format.html do
@@ -63,7 +63,7 @@ class TextComponentsController < ApplicationController
   def destroy
     @text_component.destroy
     respond_to do |format|
-      format.html { redirect_to text_components_url, notice: 'Text component was successfully destroyed.' }
+      format.html { redirect_to report_text_components_path(@report), notice: 'Text component was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

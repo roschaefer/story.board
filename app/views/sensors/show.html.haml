@@ -25,14 +25,12 @@
       %th Calibrated Value
       %th Uncalibrated Value
       = render @fake_readings
-
 - if user_signed_in?
   %p
     = render "generate_fake_sample_data"
   %p
     = render "calibration"
   %p
-    = link_to 'Edit', edit_sensor_path(@sensor), :class => "btn btn-primary"
-    = link_to 'Destroy', sensor_path(@sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
-
-= link_to 'Back', sensors_path, :class => "btn btn-secondary"
+    = link_to 'Edit', edit_report_sensor_path(@report, @sensor), :class => "btn btn-primary"
+    = link_to 'Destroy', report_sensor_path(@report, @sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+  = link_to 'Back', report_sensors_path(@report), :class => "btn btn-secondary"

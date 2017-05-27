@@ -33,12 +33,12 @@
                 Elements
                 %span.caret
               %ul.dropdown-menu
-                %li= link_to "Sensors", sensors_path
+                %li= link_to "Sensors", report_sensors_path(@report)
                 %li= link_to "Events", events_path
                 %li= link_to "Actuators", actuators_path
                 %li= link_to "Chains", chains_path
-            %li= link_to "Triggers", triggers_path
-            %li= link_to "Text Components", text_components_path
+            %li= link_to "Triggers", report_triggers_path(@report)
+            %li= link_to "Text Components", report_text_components_path(@report)
             %li.dropdown.settings
               %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
                 Reports

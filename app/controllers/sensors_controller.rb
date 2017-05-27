@@ -14,7 +14,7 @@ class SensorsController < ApplicationController
   def create
     @sensor = Sensor.new(sensor_params)
     if @sensor.save
-      redirect_to @sensor
+      redirect_to report_sensor_path(@report, @sensor)
     else
       render 'new'
     end
@@ -22,7 +22,7 @@ class SensorsController < ApplicationController
 
   def update
     if @sensor.update(sensor_params)
-      redirect_to @sensor
+      redirect_to report_sensor_path(@report, @sensor)
     else
       render 'new'
     end
@@ -30,7 +30,7 @@ class SensorsController < ApplicationController
 
   def destroy
     @sensor.destroy
-    redirect_to sensors_path
+    redirect_to report_sensors_path(@report)
   end
 
   def start_calibration

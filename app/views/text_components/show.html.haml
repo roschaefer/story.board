@@ -37,5 +37,5 @@
             = link_to "Show", edit_channel_path(channel)
 
 %p
-  = link_to 'Back', text_components_path, {class: 'btn btn-default'}
+  = link_to 'Back', report_text_components_path(@report), {class: 'btn btn-default'}
   %button.btn.btn-primary.pull-right{"data-target" => "#editModal#{@text_component.id}", "data-toggle" => "modal", :type => "button"} Edit text component
