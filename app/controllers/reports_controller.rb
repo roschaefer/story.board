@@ -24,16 +24,7 @@ class ReportsController < ApplicationController
     render 'present'
   end
 
-  def edit
-    @report = Report.find(params[:id])
-  end
-
-  def show
-    @report = Report.find(params[:id])
-  end
-
   def update
-    @report = Report.find(params[:id])
     if @report.update(report_params)
       redirect_to @report
     else
