@@ -965,12 +965,23 @@ end
 
 Given(/^we have these text components:$/) do |table|
   table.hashes.each do |row|
+    assignee = nil
     if row['Assignee'].present?
+<<<<<<< HEAD
       assignee = User.find_by(name: row['Assignee']) || create(:user, name: row['Assignee'])
     else
       assignee = nil
+=======
+      assignee = User.find_by(email: row['Assignee']) || create(:user, email: row['Assignee'])
+>>>>>>> plant cucumber for #348
     end
-    create(:text_component, heading: row['Text component'], assignee: assignee)
+
+    report = Report.current
+    if row['Report'].present?
+      report = Report.find_by(name: row['Report']) || create(:report, name: row['Report'])
+    end
+
+    create(:text_component, report: report, heading: row['Text component'], assignee: assignee)
   end
 end
 
@@ -1071,4 +1082,24 @@ end
 
 Then(/^I can see, I'm called "([^"]*)" now$/) do |new_name|
   expect(page).to have_text(new_name)
+end
+
+Given(/^the current report is "([^"]*)"$/) do |name|
+  current_report = Report.current
+  current_report.name = name
+  current_report.save!
+end
+
+Then(/^I can see the current report "([^"]*)" in the menu bar$/) do |report_name|
+  expect(page).to have_css('#current_report', text: report_name)
+end
+
+When(/^I choose "([^"]*)" to be the active report$/) do |report_name|
+  click_on 'current_report'
+  find('.present-report', text: report_name).click
+end
+
+Given(/^I(?: first)? navigate to the text component page$/) do
+  expect(page).to have_css('a', text: 'Text Components')
+  click_on 'Text Components'
 end
