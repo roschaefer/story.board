@@ -2,7 +2,7 @@
   = f.error_notification
 
   .form-inputs
-    = f.association :report, :as => :hidden, :input_html => {:value => @report.id }
+    = f.association :report, selected: @report.id
     = f.input :name
     = f.input :address
     = f.association :sensor_type, label_method: :property, value_method: :id
