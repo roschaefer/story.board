@@ -1091,12 +1091,13 @@ Given(/^the current report is "([^"]*)"$/) do |name|
 end
 
 Then(/^I can see the current report "([^"]*)" in the menu bar$/) do |report_name|
-  expect(page).to have_css('#current_report', text: report_name)
+  expect(page).to have_css('#report-menu-current', text: report_name)
 end
 
 When(/^I choose "([^"]*)" to be the active report$/) do |report_name|
-  click_on 'current_report'
-  find('.present-report', text: report_name).click
+  within('.report-menu', text: report_name) do
+    click_on 'Live-System'
+  end
 end
 
 Given(/^I(?: first)? navigate to the text component page$/) do

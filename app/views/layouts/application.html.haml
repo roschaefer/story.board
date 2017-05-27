@@ -40,19 +40,13 @@
             %li= link_to "Triggers", report_triggers_path(@report)
             %li= link_to "Text Components", report_text_components_path(@report)
             %li.dropdown
-              %a#current_report.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
-                = @report.name
+              %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                Report settings
                 %span.caret
               %ul.dropdown-menu
                 %li.dropdown-header Settings
-                %li= link_to @report.name, report_path(@report)
-                %li.divider{role:'separator'}
-                %li.dropdown-header Preview
                 - Report.find_each do |report|
-                  %li= link_to report.name, preview_report_path(report)
-                %li.dropdown-header Present
-                - Report.find_each do |report|
-                  %li.present-report= link_to report.name, present_report_path(report)
+                  %li= link_to report.name, report_path(report)
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li.dropdown
@@ -74,11 +68,18 @@
           = yield
         .col-lg-3
           .well.sidebar-nav
-            %h3 Reports
-            %ul.nav.nav-list
-              %li.nav-header What your readers see
+            %h3 Current report
+            %ul#report-menu-current.nav.nav-list
+              %li.nav-header= @report.name
               %li= link_to "Live-System", "/reports/current"
               %li= link_to "Preview", "/reports/current?preview=true"
+            %h3 Other reports
+            %ul.nav.nav-list
+            - Report.find_each do |report|
+              %li.nav.nav-header= report.name
+              %ul.nav.nav-pills.report-menu
+                %li.nav-item= link_to 'Live-System', present_report_path(report), {class: 'nav-link'}
+                %li.nav-item= link_to 'Preview', preview_report_path(report), {class: 'nav-link'}
       %footer
         .row
           .col-sm-8
