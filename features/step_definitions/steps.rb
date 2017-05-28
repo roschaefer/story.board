@@ -1,7 +1,9 @@
-
-When(/^I visit the landing page/) do
-  page.reset!
+When(/^I visit the landing page$/) do
   visit root_path
+end
+
+When(/^I reload the page$/) do
+  visit current_path
 end
 
 Then(/^I should see:$/) do |string|
@@ -149,8 +151,9 @@ Then(/^I should NOT see:$/) do |string|
   expect(page).not_to have_content(string)
 end
 
-Given(/^I am the journalist$/) do
-  # NOP: currently no authentication implemented
+Given(/^I am (?:a|the) (?:journalist|service team member)/) do
+  @user ||= create(:user)
+  log_in @user
 end
 
 Given(/^there is a sensor live report/) do
@@ -746,10 +749,6 @@ Given(/^there is a channel called "([^"]*)"$/) do |name|
   create(:channel, name: name)
 end
 
-Given(/^I am a journalists who writes about the theory of relativity$/) do
-  # documentation
-end
-
 Given(/is too difficult for everybody to understand$/) do
   # documentation
 end
@@ -991,8 +990,7 @@ Given(/^I am logged in$/) do
 end
 
 When(/^I click on the dropdown menu with my user account on the top right$/) do
-  click_on @user.name
-  click_on 'Text components assigned to me'
+  click_on 'user-menu'
 end
 
 Then(/^I am on the text components page with only those assigned to me$/) do

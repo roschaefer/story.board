@@ -23,7 +23,6 @@ Feature: Choose only one heading
     Recommended Headings for Business Reports
     """
 
-
   Scenario: In case of a draw, chose a heading randomly
     Given I have these text components with their highest priority:
       | Heading                                   | Highest priority |

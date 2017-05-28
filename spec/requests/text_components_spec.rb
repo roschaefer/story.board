@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "TextComponents", type: :request do
+  let(:user) { create(:user) }
+  before { sign_in user }
+
   describe "GET /text_components" do
     it "works! (now write some real specs)" do
       get text_components_path

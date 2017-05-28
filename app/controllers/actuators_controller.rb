@@ -1,5 +1,6 @@
 class ActuatorsController < ApplicationController
   before_action :set_actuator, only: [:show, :edit, :activate, :deactivate, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /actuators
   # GET /actuators.json

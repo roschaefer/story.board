@@ -6,6 +6,7 @@ Feature: Button for calibration
 
   Background:
     Given there is a sensor live report
+    And I am a service team member
 
   Scenario: Start calibration phase and gather extreme values
     Given I have a sensor for "Temperature"

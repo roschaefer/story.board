@@ -3,6 +3,7 @@ Feature: Read more question
   As a reader using the Facebook Messenger
   I want to be asked, if i want to continue reading
   In order not to be overwhelmed by the amount of text
+
   Background:
     Given a topic "milk_quality"
     And we have an active text component with the id 1 for that topic with these question/answers:

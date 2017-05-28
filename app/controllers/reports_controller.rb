@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show, :present, :current]
+
   def current
     current_report = Report.current
     if current_report

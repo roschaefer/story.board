@@ -1,3 +1,4 @@
+@321
 Feature: Assignee
   As a editor in lead
   I want to set an assignee for every text.component
@@ -10,18 +11,20 @@ Feature: Assignee
       | Cow urine makes for juicy lemons       |          |
       | Man arrested for everything            | Myself   |
       | Homicide victims rarely talk to police | John Doe |
+    And we have these users in our database
+      | Name     |
+      | Jane Doe |
 
   @javascript
   Scenario: Assign user
-    Given we have these users in our database
-      | Name     |
-      | Jane Doe |
+    Given I am logged in
     When I edit an existing text component
     And I choose "Jane Doe" from the dropdown menu "Assignee"
     And I click on "Update Text component"
     Then I can see that Jane was assigned to the text component
 
 
+  @javascript
   Scenario: Get to text components assigned to me
     Given I am logged in
     When I click on the dropdown menu with my user account on the top right

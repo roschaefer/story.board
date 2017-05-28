@@ -1,4 +1,4 @@
-@243 @javascript
+@243
 Feature: Choose one or many channels
   As a reporter
   I want to choose one or more channels for my text component
@@ -10,6 +10,7 @@ Feature: Choose one or many channels
     And I am a journalists who writes about the theory of relativity
     But the theory of relativity is too difficult for everybody to understand
 
+  @javascript
   Scenario: Replace default channel with another one
     Given I created several text components already, explaining the topic on different levels
     And this is for the eggheads out there:

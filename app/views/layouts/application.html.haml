@@ -50,7 +50,7 @@
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li.dropdown
-                %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                %a#user-menu.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
                   = current_user.name
                   %span.caret
                 %ul.dropdown-menu

@@ -41,10 +41,12 @@
 .row
   .col-sm-12
     %h1 Text components
-.row
-  .col-sm-12
-    %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
-      Create new text component
+
+- if user_signed_in?
+  .row
+    .col-sm-12
+      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
+        Create new text component
 .row
   .col-sm-12
     = form_tag(text_components_path, {method: :get}) do
@@ -76,7 +78,9 @@
               %strong Text components without triggers
           - @text_components_without_triggers.each do |text_component|
             = render 'text_component_row', text_component: text_component
-.row
-  .col-sm-12
-    %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
-      Create new text component
+
+- if user_signed_in?
+  .row
+    .col-sm-12
+      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
+        Create new text component
