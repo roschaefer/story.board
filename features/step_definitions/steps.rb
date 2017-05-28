@@ -945,7 +945,7 @@ end
 
 Given(/^we have these users in our database$/) do |table|
   table.hashes.each do |row|
-    create(:user, email: row['Email'])
+    create(:user, name: row['Name'])
   end
 end
 
@@ -960,14 +960,14 @@ end
 
 Then(/^I can see that Jane was assigned to the text component$/) do
   within '.assignee' do
-    expect(page).to have_text 'jane.doe@example.org'
+    expect(page).to have_text 'Jane Doe'
   end
 end
 
 Given(/^we have these text components:$/) do |table|
   table.hashes.each do |row|
     if row['Assignee'].present?
-      assignee = User.find_by(email: row['Assignee']) || create(:user, email: row['Assignee'])
+      assignee = User.find_by(name: row['Assignee']) || create(:user, name: row['Assignee'])
     else
       assignee = nil
     end
@@ -975,8 +975,8 @@ Given(/^we have these text components:$/) do |table|
   end
 end
 
-Given(/^my own account is "([^"]*)"$/) do |email|
-  @user = create(:user, email: email)
+Given(/^my user name is "([^"]*)"$/) do |name|
+  @user = create(:user, name: name)
 end
 
 def log_in(user)
@@ -991,7 +991,7 @@ Given(/^I am logged in$/) do
 end
 
 When(/^I click on the dropdown menu with my user account on the top right$/) do
-  click_on @user.email
+  click_on @user.name
   click_on 'Text components assigned to me'
 end
 
@@ -1035,4 +1035,42 @@ Then(/^the edit modal pops up, allowing me to correct mistakes$/) do
   fill_in 'text_component_heading', with: 'Another heading'
   click_on 'Update Text component'
   expect(page).to have_css('b', text: 'Another heading')
+end
+
+Given(/^I am on the signup page$/) do
+  visit new_user_registration_path
+end
+
+Given(/^I fill in a valid email and a password$/) do
+  fill_in 'Email', with: 'max@mustermann.de'
+  fill_in 'user_password', with: 'password123'
+  fill_in 'user_password_confirmation', with: 'password123'
+end
+
+Then(/^I see the error message: "([^"]*)"$/) do |error_message|
+end
+
+Then(/^I see error message telling me the user name can't be blank$/) do
+  within('.form-group', text: 'Name') do
+    expect(page).to have_text("can't be blank")
+  end
+end
+
+Given(/^I am user "([^"]*)" and I am logged in$/) do |name|
+  @user = create(:user, name: name)
+  log_in(@user)
+end
+
+When(/^I edit my account and fill in my new name "([^"]*)"$/) do |name|
+  visit edit_user_registration_path
+  fill_in 'user_name', with: name
+end
+
+Then(/^I just need to confirm my password and click on "([^"]*)"$/) do |button|
+  fill_in 'Current password', with: @user.password
+  click_on button
+end
+
+Then(/^I can see, I'm called "([^"]*)" now$/) do |new_name|
+  expect(page).to have_text(new_name)
 end
