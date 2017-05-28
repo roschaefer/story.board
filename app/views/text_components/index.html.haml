@@ -62,10 +62,9 @@
           %th Heading
           %th From day
           %th To day
-          - if user_signed_in?
-            %th
-            %th
-            %th
+          %th
+          %th
+          %th
       %tbody
         - @trigger_groups.each do |trigger_names, text_components|
           %tr

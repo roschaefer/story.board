@@ -3,11 +3,11 @@
   %td= text_component.from_day
   %td= text_component.to_day
 
+  %td= link_to 'Show', text_component
   - if user_signed_in?
     %td
-      %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"}
-        Edit
-
-- if user_signed_in?
-  %td= link_to 'Show', text_component
-  %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %a{'href' => '#',"data-target" => "#editModal#{text_component.id}", "data-toggle" => "modal", :type => "button"} Edit
+    %td= link_to 'Destroy', text_component, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - else
+    %td
+    %td
