@@ -1,5 +1,5 @@
 class ReportsController < ApplicationController
-  before_action :authenticate_user!, only: [:edit, :update] unless Rails.env.test?
+  before_action :authenticate_user!, except: [:index, :show]
 
   def current
     current_report = Report.current

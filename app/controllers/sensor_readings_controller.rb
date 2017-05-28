@@ -1,5 +1,5 @@
 class SensorReadingsController < ApplicationController
-  before_action :authenticate_user!, only: [:create] unless Rails.env.test?
+  before_action :authenticate_user!, except: [:index, :show]
 
   def create
     @sensor_reading = Sensor::Reading.new(sensor_reading_params)
