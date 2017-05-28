@@ -39,6 +39,12 @@ RSpec.describe "Chatfuel", type: :request do
         it { is_expected.to have_http_status(:not_found) }
       end
 
+      context 'text component with one question_answer and without topic' do
+        let(:question_answer) { create(:question_answer, question: 'What up?', answer: 'The sun') }
+        before { create(:text_component, id: 1, question_answers: [question_answer], topic: nil) }
+        it { is_expected.to have_http_status(404) }
+      end
+
       context 'text component with just one question_answer' do
         let(:topic) { create(:topic, id: 1, name: "milk_quality") }
         let(:question_answer) { create(:question_answer, question: 'What up?', answer: 'The sun') }

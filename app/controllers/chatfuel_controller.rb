@@ -14,9 +14,10 @@ class ChatfuelController < ApplicationController
 
   def answer_to_question
     @text_component = TextComponent.includes(:question_answers).find(params[:text_component_id])
+    @topic = @text_component.topic
     index = params[:index].to_i - 1
     @question_answer = @text_component.question_answers[index]
-    if @question_answer
+    if @question_answer && @topic
       @next_question_answer = @text_component.question_answers[index + 1]
       render json: json_response
     else
@@ -54,7 +55,6 @@ class ChatfuelController < ApplicationController
         }
       ]
     elsif @question_answer && !@next_question_answer
-      topic = @text_component.topic
       messages =  [
           {
           attachment: {
@@ -64,7 +64,7 @@ class ChatfuelController < ApplicationController
               buttons: [
                 {
                   type: "show_block",
-                  block_name: "cont_" + topic.name,
+                  block_name: "cont_" + @topic.name,
                   title: "Zurück",
                 }
             ]
