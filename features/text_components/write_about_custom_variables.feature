@@ -4,7 +4,6 @@ Feature: Render Custom Variables in Trigger Markup
   I want to render custom variables in the markup of the report
   To reference report-specific information in triggers
 
-
   Background:
     Given my current live report is called "The Experiment"
 

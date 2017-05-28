@@ -3,7 +3,6 @@ Feature: Create Trigger
   I want to create new triggers for my live report
   To control the input for the text generator
 
-
   Background:
     Given there is a sensor live report
     And I am the journalist

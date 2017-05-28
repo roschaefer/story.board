@@ -3,7 +3,7 @@ When(/^I visit the landing page$/) do
 end
 
 When(/^I reload the page$/) do
-  page.evaluate_script("window.location.reload()")
+  visit current_path
 end
 
 Then(/^I should see:$/) do |string|
@@ -990,8 +990,7 @@ Given(/^I am logged in$/) do
 end
 
 When(/^I click on the dropdown menu with my user account on the top right$/) do
-  click_on @user.name
-  click_on 'Text components assigned to me'
+  click_on 'user-menu'
 end
 
 Then(/^I am on the text components page with only those assigned to me$/) do
