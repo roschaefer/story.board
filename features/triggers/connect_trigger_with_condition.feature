@@ -3,7 +3,6 @@ Feature: Connect with a condition
   I want to connect my triggers with certain conditions
   So I can define which trigger should occur for a certain value of a sensor
 
-  @javascript
   Scenario: Edit the Trigger and Connect with a Condition
     Given I am the journalist
     And I have a temperature sensor called "Temp23"

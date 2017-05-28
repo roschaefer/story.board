@@ -39,7 +39,7 @@ Given(/^all "([^"]*)" sensors measure in "([^"]*)"$/) do |property, unit|
 end
 
 When(/^I want to create a new sensor/) do
-  visit new_sensor_path
+  visit new_report_sensor_path(Report.current)
   fill_in :sensor_name, with: 'SensorXYZ'
 end
 
@@ -65,7 +65,7 @@ Given(/^I have a trigger with the name "([^"]*)"$/) do |name|
 end
 
 When(/^I visit the edit page of this trigger$/) do
-  visit edit_trigger_path(@trigger)
+  visit edit_report_trigger_path(Report.current, @trigger)
 end
 
 When(/^I add a condition$/) do
@@ -223,7 +223,7 @@ Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
 end
 
 When(/^I (?:see|visit) the page of (?:this|that) sensor$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
 end
 
 Then(/^fake and real data are distinguishable$/) do
@@ -536,7 +536,7 @@ Then(/^I can see that my experiment will end on "([^"]*)"$/) do |date|
 end
 
 When(/^I visit the sensors page$/) do
-  visit '/sensors'
+  visit report_sensors_path(Report.current)
 end
 
 Given(/^these are the connections between text components and triggers:$/) do |table|
@@ -625,7 +625,7 @@ Given(/^I have a sensor for "([^"]*)"$/) do |property|
 end
 
 When(/^I visit its sensor page$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
 end
 
 When(/^all subsequent sensor readings will be intercepted for a while$/) do
@@ -647,7 +647,7 @@ When(/^all subsequent sensor readings will be intercepted for a while$/) do
 end
 
 When(/^I visit the sensor page again$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
 end
 
 Then(/^the highest and lowest values will be stored as extreme values for the sensor$/) do
@@ -658,7 +658,7 @@ Then(/^the highest and lowest values will be stored as extreme values for the se
 end
 
 Then(/^I can see the calibration values on the sensor page$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
   expect(page).to have_text("17")
   expect(page).to have_text("3")
 end
@@ -697,7 +697,7 @@ Given(/^some triggers are active at certain hours:$/) do |table|
 end
 
 def edit_existing_text_component
-  visit text_components_path
+  visit report_text_components_path(Report.current)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -768,7 +768,7 @@ Given(/^that is more easy to savvy:$/) do |string|
 end
 
 When(/^I edit the easier text component$/) do
-  visit text_components_path
+  visit report_text_components_path(Report.current)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -994,11 +994,11 @@ When(/^I click on the dropdown menu with my user account on the top right$/) do
 end
 
 Then(/^I am on the text components page with only those assigned to me$/) do
-  expect(page).to have_current_path("/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
+  expect(page).to have_current_path("/reports/1/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
 end
 
 Given(/^I am on the text components page$/) do
-  visit text_components_path
+  visit report_text_components_path(Report.current)
 end
 
 When(/^I choose "([^"]*)" from "([^"]*)"$/) do |thing, options|
@@ -1024,7 +1024,7 @@ Given(/^I am on the text components show page because I just edited one$/) do
 end
 
 Given(/^I landed on the "([^"]*)" page because I just edited that component$/) do |url|
-  create(:text_component, id: url[/\d+/])
+  create(:text_component, id: url[/\d+$/])
   visit url
 end
 

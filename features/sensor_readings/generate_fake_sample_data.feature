@@ -1,3 +1,4 @@
+@javascript
 Feature: Generate Fake Sample Data
   As a journalist
   I want generate fake sensor data
@@ -8,7 +9,6 @@ Feature: Generate Fake Sample Data
     And I have a sensor for the current report called "Temperature47"
     And I am the journalist
 
-  @javascript
   Scenario: Generate Fake Sample Data
     When I visit the sensors page
     And I click on "Temperature47" to see all the sensor readings

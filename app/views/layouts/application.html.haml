@@ -55,7 +55,7 @@
                   %span.caret
                 %ul.dropdown-menu
                   %li
-                    = link_to 'Text components assigned to me', text_components_path(filter: {assignee_id: [current_user.id]})
+                    = link_to 'Text components assigned to me', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
                     = link_to 'Edit my account', edit_user_registration_path
                     = link_to 'Log out', destroy_user_session_path, method: :delete
             - else
@@ -80,6 +80,3 @@
               Text (c) Dr. Jakob Vicari. No Reporters Were Harmed. Gefördert durch  
           .col-sm-4
             =image_tag("miz-logo_v1_schrift_rechts@2x.png", height: '30', width: '250')
-  
-
-         

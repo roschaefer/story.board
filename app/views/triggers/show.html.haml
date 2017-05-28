@@ -45,7 +45,7 @@
           %td= tc.heading
 
 - if user_signed_in?
-  = link_to 'Edit', edit_trigger_path(@trigger), :class => "btn btn-primary"
-  = link_to 'Destroy', trigger_path(@trigger), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+  = link_to 'Edit', edit_report_trigger_path(@report, @trigger), :class => "btn btn-primary"
+  = link_to 'Destroy', report_trigger_path(@report, @trigger), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
 
-= link_to 'Back', triggers_path, :class => "btn btn-secondary"
+= link_to 'Back', report_triggers_path(@report), :class => "btn btn-secondary"
