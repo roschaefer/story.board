@@ -1,14 +1,16 @@
 %h1 Sensors
 %table.table.table-striped.table-hover
-  %tr
-    %th ID
-    %th Name
-    %th Address
-  - @sensors.each do |sensor|
+  %thead
     %tr
-      %td= sensor.id
-      %td= link_to sensor.name, report_sensor_path(@report, sensor)
-      %td= sensor.address
+      %th ID
+      %th Name
+      %th Address
+  %tbody
+    - @sensors.each do |sensor|
+      %tr
+        %td= sensor.id
+        %td= link_to sensor.name, report_sensor_path(@report, sensor)
+        %td= sensor.address
 
 - if user_signed_in?
   %p= link_to 'Add new sensor', new_report_sensor_path(@report, @sensor), :class => "btn btn-primary"

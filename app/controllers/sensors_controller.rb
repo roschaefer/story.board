@@ -4,7 +4,7 @@ class SensorsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @sensors = Sensor.all
+    @sensors = Sensor.where(report: @report)
   end
 
   def new

@@ -3,7 +3,7 @@ class TriggersController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
-    @triggers = Trigger.all
+    @triggers = Trigger.where(report: @report)
   end
 
   def new
