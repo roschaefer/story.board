@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Generate Fake Sample Data', type: :request do
+  let(:user) { create(:user) }
+  before { sign_in user }
   describe 'POST /sensor_readings/fake' do
     let(:sample_params) { { sensor_id: sensor.id, quantity: 3, from: 1, to: 2 } }
     let(:sensor) { create(:sensor) }
