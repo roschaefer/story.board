@@ -14,7 +14,7 @@ Feature: Assignee
   @javascript
   Scenario: Assign user
     Given we have these users in our database
-      | Email    |
+      | Name     |
       | Jane Doe |
     When I edit an existing text component
     And I choose "Jane Doe" from the dropdown menu "Assignee"

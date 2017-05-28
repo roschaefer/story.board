@@ -945,7 +945,7 @@ end
 
 Given(/^we have these users in our database$/) do |table|
   table.hashes.each do |row|
-    create(:user, name: row['Email'])
+    create(:user, name: row['Name'])
   end
 end
 
