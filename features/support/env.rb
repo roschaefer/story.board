@@ -39,7 +39,7 @@ begin
   if ENV['KEEPDATA'].present?
     DatabaseCleaner.strategy = DatabaseCleaner::NullStrategy
   else
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation
   end
 rescue NameError
   raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
@@ -64,8 +64,15 @@ end
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-Cucumber::Rails::Database.javascript_strategy = :transaction
 
+class CustomTruncationStrategy < Cucumber::Rails::Database::TruncationStrategy
+  def after
+    super
+    load Rails.root.join('db/static_seeds.rb')
+  end
+end
+# this has effect for both non-js and js features
+Cucumber::Rails::Database.javascript_strategy = CustomTruncationStrategy
 
 
 Capybara.register_driver :chrome do |app|
@@ -95,4 +102,3 @@ end
 After do
   Timecop.return
 end
-
