@@ -6,6 +6,7 @@ Feature: Text components: Priorities
 
   Background:
     Given there is a sensor live report
+    And I am the journalist
 
   Scenario: Edit Trigger Priority
     Given I have a trigger with the name "Very Important"

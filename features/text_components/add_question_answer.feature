@@ -18,6 +18,7 @@ Feature: Add a new question/answer
 
   @javascript
   Scenario: Add a one more question/answer to a text component
+    Given I am the journalist
     Given this text component has these questions and answers already:
       | Question              | Answer                      |
       | What...is your name?  | King Arthur of the Britons! |

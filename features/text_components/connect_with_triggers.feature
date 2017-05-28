@@ -5,6 +5,7 @@ Feature: Connect text components with triggers
 
   Background:
     Given there is a sensor live report
+    And I am the journalist
 
   @javascript
   Scenario: Add two triggers to the text component

@@ -21,6 +21,7 @@ Feature: Archive Reports
       | Sensor | Calibrated Value |
       | Wind   | 10km/h           |
 
+  @javascript
   Scenario: See archived reports on the landing page
     Given I visit the landing page
     And I see the current live report:
@@ -31,7 +32,7 @@ Feature: Archive Reports
     And the latest sensor data looks like this:
       | Sensor | Calibrated Value |
       | Wind   | 50km/h           |
-    And I visit the landing page again
+    And I reload the page
     Then I see the new live report:
     """
     Watch out, it's quite windy today

@@ -13,7 +13,8 @@ Feature: Assignee
 
   @javascript
   Scenario: Assign user
-    Given we have these users in our database
+    Given I am logged in
+    And we have these users in our database
       | Name     |
       | Jane Doe |
     When I edit an existing text component

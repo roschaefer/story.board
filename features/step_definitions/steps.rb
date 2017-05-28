@@ -1,7 +1,9 @@
-
-When(/^I visit the landing page/) do
-  page.reset!
+When(/^I visit the landing page$/) do
   visit root_path
+end
+
+When(/^I reload the page$/) do
+  page.evaluate_script("window.location.reload()")
 end
 
 Then(/^I should see:$/) do |string|
@@ -149,7 +151,7 @@ Then(/^I should NOT see:$/) do |string|
   expect(page).not_to have_content(string)
 end
 
-Given(/^I am the journalist$/) do
+Given(/^I am (?:a|the) (?:journalist|service team member)/) do
   @user ||= create(:user)
   log_in @user
 end
@@ -745,10 +747,6 @@ end
 
 Given(/^there is a channel called "([^"]*)"$/) do |name|
   create(:channel, name: name)
-end
-
-Given(/^I am a journalists who writes about the theory of relativity$/) do
-  # documentation
 end
 
 Given(/is too difficult for everybody to understand$/) do

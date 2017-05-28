@@ -5,12 +5,10 @@ Feature: Create Trigger
 
 
   Background:
-    Given my own account is "me@example.org"
     Given there is a sensor live report
+    And I am the journalist
 
   Scenario:
-    Given I am logged in
-    Given I am the journalist
     When I visit the landing page
     And I click on "Triggers" in my dashboard
     And I click on "Add new trigger" to create a new trigger
