@@ -150,7 +150,8 @@ Then(/^I should NOT see:$/) do |string|
 end
 
 Given(/^I am the journalist$/) do
-  # NOP: currently no authentication implemented
+  @user ||= create(:user)
+  log_in @user
 end
 
 Given(/^there is a sensor live report/) do
