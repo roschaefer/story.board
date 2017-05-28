@@ -38,7 +38,6 @@ RSpec.describe Sensor::Reading, type: :request do
       }
 
       it 'changes sensor calibration' do
-        login_user
         expect{ request }.to change{sensor.reload; sensor.min_value}.to(5.0)
       end
 
