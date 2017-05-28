@@ -61,7 +61,7 @@ Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
 end
 
 Given(/^I have a trigger with the name "([^"]*)"$/) do |name|
-  @trigger = create(:trigger, name: name)
+  @trigger = create(:trigger, name: name, report: Report.current)
 end
 
 When(/^I visit the edit page of this trigger$/) do
@@ -73,7 +73,7 @@ When(/^I add a condition$/) do
   expect(page).to have_text('Remove sensor') # wait until it's there
 end
 
-When(/^I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
+When(/^(?:when )?I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
   find('.choose_sensor').select sensor
 end
 
@@ -161,7 +161,7 @@ Given(/^there is a sensor live report/) do
   expect(Channel.sensorstory).to be_present
 end
 
-When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_date|
+When(/^(?:when )?I choose "([^"]*)" to be the start date for the experiment$/) do |start_date|
   @date = Date.parse(start_date)
 
   day, month, year = start_date.split
@@ -271,6 +271,7 @@ When(/^I select "([^"]*)" from the priorities$/) do |selection|
 end
 
 Then(/^my heading has become very important$/) do
+  expect(page).to have_text("Priority: high")
   @trigger.reload
   expect(@trigger.priority).to eq 'high'
 end
@@ -1090,7 +1091,7 @@ Then(/^I can see the current report "([^"]*)" in the menu bar$/) do |report_name
   expect(page).to have_css('#report-menu-current', text: report_name)
 end
 
-When(/^I choose "([^"]*)" to be the active report$/) do |report_name|
+When(/^(?:when )?I choose "([^"]*)" to be the active report$/) do |report_name|
   within('.report-menu', text: report_name) do
     click_on 'Live-System'
   end
@@ -1106,3 +1107,50 @@ When(/^I click on the preview of the current report$/) do
     click_on 'Preview'
   end
 end
+
+def create_records(table, record_type)
+  table.hashes.each do |row|
+    report = Report.current
+    if row['Report'].present?
+      report = Report.find_by(name: row['Report']) || create(:report, name: row['Report'])
+    end
+    create(record_type, name: row[record_type.to_s.capitalize], report: report)
+  end
+end
+
+Given(/^we have these sensors:$/) do |table|
+  create_records(table, :sensor)
+end
+
+When(/^I (?:first )?navigate to the sensor page$/) do
+  click_on 'Elements'
+  click_on 'Sensors'
+end
+
+def check_table(string, count)
+  within('table tbody') do
+    expect(page).to have_css('tr', count: count)
+    expect(page).to have_css('tr', text: string)
+  end
+end
+
+Then(/^I see only the sensor "([^"]*)"$/) do |name|
+  check_table(name, 1)
+end
+
+Given(/^we have these triggers:$/) do |table|
+  create_records(table, :trigger)
+end
+
+When(/^I (?:first )?navigate to the trigger page$/) do
+  find('li', text: 'Triggers').click
+end
+
+Then(/^I see only the trigger "([^"]*)"$/) do |name|
+  check_table(name, 1)
+end
+
+Given(/^I visit the present page of the current report$/) do
+  visit present_report_path(Report.current)
+end
+

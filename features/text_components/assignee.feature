@@ -15,6 +15,7 @@ Feature: Assignee
       | Name     |
       | Jane Doe |
 
+  @javascript
   Scenario: Assign user
     Given I am logged in
     When I edit an existing text component
