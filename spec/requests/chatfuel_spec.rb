@@ -7,6 +7,48 @@ RSpec.describe "Chatfuel", type: :request do
       response
     end
 
+    describe "/chatfuel/:topic" do
+      let(:topic_id) { 1 }
+      let(:url) { "/chatfuel/#{topic_id}" }
+      let(:chatbot_channel)   { Channel.chatbot }
+      let(:report)            { Report.current }
+
+      describe 'bogus topic' do
+        let(:topic_id) { 'blah' }
+        it { is_expected.to have_http_status(:not_found) }
+      end
+
+      describe 'topic doesn\'t exist' do
+        it { is_expected.to have_http_status(404) }
+      end
+
+      describe 'text component doesn\'t exist' do
+        before { create(:topic, id: 1, name: "milk_quality") }
+        it { is_expected.to have_http_status(404) }
+      end
+
+      describe 'existing topic' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [chatbot_channel],
+            main_part: "The main part"
+          )
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+
+        it 'should show text component text' do
+          json_response = JSON.parse(subject.body)
+          expect(json_response['messages'][0]['text']).to eq 'The main part'
+        end
+      end
+    end
+
     describe "/chatfuel/text_components/:text_component_id/answer_to_question/:index" do
       let(:text_component_id) { 1 }
       let(:index) { 1 }
