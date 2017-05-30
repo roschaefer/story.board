@@ -45,6 +45,29 @@ RSpec.describe TextComponentsController, type: :controller do
       get :index, params: {report_id: report.id,}, session: valid_session
       expect(assigns(:text_components)).to eq([text_component])
     end
+
+    context 'more than one text component for a trigger' do
+      it 'yields all the components of a trigger', issue: 375 do
+        trigger = create(:trigger, report: report, name: 'trigger_name')
+        tc1 = create(:text_component, report: report, heading: 'No trigger 1', triggers: [trigger])
+        tc2 = create(:text_component, report: report, heading: 'No trigger 2', triggers: [trigger])
+        get :index, params: {report_id: report.id,}, session: valid_session
+        for_comparison = assigns(:trigger_groups).map{|key, value| [key.map(&:name), value.map(&:heading)]}
+        expect(for_comparison).to eq([[['trigger_name'], ['No trigger 1', 'No trigger 2']]])
+      end
+    end
+
+    context 'trigger with blank name' do
+      it 'is distinguished from empty trigger' do
+        trigger = create(:trigger, report: report, id: 20, name: '')
+        tc1 = create(:text_component, report: report, heading: 'Blank name trigger',triggers: [trigger])
+        tc2 = create(:text_component, report: report, heading: 'No trigger', triggers: [])
+        get :index, params: {report_id: report.id,}, session: valid_session
+        for_comparison = assigns(:trigger_groups).map{|key, value| [key.map(&:id), value.map(&:heading)]}
+        expect(for_comparison).to eq [[[20], ['Blank name trigger']]]
+        expect(assigns(:text_components_without_triggers)).to eq([tc2])
+      end
+    end
   end
 
   describe "GET #show" do

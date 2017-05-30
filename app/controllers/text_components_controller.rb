@@ -84,10 +84,14 @@ class TextComponentsController < ApplicationController
       @new_text_component.triggers.build
       @new_text_component.report = Report.current
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
+      
       filter_text_components
-      @trigger_groups = @text_components.group_by {|t| t.triggers.to_a } # to_a turns collection_proxy into array
+      
+      @trigger_groups = @text_components.group_by {|t| t.trigger_ids }
+      @trigger_groups = @trigger_groups.map{|trigger_ids, components|  [Trigger.find(trigger_ids), components] }.to_h
+
       @text_components_without_triggers = @trigger_groups.delete([])
-      @trigger_groups = @trigger_groups.map{|key, value|  [key.map(&:name).join(', '), value] }.to_h
+
       set_form_data
     end
 
