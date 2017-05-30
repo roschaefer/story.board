@@ -85,8 +85,8 @@ class TextComponentsController < ApplicationController
       @new_text_component.report = Report.current
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
       filter_text_components
-      @trigger_groups = @text_components.group_by {|t| t.triggers }
-      @trigger_groups = @trigger_groups.map{|key, value|  [key.map(&:name).join(', '), value] }.to_h
+      @trigger_groups = @text_components.group_by {|t| t.trigger_ids }
+      @trigger_groups = @trigger_groups.map{|key, value|  [Trigger.find(key).map(&:name).join(', '), value] }.to_h
       @text_components_without_triggers = @trigger_groups.delete('')
       set_form_data
     end
