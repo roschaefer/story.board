@@ -45,6 +45,15 @@ RSpec.describe TextComponentsController, type: :controller do
       get :index, params: {}, session: valid_session
       expect(assigns(:text_components)).to eq([text_component])
     end
+
+    context 'more than one text component for a trigger' do
+      it 'yields all the components of a trigger', issue: 375 do
+        trigger = create(:trigger, name: 'trigger_name')
+        text_components = create_list(:text_component, 2, triggers: [trigger])
+        get :index, params: {}, session: valid_session
+        expect(assigns(:trigger_groups)).to eq({'trigger_name' => text_components})
+      end
+    end
   end
 
   describe "GET #show" do
