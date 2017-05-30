@@ -2,12 +2,11 @@ class ReportsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :present, :current]
 
   def current
-    current_report = Report.current
-    if current_report
+    if @report
       if params[:preview]
-        redirect_to preview_report_path(current_report)
+        redirect_to preview_report_path(@report)
       else
-        redirect_to present_report_path(current_report)
+        redirect_to present_report_path(@report)
       end
     else
       render :no_reports
@@ -15,28 +14,17 @@ class ReportsController < ApplicationController
   end
 
   def present
-    @report = Report.find(params[:id])
     @live_record = @report.compose(intention: :real, at: query_params[:point_in_time])
     @archived_records = Record.real.order(:created_at).reverse_order
   end
 
   def preview
-    @report = Report.find(params[:id])
     @live_record = @report.compose(intention: :fake, at: query_params[:point_in_time])
     @archived_records = Record.fake.order(:created_at).reverse_order
     render 'present'
   end
 
-  def edit
-    @report = Report.find(params[:id])
-  end
-
-  def show
-    @report = Report.find(params[:id])
-  end
-
   def update
-    @report = Report.find(params[:id])
     if @report.update(report_params)
       redirect_to @report
     else

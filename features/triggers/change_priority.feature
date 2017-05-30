@@ -7,6 +7,7 @@ Feature: Text components: Priorities
     Given there is a sensor live report
     And I am the journalist
 
+  @javascript
   Scenario: Edit Trigger Priority
     Given I have a trigger with the name "Very Important"
     When I visit the landing page

@@ -5,6 +5,6 @@ Feature: See edit modal in show page
 
   Scenario:
     Given I am the journalist
-    And I landed on the "/text_components/42" page because I just edited that component
+    Given I landed on the "/reports/1/text_components/42" page because I just edited that component
     When I click on "Edit text component"
     Then the edit modal pops up, allowing me to correct mistakes

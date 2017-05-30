@@ -29,7 +29,7 @@ class TextComponentsController < ApplicationController
 
     respond_to do |format|
       if @text_component.save
-        format.html { redirect_to @text_component, notice: 'Text component was successfully created.' }
+        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully created.' }
         format.json { render :show, status: :created, location: @text_component }
       else
         format.html do
@@ -46,7 +46,7 @@ class TextComponentsController < ApplicationController
   def update
     respond_to do |format|
       if @text_component.update(text_component_params)
-        format.html { redirect_to @text_component, notice: 'Text component was successfully updated.' }
+        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
         format.json { render :show, status: :ok, location: @text_component }
       else
         format.html do
@@ -63,7 +63,7 @@ class TextComponentsController < ApplicationController
   def destroy
     @text_component.destroy
     respond_to do |format|
-      format.html { redirect_to text_components_url, notice: 'Text component was successfully destroyed.' }
+      format.html { redirect_to report_text_components_path(@report), notice: 'Text component was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -84,15 +84,19 @@ class TextComponentsController < ApplicationController
       @new_text_component.triggers.build
       @new_text_component.report = Report.current
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
+      
       filter_text_components
+      
       @trigger_groups = @text_components.group_by {|t| t.trigger_ids }
       @trigger_groups = @trigger_groups.map{|trigger_ids, components|  [Trigger.find(trigger_ids), components] }.to_h
 
       @text_components_without_triggers = @trigger_groups.delete([])
+
       set_form_data
     end
 
     def filter_text_components
+      @text_components = @text_components.where(report: @report)
       @filter = params[:filter] || {}
       if @filter[:assignee_id].present?
         @text_components = @text_components.where(assignee_id: @filter[:assignee_id])

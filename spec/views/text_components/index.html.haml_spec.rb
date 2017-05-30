@@ -21,6 +21,7 @@ RSpec.describe "text_components/index", type: :view do
   end
 
   before(:each) do
+    assign(:report, report)
     assign(:text_component, TextComponent.new)
     new_text_component = TextComponent.new
     new_text_component.triggers.build

@@ -22,7 +22,7 @@ RSpec.describe ReportsController, type: :controller do
   describe 'GET #present' do
     it "renders template 'present'" do
       expect(Report.current.id).to eq 1
-      get :present, params: {id: 1}
+      get :present, params: {report_id: 1}
       expect(response).to render_template :present
     end
   end

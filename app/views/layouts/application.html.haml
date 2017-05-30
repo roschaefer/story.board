@@ -33,20 +33,20 @@
                 Elements
                 %span.caret
               %ul.dropdown-menu
-                %li= link_to "Sensors", sensors_path
+                %li= link_to "Sensors", report_sensors_path(@report)
                 %li= link_to "Events", events_path
                 %li= link_to "Actuators", actuators_path
                 %li= link_to "Chains", chains_path
-            %li= link_to "Triggers", triggers_path
-            %li= link_to "Text Components", text_components_path
-            %li.dropdown.settings
+            %li= link_to "Triggers", report_triggers_path(@report)
+            %li= link_to "Text Components", report_text_components_path(@report)
+            %li.dropdown.report-settings
               %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
-                Reports
+                Report settings
                 %span.caret
               %ul.dropdown-menu
+                %li.dropdown-header Settings
                 - Report.find_each do |report|
-                  %li
-                    %a{:href => report_path(report)}=report.name
+                  %li= link_to report.name, report_path(report)
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li.dropdown
@@ -55,7 +55,7 @@
                   %span.caret
                 %ul.dropdown-menu
                   %li
-                    = link_to 'Text components assigned to me', text_components_path(filter: {assignee_id: [current_user.id]})
+                    = link_to 'Text components assigned to me', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
                     = link_to 'Edit my account', edit_user_registration_path
                     = link_to 'Log out', destroy_user_session_path, method: :delete
             - else
@@ -68,11 +68,18 @@
           = yield
         .col-lg-3
           .well.sidebar-nav
-            %h3 Reports
-            %ul.nav.nav-list
-              %li.nav-header What your readers see
+            %h3 Current report
+            %ul#report-menu-current.nav.nav-list
+              %h5= @report.name
               %li= link_to "Live-System", "/reports/current"
               %li= link_to "Preview", "/reports/current?preview=true"
+            %h3 Other reports
+            %ul.nav.nav-list
+            - Report.find_each do |report|
+              %ul.nav.nav-pills.report-menu
+                %h5= report.name
+                %li.nav-item= link_to 'Live-System', present_report_path(report), {class: 'nav-link'}
+                %li.nav-item= link_to 'Preview', preview_report_path(report), {class: 'nav-link'}
       %footer
         .row
           .col-sm-8
@@ -80,6 +87,3 @@
               Text (c) Dr. Jakob Vicari. No Reporters Were Harmed. Gefördert durch  
           .col-sm-4
             =image_tag("miz-logo_v1_schrift_rechts@2x.png", height: '30', width: '250')
-  
-
-         

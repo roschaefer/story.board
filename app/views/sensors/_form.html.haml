@@ -1,8 +1,8 @@
-= simple_form_for @sensor do |f|
+= simple_form_for([@report, @sensor]) do |f|
   = f.error_notification
 
   .form-inputs
-    = f.association :report, :as => :hidden, :input_html => {:value => Report.current.id }
+    = f.association :report, selected: @report.id
     = f.input :name
     = f.input :address
     = f.association :sensor_type, label_method: :property, value_method: :id

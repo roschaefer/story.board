@@ -1,8 +1,8 @@
-= simple_form_for(text_component) do |f|
+= simple_form_for([@report, text_component]) do |f|
   = f.error_notification
 
   .form-inputs
-    = f.association :report
+    = f.association :report, selected: @report.id
     .row
       .col-sm-12
         #triggers
