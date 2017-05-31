@@ -9,7 +9,7 @@ class SensorDecorator
     u = @sensor.sensor_type.unit
     unless r.nil?
       v = r.calibrated_value
-      "#{format("%.1f", v)} #{u}"
+      "#{format("%.1f", v)}#{u}"
     else
       "NaN #{u}"
     end
