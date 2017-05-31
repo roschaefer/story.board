@@ -17,14 +17,31 @@ module Text
       else
         rendered = template
         rendered = render_report(rendered)
-        @text_component.sensors.each do |sensor|
-          s = SensorDecorator.new(sensor)
-          rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value(@opts))
+        
+        rendered.scan(/{\s*value\(\s*(\d+)\s*\)\s*}/).each do |sensor_id|
+          sensor = Sensor.find_by(id: sensor_id)
+          value  = "NaN"
+
+          unless sensor.nil?
+            s = SensorDecorator.new(sensor)
+            value = s.last_value(@opts)
+          end
+          
+          rendered.gsub!(/{\s*value\(\s*(\d+)\s*\)\s*}/, value)
         end
-        @text_component.events.each do |event|
-          e = EventDecorator.new(event)
-          rendered.gsub!(/({\s*#{ Regexp.quote("date(#{e.id})") }\s*})/, e.date)
+        
+        rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).each do |event_id|
+          event = Event.find_by(id: event_id)
+          value = "NaN"
+
+          unless event.nil?
+            e = EventDecorator.new(event)
+            value = e.date
+          end
+          
+          rendered.gsub!(/{\s*date\(\s*(\d+)\s*\)\s*}/, value)
         end
+
         return rendered
       end
     end
