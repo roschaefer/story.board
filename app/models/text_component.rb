@@ -17,7 +17,7 @@ class TextComponent < ActiveRecord::Base
   delegate :name, to: :topic, prefix: true, allow_nil: true
   delegate :email, to: :assignee, prefix: true, allow_nil: true
 
-  enum publication_status: [ :draft, :fact_checked, :published ]
+  enum publication_status: { :draft => 0, :fact_checked => 1, :published => 2 }
 
   def active?(opts={})
     on_time? && triggers.all? {|t| t.active?(opts) }

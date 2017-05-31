@@ -11,7 +11,7 @@ FactoryGirl.define do
 
     channels { [Channel.sensorstory] }
 
-    publication_status 2
+    publication_status :published
 
     trait :active do
       # active by default
