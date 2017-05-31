@@ -13,15 +13,6 @@ RSpec.describe "Chatfuel", type: :request do
       let(:chatbot_channel)   { Channel.chatbot }
       let(:report)            { Report.current }
 
-      describe 'bogus topic' do
-        let(:topic_id) { 'blah' }
-        it { is_expected.to have_http_status(:not_found) }
-      end
-
-      describe 'topic doesn\'t exist' do
-        it { is_expected.to have_http_status(404) }
-      end
-
       describe 'text component doesn\'t exist' do
         before { create(:topic, id: 1, name: "milk_quality") }
         it { is_expected.to have_http_status(404) }
@@ -36,7 +27,8 @@ RSpec.describe "Chatfuel", type: :request do
             report: report,
             topic: topic,
             channels: [chatbot_channel],
-            main_part: "The main part"
+            main_part: "The main part",
+            id: 1
           )
         end
 
