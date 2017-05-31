@@ -367,7 +367,11 @@ Given(/^there is a triggered text component with the following main part:$/) do 
 end
 
 Given(/^there is an unpublished text component with the following main part:$/) do |main_part|
-  create(:text_component, main_part: main_part, report: Report.current, publication_status: 0)
+  @text_component = create(:text_component, main_part: main_part, report: Report.current, publication_status: :draft)
+end
+
+Given(/I change the text component's publication status to "([^"]*)"$/) do |status|
+  @text_component.update! publication_status: status
 end
 
 Given(/^I have these active triggers:$/) do |table|
