@@ -64,7 +64,7 @@ class ChatfuelController < ApplicationController
               buttons: [
                 {
                   type: "show_block",
-                  block_name: "cont_" + @topic.name,
+                  block_name: "continue_" + @topic.name,
                   title: "Zurück",
                 }
             ]
