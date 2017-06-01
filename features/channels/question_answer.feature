@@ -64,14 +64,29 @@ Feature: Read more question
       ]
     }
     """
-  Scenario: The last answer in the queue will only send a message
+  Scenario: The last answer in the queue will send an answer and a button linking to a block, dependant on the topic (block name: cont_[topic])
     When I click the question from the second scenario
     Then the response status should be "200"
     And the JSON response should be:
     """
     {
-     "messages": [
-       {"text": "A milk truck."}
-     ]
+      "messages": [
+        {
+          "attachment": {
+            "payload":{
+              "template_type": "button",
+              "text": "A milk truck.",
+              "buttons": [
+                {
+                  "type": "show_block",
+                  "block_name":"cont_milk_quality",
+                  "title": "Zurück"
+                }
+              ]
+            },
+            "type": "template"
+          }
+        }
+      ]
     }
     """
