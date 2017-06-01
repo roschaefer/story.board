@@ -79,7 +79,7 @@ Feature: Read more question
                 {
                   "type": "show_block",
                   "block_name":"continue_milk_quality",
-                  "title": "Zurück"
+                  "title": "Danke"
                 }
               ]
             },

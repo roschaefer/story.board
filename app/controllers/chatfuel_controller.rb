@@ -65,7 +65,7 @@ class ChatfuelController < ApplicationController
                 {
                   type: "show_block",
                   block_name: "continue_" + @topic.name,
-                  title: "Zurück",
+                  title: "Danke",
                 }
             ]
             },
