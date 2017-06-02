@@ -79,8 +79,8 @@ Feature: Read more question
               "buttons": [
                 {
                   "type": "show_block",
-                  "block_name":"cont_milk_quality",
-                  "title": "Zurück"
+                  "block_name":"continue_milk_quality",
+                  "title": "Danke"
                 }
               ]
             },
