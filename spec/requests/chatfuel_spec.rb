@@ -88,7 +88,7 @@ RSpec.describe "Chatfuel", type: :request do
 
         it 'reveals the answer to the question' do
           json_response = JSON.parse(subject.body)
-          expect(json_response['messages'][0]['attachment']['payload']['text']).to eq 'The sun'
+          expect(json_response['messages'][0]['text']).to eq 'The sun'
         end
       end
 
@@ -112,7 +112,7 @@ RSpec.describe "Chatfuel", type: :request do
 
           it 'reveals last answer to the question' do
             json_response = JSON.parse(subject.body)
-            expect(json_response['messages'][0]['attachment']['payload']['text']).to eq 'The sun'
+            expect(json_response['messages'][0]['text']).to eq 'The sun'
           end
         end
       end
