@@ -1,6 +1,8 @@
 class SmaxtecApiController < ApplicationController
   require 'net/http'
 
+  # What is the best place to store the Smaxtec API account login?
+  # This is just the account for the test api
   TOKEN_EMAIL = 'superkuh@hooli.xyz'
   TOKEN_PASSWORD = 'pansen123'
   API_BASE_URL = 'https://api-staging.smaxtec.com/api/v1'
@@ -10,15 +12,12 @@ class SmaxtecApiController < ApplicationController
     @jwt = JSON.parse(jwt_request)['token']
 
     if @jwt
-      # user = send_api_request('/user')
-      # organisation_id = user["user_organisations"][0]["organisation_id"]
+
       organisation_id ='5721e3f8a80a5f54c6315131';
-      #send_api_request('/animal/by_organisation', { :organisation_id => organisation_id})[0]['_id']
       animal_id = '5722099ea80a5f54c631513d' # name = Arabella
-      # send_api_request('/data/metrics', { :animal_id => animal_id})
       metric = 'temp'
       unit = 'degree_celsius'
-      #send_api_request('/data/query', { :animal_id => animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i, :aggregation => 'hourly.mean' })
+
       temp_data = send_api_request('/data/query', { :animal_id => animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i, :aggregation => 'hourly.mean' })
 
       if temp_data && temp_data['data'].count() > 1
@@ -33,6 +32,7 @@ class SmaxtecApiController < ApplicationController
     end
   end
 
+  # get JSON Web Token for Authentification with API
   def get_jwt
     uri = URI(API_BASE_URL + '/user/get_token')
     params = { :email => TOKEN_EMAIL, :password => TOKEN_PASSWORD }
