@@ -8,10 +8,14 @@ RSpec.describe "Chatfuel", type: :request do
     end
 
     describe "/chatfuel/:topic" do
-      let(:topic_id) { 1 }
-      let(:url) { "/chatfuel/#{topic_id}" }
+      let(:topic_name) { "milk_quality" }
+      let(:url) { "/chatfuel/#{topic_name}" }
       let(:chatbot_channel)   { Channel.chatbot }
       let(:report)            { Report.current }
+
+      describe 'topic doesn\'t exist' do
+        it { is_expected.to have_http_status(404) }
+      end
 
       describe 'text component doesn\'t exist' do
         before { create(:topic, id: 1, name: "milk_quality") }
