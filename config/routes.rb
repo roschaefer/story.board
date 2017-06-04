@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # route for chatfuel questions and answers
   get 'chatfuel/text_components/:text_component_id/answer_to_question/:index', to: 'chatfuel#answer_to_question', as: 'answer_to_question'
 
-  get '/smaxtecs_api/temperature', to: 'smaxtecs_api#get_temperature'
+  get '/smaxtec_api/temperature', to: 'smaxtec_api#get_temperature'
 
   resources :channels, only: [:edit, :show, :update]
   resources :reports
