@@ -63,7 +63,7 @@ Feature: Read more question
       ]
     }
     """
-  Scenario: The last answer in the queue will send an answer and a button linking to a block, dependant on the topic (block name: cont_[topic])
+  Scenario: The last answer in the queue will send an answer and redirect to a block, dependant on the topic (block name: continue_[topic.name])
     When I click the question from the second scenario
     Then the response status should be "200"
     And the JSON response should be:
@@ -71,21 +71,9 @@ Feature: Read more question
     {
       "messages": [
         {
-          "attachment": {
-            "payload":{
-              "template_type": "button",
-              "text": "A milk truck.",
-              "buttons": [
-                {
-                  "type": "show_block",
-                  "block_name":"continue_milk_quality",
-                  "title": "Danke"
-                }
-              ]
-            },
-            "type": "template"
-          }
+          "text": "A milk truck."
         }
-      ]
+      ],
+      "redirect_to_blocks": ["continue_milk_quality"]
     }
     """
