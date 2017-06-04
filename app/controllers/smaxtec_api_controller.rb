@@ -1,9 +1,9 @@
 class SmaxtecApiController < ApplicationController
   require 'net/http'
 
-  TOKEN_EMAIL = 'superkuh@hooli.xyz'
-  TOKEN_PASSWORD = 'pansen123'
-  API_BASE_URL = 'https://api-staging.smaxtec.com/api/v1'
+  SMAXTEC_API_EMAIL = Rails.application.secrets.smaxtec_api_email
+  SMAXTEC_API_PASSWORD = Rails.application.secrets.smaxtec_api_password
+  SMAXTEC_API_BASE_URL = 'https://api-staging.smaxtec.com/api/v1'
 
   def get_temperature
     jwt_request = get_jwt
@@ -34,8 +34,8 @@ class SmaxtecApiController < ApplicationController
   end
 
   def get_jwt
-    uri = URI(API_BASE_URL + '/user/get_token')
-    params = { :email => TOKEN_EMAIL, :password => TOKEN_PASSWORD }
+    uri = URI(SMAXTEC_API_BASE_URL + '/user/get_token')
+    params = { :email => SMAXTEC_API_EMAIL, :password => SMAXTEC_API_PASSWORD }
     uri.query = URI.encode_www_form(params)
 
     response = Net::HTTP.get_response(uri)
@@ -48,7 +48,7 @@ class SmaxtecApiController < ApplicationController
   end
 
   def send_api_request(url, params=nil)
-    uri = URI(API_BASE_URL + url)
+    uri = URI(SMAXTEC_API_BASE_URL + url)
 
     if params
       uri.query = URI.encode_www_form(params)
