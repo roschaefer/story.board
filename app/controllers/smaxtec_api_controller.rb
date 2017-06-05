@@ -7,9 +7,9 @@ class SmaxtecApiController < ApplicationController
 
   def get_temperature
     jwt_request = get_jwt
-    @jwt = JSON.parse(jwt_request)['token']
 
-    if @jwt
+    if jwt_request
+      @jwt = JSON.parse(jwt_request)['token']
       organisation_id ='5721e3f8a80a5f54c6315131';
       animal_id = '5722099ea80a5f54c631513d' # name = Arabella
       metric = 'temp'
