@@ -17,28 +17,20 @@ module Text
       else
         rendered = template
         rendered = render_report(rendered)
-        
-        rendered.scan(/{\s*value\(\s*(\d+)\s*\)\s*}/).each do |sensor_id|
-          sensor = Sensor.find_by(id: sensor_id)
 
-          unless sensor.nil?
-            s = SensorDecorator.new(sensor)
-            rendered.gsub!(/{\s*value\(\s*(\d+)\s*\)\s*}/, s.last_value(@opts))
-          end
-          
+        sensor_markup = rendered.scan(/{\s*value\(\s*(\d+)\s*\)\s*}/).flatten
+        Sensor.where(:id => sensor_markup).each do |sensor|
+          s = SensorDecorator.new(sensor)
+          rendered.gsub!(/({\s*value\(\s*(#{ s.id })\s*\)\s*})/, s.last_value(@opts))
         end
         
-        rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).each do |event_id|
-          event = Event.find_by(id: event_id)
-
-          unless event.nil?
-            e = EventDecorator.new(event)
-            rendered.gsub!(/{\s*date\(\s*(\d+)\s*\)\s*}/, e.date)
-          end
-          
+        event_markup = rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).flatten
+        Event.where(:id => event_markup).each do |event|
+          e = EventDecorator.new(event)
+          rendered.gsub!(/({\s*date\(\s*(#{ e.id })\s*\)\s*})/, e.date)
         end
 
-        return rendered
+        rendered
       end
     end
 
