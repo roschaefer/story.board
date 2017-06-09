@@ -27,24 +27,22 @@ Topic.find_or_create_by(name: "calf")
 Topic.find_or_create_by(name: "noise")
 Topic.find_or_create_by(name: "health")
 
-Report.find_each do |report|
-  default_channel = Channel.find_or_create_by(
-    report: report,
-    name: "sensorstory"
-  ) do |c|
-    c.description = "Default Channel"
-  end
 
-  Channel.find_or_create_by(
-    report: report,
-    name: "chatbot"
-  ) do |c|
-    c.description = "Chatbot Channel"
-  end
+# Create default channels:
 
-  report.text_components.each do |text_component|
-    text_component.channels << default_channel unless text_component.channels.include?(default_channel)
-  end
+default_channel = Channel.find_or_create_by(name: 'sensorstory') do |c|
+  c.description = 'Default Channel'
+end
+
+Channel.find_or_create_by(name: 'chatbot') do |c|
+  c.description = 'Chatbot Channel'
+end
+
+# Make sure every TextComponent belongs to the default channel named "sensorstory":
+# FIXME: Should not be part of the seed, could for example be a `after_create` callback instead
+
+TextComponent.find_each do |text_component|
+ text_component.channels << default_channel unless text_component.include?(default_channel)
 end
 
 attribute_hashes = [
