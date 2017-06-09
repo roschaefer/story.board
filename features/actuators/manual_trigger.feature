@@ -5,9 +5,10 @@ Feature: Manual trigger
   To check if it works correctly
 
   Background:
-    Given there is a sensor live report
-    Given my reporter box has the id "1e0033001747343339383037"
-    Given there is an actuator connected at port "4" that controls a light in my reporter box
+    Given I am a service team member
+    And there is a sensor live report
+    And my reporter box has the id "1e0033001747343339383037"
+    And there is an actuator connected at port "4" that controls a light in my reporter box
     And I visit the page of this actuator
 
   Scenario: Activate the actuator

@@ -5,17 +5,20 @@
     %tr
       %th Name
       %th Happened at
-      %th
-      %th
+      - if user_signed_in?
+        %th
+        %th
 
   %tbody
     - @events.each do |event|
       %tr
         %td= event.name
         %td= event.happened_at
-        %td= link_to 'Edit', edit_event_path(event)
-        %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        - if user_signed_in?
+          %td= link_to 'Edit', edit_event_path(event)
+          %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Event', new_event_path, :class => "btn btn-primary"
+- if user_signed_in?
+  = link_to 'New Event', new_event_path, :class => "btn btn-primary"

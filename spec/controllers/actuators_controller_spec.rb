@@ -19,6 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe ActuatorsController, type: :controller do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # Actuator. As you add validations to Actuator, be sure to

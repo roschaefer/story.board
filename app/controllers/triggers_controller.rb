@@ -1,8 +1,9 @@
 class TriggersController < ApplicationController
   before_action :set_trigger, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
-    @triggers = Trigger.all
+    @triggers = Trigger.where(report: @report)
   end
 
   def new
@@ -21,7 +22,7 @@ class TriggersController < ApplicationController
 
     respond_to do |format|
       if @trigger.save
-        format.html { redirect_to @trigger, notice: 'Trigger was successfully created.' }
+        format.html { redirect_to report_trigger_url(@report, @trigger), notice: 'Trigger was successfully created.' }
         format.json { render :show, status: :created, location: @trigger }
       else
         format.html { render :new }
@@ -33,7 +34,7 @@ class TriggersController < ApplicationController
   def update
     respond_to do |format|
       if @trigger.update(trigger_params)
-        format.html { redirect_to @trigger, notice: 'Trigger was successfully updated.' }
+        format.html { redirect_to report_trigger_url(@report, @trigger), notice: 'Trigger was successfully updated.' }
         format.json { render :show, status: :ok, location: @trigger }
       else
         format.html { render :edit }
@@ -45,7 +46,7 @@ class TriggersController < ApplicationController
   def destroy
     @trigger.destroy
     respond_to do |format|
-      format.html { redirect_to triggers_url, notice: 'Trigger was successfully destroyed.' }
+      format.html { redirect_to report_triggers_url(@report), notice: 'Trigger was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

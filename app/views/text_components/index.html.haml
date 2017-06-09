@@ -41,16 +41,18 @@
 .row
   .col-sm-12
     %h1 Text components
+
+- if user_signed_in?
+  .row
+    .col-sm-12
+      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
+        Create new text component
 .row
   .col-sm-12
-    %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
-      Create new text component
-.row
-  .col-sm-12
-    = form_tag(text_components_path, {method: :get}) do
+    = form_tag(report_text_components_path(@report), {method: :get}) do
       .form-group
         = label :filter, :assignee_id, 'By assignee', class: 'col-2 col-form-label'
-        = collection_select(:filter, :assignee_id, User.all, :id, :email, {include_blank: true, selected: @filter[:assignee_id]}, {'class' => 'selectpicker', 'title' => '...choose a user'})
+        = collection_select(:filter, :assignee_id, User.all, :id, :name, {include_blank: true, selected: @filter[:assignee_id]}, {'class' => 'selectpicker', 'title' => '...choose a user'})
       = submit_tag 'Filter', class: 'col-2 btn btn-primary btn-lg pull-right'
 .row
   .col-sm-12
@@ -65,10 +67,10 @@
           %th
           %th
       %tbody
-        - @trigger_groups.each do |trigger_names, text_components|
+        - @trigger_groups.each do |triggers, text_components|
           %tr
             %td{colspan: 7}
-              %strong= trigger_names
+              %strong= triggers.map(&:name).join(', ')
           - text_components.each do |text_component|
             = render 'text_component_row', text_component: text_component
         - if @text_components_without_triggers
@@ -77,7 +79,9 @@
               %strong Text components without triggers
           - @text_components_without_triggers.each do |text_component|
             = render 'text_component_row', text_component: text_component
-.row
-  .col-sm-12
-    %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
-      Create new text component
+
+- if user_signed_in?
+  .row
+    .col-sm-12
+      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
+        Create new text component

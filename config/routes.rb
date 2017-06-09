@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :text_components, except: [:edit, :new]
   resources :chains
   resources :actuators do
     member do
@@ -15,21 +14,23 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
 
   get 'reports/current', to: 'reports#current', as: 'current_report'
-  get 'reports/present/:id', to: 'reports#present', as: 'present_report'
-  get 'reports/preview/:id', to: 'reports#preview', as: 'preview_report'
+  get 'reports/present/:report_id', to: 'reports#present', as: 'present_report'
+  get 'reports/preview/:report_id', to: 'reports#preview', as: 'preview_report'
 
   get 'chatfuel/:topic', to: 'chatfuel#show'
   # route for chatfuel questions and answers
   get 'chatfuel/text_components/:text_component_id/answer_to_question/:index', to: 'chatfuel#answer_to_question', as: 'answer_to_question'
 
   resources :channels, only: [:edit, :show, :update]
-  resources :reports
 
-  resources :triggers
-  resources :sensors do
-    member do
-      put :start_calibration
-      put :stop_calibration
+  resources :reports do
+    resources :text_components, except: [:edit, :new]
+    resources :triggers
+    resources :sensors do
+      member do
+        put :start_calibration
+        put :stop_calibration
+      end
     end
   end
   resources :sensor_readings, default: { format: :json }

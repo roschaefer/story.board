@@ -5,6 +5,7 @@ Feature: Select Sensor Type and Sensor ID
 
   Background:
     Given there is a sensor live report
+    And I am a journalist
 
   Scenario: Create new Sensor and Select Sensor Type
     Given all "Temperature" sensors measure in "Celsius"

@@ -3,10 +3,11 @@ Feature: Text components: Priorities
   I want to store priorities for triggers
   So the sensor.bot can make a selection if not all triggers fit into a report
 
-
   Background:
     Given there is a sensor live report
+    And I am the journalist
 
+  @javascript
   Scenario: Edit Trigger Priority
     Given I have a trigger with the name "Very Important"
     When I visit the landing page

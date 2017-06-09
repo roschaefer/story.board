@@ -3,6 +3,7 @@ Feature: Read more question
   As a reader using the Facebook Messenger
   I want to be asked, if i want to continue reading
   In order not to be overwhelmed by the amount of text
+
   Background:
     Given a topic "milk_quality"
     And we have an active text component with the id 1 for that topic with these question/answers:
@@ -63,14 +64,17 @@ Feature: Read more question
       ]
     }
     """
-  Scenario: The last answer in the queue will only send a message
+  Scenario: The last answer in the queue will send an answer and redirect to a block, dependant on the topic (block name: continue_[topic.name])
     When I click the question from the second scenario
     Then the response status should be "200"
     And the JSON response should be:
     """
     {
-     "messages": [
-       {"text": "A milk truck."}
-     ]
+      "messages": [
+        {
+          "text": "A milk truck."
+        }
+      ],
+      "redirect_to_blocks": ["continue_milk_quality"]
     }
     """

@@ -14,9 +14,10 @@ class ChatfuelController < ApplicationController
 
   def answer_to_question
     @text_component = TextComponent.includes(:question_answers).find(params[:text_component_id])
+    @topic = @text_component.topic
     index = params[:index].to_i - 1
     @question_answer = @text_component.question_answers[index]
-    if @question_answer
+    if @question_answer && @topic
       @next_question_answer = @text_component.question_answers[index + 1]
       render json: json_response
     else
@@ -35,34 +36,39 @@ class ChatfuelController < ApplicationController
     end
 
     if @next_question_answer
-      messages =  [
-          {
-          attachment: {
-            payload: {
-              template_type: "button",
-              text: "#{content}",
-              buttons: [
-                {
-                  url: answer_to_question_url(text_component_id: @text_component, index: @text_component.question_answers.index(@next_question_answer) + 1),
-                  type: "json_plugin_url",
-                  title: @next_question_answer.question
-                }
-            ]
-            },
-            type: "template"
+      {
+        messages: [
+            {
+            attachment: {
+              payload: {
+                template_type: "button",
+                text: "#{content}",
+                buttons: [
+                  {
+                    url: answer_to_question_url(text_component_id: @text_component, index: @text_component.question_answers.index(@next_question_answer) + 1),
+                    type: "json_plugin_url",
+                    title: @next_question_answer.question
+                  }
+              ]
+              },
+              type: "template"
+            }
           }
-        }
-      ]
+        ]
+      }
+    elsif @question_answer && !@next_question_answer
+      {
+        messages: [
+            { text: content.first(640) }
+        ],
+        redirect_to_blocks: ["continue_" + @topic.name]
+      }
     else
-      messages =  [
-        { text: content.first(640)} # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
-      ]
+      {
+        messages: [
+          { text: content.first(640) } # Messages for Facebook Messenger can only be 640 characters long. Source: https://developers.facebook.com/docs/messenger-platform/send-api-reference#request
+        ]
+      }
     end
-
-    # return this hash
-    {
-      messages: messages
-    }
-
   end
 end

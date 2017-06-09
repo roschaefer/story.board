@@ -19,6 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe TextComponentsController, type: :controller do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # TextComponent. As you add validations to TextComponent, be sure to
@@ -41,15 +42,38 @@ RSpec.describe TextComponentsController, type: :controller do
   describe "GET #index" do
     it "assigns all text_components as @text_components" do
       text_component = create(:text_component, valid_attributes)
-      get :index, params: {}, session: valid_session
+      get :index, params: {report_id: report.id,}, session: valid_session
       expect(assigns(:text_components)).to eq([text_component])
+    end
+
+    context 'more than one text component for a trigger' do
+      it 'yields all the components of a trigger', issue: 375 do
+        trigger = create(:trigger, report: report, name: 'trigger_name')
+        tc1 = create(:text_component, report: report, heading: 'No trigger 1', triggers: [trigger])
+        tc2 = create(:text_component, report: report, heading: 'No trigger 2', triggers: [trigger])
+        get :index, params: {report_id: report.id,}, session: valid_session
+        for_comparison = assigns(:trigger_groups).map{|key, value| [key.map(&:name), value.map(&:heading)]}
+        expect(for_comparison).to eq([[['trigger_name'], ['No trigger 1', 'No trigger 2']]])
+      end
+    end
+
+    context 'trigger with blank name' do
+      it 'is distinguished from empty trigger' do
+        trigger = create(:trigger, report: report, id: 20, name: '')
+        tc1 = create(:text_component, report: report, heading: 'Blank name trigger',triggers: [trigger])
+        tc2 = create(:text_component, report: report, heading: 'No trigger', triggers: [])
+        get :index, params: {report_id: report.id,}, session: valid_session
+        for_comparison = assigns(:trigger_groups).map{|key, value| [key.map(&:id), value.map(&:heading)]}
+        expect(for_comparison).to eq [[[20], ['Blank name trigger']]]
+        expect(assigns(:text_components_without_triggers)).to eq([tc2])
+      end
     end
   end
 
   describe "GET #show" do
     it "assigns the requested text_component as @text_component" do
       text_component = create(:text_component, valid_attributes)
-      get :show, params: {:id => text_component.to_param}, session: valid_session
+      get :show, params: {report_id: report.id,:id => text_component.to_param}, session: valid_session
       expect(assigns(:text_component)).to eq(text_component)
     end
   end
@@ -58,26 +82,26 @@ RSpec.describe TextComponentsController, type: :controller do
     context "with valid params" do
       it "creates a new TextComponent" do
         expect {
-          post :create, params: {:text_component => valid_attributes}, session: valid_session
+          post :create, params: {report_id: report.id,:text_component => valid_attributes}, session: valid_session
         }.to change(TextComponent, :count).by(1)
       end
 
       it "assigns a newly created text_component as @text_component" do
-        post :create, params: {:text_component => valid_attributes}, session: valid_session
+        post :create, params: {report_id: report.id,:text_component => valid_attributes}, session: valid_session
         expect(assigns(:text_component)).to be_a(TextComponent)
         expect(assigns(:text_component)).to be_persisted
       end
 
       it "redirects to the created text_component" do
-        post :create, params: {:text_component => valid_attributes}, session: valid_session
-        expect(response).to redirect_to(TextComponent.last)
+        post :create, params: {report_id: report.id,:text_component => valid_attributes}, session: valid_session
+        expect(response).to redirect_to(report_text_component_path(report, TextComponent.last))
       end
 
       describe 'with a new trigger' do
         it 'assigns the report for the trigger, if missing' do
           attributes = valid_attributes.merge(triggers_attributes: [{name: 'Trigger name', report_id: nil}])
           expect {
-            post :create, params: {text_component: attributes}, session: valid_session
+            post :create, params: {report_id: report.id,text_component: attributes}, session: valid_session
           }.to change(Trigger, :count).by(1)
         end
       end
@@ -85,12 +109,12 @@ RSpec.describe TextComponentsController, type: :controller do
 
     context "with invalid params" do
       it "assigns a newly created but unsaved text_component as @text_component" do
-        post :create, params: {:text_component => invalid_attributes}, session: valid_session
+        post :create, params: {report_id: report.id,:text_component => invalid_attributes}, session: valid_session
         expect(assigns(:text_component)).to be_a_new(TextComponent)
       end
 
       it "re-renders the 'index' template" do
-        post :create, params: {:text_component => invalid_attributes}, session: valid_session
+        post :create, params: {report_id: report.id,:text_component => invalid_attributes}, session: valid_session
         expect(response).to render_template("index")
       end
     end
@@ -107,7 +131,7 @@ RSpec.describe TextComponentsController, type: :controller do
 
         it "destroys associated question/answers" do
           expect(text_component.question_answers).not_to be_empty
-          put :update, params: {:id => text_component.id, text_component: { question_answers_attributes: question_answers_attributes } }, session: valid_session
+          put :update, params: {report_id: report.id,:id => text_component.id, text_component: { question_answers_attributes: question_answers_attributes } }, session: valid_session
           text_component.reload
           expect(text_component.question_answers).to be_empty
         end
@@ -121,7 +145,7 @@ RSpec.describe TextComponentsController, type: :controller do
 
       it "updates the requested text_component" do
         text_component = create(:text_component, valid_attributes)
-        put :update, params: {:id => text_component.to_param, :text_component => new_attributes}, session: valid_session
+        put :update, params: {report_id: report.id,:id => text_component.to_param, :text_component => new_attributes}, session: valid_session
         text_component.reload
         expect(text_component.heading).to eq 'A new heading'
         expect(text_component.main_part).to eq 'Plus a main part'
@@ -129,27 +153,27 @@ RSpec.describe TextComponentsController, type: :controller do
 
       it "assigns the requested text_component as @text_component" do
         text_component = create(:text_component, valid_attributes)
-        put :update, params: {:id => text_component.to_param, :text_component => valid_attributes}, session: valid_session
+        put :update, params: {report_id: report.id,:id => text_component.to_param, :text_component => valid_attributes}, session: valid_session
         expect(assigns(:text_component)).to eq(text_component)
       end
 
       it "redirects to the text_component" do
         text_component = create(:text_component, valid_attributes)
-        put :update, params: {:id => text_component.to_param, :text_component => valid_attributes}, session: valid_session
-        expect(response).to redirect_to(text_component)
+        put :update, params: {report_id: report.id,:id => text_component.to_param, :text_component => valid_attributes}, session: valid_session
+        expect(response).to redirect_to(report_text_component_path(report, text_component))
       end
     end
 
     context "with invalid params" do
       it "assigns the text_component as @text_component" do
         text_component = create(:text_component, valid_attributes)
-        put :update, params: {:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
+        put :update, params: {report_id: report.id,:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
         expect(assigns(:text_component)).to eq(text_component)
       end
 
       it "re-renders the 'index' template" do
         text_component = create(:text_component, valid_attributes)
-        put :update, params: {:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
+        put :update, params: {report_id: report.id,:id => text_component.to_param, :text_component => invalid_attributes}, session: valid_session
         expect(response).to render_template("index")
       end
     end
@@ -159,14 +183,14 @@ RSpec.describe TextComponentsController, type: :controller do
     it "destroys the requested text_component" do
       text_component = create(:text_component, valid_attributes)
       expect {
-        delete :destroy, params: {:id => text_component.to_param}, session: valid_session
+        delete :destroy, params: {report_id: report.id,:id => text_component.to_param}, session: valid_session
       }.to change(TextComponent, :count).by(-1)
     end
 
     it "redirects to the text_components list" do
       text_component = create(:text_component, valid_attributes)
-      delete :destroy, params: {:id => text_component.to_param}, session: valid_session
-      expect(response).to redirect_to(text_components_url)
+      delete :destroy, params: {report_id: report.id,:id => text_component.to_param}, session: valid_session
+      expect(response).to redirect_to(report_text_components_url(report))
     end
   end
 

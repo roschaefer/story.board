@@ -15,10 +15,15 @@
       %th Function
       %th Executed
       = render @actuator.commands
-%p
-  = button_to 'Activate', [:activate, @actuator], {class: 'btn btn-primary'}
-%p
-  = button_to 'Deactivate', [:deactivate, @actuator], {class: 'btn btn-danger'}
 
-= link_to 'Edit', edit_actuator_path(@actuator), :class => "btn btn-primary"
-= link_to 'Back', actuators_path, :class => "btn btn-secondary"
+- if user_signed_in?
+  %p
+    = button_to 'Activate', [:activate, @actuator], {class: 'btn btn-primary'}
+  %p
+    = button_to 'Deactivate', [:deactivate, @actuator], {class: 'btn btn-danger'}
+
+- if user_signed_in?
+  = link_to 'Edit', edit_actuator_path(@actuator), :class => "btn btn-primary"
+
+
+= link_to 'Back', actuators_path, :class => "btn btn-default"

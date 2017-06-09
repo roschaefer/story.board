@@ -5,7 +5,8 @@ Feature: Add timeliness constraint
   Because e.g. a loud noise from five days ago is not relevant anymore
 
   Background:
-    Given I have a temperature sensor called "LoudNoises"
+    Given I am the journalist
+    And I have a temperature sensor called "LoudNoises"
     And I have a trigger with the name "BOOM! What was that?"
 
   Scenario: Add a timeliness constraint to a trigger

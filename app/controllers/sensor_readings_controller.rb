@@ -1,4 +1,5 @@
 class SensorReadingsController < ApplicationController
+
   def create
     @sensor_reading = Sensor::Reading.new(sensor_reading_params)
     respond_to do |format|

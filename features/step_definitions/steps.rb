@@ -1,7 +1,9 @@
-
-When(/^I visit the landing page/) do
-  page.reset!
+When(/^I visit the landing page$/) do
   visit root_path
+end
+
+When(/^I reload the page$/) do
+  visit current_path
 end
 
 Then(/^I should see:$/) do |string|
@@ -37,7 +39,7 @@ Given(/^all "([^"]*)" sensors measure in "([^"]*)"$/) do |property, unit|
 end
 
 When(/^I want to create a new sensor/) do
-  visit new_sensor_path
+  visit new_report_sensor_path(Report.current)
   fill_in :sensor_name, with: 'SensorXYZ'
 end
 
@@ -59,11 +61,11 @@ Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
 end
 
 Given(/^I have a trigger with the name "([^"]*)"$/) do |name|
-  @trigger = create(:trigger, name: name)
+  @trigger = create(:trigger, name: name, report: Report.current)
 end
 
 When(/^I visit the edit page of this trigger$/) do
-  visit edit_trigger_path(@trigger)
+  visit edit_report_trigger_path(Report.current, @trigger)
 end
 
 When(/^I add a condition$/) do
@@ -71,7 +73,7 @@ When(/^I add a condition$/) do
   expect(page).to have_text('Remove sensor') # wait until it's there
 end
 
-When(/^I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
+When(/^(?:when )?I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
   find('.choose_sensor').select sensor
 end
 
@@ -149,8 +151,9 @@ Then(/^I should NOT see:$/) do |string|
   expect(page).not_to have_content(string)
 end
 
-Given(/^I am the journalist$/) do
-  # NOP: currently no authentication implemented
+Given(/^I am (?:a|the) (?:journalist|service team member)/) do
+  @user ||= create(:user)
+  log_in @user
 end
 
 Given(/^there is a sensor live report/) do
@@ -158,7 +161,7 @@ Given(/^there is a sensor live report/) do
   expect(Channel.sensorstory).to be_present
 end
 
-When(/^I choose "([^"]*)" to be the start date for the experiment$/) do |start_date|
+When(/^(?:when )?I choose "([^"]*)" to be the start date for the experiment$/) do |start_date|
   @date = Date.parse(start_date)
 
   day, month, year = start_date.split
@@ -178,7 +181,7 @@ Given(/^my current live report is called "([^"]*)"$/) do |name|
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  click_on 'Reports'
+  click_on 'Report settings'
   click_on name
 end
 
@@ -220,7 +223,7 @@ Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
 end
 
 When(/^I (?:see|visit) the page of (?:this|that) sensor$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
 end
 
 Then(/^fake and real data are distinguishable$/) do
@@ -268,6 +271,7 @@ When(/^I select "([^"]*)" from the priorities$/) do |selection|
 end
 
 Then(/^my heading has become very important$/) do
+  expect(page).to have_text("Priority: high")
   @trigger.reload
   expect(@trigger.priority).to eq 'high'
 end
@@ -358,8 +362,8 @@ When(/^I change the name of the report to "([^"]*)"$/) do |name|
 end
 
 Then(/^I see the new name in the settings menu above$/) do
-  expect(page).to have_css('.dropdown.settings')
-  expect(find('.dropdown.settings .dropdown-menu')).to have_text @report_name
+  expect(page).to have_css('.dropdown.report-settings')
+  expect(find('.dropdown.report-settings .dropdown-menu')).to have_text @report_name
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
@@ -541,7 +545,7 @@ Then(/^I can see that my experiment will end on "([^"]*)"$/) do |date|
 end
 
 When(/^I visit the sensors page$/) do
-  visit '/sensors'
+  visit report_sensors_path(Report.current)
 end
 
 Given(/^these are the connections between text components and triggers:$/) do |table|
@@ -630,7 +634,7 @@ Given(/^I have a sensor for "([^"]*)"$/) do |property|
 end
 
 When(/^I visit its sensor page$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
 end
 
 When(/^all subsequent sensor readings will be intercepted for a while$/) do
@@ -652,7 +656,7 @@ When(/^all subsequent sensor readings will be intercepted for a while$/) do
 end
 
 When(/^I visit the sensor page again$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
 end
 
 Then(/^the highest and lowest values will be stored as extreme values for the sensor$/) do
@@ -663,7 +667,7 @@ Then(/^the highest and lowest values will be stored as extreme values for the se
 end
 
 Then(/^I can see the calibration values on the sensor page$/) do
-  visit sensor_path(@sensor)
+  visit report_sensor_path(Report.current, @sensor)
   expect(page).to have_text("17")
   expect(page).to have_text("3")
 end
@@ -702,7 +706,7 @@ Given(/^some triggers are active at certain hours:$/) do |table|
 end
 
 def edit_existing_text_component
-  visit text_components_path
+  visit report_text_components_path(Report.current)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -754,10 +758,6 @@ Given(/^there is a channel called "([^"]*)"$/) do |name|
   create(:channel, name: name)
 end
 
-Given(/^I am a journalists who writes about the theory of relativity$/) do
-  # documentation
-end
-
 Given(/is too difficult for everybody to understand$/) do
   # documentation
 end
@@ -777,7 +777,7 @@ Given(/^that is more easy to savvy:$/) do |string|
 end
 
 When(/^I edit the easier text component$/) do
-  visit text_components_path
+  visit report_text_components_path(Report.current)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -953,12 +953,12 @@ end
 
 Given(/^we have these users in our database$/) do |table|
   table.hashes.each do |row|
-    create(:user, email: row['Email'])
+    create(:user, name: row['Name'])
   end
 end
 
 When(/^I edit an existing text component$/) do
-  @text_component = create(:text_component)
+  @text_component = create(:text_component, report: Report.current)
   edit_existing_text_component
 end
 
@@ -968,23 +968,30 @@ end
 
 Then(/^I can see that Jane was assigned to the text component$/) do
   within '.assignee' do
-    expect(page).to have_text 'jane.doe@example.org'
+    expect(page).to have_text 'Jane Doe'
   end
 end
 
 Given(/^we have these text components:$/) do |table|
   table.hashes.each do |row|
+    assignee = nil
     if row['Assignee'].present?
-      assignee = User.find_by(email: row['Assignee']) || create(:user, email: row['Assignee'])
+      assignee = User.find_by(name: row['Assignee']) || create(:user, name: row['Assignee'])
     else
       assignee = nil
     end
-    create(:text_component, heading: row['Text component'], assignee: assignee)
+
+    report = Report.current
+    if row['Report'].present?
+      report = Report.find_by(name: row['Report']) || create(:report, name: row['Report'])
+    end
+
+    create(:text_component, report: report, heading: row['Text component'], assignee: assignee)
   end
 end
 
-Given(/^my own account is "([^"]*)"$/) do |email|
-  @user = create(:user, email: email)
+Given(/^my user name is "([^"]*)"$/) do |name|
+  @user = create(:user, name: name)
 end
 
 def log_in(user)
@@ -999,16 +1006,15 @@ Given(/^I am logged in$/) do
 end
 
 When(/^I click on the dropdown menu with my user account on the top right$/) do
-  click_on @user.email
-  click_on 'Text components assigned to me'
+  click_on 'user-menu'
 end
 
 Then(/^I am on the text components page with only those assigned to me$/) do
-  expect(page).to have_current_path("/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
+  expect(page).to have_current_path("/reports/1/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
 end
 
 Given(/^I am on the text components page$/) do
-  visit text_components_path
+  visit report_text_components_path(Report.current)
 end
 
 When(/^I choose "([^"]*)" from "([^"]*)"$/) do |thing, options|
@@ -1034,7 +1040,7 @@ Given(/^I am on the text components show page because I just edited one$/) do
 end
 
 Given(/^I landed on the "([^"]*)" page because I just edited that component$/) do |url|
-  create(:text_component, id: url[/\d+/])
+  create(:text_component, id: url[/\d+$/])
   visit url
 end
 
@@ -1044,3 +1050,115 @@ Then(/^the edit modal pops up, allowing me to correct mistakes$/) do
   click_on 'Update Text component'
   expect(page).to have_css('b', text: 'Another heading')
 end
+
+Given(/^I am on the signup page$/) do
+  visit new_user_registration_path
+end
+
+Given(/^I fill in a valid email and a password$/) do
+  fill_in 'Email', with: 'max@mustermann.de'
+  fill_in 'user_password', with: 'password123'
+  fill_in 'user_password_confirmation', with: 'password123'
+end
+
+Then(/^I see the error message: "([^"]*)"$/) do |error_message|
+end
+
+Then(/^I see error message telling me the user name can't be blank$/) do
+  within('.form-group', text: 'Name') do
+    expect(page).to have_text("can't be blank")
+  end
+end
+
+Given(/^I am user "([^"]*)" and I am logged in$/) do |name|
+  @user = create(:user, name: name)
+  log_in(@user)
+end
+
+When(/^I edit my account and fill in my new name "([^"]*)"$/) do |name|
+  visit edit_user_registration_path
+  fill_in 'user_name', with: name
+end
+
+Then(/^I just need to confirm my password and click on "([^"]*)"$/) do |button|
+  fill_in 'Current password', with: @user.password
+  click_on button
+end
+
+Then(/^I can see, I'm called "([^"]*)" now$/) do |new_name|
+  expect(page).to have_text(new_name)
+end
+
+Given(/^the current report is "([^"]*)"$/) do |name|
+  current_report = Report.current
+  current_report.name = name
+  current_report.save!
+end
+
+Then(/^I can see the current report "([^"]*)" in the menu bar$/) do |report_name|
+  expect(page).to have_css('#report-menu-current', text: report_name)
+end
+
+When(/^(?:when )?I choose "([^"]*)" to be the active report$/) do |report_name|
+  within('.report-menu', text: report_name) do
+    click_on 'Live-System'
+  end
+end
+
+Given(/^I(?: first)? navigate to the text component page$/) do
+  expect(page).to have_css('a', text: 'Text Components')
+  click_on 'Text Components'
+end
+
+When(/^I click on the preview of the current report$/) do
+  within('#report-menu-current') do
+    click_on 'Preview'
+  end
+end
+
+def create_records(table, record_type)
+  table.hashes.each do |row|
+    report = Report.current
+    if row['Report'].present?
+      report = Report.find_by(name: row['Report']) || create(:report, name: row['Report'])
+    end
+    create(record_type, name: row[record_type.to_s.capitalize], report: report)
+  end
+end
+
+Given(/^we have these sensors:$/) do |table|
+  create_records(table, :sensor)
+end
+
+When(/^I (?:first )?navigate to the sensor page$/) do
+  click_on 'Elements'
+  click_on 'Sensors'
+end
+
+def check_table(string, count)
+  within('table tbody') do
+    expect(page).to have_css('tr', count: count)
+    expect(page).to have_css('tr', text: string)
+  end
+end
+
+Then(/^I see only the sensor "([^"]*)"$/) do |name|
+  check_table(name, 1)
+end
+
+Given(/^we have these triggers:$/) do |table|
+  create_records(table, :trigger)
+end
+
+When(/^I (?:first )?navigate to the trigger page$/) do
+  find('li', text: 'Triggers').click
+end
+
+Then(/^I see only the trigger "([^"]*)"$/) do |name|
+  check_table(name, 1)
+end
+
+Given(/^I visit the present page of the current report$/) do
+  visit present_report_path(Report.current)
+end
+

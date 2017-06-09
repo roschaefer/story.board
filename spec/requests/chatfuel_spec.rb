@@ -7,6 +7,40 @@ RSpec.describe "Chatfuel", type: :request do
       response
     end
 
+    describe "/chatfuel/:topic" do
+      let(:topic_id) { 1 }
+      let(:url) { "/chatfuel/#{topic_id}" }
+      let(:chatbot_channel)   { Channel.chatbot }
+      let(:report)            { Report.current }
+
+      describe 'text component doesn\'t exist' do
+        before { create(:topic, id: 1, name: "milk_quality") }
+        it { is_expected.to have_http_status(404) }
+      end
+
+      describe 'existing topic' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [chatbot_channel],
+            main_part: "The main part",
+            id: 1
+          )
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+
+        it 'should show text component text' do
+          json_response = JSON.parse(subject.body)
+          expect(json_response['messages'][0]['text']).to eq 'The main part'
+        end
+      end
+    end
+
     describe "/chatfuel/text_components/:text_component_id/answer_to_question/:index" do
       let(:text_component_id) { 1 }
       let(:index) { 1 }
@@ -39,9 +73,16 @@ RSpec.describe "Chatfuel", type: :request do
         it { is_expected.to have_http_status(:not_found) }
       end
 
-      context 'text component with just one question_answer' do
+      context 'text component with one question_answer and without topic' do
         let(:question_answer) { create(:question_answer, question: 'What up?', answer: 'The sun') }
-        before { create(:text_component, id: 1, question_answers: [question_answer]) }
+        before { create(:text_component, id: 1, question_answers: [question_answer], topic: nil) }
+        it { is_expected.to have_http_status(404) }
+      end
+
+      context 'text component with just one question_answer' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
+        let(:question_answer) { create(:question_answer, question: 'What up?', answer: 'The sun') }
+        before { create(:text_component, id: 1, question_answers: [question_answer], topic: topic) }
 
         it { is_expected.to have_http_status(:ok) }
 
@@ -52,8 +93,9 @@ RSpec.describe "Chatfuel", type: :request do
       end
 
       context 'text component with two question_answers' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
         let(:question_answers) { create_list(:question_answer, 2, question: 'What up?', answer: 'The sun') }
-        before { create(:text_component, id: 1, question_answers: question_answers) }
+        before { create(:text_component, id: 1, question_answers: question_answers, topic: topic) }
 
         it 'reveals the answer to the question' do
           json_response = JSON.parse(subject.body)
@@ -68,7 +110,7 @@ RSpec.describe "Chatfuel", type: :request do
         describe 'index == 2' do
           let(:index) { 2 }
 
-          it 'reveals last answer as a single message' do
+          it 'reveals last answer to the question' do
             json_response = JSON.parse(subject.body)
             expect(json_response['messages'][0]['text']).to eq 'The sun'
           end

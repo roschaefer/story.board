@@ -63,6 +63,7 @@ group :development do
   gem 'highline'
   gem 'guard'
   gem 'guard-rspec', require: false
+  gem 'seed_dump'
 end
 
 group :test do

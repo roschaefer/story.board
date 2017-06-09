@@ -15,7 +15,7 @@ class TextComponent < ActiveRecord::Base
   validates :channels, presence: true
 
   delegate :name, to: :topic, prefix: true, allow_nil: true
-  delegate :email, to: :assignee, prefix: true, allow_nil: true
+  delegate :name, to: :assignee, prefix: true, allow_nil: true
 
   enum publication_status: { :draft => 0, :fact_checked => 1, :published => 2 }
 
