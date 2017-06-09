@@ -80,7 +80,7 @@ RSpec.describe "text_components/index", type: :view do
     assert_select "tr>td", :text => "Heading".to_s, :count => 2
     assert_select "tr>td", :text => 1.to_s, :count => 2
     assert_select "tr>td", :text => 2.to_s, :count => 2
-    assert_select "tr>td", :text => "draft", :count => 1
-    assert_select "tr>td", :text => "published", :count => 1
+    assert_select "tr>td", :text => "Draft", :count => 1
+    assert_select "tr>td", :text => "Published", :count => 1
   end
 end
