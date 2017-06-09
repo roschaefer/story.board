@@ -7,7 +7,7 @@
         - else
           = f.index + 1
     .col-sm-3
-      = f.association :sensor, label_method: :name_and_id, value_method: :id, label: false, prompt: '...add Sensor', input_html: {class: 'choose_sensor'}
+      = f.association :sensor, collection: Sensor.order('name'), label_method: :name_and_id, value_method: :id, label: false, prompt: '...add Sensor', input_html: {class: 'choose_sensor'}
     .col-sm-6
       .range-group
         = f.input :from, as: :hidden, input_html: { class: 'range-slider-min-value' }
