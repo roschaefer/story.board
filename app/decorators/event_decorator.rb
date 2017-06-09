@@ -6,10 +6,11 @@ class EventDecorator
 
   def date
     date = @event.happened_at
-    unless date.nil?
+    
+    if date
       date.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_FORMAT)
     else
-      "NaN"
+      "-- missing event data --"
     end
   end
 

@@ -7,11 +7,12 @@ class SensorDecorator
   def last_value(opts={})
     r = @sensor.last_reading(opts)
     u = @sensor.sensor_type.unit
-    unless r.nil?
+
+    if r
       v = r.calibrated_value
       "#{format("%.1f", v)}#{u}"
     else
-      "NaN #{u}"
+      "-- missing sensory data --"
     end
   end
 
