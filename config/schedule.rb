@@ -10,6 +10,10 @@ set :output, './log/cron.log'
  every 4.hours do
    rake "archive"
  end
+
+ every 15.minutes do
+   rake "smaxtec_api:get_temperature"
+ end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"

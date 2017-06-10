@@ -20,13 +20,13 @@ class SmaxtecApiController < ApplicationController
         # TODO: Implement Sesor readings instead of rendering Temperature via JSON
         #sensor_reading = Sensor::Reading.new(sensor_id: 4, calibrated_value: temp_data['data'].last[1], uncalibrated_value: temp_data['data'].last[1])
         #sensor_reading.save
-        render :json => { temperature: temp_data['data'].last[1] }
+        return temp_data['data'].last[1]
       else
-        render json: {}, status: 404
+        return false
       end
 
     else
-      render json: {}, status: 404
+      return false
     end
   end
 
