@@ -17,15 +17,20 @@ module Text
       else
         rendered = template
         rendered = render_report(rendered)
-        @text_component.sensors.each do |sensor|
+
+        sensor_markup = rendered.scan(/{\s*value\(\s*(\d+)\s*\)\s*}/).flatten
+        Sensor.where(:id => sensor_markup).each do |sensor|
           s = SensorDecorator.new(sensor)
-          rendered.gsub!(/({\s*#{ Regexp.quote("value(#{s.id})") }\s*})/, s.last_value(@opts))
+          rendered.gsub!(/({\s*value\(\s*(#{ s.id })\s*\)\s*})/, s.last_value(@opts))
         end
-        @text_component.events.each do |event|
+        
+        event_markup = rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).flatten
+        Event.where(:id => event_markup).each do |event|
           e = EventDecorator.new(event)
-          rendered.gsub!(/({\s*#{ Regexp.quote("date(#{e.id})") }\s*})/, e.date)
+          rendered.gsub!(/({\s*date\(\s*(#{ e.id })\s*\)\s*})/, e.date)
         end
-        return rendered
+
+        rendered
       end
     end
 
