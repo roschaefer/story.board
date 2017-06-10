@@ -3,7 +3,7 @@
     .col-sm-12
       %h2 Trigger
       %div.help Define a new Trigger first.
-      = f.association :report, selected: @report.id unless local_assigns[:is_sub_form]
+      = f.association :report, collection: Report.order('name'), selected: @report.id unless local_assigns[:is_sub_form]
     .col-sm-6
       = f.input :name
     .col-sm-6
