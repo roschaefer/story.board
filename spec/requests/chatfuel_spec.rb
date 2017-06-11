@@ -22,6 +22,40 @@ RSpec.describe "Chatfuel", type: :request do
         it { is_expected.to have_http_status(404) }
       end
 
+      describe 'text compoent with wrong topic' do
+        let(:topic) { create(:topic, id: 2, name: "milk_quantity") }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [chatbot_channel],
+            main_part: "The main part",
+            id: 1
+          )
+        end
+
+        it { is_expected.to have_http_status(404) }
+      end
+
+      describe 'text compoent with wrong channel' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [Channel.sensorstory],
+            main_part: "The main part",
+            id: 1
+          )
+        end
+
+        it { is_expected.to have_http_status(404) }
+      end
+
       describe 'existing topic' do
         let(:topic) { create(:topic, id: 1, name: "milk_quality") }
 
