@@ -46,7 +46,7 @@ About milk production. Follow [@Kuhbertha](https://twitter.com/kuhbertha) and [r
 
 ## Domain Model
 
-![Entity Relationship Diagram for StoryBoard app](erd.pdf)
+![Entity Relationship Diagram for StoryBoard app](erd.png)
 
 ## Test
 
