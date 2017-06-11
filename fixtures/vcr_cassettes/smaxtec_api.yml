@@ -1,0 +1,279 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api-staging.smaxtec.com/api/v1/user/get_token?email=superkuh@hooli.xyz&password=pansen123
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api-staging.smaxtec.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.11.3
+      Date:
+      - Sun, 11 Jun 2017 14:25:10 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '212'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: '{"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3MjgxMTEwfQ.fP38y7J9kXF14YVRWTYjrzXJo4bPwYVvReg2OqK8bqmgo-G-JWTEH15Jba3OK1qjvVZ5tJLWalhhfRL1783cSw"}
+
+'
+    http_version: 
+  recorded_at: Sun, 11 Jun 2017 14:25:10 GMT
+- request:
+    method: get
+    uri: https://api-staging.smaxtec.com/api/v1/data/query?aggregation=hourly.mean&animal_id=5722099ea80a5f54c631513d&from_date=1497187510&metric=temp&to_date=1497191110
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3MjgxMTEwfQ.fP38y7J9kXF14YVRWTYjrzXJo4bPwYVvReg2OqK8bqmgo-G-JWTEH15Jba3OK1qjvVZ5tJLWalhhfRL1783cSw
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.11.3
+      Date:
+      - Sun, 11 Jun 2017 14:25:11 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metric": "temp.hourly.mean", "_id": "0800000510", "data": [[1497139200,
+        39.033667], [1497142800, 39.398833], [1497146400, 39.439167], [1497150000,
+        39.374], [1497153600, 39.599833], [1497157200, 39.736], [1497160800, 39.610167],
+        [1497164400, 39.655333], [1497168000, 34.739833], [1497171600, 37.509167],
+        [1497175200, 38.973667], [1497178800, 39.409], [1497182400, 39.369], [1497186000,
+        36.069], [1497189600, 38.804167], [1497193200, 39.428833], [1497196800, 39.519]],
+        "unit": "degree_celsius"}
+
+'
+    http_version: 
+  recorded_at: Sun, 11 Jun 2017 14:25:11 GMT
+- request:
+    method: get
+    uri: https://api-staging.smaxtec.com/api/v1/data/query?aggregation=hourly.mean&animal_id=5722099ea80a5f54c631513d&from_date=1497187514&metric=temp&to_date=1497191114
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3MjgxMTEwfQ.fP38y7J9kXF14YVRWTYjrzXJo4bPwYVvReg2OqK8bqmgo-G-JWTEH15Jba3OK1qjvVZ5tJLWalhhfRL1783cSw
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.11.3
+      Date:
+      - Sun, 11 Jun 2017 14:25:14 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metric": "temp.hourly.mean", "_id": "0800000510", "data": [[1497139200,
+        39.033667], [1497142800, 39.398833], [1497146400, 39.439167], [1497150000,
+        39.374], [1497153600, 39.599833], [1497157200, 39.736], [1497160800, 39.610167],
+        [1497164400, 39.655333], [1497168000, 34.739833], [1497171600, 37.509167],
+        [1497175200, 38.973667], [1497178800, 39.409], [1497182400, 39.369], [1497186000,
+        36.069], [1497189600, 38.804167], [1497193200, 39.428833], [1497196800, 39.519]],
+        "unit": "degree_celsius"}
+
+'
+    http_version: 
+  recorded_at: Sun, 11 Jun 2017 14:25:14 GMT
+- request:
+    method: get
+    uri: https://api-staging.smaxtec.com/api/v1/data/query?aggregation=hourly.mean&animal_id=5722099ea80a5f54c631513d&from_date=1497187543&metric=temp&to_date=1497191143
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3MjgxMTEwfQ.fP38y7J9kXF14YVRWTYjrzXJo4bPwYVvReg2OqK8bqmgo-G-JWTEH15Jba3OK1qjvVZ5tJLWalhhfRL1783cSw
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.11.3
+      Date:
+      - Sun, 11 Jun 2017 14:25:44 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metric": "temp.hourly.mean", "_id": "0800000510", "data": [[1497139200,
+        39.033667], [1497142800, 39.398833], [1497146400, 39.439167], [1497150000,
+        39.374], [1497153600, 39.599833], [1497157200, 39.736], [1497160800, 39.610167],
+        [1497164400, 39.655333], [1497168000, 34.739833], [1497171600, 37.509167],
+        [1497175200, 38.973667], [1497178800, 39.409], [1497182400, 39.369], [1497186000,
+        36.069], [1497189600, 38.804167], [1497193200, 39.428833], [1497196800, 39.519]],
+        "unit": "degree_celsius"}
+
+'
+    http_version: 
+  recorded_at: Sun, 11 Jun 2017 14:25:44 GMT
+- request:
+    method: get
+    uri: https://api-staging.smaxtec.com/api/v1/data/query?aggregation=hourly.mean&animal_id=5722099ea80a5f54c631513d&from_date=1497187571&metric=temp&to_date=1497191171
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3MjgxMTEwfQ.fP38y7J9kXF14YVRWTYjrzXJo4bPwYVvReg2OqK8bqmgo-G-JWTEH15Jba3OK1qjvVZ5tJLWalhhfRL1783cSw
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.11.3
+      Date:
+      - Sun, 11 Jun 2017 14:26:11 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metric": "temp.hourly.mean", "_id": "0800000510", "data": [[1497139200,
+        39.033667], [1497142800, 39.398833], [1497146400, 39.439167], [1497150000,
+        39.374], [1497153600, 39.599833], [1497157200, 39.736], [1497160800, 39.610167],
+        [1497164400, 39.655333], [1497168000, 34.739833], [1497171600, 37.509167],
+        [1497175200, 38.973667], [1497178800, 39.409], [1497182400, 39.369], [1497186000,
+        36.069], [1497189600, 38.804167], [1497193200, 39.428833], [1497196800, 39.519]],
+        "unit": "degree_celsius"}
+
+'
+    http_version: 
+  recorded_at: Sun, 11 Jun 2017 14:26:11 GMT
+- request:
+    method: get
+    uri: https://api-staging.smaxtec.com/api/v1/data/query?aggregation=hourly.mean&animal_id=5722099ea80a5f54c631513d&from_date=1497188012&metric=temp&to_date=1497191612
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3MjgxMTEwfQ.fP38y7J9kXF14YVRWTYjrzXJo4bPwYVvReg2OqK8bqmgo-G-JWTEH15Jba3OK1qjvVZ5tJLWalhhfRL1783cSw
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.11.3
+      Date:
+      - Sun, 11 Jun 2017 14:33:33 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains; preload
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metric": "temp.hourly.mean", "_id": "0800000510", "data": [[1497139200,
+        39.033667], [1497142800, 39.398833], [1497146400, 39.439167], [1497150000,
+        39.374], [1497153600, 39.599833], [1497157200, 39.736], [1497160800, 39.610167],
+        [1497164400, 39.655333], [1497168000, 34.739833], [1497171600, 37.509167],
+        [1497175200, 38.973667], [1497178800, 39.409], [1497182400, 39.369], [1497186000,
+        36.069], [1497189600, 38.804167], [1497193200, 39.428833], [1497196800, 39.519]],
+        "unit": "degree_celsius"}
+
+'
+    http_version: 
+  recorded_at: Sun, 11 Jun 2017 14:33:33 GMT
+recorded_with: VCR 3.0.3
