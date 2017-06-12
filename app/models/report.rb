@@ -18,6 +18,10 @@ class Report < ActiveRecord::Base
     Channel.sensorstory.text_components.select {|c| c.active?(opts) }
   end
 
+  def visible_sensor_story_components(opts={})
+    active_sensor_story_components(opts).select {|c| c.published? }
+  end
+
   def active_text_components(opts={})
     text_components.select {|c| c.active?(opts) }
   end

@@ -17,6 +17,8 @@ class TextComponent < ActiveRecord::Base
   delegate :name, to: :topic, prefix: true, allow_nil: true
   delegate :name, to: :assignee, prefix: true, allow_nil: true
 
+  enum publication_status: { :draft => 0, :fact_checked => 1, :published => 2 }
+
   def active?(opts={})
     on_time? && triggers.all? {|t| t.active?(opts) }
   end
@@ -39,5 +41,22 @@ class TextComponent < ActiveRecord::Base
   def priority
     most_important_trigger = triggers.sort_by {|t| Trigger.priorities[t.priority] }.reverse.first
     most_important_trigger && most_important_trigger.priority
+  end
+
+  def css_status_class
+    # These class modifiers really aren't semantic
+    # and should be changed in the future
+
+    status_css_class_mapping = {
+      'draft' => 'default',
+      'fact_checked' => 'warning',
+      'published' => 'success'
+    }
+
+    if status_css_class_mapping.key? publication_status
+      status_css_class_mapping[publication_status]
+    else
+      'default'
+    end
   end
 end

@@ -23,6 +23,7 @@ RSpec.describe "text_components/show", type: :view do
     expect(rendered).to match(/MyIntroduction/)
     expect(rendered).to match(/MyMainPart/)
     expect(rendered).to match(/MyClosing/)
+    expect(rendered).to match(/draft/)
     expect(rendered).to match(/1/)
     expect(rendered).to match(/2/)
   end

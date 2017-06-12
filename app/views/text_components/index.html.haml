@@ -62,19 +62,20 @@
           %th Heading
           %th From day
           %th To day
+          %th Status
           %th
           %th
           %th
       %tbody
         - @trigger_groups.each do |triggers, text_components|
           %tr
-            %td{colspan: 6}
+            %td{colspan: 7}
               %strong= triggers.map(&:name).join(', ')
           - text_components.each do |text_component|
             = render 'text_component_row', text_component: text_component
         - if @text_components_without_triggers
           %tr
-            %td{colspan: 6}
+            %td{colspan: 7}
               %strong Text components without triggers
           - @text_components_without_triggers.each do |text_component|
             = render 'text_component_row', text_component: text_component
