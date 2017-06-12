@@ -15,7 +15,7 @@ RSpec.describe SmaxtecApi do
 
   describe '.get_temperature' do
     it 'should read the current temperature of a specified animal from the Smaxtec API' do
-      VCR.use_cassette('smaxtec_api', :record => :new_episodes) do
+      VCR.use_cassette('smaxtec_api', :record => :once) do
         expect(smaxtec_api.get_temperature()).to be_kind_of(Float)
       end
     end
