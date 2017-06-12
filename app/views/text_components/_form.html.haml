@@ -9,6 +9,8 @@
       .col-sm-12
         = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status', placeholder: 'Select a status...'
 
+    = f.association :report, collection: Report.order('name'), selected: @report.id
+    
     .row
       .col-sm-12
         #triggers
@@ -16,15 +18,15 @@
             = f.simple_fields_for :triggers do |trigger|
               = render 'triggers/trigger_fields', f: trigger, is_sub_form: true
           - else
-            = f.association :triggers, label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a trigger'}
+            = f.association :triggers, collection: Trigger.order('name'), label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a trigger'}
 
     .row
       .col-sm-12
-        = f.association :assignee, label_method: :name, input_html: {'title' => '...choose an assignee'}
+        = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, input_html: {'title' => '...choose an assignee'}
     .row
       .col-sm-12
         #topic
-          = f.association :topic, label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a topic'}
+          = f.association :topic, collection: Topic.order('name'), label_method: :name, input_html: {'class' => 'selectpicker', 'data-live-search' => "true", 'title' => '...choose a topic'}
 
     .row
       .col-sm-6
@@ -71,6 +73,6 @@
       .col-sm-12
         %h2 Output
         #channels
-          = f.association :channels
+          = f.association :channels, collection: Channel.order('name')
   .form-actions
     = f.button :submit

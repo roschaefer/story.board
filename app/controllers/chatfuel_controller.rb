@@ -1,12 +1,17 @@
 class ChatfuelController < ApplicationController
   def show
-    chatbot_channel = Channel.chatbot
+    @topic = Topic.find_by(name: params[:topic])
 
-    @text_component = Text::Sorter.sort(chatbot_channel.text_components, {}).first
+    if @topic
+      text_components = Channel.chatbot.text_components.where(:topic => @topic)
+      @text_component = Text::Sorter.sort(text_components, {}).first
 
-    if @text_component
-      @next_question_answer = @text_component.question_answers.first
-      render json: json_response
+      if @text_component
+        @next_question_answer = @text_component.question_answers.first
+        render json: json_response
+      else
+        render json: {}, status: 404
+      end
     else
       render json: {}, status: 404
     end

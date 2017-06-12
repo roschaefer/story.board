@@ -64,6 +64,7 @@ group :development do
   gem 'guard'
   gem 'guard-rspec', require: false
   gem 'seed_dump'
+  gem 'rails-erd'
 end
 
 group :test do

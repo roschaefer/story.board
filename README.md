@@ -22,6 +22,7 @@ Make sure you have ruby version 2.3.1 installed on your system.
 
 3. Run database migrations
     ```
+    bin/rake db:create
     bin/rake db:migrate
     ```
 
@@ -43,6 +44,9 @@ And point your browser to your [running instance](http://localhost:3000/).
 
 About milk production. Follow [@Kuhbertha](https://twitter.com/kuhbertha) and [read about her](https://vicari.perseus.uberspace.de).
 
+## Domain Model
+
+![Entity Relationship Diagram for StoryBoard app](erd.png)
 
 ## Test
 

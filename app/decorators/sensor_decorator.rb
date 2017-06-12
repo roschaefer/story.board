@@ -6,9 +6,14 @@ class SensorDecorator
 
   def last_value(opts={})
     r = @sensor.last_reading(opts)
-    v = r.calibrated_value
     u = @sensor.sensor_type.unit
-    "#{format("%.1f", v)}#{u}"
+
+    if r
+      v = r.calibrated_value
+      "#{format("%.1f", v)}#{u}"
+    else
+      "-- missing sensory data --"
+    end
   end
 
   def method_missing(m, *args, &block)
