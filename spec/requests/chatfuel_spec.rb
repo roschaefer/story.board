@@ -22,7 +22,7 @@ RSpec.describe "Chatfuel", type: :request do
         it { is_expected.to have_http_status(404) }
       end
 
-      describe 'text compoent with wrong topic' do
+      describe 'text component with wrong topic' do
         let(:topic) { create(:topic, id: 2, name: "milk_quantity") }
 
         before do
@@ -39,7 +39,7 @@ RSpec.describe "Chatfuel", type: :request do
         it { is_expected.to have_http_status(404) }
       end
 
-      describe 'text compoent with wrong channel' do
+      describe 'text component with wrong channel' do
         let(:topic) { create(:topic, id: 1, name: "milk_quality") }
 
         before do
@@ -75,6 +75,29 @@ RSpec.describe "Chatfuel", type: :request do
         it 'should show text component text' do
           json_response = JSON.parse(subject.body)
           expect(json_response['messages'][0]['text']).to eq 'The main part'
+        end
+      end
+
+      describe 'existing topic adorable kitten' do
+        let(:topic) { create(:topic, id: 1, name: "adorable_kitten") }
+        let(:topic_name) { "adorable_kitten" }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [chatbot_channel],
+            main_part: "Purr Purr",
+            id: 1
+          )
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+
+        it 'should show text component text' do
+          json_response = JSON.parse(subject.body)
+          expect(json_response['messages'][0]['text']).to eq 'Purr Purr'
         end
       end
     end
