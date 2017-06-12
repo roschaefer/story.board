@@ -878,7 +878,6 @@ end
 Given(/^we have different text components, each having question\/answers$/) do
   # sophisticated test set up
   create(:important_text_component,
-         report: Report.current,
          heading: 'News from Bertha the cow',
          introduction: '',
          main_part: 'I gave eleven liters of milk today.',
@@ -987,6 +986,7 @@ Given(/^we have these text components:$/) do |table|
     if row['Report'].present?
       report = Report.find_by(name: row['Report']) || create(:report, name: row['Report'])
     end
+
 
     create(:text_component, report: report, heading: row['Text component'], assignee: assignee)
   end
@@ -1179,3 +1179,16 @@ Then(/^I will see a different generated text as if I would switch to "([^"]*)"$/
   switch_report(report_name)
   expect(find('.live-report')).to have_text("Robots are conquering the world")
 end
+
+Given(/^for the chatbot, we have these text components:$/) do |table|
+  table.hashes.each do |row|
+    create(:text_component,
+           main_part: row['Text component'],
+           channels: [Channel.chatbot],
+           report_id: row['report_id'],
+           topic: Topic.find_by(name: row['Topic'])
+          )
+  end
+end
+
+
