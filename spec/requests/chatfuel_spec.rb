@@ -8,13 +8,51 @@ RSpec.describe "Chatfuel", type: :request do
     end
 
     describe "/chatfuel/:topic" do
-      let(:topic_id) { 1 }
-      let(:url) { "/chatfuel/#{topic_id}" }
+      let(:topic_name) { "milk_quality" }
+      let(:url) { "/chatfuel/#{topic_name}" }
       let(:chatbot_channel)   { Channel.chatbot }
       let(:report)            { Report.current }
 
+      describe 'topic doesn\'t exist' do
+        it { is_expected.to have_http_status(404) }
+      end
+
       describe 'text component doesn\'t exist' do
         before { create(:topic, id: 1, name: "milk_quality") }
+        it { is_expected.to have_http_status(404) }
+      end
+
+      describe 'text component with wrong topic' do
+        let(:topic) { create(:topic, id: 2, name: "milk_quantity") }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [chatbot_channel],
+            main_part: "The main part",
+            id: 1
+          )
+        end
+
+        it { is_expected.to have_http_status(404) }
+      end
+
+      describe 'text component with wrong channel' do
+        let(:topic) { create(:topic, id: 1, name: "milk_quality") }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [Channel.sensorstory],
+            main_part: "The main part",
+            id: 1
+          )
+        end
+
         it { is_expected.to have_http_status(404) }
       end
 
@@ -37,6 +75,29 @@ RSpec.describe "Chatfuel", type: :request do
         it 'should show text component text' do
           json_response = JSON.parse(subject.body)
           expect(json_response['messages'][0]['text']).to eq 'The main part'
+        end
+      end
+
+      describe 'existing topic adorable kitten' do
+        let(:topic) { create(:topic, id: 1, name: "adorable_kitten") }
+        let(:topic_name) { "adorable_kitten" }
+
+        before do
+          create(
+            :text_component,
+            report: report,
+            topic: topic,
+            channels: [chatbot_channel],
+            main_part: "Purr Purr",
+            id: 1
+          )
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+
+        it 'should show text component text' do
+          json_response = JSON.parse(subject.body)
+          expect(json_response['messages'][0]['text']).to eq 'Purr Purr'
         end
       end
     end
