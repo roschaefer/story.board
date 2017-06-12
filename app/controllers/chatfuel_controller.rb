@@ -3,8 +3,7 @@ class ChatfuelController < ApplicationController
     @topic = Topic.find_by(name: params[:topic])
 
     if @topic
-      text_components = Channel.chatbot.text_components.where(:topic => @topic)
-      @text_component = Text::Sorter.sort(text_components, {}).first
+      @text_component = Text::Sorter.sort(@report.active_chatbot_components.where(:topic => @topic), {}).first
 
       if @text_component
         @next_question_answer = @text_component.question_answers.first

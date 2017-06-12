@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Chatfuel", type: :request do
+  let(:report) { Report.current }
   describe 'GET' do
     subject do
       get url
@@ -9,7 +10,8 @@ RSpec.describe "Chatfuel", type: :request do
 
     describe "/chatfuel/:topic" do
       let(:topic_name) { "milk_quality" }
-      let(:url) { "/chatfuel/#{topic_name}" }
+      let(:topic_id) { 1 }
+      let(:url) { "/reports/#{report.id}/chatfuel/#{topic_id}" }
       let(:chatbot_channel)   { Channel.chatbot }
       let(:report)            { Report.current }
 
@@ -105,7 +107,7 @@ RSpec.describe "Chatfuel", type: :request do
     describe "/chatfuel/text_components/:text_component_id/answer_to_question/:index" do
       let(:text_component_id) { 1 }
       let(:index) { 1 }
-      let(:url) { "/chatfuel/text_components/#{text_component_id}/answer_to_question/#{index}" }
+      let(:url) { "/reports/#{report.id}/chatfuel/text_components/#{text_component_id}/answer_to_question/#{index}" }
 
       describe 'bogus params' do
         describe 'bogus index' do
