@@ -6,7 +6,7 @@ VCR.configure do |config|
   config.hook_into :webmock
   config.default_cassette_options = {
     :match_requests_on => [:method,
-      VCR.request_matchers.uri_without_param(:from_date, :to_date)]
+      VCR.request_matchers.uri_without_param(:from_date, :to_date, :email, :password)]
   }
 end
 
