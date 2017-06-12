@@ -878,6 +878,7 @@ end
 Given(/^we have different text components, each having question\/answers$/) do
   # sophisticated test set up
   create(:important_text_component,
+         report: Report.current,
          heading: 'News from Bertha the cow',
          introduction: '',
          main_part: 'I gave eleven liters of milk today.',
@@ -888,6 +889,7 @@ Given(/^we have different text components, each having question\/answers$/) do
           ]
         )
   create(:text_component,
+         report: Report.current,
          heading: 'This heading will not be visible',
          introduction: '',
          main_part: 'It was hot and stuffy in the stable.',

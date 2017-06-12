@@ -52,8 +52,8 @@ RSpec.describe Report, type: :model do
     end
   end
 
-  describe '#active_text_components' do
-    subject { report.active_text_components }
+  describe '#active_sensor_story_components' do
+    subject { report.active_sensor_story_components }
     let(:sensor)          { create :sensor }
     it { is_expected.to be_empty }
 
@@ -78,13 +78,13 @@ RSpec.describe Report, type: :model do
             create(:sensor_reading, sensor: sensor, intention: :real, calibrated_value: 0)
           end
 
-          describe '#active_text_components :real' do
-            subject { report.active_text_components intention: :real }
+          describe '#active_sensor_story_components :real' do
+            subject { report.active_sensor_story_components intention: :real }
             it { is_expected.not_to include text_component }
           end
 
-          describe '#active_text_components :fake' do
-            subject { report.active_text_components intention: :fake }
+          describe '#active_sensor_story_components :fake' do
+            subject { report.active_sensor_story_components intention: :fake }
             it { is_expected.to include text_component }
           end
         end

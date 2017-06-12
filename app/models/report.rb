@@ -14,16 +14,13 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_sensor_story_components(opts={})
-    Channel.sensorstory.text_components.select {|c| c.active?(opts) }
-  end
-
   def visible_sensor_story_components(opts={})
     active_sensor_story_components(opts).select {|c| c.published? }
   end
 
-  def active_text_components(opts={})
-    text_components.select {|c| c.active?(opts) }
+  def active_sensor_story_components(opts={})
+    result = text_components.includes(:channels)
+    text_components.select {|c| c.channels.include?(Channel.sensorstory) && c.active?(opts) }
   end
 
   def archive!(intention: :real)
