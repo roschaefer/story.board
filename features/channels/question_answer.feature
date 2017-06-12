@@ -12,7 +12,7 @@ Feature: Read more question
       | What has one horn and gives milk?     | A milk truck. |
 
   Scenario: GET request a channel and receive a clickable question
-    When I send a GET request to "/chatfuel/milk_quality"
+    When I send a GET request to "/reports/1/chatfuel/milk_quality"
     Then the response status should be "200"
     And the JSON response should be:
     """
@@ -25,7 +25,7 @@ Feature: Read more question
               "text": "The main part of the text component will be displayed here.",
               "buttons": [
                 {
-                  "url": "http://example.org/chatfuel/text_components/1/answer_to_question/1",
+                  "url": "http://example.org/reports/1/chatfuel/text_components/1/answer_to_question/1",
                   "type":"json_plugin_url",
                   "title":"What do you call a sleeping cow?"
                 }
@@ -52,7 +52,7 @@ Feature: Read more question
               "text": "A bull-dozer.",
               "buttons": [
                 {
-                  "url": "http://example.org/chatfuel/text_components/1/answer_to_question/2",
+                  "url": "http://example.org/reports/1/chatfuel/text_components/1/answer_to_question/2",
                   "type":"json_plugin_url",
                   "title": "What has one horn and gives milk?"
                 }
@@ -64,6 +64,7 @@ Feature: Read more question
       ]
     }
     """
+
   Scenario: The last answer in the queue will send an answer and redirect to a block, dependant on the topic (block name: continue_[topic.name])
     When I click the question from the second scenario
     Then the response status should be "200"

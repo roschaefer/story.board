@@ -748,6 +748,7 @@ Given(/^we created a text component for it that is active right now$/) do
   create(
     :text_component,
     :active,
+    report: Report.current,
     main_part: "Got milk?",
     channels: [@channel],
     topic: @topic,
@@ -878,6 +879,7 @@ end
 Given(/^we have different text components, each having question\/answers$/) do
   # sophisticated test set up
   create(:important_text_component,
+         report: Report.current,
          heading: 'News from Bertha the cow',
          introduction: '',
          main_part: 'I gave eleven liters of milk today.',
@@ -932,6 +934,7 @@ end
 
 Given(/^we have an active text component with the id (\d+) for that topic with these question\/answers:$/) do |id, table|
   @text_component = create(:text_component,
+                           report: Report.current,
                           channels: [Channel.chatbot],
                           topic: @topic,
                           main_part: 'The main part of the text component will be displayed here.',
@@ -945,11 +948,11 @@ Given(/^we have an active text component with the id (\d+) for that topic with t
 end
 
 When(/^I click the question from the first scenario$/) do
-  request answer_to_question_path(text_component_id: @text_component.id, index: 1)
+  request answer_to_question_path(report_id: Report.current.id, text_component_id: @text_component.id, index: 1)
 end
 
 When(/^I click the question from the second scenario$/) do
-  request answer_to_question_path(text_component_id: @text_component.id, index: 2)
+  request answer_to_question_path(report_id: Report.current.id, text_component_id: @text_component.id, index: 2)
 end
 
 Given(/^we have these users in our database$/) do |table|
