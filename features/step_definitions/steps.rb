@@ -1183,13 +1183,13 @@ Then(/^I will see a different generated text as if I would switch to "([^"]*)"$/
   expect(find('.live-report')).to have_text("Robots are conquering the world")
 end
 
-Given(/^for the chatbot, we have these text components:$/) do |table|
+Given(/^we have these text components for the chatbot:$/) do |table|
   table.hashes.each do |row|
     create(:text_component,
            main_part: row['Text component'],
            channels: [Channel.chatbot],
            report_id: row['report_id'],
-           topic: Topic.find_by(name: row['Topic'])
+           topic: (Topic.find_by(name: row['Topic']) || create(:topic, name: row['Topic']))
           )
   end
 end

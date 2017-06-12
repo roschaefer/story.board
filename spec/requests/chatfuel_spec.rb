@@ -10,8 +10,7 @@ RSpec.describe "Chatfuel", type: :request do
 
     describe "/chatfuel/:topic" do
       let(:topic_name) { "milk_quality" }
-      let(:topic_id) { 1 }
-      let(:url) { "/reports/#{report.id}/chatfuel/#{topic_id}" }
+      let(:url) { "/reports/#{report.id}/chatfuel/#{topic_name}" }
       let(:chatbot_channel)   { Channel.chatbot }
       let(:report)            { Report.current }
 

@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(version: 20170526140811) do
     t.integer "to_day"
     t.integer "report_id"
     t.integer "topic_id"
-    t.integer "publication_status", default: 0
     t.integer "assignee_id"
+    t.integer "publication_status", default: 0
     t.index ["assignee_id"], name: "index_text_components_on_assignee_id", using: :btree
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
