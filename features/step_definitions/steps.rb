@@ -1162,3 +1162,18 @@ Given(/^I visit the present page of the current report$/) do
   visit present_report_path(Report.current)
 end
 
+def switch_report(report_name)
+  within('.report-menu', text: report_name) do
+    click_on 'Live-System'
+  end
+end
+
+When(/^switch to report "([^"]*)"$/) do |report_name|
+  switch_report(report_name)
+end
+
+Then(/^I will see a different generated text as if I would switch to "([^"]*)"$/) do |report_name|
+  expect(find('.live-report')).to have_text("It's about sensory data")
+  switch_report(report_name)
+  expect(find('.live-report')).to have_text("Robots are conquering the world")
+end
