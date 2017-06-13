@@ -55,7 +55,6 @@
                   %span.caret
                 %ul.dropdown-menu
                   %li
-                    = link_to 'Text components assigned to me', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
                     = link_to 'Edit my account', edit_user_registration_path
                     = link_to 'Log out', destroy_user_session_path, method: :delete
             - else
@@ -71,15 +70,14 @@
             %h3 Current report
             %ul#report-menu-current.nav.nav-list
               %h5= @report.name
+              %li= link_to 'My text components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
               %li= link_to "Live-System", "/reports/current"
               %li= link_to "Preview", "/reports/current?preview=true"
-            %h3 Other reports
+            %h3 Switch report
             %ul.nav.nav-list
-            - Report.find_each do |report|
-              %ul.nav.nav-pills.report-menu
-                %h5= report.name
-                %li.nav-item= link_to 'Live-System', present_report_path(report), {class: 'nav-link'}
-                %li.nav-item= link_to 'Preview', preview_report_path(report), {class: 'nav-link'}
+              - Report.find_each do |report|
+                %ul.nav.nav-pills.report-menu
+                  %li.nav-item= link_to report.name, present_report_path(report), {class: 'nav-link'}
       %footer
         .row
           .col-sm-8
