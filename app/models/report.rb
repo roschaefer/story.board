@@ -14,10 +14,6 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def visible_sensor_story_components(opts={})
-    active_sensor_story_components(opts).select {|c| c.published? }
-  end
-
   def active_chatbot_components(opts={})
     active_components(opts).select {|c| c.channels.include?(Channel.chatbot) }
   end
@@ -51,6 +47,6 @@ class Report < ActiveRecord::Base
 
   def active_components(opts={})
     result = text_components.includes(:channels)
-    text_components.select {|c| c.active?(opts) }
+    text_components.select {|c| c.active?(opts) && c.published? }
   end
 end

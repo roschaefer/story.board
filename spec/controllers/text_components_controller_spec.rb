@@ -52,8 +52,10 @@ RSpec.describe TextComponentsController, type: :controller do
         tc1 = create(:text_component, report: report, heading: 'No trigger 1', triggers: [trigger])
         tc2 = create(:text_component, report: report, heading: 'No trigger 2', triggers: [trigger])
         get :index, params: {report_id: report.id,}, session: valid_session
-        for_comparison = assigns(:trigger_groups).map{|key, value| [key.map(&:name), value.map(&:heading)]}
-        expect(for_comparison).to eq([[['trigger_name'], ['No trigger 1', 'No trigger 2']]])
+        trigger_groups = assigns(:trigger_groups)
+        expect(trigger_groups.length).to eq 1
+        expect(trigger_groups.keys.first.map(&:name)).to eq ['trigger_name']
+        expect(trigger_groups.values.first.map(&:heading)).to match_array(['No trigger 1', 'No trigger 2'])
       end
     end
 
