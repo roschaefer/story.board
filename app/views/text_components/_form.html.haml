@@ -3,14 +3,11 @@
 
   .form-inputs
 
-    = f.association :report, selected: @report.id
-
     .row
       .col-sm-12
         = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status', placeholder: 'Select a status...'
 
     = f.association :report, collection: Report.order('name'), selected: @report.id
-    
     .row
       .col-sm-12
         #triggers

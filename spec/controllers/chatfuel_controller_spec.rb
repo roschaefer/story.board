@@ -7,7 +7,7 @@ RSpec.describe ChatfuelController, type: :controller do
   let(:report)            { Report.current }
   let(:topic_name)        { "milk_quality" }
   let(:topic)             { create(:topic, name: topic_name) }
-  let(:params) { { topic: topic_name } }
+  let(:params) { { report_id: report.id, topic: topic_name } }
 
   describe 'GET' do
     subject do

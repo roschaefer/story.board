@@ -11,7 +11,7 @@ Feature: Provide endpoint for each channel
     And we created a text component for it that is active right now
 
   Scenario: GET request a channel
-    When I send a GET request to "/chatfuel/milk_quality"
+    When I send a GET request to "/reports/1/chatfuel/milk_quality"
     Then the response status should be "200"
     And the JSON response should be:
     """

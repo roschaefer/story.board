@@ -748,6 +748,7 @@ Given(/^we created a text component for it that is active right now$/) do
   create(
     :text_component,
     :active,
+    report: Report.current,
     main_part: "Got milk?",
     channels: [@channel],
     topic: @topic,
@@ -878,6 +879,7 @@ end
 Given(/^we have different text components, each having question\/answers$/) do
   # sophisticated test set up
   create(:important_text_component,
+         report: Report.current,
          heading: 'News from Bertha the cow',
          introduction: '',
          main_part: 'I gave eleven liters of milk today.',
@@ -888,6 +890,7 @@ Given(/^we have different text components, each having question\/answers$/) do
           ]
         )
   create(:text_component,
+         report: Report.current,
          heading: 'This heading will not be visible',
          introduction: '',
          main_part: 'It was hot and stuffy in the stable.',
@@ -931,6 +934,7 @@ end
 
 Given(/^we have an active text component with the id (\d+) for that topic with these question\/answers:$/) do |id, table|
   @text_component = create(:text_component,
+                           report: Report.current,
                           channels: [Channel.chatbot],
                           topic: @topic,
                           main_part: 'The main part of the text component will be displayed here.',
@@ -944,11 +948,11 @@ Given(/^we have an active text component with the id (\d+) for that topic with t
 end
 
 When(/^I click the question from the first scenario$/) do
-  request answer_to_question_path(text_component_id: @text_component.id, index: 1)
+  request answer_to_question_path(report_id: Report.current.id, text_component_id: @text_component.id, index: 1)
 end
 
 When(/^I click the question from the second scenario$/) do
-  request answer_to_question_path(text_component_id: @text_component.id, index: 2)
+  request answer_to_question_path(report_id: Report.current.id, text_component_id: @text_component.id, index: 2)
 end
 
 Given(/^we have these users in our database$/) do |table|
@@ -985,6 +989,7 @@ Given(/^we have these text components:$/) do |table|
     if row['Report'].present?
       report = Report.find_by(name: row['Report']) || create(:report, name: row['Report'])
     end
+
 
     create(:text_component, report: report, heading: row['Text component'], assignee: assignee)
   end
@@ -1161,4 +1166,32 @@ end
 Given(/^I visit the present page of the current report$/) do
   visit present_report_path(Report.current)
 end
+
+def switch_report(report_name)
+  within('.report-menu', text: report_name) do
+    click_on 'Live-System'
+  end
+end
+
+When(/^switch to report "([^"]*)"$/) do |report_name|
+  switch_report(report_name)
+end
+
+Then(/^I will see a different generated text as if I would switch to "([^"]*)"$/) do |report_name|
+  expect(find('.live-report')).to have_text("It's about sensory data")
+  switch_report(report_name)
+  expect(find('.live-report')).to have_text("Robots are conquering the world")
+end
+
+Given(/^we have these text components for the chatbot:$/) do |table|
+  table.hashes.each do |row|
+    create(:text_component,
+           main_part: row['Text component'],
+           channels: [Channel.chatbot],
+           report_id: row['report_id'],
+           topic: (Topic.find_by(name: row['Topic']) || create(:topic, name: row['Topic']))
+          )
+  end
+end
+
 

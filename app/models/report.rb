@@ -14,16 +14,12 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
+  def active_chatbot_components(opts={})
+    active_components(opts).select {|c| c.channels.include?(Channel.chatbot) }
+  end
+
   def active_sensor_story_components(opts={})
-    Channel.sensorstory.text_components.select {|c| c.active?(opts) }
-  end
-
-  def visible_sensor_story_components(opts={})
-    active_sensor_story_components(opts).select {|c| c.published? }
-  end
-
-  def active_text_components(opts={})
-    text_components.select {|c| c.active?(opts) }
+    active_components(opts).select {|c| c.channels.include?(Channel.sensorstory) }
   end
 
   def archive!(intention: :real)
@@ -45,5 +41,12 @@ class Report < ActiveRecord::Base
     if start_date && duration
       start_date + duration.days
     end
+  end
+
+  private
+
+  def active_components(opts={})
+    result = text_components.includes(:channels)
+    text_components.select {|c| c.active?(opts) && c.published? }
   end
 end
