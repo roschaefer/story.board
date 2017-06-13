@@ -1,4 +1,4 @@
-class SmaxtecApi < ApplicationController
+class SmaxtecApi
   require 'net/http'
 
   SMAXTEC_API_EMAIL = Rails.application.secrets.smaxtec_api_email
