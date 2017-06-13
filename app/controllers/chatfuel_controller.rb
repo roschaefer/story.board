@@ -33,11 +33,12 @@ class ChatfuelController < ApplicationController
 
   def json_response
     if @question_answer
-      content = @question_answer.answer
+      text = Text::Renderer.new(text_component: @text_component).render_string(@question_answer.answer)
     else
       text = Text::Renderer.new(text_component: @text_component).render(:main_part)
-      content = text.first(640);
     end
+
+    content = text.first(640);
 
     if @next_question_answer
       {
