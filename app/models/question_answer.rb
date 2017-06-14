@@ -1,4 +1,6 @@
 class QuestionAnswer < ApplicationRecord
+  default_scope { order(created_at: :asc) }
+
   belongs_to :text_component
 
   validates :question, length: { maximum: 640 }
