@@ -3,8 +3,7 @@
 - else
   %h3.main-heading= "#{record.heading} (#{record.created_at.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_TIME_FORMAT)})"
 %p
-  %strong
-    = record.introduction
+  = record.introduction.html_safe
   %em
     Autor: Sensor Live System
 = record.main_part.html_safe

@@ -168,6 +168,17 @@ RSpec.describe Text::Generator do
 
       it { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
 
+      context 'more than 3 text components' do
+        describe '#introduction' do
+          let(:text_components) { create_list(:text_component, 5, report: report, introduction: 'Crazy introduction') }
+          before { text_components }
+
+          it 'contains no more than 3 introductions' do
+            expect(subject[:introduction].scan(/Crazy/).count).to eq 3
+          end
+        end
+      end
+
       context 'given one text_component' do
         let(:report)         { create(:report) }
         let!(:text_component) { create(:text_component, text_component_params.merge(main_part: main_part)) }
