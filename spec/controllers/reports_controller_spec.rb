@@ -19,6 +19,14 @@ RSpec.describe ReportsController, type: :controller do
     end
   end
 
+  describe '#show' do
+    it 'assigns the correct report' do
+      create(:report, id: 42)
+      get :show, params: { report_id: 42 }
+      expect(assigns(:report).id).to eq 42
+    end
+  end
+
   describe 'GET #present' do
     it "renders template 'present'" do
       expect(Report.current.id).to eq 1
