@@ -13,7 +13,7 @@ class SmaxtecApi
     Report.all.each do |report|
       if animal_id[report.id]
         sensors = Sensor.where(report_id: report.id, smaxtec_sensor: true)
-
+        binding.pry
         if sensors
           sensors.each do |sensor|
             # temperature sensor
