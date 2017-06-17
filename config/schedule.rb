@@ -12,7 +12,7 @@ set :output, './log/cron.log'
  end
 
  every 15.minutes do
-   rake "smaxtec_api:get_temperature"
+   rake "smaxtec_api:get_sensor_readings"
  end
 #
 # every 4.days do
