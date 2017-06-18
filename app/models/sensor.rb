@@ -9,6 +9,7 @@ class Sensor < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :address, presence: true, uniqueness: true
   validates :sensor_type, presence: true
+  validates :animal_id, uniqueness: { scope: :sensor_type }
 
   def name_and_id
     "#{name} (#{id})"
