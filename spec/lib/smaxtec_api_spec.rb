@@ -21,12 +21,12 @@ RSpec.describe SmaxtecApi do
     end
   end
 
-  describe '.get_sensor_readings' do
+  describe '.update_sensor_readings' do
     let(:report) { Report.find(1) }
     let(:sensor_type) { SensorType.find(1) }
     let(:temperature_sensor) { Sensor.find_by(name: 'Kuh Berta Temperature') }
 
-    it 'should get the sensor readings from the Smaxtec API and create them in the system' do
+    it 'should update the sensor readings from the Smaxtec API and integrate them to the system' do
       VCR.use_cassette('smaxtec_api', :record => :once) do
         number_sensor_readings = temperature_sensor.sensor_readings.count
         smaxtec_api.get_sensor_readings
