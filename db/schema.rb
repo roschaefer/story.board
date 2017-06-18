@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 20170617155322) do
     t.float    "max_value"
     t.float    "min_value"
     t.datetime "calibrated_at"
+    t.boolean  "smaxtec_sensor"
     t.string   "animal_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
