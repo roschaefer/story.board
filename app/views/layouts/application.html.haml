@@ -80,10 +80,5 @@
                 %h5= report.name
                 %li.nav-item= link_to 'Live-System', present_report_path(report), {class: 'nav-link'}
                 %li.nav-item= link_to 'Preview', preview_report_path(report), {class: 'nav-link'}
-      %footer
-        .row
-          .col-sm-8
-            %p
-              Text (c) Dr. Jakob Vicari. No Reporters Were Harmed. Gefördert durch  
-          .col-sm-4
-            =image_tag("miz-logo_v1_schrift_rechts@2x.png", height: '30', width: '250')
+      %footer.py5
+        = "story.board. The CMS for Sensorstories. Created 2015-#{Date.today.year} by Robert Schäfer and Jakob Vicari. No Reporters Were Harmed."
