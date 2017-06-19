@@ -1,0 +1,11 @@
+/**
+ * FORM
+ */
+
+.form {
+    
+}
+
+.form__section + .form__section {
+    margin-top: 4 * $spacer;
+}
