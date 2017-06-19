@@ -32,6 +32,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'twitter-bootstrap-rails'
+gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 gem 'haml-rails'
 gem 'simple_form'
 gem 'cocoon'
