@@ -38,50 +38,48 @@
                 .col-sm-12
                   = render 'form', text_component: @new_text_component, create_trigger: true
 
-.row
-  .col-sm-12
-    %h1 Text components
+%h3 Text Components
 
 - if user_signed_in?
-  .row
-    .col-sm-12
-      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
-        Create new text component
-.row
-  .col-sm-12
-    = form_tag(report_text_components_path(@report), {method: :get}) do
-      .form-group
-        = label :filter, :assignee_id, 'By assignee', class: 'col-2 col-form-label'
-        = collection_select(:filter, :assignee_id, User.order('LOWER(name)'), :id, :name, {include_blank: true, selected: @filter[:assignee_id]}, {'class' => 'selectpicker', 'title' => '...choose a user'})
-      = submit_tag 'Filter', class: 'col-2 btn btn-primary btn-lg pull-right'
-.row
-  .col-sm-12
-    %table.table.table-striped.table-hover.text-components-table
-      %thead
+
+  .d-flex.justify-content-start.py-4
+    %div.mr-auto
+      = form_tag(report_text_components_path(@report), {method: :get}) do
+        .input-group
+          .input-group-addon Assignee:
+          = collection_select(:filter, :assignee_id, User.order('LOWER(name)'), :id, :name, { selected: @filter[:assignee_id], include_blank: 'All' }, { class: 'form-control custom-select', onchange: 'this.form.submit()' })
+    %div
+      %a.btn.btn-primary{:data => {:target => '#modalTriggerText', :toggle => 'modal'}, :href => '#'} New Text Component
+
+
+%table.table.item-table
+  %thead.thead-default
+    %tr
+      %th{width:'40%'} Trigger
+      %th{width:'40%'} Headline
+      %th Start
+      %th End
+      %th
+  %tbody
+    - @trigger_groups.each do |triggers, text_components|
+
+      - text_components.each.with_index do |text_component, index|
         %tr
-          %th Heading
-          %th From day
-          %th To day
-          %th Status
-          %th
-          %th
-          %th
-      %tbody
-        - @trigger_groups.each do |triggers, text_components|
-          %tr
-            %td{colspan: 7}
-              %strong= triggers.map(&:name).join(', ')
-          - text_components.each do |text_component|
-            = render 'text_component_row', text_component: text_component
-        - if @text_components_without_triggers
-          %tr
-            %td{colspan: 7}
-              %strong Text components without triggers
-          - @text_components_without_triggers.each do |text_component|
-            = render 'text_component_row', text_component: text_component
+          -if index === 0
+            %td{rowspan: text_components.count}
+              .item-table__title
+                .item-table__title__clip
+                  %strong
+                    =triggers.map(&:name).join(', ')
 
-- if user_signed_in?
-  .row
-    .col-sm-12
-      %button.btn.btn-primary.btn-lg.pull-right{"data-target" => "#modalTriggerText", "data-toggle" => "modal", :type => "button"}
-        Create new text component
+          = render 'text_component_row', text_component: text_component
+
+    - if @text_components_without_triggers
+      - @text_components_without_triggers.each.with_index do |text_component, index|
+        %tr
+          -if index === 0
+            %td{rowspan: @text_components_without_triggers.count}
+              .item-table__title
+                .item-table__title__clip
+                  %strong Text Components without Trigger
+          = render 'text_component_row', text_component: text_component

@@ -1,0 +1,37 @@
+/**
+ * ITEM-TABLE
+ */
+
+.item-table {
+    
+}
+
+.item-table__title {
+    position: relative;
+}
+
+.item-table__title__clip {
+    position: absolute;
+    width: 100%;
+    padding-right: 1.5rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-table__actions {
+    white-space: nowrap;
+
+    a {
+        color: inherit;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        & + & {
+            margin-left: .25em;
+        }
+    }
+}

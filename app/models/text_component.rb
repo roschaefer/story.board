@@ -48,7 +48,7 @@ class TextComponent < ActiveRecord::Base
     # and should be changed in the future
 
     status_css_class_mapping = {
-      'draft' => 'default',
+      'draft' => 'primary',
       'fact_checked' => 'warning',
       'published' => 'success'
     }
