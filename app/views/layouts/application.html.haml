@@ -57,19 +57,26 @@
               %li.nav-item
                 = link_to 'Log In', new_user_session_path, :class => 'nav-link'
 
-    .container
+
+    .container.py-5
+
       .row
+
         .col-lg-9
           = bootstrap_flash
           = yield
+
         .col-lg-3
+
           .card.bg-faded
             .card-block
+
               %h3 Current report
               %ul#report-menu-current.nav.nav-list
                 %h5= @report.name
                 %li= link_to "Live-System", "/reports/current"
                 %li= link_to "Preview", "/reports/current?preview=true"
+                
               %h3 Other reports
               %ul.nav.nav-list
               - Report.find_each do |report|
