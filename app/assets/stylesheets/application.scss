@@ -10,14 +10,44 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ * OLD-FASHIONED RAILS ASSET PIPELINE INCLUDES
  *= require bootstrap-select
  */
 
-@import "bootstrap";
+/**
+ * DEPENDENCIES
+ * 
+ * Include any third party libraries or frameworks here.
+ */
 
- /*
+@import 'bootstrap';
+
+
+/**
+ * SHARED
+ * 
+ * Include styles shared across elements and components here. Avoid
+ * nested, attribute or id (!) selectors in order to keep selector
+ * specifity low to avoid problems.
+ */
+
+
+
+
+/**
+ * COMPONENTS
+ */
+
+@import 'components/text-editor';
+
+
+ /**
   * CONTROLLER-SPECIFIC STYLES
+  *
+  * Place these styles at the end of the file so that they override
+  * more general styles. Use with caution, though, and try to create
+  * as many styles as reusable ui components.
   */
 
-@import "reports";
-@import "text_components";
+@import 'controllers/reports';
+@import 'controllers/text-components';
