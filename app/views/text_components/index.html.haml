@@ -5,38 +5,29 @@
 - @text_components.each do |text_component|
   = render 'edit_modal', text_component: text_component
 
-#modalTriggerText.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog{:role => "document"}
+#modalTriggerText.modal
+  .modal-dialog
     .modal-content
       .modal-header
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
-        %div
-          / Nav tabs
-          %ul.nav.nav-tabs{:role => "tablist"}
-            %li{:role => "presentation"}
-              %a{"aria-controls" => "use", "data-toggle" => "tab", :href => "#use", :role => "tab"} Use Trigger
-            %li.active{:role => "presentation"}
-              %a{"aria-controls" => "create", "data-toggle" => "tab", :href => "#create", :role => "tab"} Create with new Trigger
+        %h4.modal-title New Text Component
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span ×
+
       .modal-body
-        / Tab panes
+        %ul.nav.nav-justified.mb-4
+          %li.nav-item
+            %a.btn.btn-secondary.active{"data-toggle" => "pill", :href => "#textComponent-create-newTrigger"} Create with new trigger
+
+          %li.btn or
+
+          %li.nav-item
+            %a.btn.btn-secondary{"data-toggle" => "pill", :href => "#textComponent-create-useTrigger"} use an existing trigger
+
         .tab-content
-          #use.tab-pane{:role => "tabpanel"}
-            / Modal 1
-            .modal-inner
-              .row
-                .col-sm-12
-                  %h2 New text component
-                  %div.help Use an existing trigger
-              .row
-                .col-sm-12
-                  = render 'form', text_component: @new_text_component
-          #create.tab-pane.active{:role => "tabpanel"}
-            / Modal 2
-            .modal-inner
-              .row
-                .col-sm-12
-                  = render 'form', text_component: @new_text_component, create_trigger: true
+          .tab-pane.active#textComponent-create-newTrigger
+            = render 'form', text_component: @new_text_component, create_trigger: true
+          .tab-pane#textComponent-create-useTrigger
+            = render 'form', text_component: @new_text_component
 
 .row
   .col-sm-12
