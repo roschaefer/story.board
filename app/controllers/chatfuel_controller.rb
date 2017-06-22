@@ -1,13 +1,18 @@
 class ChatfuelController < ApplicationController
   def show
-    @topic = Topic.find_by(name: params[:topic])
-    if @topic
-      relevant_text_components = @report.active_chatbot_components.select {|c| c.topic_id == @topic.id}
-      @text_component = Text::Sorter.sort(relevant_text_components, {}).first
+    @report = Report.find_by_id(params[:report_id])
+    if @report
+      @topic = Topic.find_by(name: params[:topic])
+      if @topic
+        relevant_text_components = @report.active_chatbot_components.select {|c| c.topic_id == @topic.id}
+        @text_component = Text::Sorter.sort(relevant_text_components, {}).first
 
-      if @text_component
-        @next_question_answer = @text_component.question_answers.first
-        render json: json_response
+        if @text_component
+          @next_question_answer = @text_component.question_answers.first
+          render json: json_response
+        else
+          render json: {}, status: 404
+        end
       else
         render json: {}, status: 404
       end
@@ -66,7 +71,7 @@ class ChatfuelController < ApplicationController
         messages: [
             { text: content.first(640) }
         ],
-        redirect_to_blocks: ["continue_" + @topic.name]
+        redirect_to_blocks: ["continue_" + @topic.name + "_" + @report.id.to_s]
       }
     else
       {
