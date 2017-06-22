@@ -5,6 +5,8 @@ class Sensor < ActiveRecord::Base
   has_many :conditions
   has_many :triggers, through: :conditions
 
+  delegate :temperature?, to: :sensor_type
+
   validates :report, presence: true
   validates :name, presence: true, uniqueness: true
   validates :address, presence: true, uniqueness: true

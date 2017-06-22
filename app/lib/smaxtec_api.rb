@@ -6,7 +6,7 @@ class SmaxtecApi
   SMAXTEC_API_BASE_URL = 'https://api-staging.smaxtec.com/api/v1'
 
   def update_sensor_readings
-    Sensor.where.not(animal_id: [nil, ""]).each do |sensor|
+    Sensor.where.not(animal_id: [nil]).each do |sensor|
       # temperature sensor
       if sensor.sensor_type.property == 'Temperature'
         # get temperature data from smaxtec api
@@ -15,7 +15,10 @@ class SmaxtecApi
         if temperature
           # create new sensor readig for sensor
           sensor_reading = Sensor::Reading.new(sensor_id: sensor.id, calibrated_value: temperature, uncalibrated_value: temperature)
-          sensor_reading.save!
+          ok = sensor_reading.save
+          if !ok
+            puts sensor_reading.errors
+          end
         end
       end
     end
@@ -29,7 +32,7 @@ class SmaxtecApi
       @jwt = JSON.parse(jwt_request)['token']
       #animal_id = '5722099ea80a5f54c631513d' # name = Arabella
       metric = 'temp'
-      temp_data = send_api_request('/data/query', { :animal_id => animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i, :aggregation => 'hourly.mean' })
+      temp_data = send_api_request('/data/query', { :animal_id => animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i })
       if temp_data && temp_data['data'].count() > 1
         return temp_data['data'].last[1]
       else
