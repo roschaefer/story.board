@@ -4,43 +4,33 @@ class SmaxtecApi
   SMAXTEC_API_EMAIL = Rails.application.secrets.smaxtec_api_email
   SMAXTEC_API_PASSWORD = Rails.application.secrets.smaxtec_api_password
   SMAXTEC_API_BASE_URL = 'https://api-staging.smaxtec.com/api/v1'
+  PROPERTY_MAPPING = {'Temperature' => 'temp'}
 
   def update_sensor_readings
-    Sensor.where.not(animal_id: [nil]).each do |sensor|
-      # temperature sensor
-      if sensor.sensor_type.property == 'Temperature'
-        # get temperature data from smaxtec api
-        temperature = get_temperature(sensor.animal_id)
-
-        if temperature
-          # create new sensor readig for sensor
-          sensor_reading = Sensor::Reading.new(sensor_id: sensor.id, calibrated_value: temperature, uncalibrated_value: temperature)
-          ok = sensor_reading.save
-          if !ok
-            puts sensor_reading.errors
-          end
-        end
+    Sensor.where.not(animal_id: nil).each do |sensor|
+      reading = last_smaxtec_sensor_reading(sensor)
+      unless reading.save
+        puts reading.errors
+        # goodbye
       end
     end
   end
 
 
-  def get_temperature(animal_id)
+  def last_smaxtec_sensor_reading(sensor)
+    metric = PROPERTY_MAPPING[sensor.property]
+    return nil unless metric
     jwt_request = get_jwt
+    return nil unless jwt_request # TODO: shouldn't we distinguish erroneous jwt requests?
 
-    if jwt_request
-      @jwt = JSON.parse(jwt_request)['token']
-      #animal_id = '5722099ea80a5f54c631513d' # name = Arabella
-      metric = 'temp'
-      temp_data = send_api_request('/data/query', { :animal_id => animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i })
-      if temp_data && temp_data['data'].count() > 1
-        return temp_data['data'].last[1]
-      else
-        return false
-      end
-
+    @jwt = JSON.parse(jwt_request)['token']
+    #animal_id = '5722099ea80a5f54c631513d' # name = Arabella
+    temp_data = send_api_request('/data/query', { :animal_id => sensor.animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i })
+    if temp_data && temp_data['data'].count > 1
+      value = temp_data['data'].last[1] # WTF?
+      return Sensor::Reading.new(sensor: sensor, calibrated_value: value, uncalibrated_value: value)
     else
-      return false
+      return nil
     end
   end
 
@@ -52,11 +42,8 @@ class SmaxtecApi
 
     response = Net::HTTP.get_response(uri)
 
-    if !response.is_a?(Net::HTTPSuccess)
-      return false
-    end
-
-    return response.body
+    return nil unless response.is_a?(Net::HTTPSuccess)
+    response.body
   end
 
 
@@ -73,11 +60,8 @@ class SmaxtecApi
     req['Authorization'] = 'Bearer ' + @jwt
     response = http.request(req)
 
-    if !response.is_a?(Net::HTTPSuccess)
-      return false
-    end
-
-    return JSON.parse(response.body)
+    return nil unless response.is_a?(Net::HTTPSuccess)
+    JSON.parse(response.body)
   end
 
 end
