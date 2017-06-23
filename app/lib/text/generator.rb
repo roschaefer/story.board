@@ -10,7 +10,7 @@ module Text
     def generate
       {
         heading:       choose_heading,
-        introduction:  combine_introductions,
+        introduction:  important_introductions,
         main_part:     html_main_part,
         closing:       combine_closings
       }
@@ -68,11 +68,17 @@ module Text
       Renderer.new(text_component: text_component, opts: @opts).render(part)
     end
 
-    def combine_introductions
-      introductions = components.collect do |component|
+    def important_introductions
+      introductions = components.first(3).collect do |component|
         render(component, :introduction)
       end
-      introductions.join(' ')
+      introductions = introductions.select{|i| i.present?}
+      ApplicationController.render(
+        partial: 'records/introduction',
+        locals: {
+        items: introductions,
+        }
+      )
     end
 
     def combine_closings

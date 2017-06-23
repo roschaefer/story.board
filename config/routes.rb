@@ -23,7 +23,8 @@ Rails.application.routes.draw do
 
   resources :channels, only: [:edit, :show, :update]
 
-  resources :reports do
+  resources :reports, param: :report_id # shallow nesting to avoid id param like :report_report_id
+  resources :reports, only: [] do # only: [] to remove duplicate top level routes
     resources :text_components, except: [:edit, :new]
     resources :triggers
     resources :sensors do

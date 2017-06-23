@@ -182,7 +182,9 @@ end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
   click_on 'Report settings'
-  click_on name
+  within '.dropdown-menu.report-settings' do
+    click_on name
+  end
 end
 
 When(/^I click on "([^"]*)"/) do |thing|
@@ -1010,10 +1012,6 @@ Given(/^I am logged in$/) do
   log_in(@user)
 end
 
-When(/^I click on the dropdown menu with my user account on the top right$/) do
-  click_on 'user-menu'
-end
-
 Then(/^I am on the text components page with only those assigned to me$/) do
   expect(page).to have_current_path("/reports/1/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
 end
@@ -1105,9 +1103,7 @@ Then(/^I can see the current report "([^"]*)" in the menu bar$/) do |report_name
 end
 
 When(/^(?:when )?I choose "([^"]*)" to be the active report$/) do |report_name|
-  within('.report-menu', text: report_name) do
-    click_on 'Live-System'
-  end
+  switch_report(report_name)
 end
 
 Given(/^I(?: first)? navigate to the text component page$/) do
@@ -1168,8 +1164,8 @@ Given(/^I visit the present page of the current report$/) do
 end
 
 def switch_report(report_name)
-  within('.report-menu', text: report_name) do
-    click_on 'Live-System'
+  within('.report-menu') do
+    click_on report_name
   end
 end
 
