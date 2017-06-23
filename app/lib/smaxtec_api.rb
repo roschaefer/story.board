@@ -9,8 +9,10 @@ class SmaxtecApi
   def update_sensor_readings
     Sensor.where.not(animal_id: nil).each do |sensor|
       reading = last_smaxtec_sensor_reading(sensor)
-      unless reading.save
-        puts reading.errors
+      unless reading && reading.save
+        if reading
+          puts reading.errors
+        end
         # goodbye
       end
     end
@@ -55,6 +57,7 @@ class SmaxtecApi
     end
 
     http = Net::HTTP.new(uri.host, uri.port)
+    #http.set_debug_output($stdout)
     http.use_ssl = true
     req = Net::HTTP::Get.new(uri.request_uri)
     req['Authorization'] = 'Bearer ' + @jwt

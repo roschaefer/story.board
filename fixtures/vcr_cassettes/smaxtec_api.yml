@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - nginx/1.11.3
       Date:
-      - Mon, 12 Jun 2017 17:37:36 GMT
+      - Fri, 23 Jun 2017 12:41:11 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -36,14 +36,14 @@ http_interactions:
       - max-age=15724800; includeSubDomains; preload
     body:
       encoding: UTF-8
-      string: '{"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3Mzc5MDU2fQ.QG-xw420MmTGKaNcxGl41pf5zneWvU05Aru-Ju6lpAYrct6I4trbgVBnoEDEZ-5rU1ywZK5lyy-kY3dgJvwojw"}
+      string: '{"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk4MzExNjcxfQ.19m1BIrgqsyuMDWeQ9LlEvV3HmvObN5dV_qudKYB8Fm7jXphe6D2eMosjLIj-V_ZiMUYJRiwCKyWyDDJJEPftA"}
 
 '
     http_version: 
-  recorded_at: Mon, 12 Jun 2017 17:37:36 GMT
+  recorded_at: Fri, 23 Jun 2017 12:41:11 GMT
 - request:
     method: get
-    uri: https://api-staging.smaxtec.com/api/v1/data/query?aggregation=hourly.mean&animal_id=5722099ea80a5f54c631513d&from_date=1497285456&metric=temp&to_date=1497289056
+    uri: https://api-staging.smaxtec.com/api/v1/data/query?animal_id=5722099ea80a5f54c631513d&from_date=1498218071&metric=temp&to_date=1498221671
     body:
       encoding: US-ASCII
       string: ''
@@ -55,7 +55,7 @@ http_interactions:
       User-Agent:
       - Ruby
       Authorization:
-      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk3Mzc5MDU2fQ.QG-xw420MmTGKaNcxGl41pf5zneWvU05Aru-Ju6lpAYrct6I4trbgVBnoEDEZ-5rU1ywZK5lyy-kY3dgJvwojw
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk4MzExNjcxfQ.19m1BIrgqsyuMDWeQ9LlEvV3HmvObN5dV_qudKYB8Fm7jXphe6D2eMosjLIj-V_ZiMUYJRiwCKyWyDDJJEPftA
   response:
     status:
       code: 200
@@ -64,11 +64,11 @@ http_interactions:
       Server:
       - nginx/1.11.3
       Date:
-      - Mon, 12 Jun 2017 17:37:37 GMT
+      - Fri, 23 Jun 2017 12:41:12 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '207'
       Connection:
       - keep-alive
       Access-Control-Allow-Origin:
@@ -76,16 +76,12 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains; preload
     body:
-      encoding: ASCII-8BIT
-      string: '{"metric": "temp.hourly.mean", "_id": "0800000510", "data": [[1497225600,
-        37.133667], [1497229200, 38.106167], [1497232800, 38.924167], [1497236400,
-        39.424], [1497240000, 39.509167], [1497243600, 39.680333], [1497247200, 39.826667],
-        [1497250800, 38.086833], [1497254400, 35.629333], [1497258000, 38.278833],
-        [1497261600, 38.893833], [1497265200, 39.173], [1497268800, 39.509667], [1497272400,
-        39.816667], [1497276000, 36.224833], [1497279600, 38.1805], [1497283200, 38.363167],
-        [1497286800, 36.928833], [1497290400, 38.264]], "unit": "degree_celsius"}
+      encoding: UTF-8
+      string: '{"metric": "temp", "_id": "0800000510", "data": [[1498218600, 39.369],
+        [1498219200, 39.399], [1498219800, 39.489], [1498220400, 39.61], [1498221000,
+        39.761], [1498221600, 39.943]], "unit": "degree_celsius"}
 
 '
     http_version: 
-  recorded_at: Mon, 12 Jun 2017 17:37:37 GMT
+  recorded_at: Fri, 23 Jun 2017 12:41:12 GMT
 recorded_with: VCR 3.0.3

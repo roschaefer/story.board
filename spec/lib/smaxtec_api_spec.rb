@@ -16,10 +16,13 @@ RSpec.describe SmaxtecApi do
   let(:sensor) { create(:sensor, name: 'Kuh Berta Temperature Test Sensor', sensor_type: sensor_type, animal_id: '5722099ea80a5f54c631513d') }
 
   describe '.last_smaxtec_sensor_reading' do
-    subject { smaxtec_api.last_smaxtec_sensor_reading(sensor) }
-    VCR.use_cassette('smaxtec_api', :record => :once) do
+      subject {
+        VCR.use_cassette('smaxtec_api', :record => :once) do
+          smaxtec_api.last_smaxtec_sensor_reading(sensor)
+        end
+      }
+
       it { is_expected.to be_a Sensor::Reading }
-    end
   end
 
   describe '.update_sensor_readings' do
