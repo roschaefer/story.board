@@ -4,5 +4,7 @@ FactoryGirl.define do
     introduction "MyString"
     main_part "MyString"
     closing "MyString"
+
+    association :report
   end
 end

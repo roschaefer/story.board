@@ -14,16 +14,16 @@ class ReportsController < ApplicationController
   end
 
   def present
-    @live_entry = @report.compose(DiaryEntry.new(report: @report, intention: :real, moment: query_params[:point_in_time]))
+    @live_entry = DiaryEntry.new(report: @report, intention: :real, moment: query_params[:point_in_time]).compose
     @archived_entries = DiaryEntry.real.order(:created_at).reverse_order.collect do |entry|
-      @report.compose(entry)
+      entry.compose
     end
   end
 
   def preview
-    @live_entry = @report.compose(DiaryEntry.new(report: @report, intention: :fake, moment: query_params[:point_in_time]))
+    @live_entry = DiaryEntry.new(report: @report, intention: :fake, moment: query_params[:point_in_time]).compose
     @archived_entries = DiaryEntry.fake.order(:created_at).reverse_order.collect do |entry|
-      @report.compose(entry)
+      entry.compose
     end
     render 'present'
   end

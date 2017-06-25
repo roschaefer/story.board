@@ -15,6 +15,22 @@ RSpec.describe DiaryEntry, type: :model do
     end
   end
 
+  describe '#compose' do
+    let(:report) { Report.current }
+    let(:diary_entry) { DiaryEntry.new(report: report) }
+    subject { diary_entry.compose }
+
+    before { report.text_components << create(:text_component, heading: 'Assigned heading', main_part: 'Main part') }
+    it 'assigns heading' do
+      expect{ subject }.to(change{diary_entry.heading}.from('').to('Assigned heading'))
+    end
+
+    it 'assigns main_part' do
+      expect{ subject }.to(change{diary_entry.main_part}.from('').to("<p>Main part<span class='resi-thread'>\n</span>\n</p>\n"))
+    end
+  end
+
+
   describe '#live?' do
     context 'saved' do
       subject { create(:diary_entry) }

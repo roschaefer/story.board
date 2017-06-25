@@ -32,4 +32,8 @@ class DiaryEntry < ActiveRecord::Base
     end
   end
 
+  def compose
+    generator = ::Text::Generator.new(self)
+    generator.generate_diary_entry
+  end
 end

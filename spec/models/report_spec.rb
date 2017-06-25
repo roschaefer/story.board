@@ -16,14 +16,6 @@ RSpec.describe Report, type: :model do
     end
   end
 
-  describe '#compose' do
-    let(:diary_entry) { DiaryEntry.new(report: report) }
-    subject { report.compose(diary_entry) }
-    it 'returns a diary entry' do
-      is_expected.to be_kind_of DiaryEntry
-    end
-  end
-
   describe '#active_sensor_story_components' do
     subject { report.active_sensor_story_components }
     let(:sensor)          { create :sensor }
