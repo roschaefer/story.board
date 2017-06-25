@@ -25,7 +25,12 @@ class Sensor < ActiveRecord::Base
     end
   end
 
-  def last_reading(intention: :real, at: DateTime.now)
+  def last_reading(diary_entry = nil)
+    if diary_entry
+      intention, at = diary_entry.intention, diary_entry.moment
+    else
+      intention, at = :real, DateTime.now
+    end
     sensor_readings.send(intention).created_before(at).last
   end
 

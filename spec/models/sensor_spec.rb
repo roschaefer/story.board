@@ -31,7 +31,8 @@ describe Sensor, type: :model do
     end
 
     it 'returns last sensor reading at a given point in time' do
-      expect(sensor.last_reading at: 3.seconds.ago).to eq first
+      diary_entry = DiaryEntry.new(moment: 3.seconds.ago)
+      expect(sensor.last_reading diary_entry).to eq first
     end
   end
 
