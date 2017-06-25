@@ -28,11 +28,16 @@ class SmaxtecApi
     @jwt = JSON.parse(jwt_request)['token']
     #animal_id = '5722099ea80a5f54c631513d' # name = Arabella
     temp_data = send_api_request('/data/query', { :animal_id => sensor.animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i })
+
     if temp_data && temp_data['data'].count > 1
       last_entry = temp_data['data'].last
       timestamp = last_entry[0]
-      value = last_entry[1] # WTF?
-      return Sensor::Reading.new(sensor: sensor, calibrated_value: value, uncalibrated_value: value, smaxtec_timestamp: timestamp)
+      value = last_entry[1]
+      if !Sensor::Reading.find_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp)
+        return Sensor::Reading.new(sensor: sensor, calibrated_value: value, uncalibrated_value: value, smaxtec_timestamp: timestamp)
+      else
+        return nil
+      end
     else
       return nil
     end
