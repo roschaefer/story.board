@@ -1,6 +1,6 @@
 module Text
   class Renderer
-    def initialize(text_component:, diary_entry: diary_entry)
+    def initialize(text_component:, diary_entry: nil)
       @text_component = text_component
       @report = @text_component.report
       @diary_entry = diary_entry
