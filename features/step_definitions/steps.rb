@@ -128,7 +128,7 @@ end
 
 Given(/^for my sensors I have these triggers prepared:$/) do |table|
   table.hashes.each do |row|
-    trigger = create(:trigger, report: Report.current, name: row['Trigger'], timeliness_constraint: row['Timeliness'])
+    trigger = create(:trigger, report: Report.current, name: row['Trigger'], validity_period: row['Validity'])
     sensor = Sensor.find_by name: row['Sensor']
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
@@ -324,12 +324,12 @@ Then(/^I can watch a video stream that points to this url$/) do
 end
 
 When(/^I set the component to trigger only for recent data within the last (\d+) hours$/) do |hours|
-  fill_in "Timeliness constraint", with: hours
+  fill_in "Validity period", with: hours
 end
 
-Then(/^this trigger has a timeliness constraint of (\d+) hours$/) do |hours|
+Then(/^this trigger has a validity period of (\d+) hours$/) do |hours|
   @trigger.reload
-  expect(@trigger.timeliness_constraint).to eq hours.to_i
+  expect(@trigger.validity_period).to eq hours.to_i
 end
 
 Given(/^I see the (?:current|new)? live report/) do |string|

@@ -6,8 +6,8 @@ describe Trigger, type: :model do
 
   context 'given a sensor reading' do
     subject { create(:trigger, :with_a_sensor_reading, params) }
-    describe '#timeliness_constraint' do
-      let(:params) { { timeliness_constraint: 3 } }
+    describe '#validity_period' do
+      let(:params) { { validity_period: 3 } }
       it { is_expected.to be_active }
       context 'some hours later' do
         it 'no longer relevant' do
