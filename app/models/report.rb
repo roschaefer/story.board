@@ -32,8 +32,8 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def compose(opts={})
-    generator = ::Text::Generator.new(report: self, opts: opts)
+  def compose(diary_entry = nil)
+    generator = ::Text::Generator.new(diary_entry)
     generator.generate_diary_entry
   end
 
@@ -45,8 +45,8 @@ class Report < ActiveRecord::Base
 
   private
 
-  def active_components(opts={})
+  def active_components(diary_entry = nil)
     result = text_components.includes(:channels)
-    text_components.select {|c| c.active?(opts) && c.published? }
+    text_components.select {|c| c.active?(diary_entry) && c.published? }
   end
 end
