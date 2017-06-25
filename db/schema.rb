@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170625170112) do
+ActiveRecord::Schema.define(version: 20170625205345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20170625170112) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "intention",  default: 0
+    t.datetime "moment"
     t.index ["report_id"], name: "index_diary_entries_on_report_id", using: :btree
   end
 
@@ -154,8 +155,8 @@ ActiveRecord::Schema.define(version: 20170625170112) do
     t.integer "to_day"
     t.integer "report_id"
     t.integer "topic_id"
-    t.integer "publication_status", default: 0
     t.integer "assignee_id"
+    t.integer "publication_status", default: 0
     t.index ["assignee_id"], name: "index_text_components_on_assignee_id", using: :btree
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
