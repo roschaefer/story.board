@@ -1,12 +1,14 @@
 namespace :archive do
   desc "Archive current report"
   task :real => :environment do
-    Report.current.archive!(intention: :real)
+    report = Report.current
+    Report.current.archive!(DiaryEntry.new(report: report, intention: :real))
   end
 
   desc "Archive current preview"
   task :fake => :environment do
-    Report.current.archive!(intention: :fake)
+    report = Report.current
+    Report.current.archive!(DiaryEntry.new(report: report, intention: :fake))
   end
 end
 
