@@ -68,6 +68,18 @@ ActiveRecord::Schema.define(version: 20170625170112) do
     t.index ["trigger_id"], name: "index_conditions_on_trigger_id", using: :btree
   end
 
+  create_table "diary_entries", force: :cascade do |t|
+    t.string   "heading"
+    t.string   "introduction"
+    t.string   "main_part"
+    t.string   "closing"
+    t.integer  "report_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "intention",    default: 0
+    t.index ["report_id"], name: "index_diary_entries_on_report_id", using: :btree
+  end
+
   create_table "events", force: :cascade do |t|
     t.string   "name"
     t.datetime "happened_at"
@@ -90,18 +102,6 @@ ActiveRecord::Schema.define(version: 20170625170112) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["text_component_id"], name: "index_question_answers_on_text_component_id", using: :btree
-  end
-
-  create_table "records", force: :cascade do |t|
-    t.string   "heading"
-    t.string   "introduction"
-    t.string   "main_part"
-    t.string   "closing"
-    t.integer  "report_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "intention",    default: 0
-    t.index ["report_id"], name: "index_records_on_report_id", using: :btree
   end
 
   create_table "reports", force: :cascade do |t|

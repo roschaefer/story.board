@@ -16,8 +16,8 @@ module Text
       }
     end
 
-    def generate_record
-      Record.new(generate.merge(report: @report, intention: @opts[:intention]))
+    def generate_diary_entry
+      DiaryEntry.new(generate.merge(report: @report, intention: @opts[:intention]))
     end
 
     def choose_heading
@@ -39,7 +39,7 @@ module Text
           part += render(current_component, :main_part)
 
           part += ApplicationController.render(
-            partial: 'records/question_answers',
+            partial: 'diary_entries/question_answers',
             locals: {
               question_answers: current_component.question_answers,
               opts: @opts
@@ -50,7 +50,7 @@ module Text
 
 
         result += ApplicationController.render(
-          partial: 'records/split_part',
+          partial: 'diary_entries/split_part',
           locals: { subheading: subheading, part: part }
         )
 
@@ -74,7 +74,7 @@ module Text
       end
       introductions = introductions.select{|i| i.present?}
       ApplicationController.render(
-        partial: 'records/introduction',
+        partial: 'diary_entries/introduction',
         locals: {
         items: introductions,
         }
