@@ -158,11 +158,11 @@ describe Trigger, type: :model do
         end
 
         describe '#active? :real' do
-          subject { trigger.active? intention: :real }
+          subject { trigger.active? DiaryEntry.new(intention: :real) }
           it { is_expected.to be_falsy }
         end
         describe '#active? :fake' do
-          subject { trigger.active? intention: :fake }
+          subject { trigger.active? DiaryEntry.new(intention: :fake) }
           it { is_expected.to be_truthy }
         end
       end
