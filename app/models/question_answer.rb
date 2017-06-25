@@ -7,9 +7,9 @@ class QuestionAnswer < ApplicationRecord
   validates :answer, length: { maximum: 640 }
 
   [:question, :answer].each do |attribute|
-    define_method "rendered_#{attribute}" do |opts|
+    define_method "rendered_#{attribute}" do |diary_entry|
       string = self.send(attribute)
-      renderer = Text::Renderer.new(text_component: self.text_component, opts: opts) 
+      renderer = Text::Renderer.new(text_component: self.text_component, diary_entry: diary_entry) 
       renderer.render_string(string)
     end
   end

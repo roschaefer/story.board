@@ -2,12 +2,15 @@ module Text
   class Generator
     BREAK_AFTER = 500 # characters
 
-    def initialize(report:, opts: {})
-      @report = report
-      @opts = opts
+    def report
+      @diary_entry.report
     end
 
-    def generate
+    def initialize(diary_entry)
+      @diary_entry = diary_entry
+    end
+
+    def attributes_for_diary_entry
       {
         heading:       choose_heading,
         introduction:  important_introductions,
@@ -17,7 +20,8 @@ module Text
     end
 
     def generate_diary_entry
-      DiaryEntry.new(generate.merge(report: @report, intention: @opts[:intention]))
+      @diary_entry.assign_attributes attributes_for_diary_entry
+      @diary_entry
     end
 
     def choose_heading
@@ -42,7 +46,7 @@ module Text
             partial: 'diary_entries/question_answers',
             locals: {
               question_answers: current_component.question_answers,
-              opts: @opts
+              diary_entry: @diary_entry
             }
           )
 
@@ -65,7 +69,7 @@ module Text
     private
 
     def render(text_component, part)
-      Renderer.new(text_component: text_component, opts: @opts).render(part)
+      Renderer.new(text_component: text_component, diary_entry: @diary_entry).render(part)
     end
 
     def important_introductions
@@ -89,7 +93,7 @@ module Text
     end
 
     def components
-      @components ||= Text::Sorter.sort(@report.active_sensor_story_components(@opts), @opts)
+      @components ||= Text::Sorter.sort(@diary_entry)
     end
   end
 end
