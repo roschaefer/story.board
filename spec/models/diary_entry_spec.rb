@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe DiaryEntry, type: :model do
+  describe '::after_initialize' do
+    let(:diary_entry) { DiaryEntry.new }
+    subject { diary_entry }
+    it 'initializes #moment with the current timestamp' do
+      expect(subject.moment).to be_a Time
+    end
+
+    it '#moment is a time after save' do
+      subject.save
+      subject.reload
+      expect(subject.moment).to be_a Time
+    end
+  end
+
   describe '#live?' do
     context 'saved' do
       subject { create(:diary_entry) }

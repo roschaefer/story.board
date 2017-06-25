@@ -17,7 +17,8 @@ RSpec.describe Report, type: :model do
   end
 
   describe '#compose' do
-    subject { report.compose }
+    let(:diary_entry) { DiaryEntry.new(report: report) }
+    subject { report.compose(diary_entry) }
     it 'returns a diary entry' do
       is_expected.to be_kind_of DiaryEntry
     end
@@ -44,18 +45,20 @@ RSpec.describe Report, type: :model do
         end
 
         context 'for sensor readings with a certain intent' do
+          subject { report.active_sensor_story_components diary_entry}
+          let(:diary_entry) { DiaryEntry.new(report: report, intention: intention) }
           before do
             create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 2)
             create(:sensor_reading, sensor: sensor, intention: :real, calibrated_value: 0)
           end
 
           describe '#active_sensor_story_components :real' do
-            subject { report.active_sensor_story_components intention: :real }
+            let(:intention) { :real }
             it { is_expected.not_to include text_component }
           end
 
           describe '#active_sensor_story_components :fake' do
-            subject { report.active_sensor_story_components intention: :fake }
+            let(:intention) { :fake}
             it { is_expected.to include text_component }
           end
         end

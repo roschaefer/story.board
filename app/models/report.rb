@@ -22,7 +22,7 @@ class Report < ActiveRecord::Base
     active_components(diary_entry).select {|c| c.channels.include?(Channel.sensorstory) }
   end
 
-  def compose(diary_entry = nil)
+  def compose(diary_entry)
     generator = ::Text::Generator.new(diary_entry)
     generator.generate_diary_entry
   end

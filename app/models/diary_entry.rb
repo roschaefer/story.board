@@ -1,11 +1,12 @@
 class DiaryEntry < ActiveRecord::Base
-  transient_attributes = [:heading, :introduction, :main_part, :closing]
-  attr_writer *transient_attributes
+  attr_accessor :heading, :introduction, :main_part, :closing
 
-  transient_attributes.each do |attribute|
-    define_method attribute do
-      instance_variable_get("@#{attribute}") || ''
-    end
+  after_initialize do
+    self.moment ||= Time.now
+    self.heading ||= ''
+    self.introduction ||= ''
+    self.main_part ||= ''
+    self.closing ||= ''
   end
 
 
