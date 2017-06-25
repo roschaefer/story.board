@@ -1,6 +1,5 @@
 class ChatfuelController < ApplicationController
   def show
-    @report = Report.find_by_id(params[:report_id])
     if @report
       @topic = Topic.find_by(name: params[:topic])
       if @topic
