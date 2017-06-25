@@ -20,4 +20,15 @@ class DiaryEntry < ActiveRecord::Base
   def text_components
     report.active_sensor_story_components(self)
   end
+
+  def archive!
+    self.intention ||= :real
+    DiaryEntry.transaction do
+      if DiaryEntry.send(self.intention).count >= DiaryEntry::LIMIT
+        DiaryEntry.send(self.intention).first.destroy
+      end
+      self.save!
+    end
+  end
+
 end

@@ -12,4 +12,45 @@ RSpec.describe DiaryEntry, type: :model do
       it { is_expected.to be_live }
     end
   end
+
+  describe '#archive!' do
+    let(:report) { Report.current }
+    let(:intention) { :real }
+    let(:diary_entry) { described_class.new(report: report, intention: intention) }
+    subject { diary_entry.archive! }
+    it 'stores a new diary entry' do
+     expect{ subject } .to change{ DiaryEntry.count }.from(0).to(1)
+    end
+
+    it 'adds a new diary entry to the report' do
+     expect{ subject; report.reload }.to change{ report.diary_entries.size }.from(0).to(1)
+    end
+
+    context 'for :fake data' do
+      let(:intention) { :fake }
+      it 'stores the intention along with the diary entry' do
+        subject
+        expect(report.diary_entries.first.intention).to eq 'fake'
+      end
+    end
+
+    context 'when maximum limit is reached' do
+      before do
+        DiaryEntry::LIMIT.times do 
+          diary_entry = DiaryEntry.new(report: Report.current)
+          diary_entry.archive!
+        end
+      end
+      it 'number of diary entries stay the same' do
+        expect{ subject }.not_to change{ report.diary_entries.size }
+      end
+
+      context 'but for another intention' do
+        let(:intention) { :fake }
+        it 'can exceed' do
+          expect{ subject }.to change{ report.diary_entries.size }
+        end
+      end
+    end
+  end
 end

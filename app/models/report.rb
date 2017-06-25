@@ -14,22 +14,12 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_chatbot_components(opts={})
-    active_components(opts).select {|c| c.channels.include?(Channel.chatbot) }
+  def active_chatbot_components(diary_entry = nil)
+    active_components(diary_entry).select {|c| c.channels.include?(Channel.chatbot) }
   end
 
-  def active_sensor_story_components(opts={})
-    active_components(opts).select {|c| c.channels.include?(Channel.sensorstory) }
-  end
-
-  def archive!(intention: :real)
-    new_entry = compose(intention: intention)
-    Report.transaction do
-      if DiaryEntry.send(intention).count >= DiaryEntry::LIMIT
-        DiaryEntry.send(intention).first.destroy
-      end
-      new_entry.save!
-    end
+  def active_sensor_story_components(diary_entry = nil)
+    active_components(diary_entry).select {|c| c.channels.include?(Channel.sensorstory) }
   end
 
   def compose(diary_entry = nil)
