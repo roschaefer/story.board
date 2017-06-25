@@ -3,9 +3,8 @@ require 'rails_helper'
 RSpec.describe Text::Sorter do
   describe '#sort' do
     let(:diary_entry) { DiaryEntry.new }
-    subject { described_class.sort(diary_entry) }
+    subject { described_class.sort(text_components) }
     let(:opts) { {} }
-    before { allow(diary_entry).to receive(:text_components) { text_components } }
 
     context 'several text components with different priorities' do
       let(:expected_result) { [text_components[2], text_components[0], text_components[1]] }
@@ -57,7 +56,7 @@ RSpec.describe Text::Sorter do
       it 'returns different text components randomly' do
 
         different_headings = 10.times.collect do
-          described_class.sort(diary_entry).first.heading
+          described_class.sort(text_components).first.heading
         end.uniq
 
         expect(different_headings.size).to be > 1

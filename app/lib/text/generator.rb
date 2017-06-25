@@ -93,7 +93,7 @@ module Text
     end
 
     def components
-      @components ||= Text::Sorter.sort(@diary_entry)
+      @components ||= Text::Sorter.sort(@diary_entry.text_components)
     end
   end
 end

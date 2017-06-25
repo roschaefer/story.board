@@ -4,7 +4,7 @@ class ChatfuelController < ApplicationController
       @topic = Topic.find_by(name: params[:topic])
       if @topic
         relevant_text_components = @report.active_chatbot_components.select {|c| c.topic_id == @topic.id}
-        @text_component = Text::Sorter.sort(relevant_text_components, {}).first
+        @text_component = Text::Sorter.sort(relevant_text_components).first
 
         if @text_component
           @next_question_answer = @text_component.question_answers.first
@@ -47,7 +47,7 @@ class ChatfuelController < ApplicationController
     if @next_question_answer
       {
         messages: [
-            {
+          {
             attachment: {
               payload: {
                 template_type: "button",
@@ -68,7 +68,7 @@ class ChatfuelController < ApplicationController
     elsif @question_answer && !@next_question_answer
       {
         messages: [
-            { text: content.first(640) }
+          { text: content.first(640) }
         ],
         redirect_to_blocks: ["continue_" + @topic.name + "_" + @report.id.to_s]
       }
