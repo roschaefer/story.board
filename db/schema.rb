@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622145518) do
+ActiveRecord::Schema.define(version: 20170625165032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20170622145518) do
     t.datetime "updated_at",                     null: false
     t.integer  "sensor_id"
     t.integer  "intention",          default: 0
+    t.datetime "smaxtec_timestamp"
     t.index ["sensor_id"], name: "index_sensor_readings_on_sensor_id", using: :btree
   end
 
@@ -141,7 +142,6 @@ ActiveRecord::Schema.define(version: 20170622145518) do
     t.float    "max_value"
     t.float    "min_value"
     t.datetime "calibrated_at"
-    t.boolean  "smaxtec_sensor"
     t.string   "animal_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
