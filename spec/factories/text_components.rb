@@ -23,5 +23,10 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_question_answers do
+      after(:create) do |text_component, _|
+        create_list(:question_answer, 2, text_component: text_component)
+      end
+    end
   end
 end

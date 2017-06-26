@@ -1204,3 +1204,10 @@ Then(/^the JSON response should include the diary entries (\d+) and (\d+)$/) do 
   expect(json_response.first["id"]).to eq id1.to_i
   expect(json_response.last["id"]).to eq id2.to_i
 end
+
+Given(/^for that diary entry we have some text components and question answers$/) do
+  report = Report.find(4711)
+  create(:text_component, :with_question_answers, report: report)
+  create(:text_component, report: report)
+  create(:text_component, report: Report.current) # this should not go into the diary entry
+end
