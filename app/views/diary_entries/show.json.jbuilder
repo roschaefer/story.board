@@ -1,1 +1,1 @@
-json.partial! "diary_entries/diary_entry", diary_entry: @diary_entry
+json.partial! "diary_entries/composed_diary_entry", diary_entry: @diary_entry
