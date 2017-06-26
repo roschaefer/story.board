@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DiaryEntry, type: :model do
+  let(:report) { Report.current }
   describe '::after_initialize' do
     let(:diary_entry) { DiaryEntry.new }
     subject { diary_entry }
@@ -16,7 +17,6 @@ RSpec.describe DiaryEntry, type: :model do
   end
 
   describe '#compose' do
-    let(:report) { Report.current }
     let(:diary_entry) { DiaryEntry.new(report: report) }
     subject { diary_entry.compose }
 
@@ -27,6 +27,16 @@ RSpec.describe DiaryEntry, type: :model do
 
     it 'assigns main_part' do
       expect{ subject }.to(change{diary_entry.main_part}.from('').to("<p>Main part<span class='resi-thread'>\n</span>\n</p>\n"))
+    end
+  end
+
+  describe '#text_components' do
+    subject { diary_entry.text_components }
+    let(:diary_entry) { DiaryEntry.new(report: report) }
+    let(:text_components) { create_list(:text_component, 3, report: report) }
+    it 'returns the active text components of the report' do
+      text_components
+      expect(subject.count).to eq 3
     end
   end
 
@@ -44,7 +54,6 @@ RSpec.describe DiaryEntry, type: :model do
   end
 
   describe '#archive!' do
-    let(:report) { Report.current }
     let(:intention) { :real }
     let(:diary_entry) { described_class.new(report: report, intention: intention) }
     subject { diary_entry.archive! }
