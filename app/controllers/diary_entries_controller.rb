@@ -1,8 +1,8 @@
 class DiaryEntriesController < ApplicationController
   before_action :set_diary_entry, only: [:show,]
+  before_action :filter_diary_entries, only: [:index,]
 
   def index
-    @diary_entries = DiaryEntry.all
   end
 
   def show
@@ -11,5 +11,20 @@ class DiaryEntriesController < ApplicationController
   private
     def set_diary_entry
       @diary_entry = DiaryEntry.find(params[:id])
+    end
+
+    def filter_diary_entries
+      @diary_entries = DiaryEntry.all
+      if filter_params[:intention]
+        @diary_entries = @diary_entries.where(intention: filter_params[:intention])
+      end
+      if filter_params[:from] && filter_params[:to]
+        @diary_entries = @diary_entries.where('moment > ?',  filter_params[:from])
+        @diary_entries = @diary_entries.where('moment < ?',  filter_params[:to])
+      end
+    end
+
+    def filter_params
+      params.permit(:from, :to, :intention)
     end
 end
