@@ -34,4 +34,18 @@ RSpec.describe SmaxtecApi do
       end
     end
   end
+
+  describe '.update_sensor_readings' do
+
+    it 'should not create a sensor reading if the sensor reading for the specific sensor type already exists' do
+      sensor # create
+      VCR.use_cassette('smaxtec_api', :record => :once) do
+        expect { smaxtec_api.update_sensor_readings }.to change {Sensor::Reading.count}.from(0).to(1)
+      end
+
+      VCR.use_cassette('smaxtec_api', :record => :once) do
+        expect { smaxtec_api.update_sensor_readings }.to_not change {Sensor::Reading.count}
+      end
+    end
+  end
 end

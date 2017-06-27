@@ -76,6 +76,6 @@ Feature: Read more question
           "text": "A milk truck."
         }
       ],
-      "redirect_to_blocks": ["continue_milk_quality"]
+      "redirect_to_blocks": ["continue_milk_quality_1"]
     }
     """
