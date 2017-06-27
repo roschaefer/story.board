@@ -33,10 +33,9 @@ class SmaxtecApi
       last_entry = temp_data['data'].last
       timestamp = last_entry[0]
       value = last_entry[1]
-      if !Sensor::Reading.find_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp)
-        return Sensor::Reading.new(sensor: sensor, calibrated_value: value, uncalibrated_value: value, smaxtec_timestamp: timestamp)
-      else
-        return nil
+      return Sensor::Reading.find_or_create_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp) do |reading|
+        reading.calibrated_value = value
+        reading.uncalibrated_value = value
       end
     else
       return nil
