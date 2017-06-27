@@ -38,7 +38,7 @@
     .col-sm-12
       %h2 Additional conditions
     .col-sm-6
-      = f.input :timeliness_constraint, hint: "Text component will be triggered for sensor readings within the last X hours", input_html: {'data-slider-id' => 'slider-single',
+      = f.input :validity_period, hint: "Text component will be triggered for sensor readings within the last X hours", input_html: {'data-slider-id' => 'slider-single',
         'data-provide' => "slider",
        'data-slider-min'=>"0",
        'data-slider-max'=>"12",

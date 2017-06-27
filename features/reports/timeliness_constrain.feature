@@ -1,5 +1,5 @@
 @76
-Feature: Add timeliness constraint
+Feature: Add validity period
   As a journalist
   I want to define that a trigger will be triggered only for a recent sensor reading
   Because e.g. a loud noise from five days ago is not relevant anymore
@@ -11,9 +11,9 @@ Feature: Add timeliness constraint
       | Sensor | Property | Unit |
       | Noise1 | Sound    | dB   |
     Given for my sensors I have these triggers prepared:
-      | Sensor | From   | To     | Timeliness | Trigger   |
-      | Noise1 | 100 dB | 200 dB | 1          | Very Loud |
-      | Noise1 | 50 dB  | 200 dB |            | Loud      |
+      | Sensor | From   | To     | Validity | Trigger   |
+      | Noise1 | 100 dB | 200 dB | 1        | Very Loud |
+      | Noise1 | 50 dB  | 200 dB |          | Loud      |
     And these are the connections between text components and triggers:
       | Trigger   | Text component           |
       | Very Loud | Holy sh** what was that? |
@@ -31,7 +31,7 @@ Feature: Add timeliness constraint
     It is quite loud
     """
 
-  Scenario: Text components without timeliness constraints win
+  Scenario: Text components without validity period win
     Given the latest sensor data looks like this:
       | Sensor | Calibrated Value | Created at   |
       | Noise1 | 121db            | 2 hours ago  |
