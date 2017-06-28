@@ -7,13 +7,18 @@ class SmaxtecApi
   PROPERTY_MAPPING = {'Temperature' => 'temp'}
 
   def update_sensor_readings
+    abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
     Sensor.where.not(animal_id: nil).each do |sensor|
+      puts "Getting latest sensory data from Smaxtec for sensor: #{sensor.name}"
       reading = last_smaxtec_sensor_reading(sensor)
-      unless reading && reading.save
-        if reading
+      if reading
+        if reading.save
+          puts "New reading: #{reading.calibrated_value}"
+        else
           puts reading.errors
         end
-        # goodbye
+      else
+        puts "No sensor reading for sensor: #{sensor.name}"
       end
     end
   end
@@ -21,11 +26,10 @@ class SmaxtecApi
 
   def last_smaxtec_sensor_reading(sensor)
     metric = PROPERTY_MAPPING[sensor.property]
-    return nil unless metric
-    jwt_request = get_jwt
-    return nil unless jwt_request # TODO: shouldn't we distinguish erroneous jwt requests?
-
-    @jwt = JSON.parse(jwt_request)['token']
+    unless metric
+      puts "Sensor #{sensor.name} has unrecognized property: #{sensor.property}"
+      return nil
+    end
     #animal_id = '5722099ea80a5f54c631513d' # name = Arabella
     temp_data = send_api_request('/data/query', { :animal_id => sensor.animal_id, :metric => metric, :from_date => Time.now.to_i - 3600, :to_date => Time.now.to_i })
 
@@ -50,12 +54,20 @@ class SmaxtecApi
 
     response = Net::HTTP.get_response(uri)
 
-    return nil unless response.is_a?(Net::HTTPSuccess)
-    response.body
+    case response
+    when Net::HTTPSuccess
+      return JSON.parse(response.body)['token']
+    else
+      puts "SMAXTEC_EMAIL: #{SMAXTEC_API_EMAIL}"
+      puts "SMAXTEC_PASSWORD: #{SMAXTEC_API_PASSWORD}"
+      puts response
+      abort('JWT authentication failed')
+    end
   end
 
 
   def send_api_request(url, params=nil)
+    @jwt ||= get_jwt
     uri = URI(SMAXTEC_API_BASE_URL + url)
 
     if params
@@ -69,8 +81,13 @@ class SmaxtecApi
     req['Authorization'] = 'Bearer ' + @jwt
     response = http.request(req)
 
-    return nil unless response.is_a?(Net::HTTPSuccess)
-    JSON.parse(response.body)
+    case response
+    when Net::HTTPSuccess
+      return JSON.parse(response.body)
+    else
+      puts response
+      puts 'API request failed'
+    end
   end
 
 end
