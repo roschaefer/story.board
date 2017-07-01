@@ -28,7 +28,7 @@ Feature: Assignee
   Scenario: Get to text components assigned to me
     Given I am logged in
     When I click on the dropdown menu with my user account on the top right
-    And I click on "Text components assigned to me"
+    And I click on "My Text Components"
     Then I am on the text components page with only those assigned to me
     And I see only the text component "Man arrested for everything"
 
