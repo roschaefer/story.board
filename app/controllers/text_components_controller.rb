@@ -87,10 +87,15 @@ class TextComponentsController < ApplicationController
       
       filter_text_components
       
-      @trigger_groups = @text_components.group_by {|t| t.trigger_ids }
-      @trigger_groups = @trigger_groups.map{|trigger_ids, components|  [Trigger.find(trigger_ids), components] }.to_h
-
-      @text_components_without_triggers = @trigger_groups.delete([])
+      @trigger_groups = @text_components.order('from_day').group_by { |t| t.trigger_ids }
+      @trigger_groups = @trigger_groups.map { |trigger_ids, components| [ Trigger.find(trigger_ids), components ] }.to_h
+      @trigger_groups = @trigger_groups.sort do |a,b|
+        if(a.first.first && b.first.first)
+          a.first.first.name.downcase <=> b.first.first.name.downcase
+        else
+          a.first.first ? -1 : 1
+        end
+      end
 
       set_form_data
     end

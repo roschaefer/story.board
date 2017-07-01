@@ -59,4 +59,21 @@ class TextComponent < ActiveRecord::Base
       'default'
     end
   end
+
+  def channel_icons
+    channel_icon_mapping = {
+      'sensorstory' => 'fa-file-text',
+      'chatbot' => 'fa-comment'
+    }
+
+    icons = []
+
+    channels.each do |channel|
+      if channel_icon_mapping.key? channel.name
+        icons.push(channel_icon_mapping[channel.name])
+      end
+    end
+
+    icons.compact
+  end
 end

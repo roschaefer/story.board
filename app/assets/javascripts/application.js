@@ -17,3 +17,7 @@
 //= require cocoon
 //= require bootstrap-slider
 //= require bootstrap-select
+
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});

@@ -51,35 +51,4 @@
     %div
       %a.btn.btn-primary{:data => {:target => '#modalTriggerText', :toggle => 'modal'}, :href => '#'} New Text Component
 
-
-%table.table.item-table
-  %thead.thead-default
-    %tr
-      %th{width:'40%'} Trigger
-      %th{width:'40%'} Headline
-      %th Start
-      %th End
-      %th
-  %tbody
-    - @trigger_groups.each do |triggers, text_components|
-
-      - text_components.each.with_index do |text_component, index|
-        %tr
-          -if index === 0
-            %td{rowspan: text_components.count}
-              .item-table__title
-                .item-table__title__clip
-                  %strong
-                    =triggers.map(&:name).join(', ')
-
-          = render 'text_component_row', text_component: text_component
-
-    - if @text_components_without_triggers
-      - @text_components_without_triggers.each.with_index do |text_component, index|
-        %tr
-          -if index === 0
-            %td{rowspan: @text_components_without_triggers.count}
-              .item-table__title
-                .item-table__title__clip
-                  %strong Text Components without Trigger
-          = render 'text_component_row', text_component: text_component
+= render 'table'
