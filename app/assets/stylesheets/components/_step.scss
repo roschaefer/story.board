@@ -3,11 +3,10 @@
  */
 
 .step {
-    
+    display: flex;
 }
 
 .step__counter {
-    display: inline-block;
     width: 2rem;
     height: 2rem;
     margin-right: .5rem;
@@ -19,4 +18,8 @@
     background-color: $brand-primary;
     color: white;
     border-radius: 50%;
+}
+
+.step__action {
+    margin-left: auto;
 }

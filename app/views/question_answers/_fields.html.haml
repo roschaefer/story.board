@@ -1,6 +1,26 @@
 .nested-fields
-  .form-group
-    = f.input :question, input_html: { class: ['question-input', 'text-editor__field'] }
-    = f.input :answer, input_html: { class: ['answer-input', 'text-editor__field'] }
+  .text-editor
+    .text-editor__toolbar
+      .text-editor__toolbar__item
+        Sensors
+        %select.custom-select
+          - @sensors.each do |sensor|
+            %option{:data => {"editor" => {"markup-command" => "text", "markup-text" => "{value(#{sensor.id})}"}}}
+              = sensor.name
+      .text-editor__toolbar__item
+        Events
+        %select.custom-select
+          - @events.each do |event|
+            %option{:data => {"editor" => {"markup-command" => "text", "markup-text" => "{date(#{event.id})}"}}}
+              = event.name
+    
+    .text-editor__fields
+      .field
+        .field__label  Question
+        = f.input :question, label: false, input_html: { class: ['question-input', 'text-editor__field'] }
+      .field
+        .field__label  Answer
+        = f.input :answer, label: false, input_html: { class: ['answer-input', 'text-editor__field'] }
+
   .form-group
     = link_to_remove_association button_tag("Remove Q/A", type: 'button', class: 'btn btn-danger'), f

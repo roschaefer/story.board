@@ -3,34 +3,29 @@
  */
 
 .text-editor {
+  border: 1px solid $input-border-color;
+  border-radius: $input-border-radius;
 
+  overflow: hidden;
 }
 
 .text-editor__toolbar {
-  position: sticky;
-  top: 0;
-
-  padding: 0 15px;
-
-  background-color: #efefef;
+  display: flex;
+  background: #f4f4f4;
 }
 
 .text-editor__toolbar__item {
-  display: inline-block;
-  cursor: pointer;
-
-  /* magic numbers, see above */
-  padding: 15px 5px;
-
-  &:hover {
-    color: darken(#428bca, 10);
-  }
+  position: relative;
+  padding: .5rem .75rem;
+  border-right: 1px solid $input-border-color;
 }
 
-.text-editor__toolbar__item .glyphicon {
-  font-size: 1.25em;
-  /* resetting the icon position */
-  line-height: .8; /* 1/1.25 */
-  top: .125em; /* (1.25-1)/2 */
-
+.text-editor__toolbar__item select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
