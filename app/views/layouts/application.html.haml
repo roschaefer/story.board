@@ -44,7 +44,7 @@
             %li.nav-item= link_to 'Text Components', report_text_components_path(@report), :class => 'nav-link'
             %li.nav-item
               %div.dropdown
-                %a.nav-link.dropdown-toggle{:data => {:toggle => 'dropdown'}, :href => "#"} Report Settings
+                %a.nav-link.dropdown-toggle{:data => {:toggle => 'dropdown'}, :href => '#'} Report Settings
                 %ul.dropdown-menu
                   - Report.find_each do |report|
                     %li= link_to report.name, report_path(report), :class => 'dropdown-item'
@@ -53,7 +53,7 @@
             %li.nav-item
               - if user_signed_in?
                 .dropdown
-                  %a.nav-link.dropdown-toggle{:data => {:toggle => 'dropdown'}, :href => "#"}= current_user.name
+                  %a.nav-link.dropdown-toggle#user-menu{:data => {:toggle => 'dropdown'}, :href => "#"}= current_user.name
                   %ul.dropdown-menu.dropdown-menu-right
                     %li= link_to 'My Text Components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]}), :class => 'dropdown-item'
                     %li= link_to 'My Account', edit_user_registration_path, :class => 'dropdown-item'
