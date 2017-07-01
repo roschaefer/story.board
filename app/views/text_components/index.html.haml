@@ -47,7 +47,7 @@
       = form_tag(report_text_components_path(@report), {method: :get}) do
         .input-group
           .input-group-addon Assignee:
-          = collection_select(:filter, :assignee_id, User.order('LOWER(name)'), :id, :name, { selected: @filter[:assignee_id], include_blank: 'All' }, { class: 'form-control custom-select', onchange: 'this.form.submit()' })
+          = collection_select(:filter, :assignee_id, User.order('LOWER(name)'), :id, :name, { selected: @filter[:assignee_id], include_blank: 'All' }, { class: 'form-control custom-select', id: 'filter-assignee', onchange: 'this.form.submit()' })
     %div
       %a.btn.btn-primary{:data => {:target => '#modalTriggerText', :toggle => 'modal'}, :href => '#'} New Text Component
 

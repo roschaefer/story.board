@@ -181,7 +181,7 @@ Given(/^my current live report is called "([^"]*)"$/) do |name|
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  click_on 'Report settings'
+  click_on 'Report Settings'
   click_on name
 end
 
@@ -362,8 +362,7 @@ When(/^I change the name of the report to "([^"]*)"$/) do |name|
 end
 
 Then(/^I see the new name in the settings menu above$/) do
-  expect(page).to have_css('.dropdown.report-settings')
-  expect(find('.dropdown.report-settings .dropdown-menu')).to have_text @report_name
+  expect(find('#main-nav')).to have_text @report_name
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
@@ -1034,8 +1033,7 @@ Then(/^I see only the text component "([^"]*)"$/) do |heading|
 end
 
 When(/^I filter by assignee "([^"]*)"$/) do |assignee_name|
-  click_on '...choose a user'
-  find('li', text: assignee_name).click
+  find('#filter-assignee').find('option', text: assignee_name).select_option
   click_on 'Filter'
 end
 
