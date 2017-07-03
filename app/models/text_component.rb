@@ -19,8 +19,8 @@ class TextComponent < ActiveRecord::Base
 
   enum publication_status: { :draft => 0, :fact_checked => 1, :published => 2 }
 
-  def active?(opts={})
-    on_time? && triggers.all? {|t| t.active?(opts) }
+  def active?(diary_entry = nil)
+    on_time? && triggers.all? {|t| t.active?(diary_entry) }
   end
 
   def on_time?

@@ -16,10 +16,10 @@ describe 'Whenever Schedule' do
       expect(Report.current).to be_present
     end
 
-    it 'creates records' do
+    it 'creates diary entries' do
       schedule = Whenever::Test::Schedule.new
       task = schedule.jobs[:rake].first[:task]
-      expect{ Rake::Task[task].invoke }.to change{ Record.count }
+      expect{ Rake::Task[task].invoke }.to change{ DiaryEntry.count }
     end
   end
 end

@@ -21,7 +21,7 @@ RSpec.describe SensorDecorator do
       end
 
       context 'intention :fake' do
-        subject { super().last_value(intention: :fake) }
+        subject { super().last_value(DiaryEntry.new(intention: :fake)) }
         it { is_expected.to eq '-3.0°C'}
       end
 

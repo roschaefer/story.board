@@ -4,7 +4,7 @@ require 'capybara/rspec'
 RSpec.describe Text::Generator do
   let(:report)                { Report.current }
   let(:intention)             { :real }
-  let(:generator) { described_class.new(report: report, opts: {intention: intention}) }
+  let(:generator) { described_class.new(DiaryEntry.new(report: report, intention: intention)) }
   subject { generator }
 
   describe '#html_main_part' do
@@ -163,8 +163,8 @@ RSpec.describe Text::Generator do
 
     end
 
-    describe '#generate' do
-      subject { generator.generate }
+    describe '#attributes_for_diary_entry' do
+      subject { generator.attributes_for_diary_entry }
 
       it { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
 
