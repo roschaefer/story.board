@@ -1,8 +1,9 @@
-%td.item-table__channels{class: "text-#{text_component.css_status_class}", data: {toggle: 'tooltip'}, title: "#{text_component.channels.map{|c| c.name.humanize}.join(', ')} / #{text_component.publication_status.humanize}"}
-  - if(text_component.channel_icons.count > 1)
-    %span{class: ['fa', 'fa-ellipsis-h']}
-  - else
-    %span{class: ['fa', text_component.channel_icons.first]}
+%td.item-table__channels{class: "text-#{text_component.css_status_class}"}
+  %span{data: {toggle: 'tooltip'}, title: "#{text_component.channels.map{|c| c.name.humanize}.join(', ')} / #{text_component.publication_status.humanize}"}
+    - if(text_component.channel_icons.count > 1)
+      %span{class: ['fa', 'fa-ellipsis-h']}
+    - else
+      %span{class: ['fa', text_component.channel_icons.first]}
 
 %td
   .item-table__title
