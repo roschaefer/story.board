@@ -1190,4 +1190,24 @@ Given(/^we have these text components for the chatbot:$/) do |table|
   end
 end
 
+Given(/^we have these diary entries in our database:$/) do |table|
+  table.hashes.each do |row|
+    report_id = row['Report id']
+    report = Report.find_by(id: report_id) || create(:report, id: report_id)
+    create(:diary_entry, id: row['Id'], report: report, intention: row['Intention'], moment: row['Moment'])
+  end
+end
 
+Then(/^the JSON response should include the diary entries (\d+) and (\d+)$/) do |id1, id2|
+  json_response = JSON.parse(last_response.body)
+  expect(json_response.count).to eq 2
+  expect(json_response.first["id"]).to eq id1.to_i
+  expect(json_response.last["id"]).to eq id2.to_i
+end
+
+Given(/^for that diary entry we have some text components and question answers$/) do
+  report = Report.find(4711)
+  create(:text_component, :with_question_answers, report: report)
+  create(:text_component, report: report)
+  create(:text_component, report: Report.current) # this should not go into the diary entry
+end
