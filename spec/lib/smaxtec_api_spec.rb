@@ -30,7 +30,8 @@ RSpec.describe SmaxtecApi do
     it 'should update the sensor readings from the Smaxtec API and integrate them to the system' do
       VCR.use_cassette('smaxtec_api', :record => :once) do
         sensor # create
-        expect { smaxtec_api.update_sensor_readings }.to change {Sensor::Reading.count}.from(0).to(1)
+        # 72 new readings -> one reading for every 10 minutes, for 12 hours that's 72 readings
+        expect { smaxtec_api.update_sensor_readings }.to change {Sensor::Reading.count}.from(0).to(72)
       end
     end
   end
@@ -40,7 +41,7 @@ RSpec.describe SmaxtecApi do
     it 'should not create a sensor reading if the sensor reading for the specific sensor type already exists' do
       sensor # create
       VCR.use_cassette('smaxtec_api', :record => :once) do
-        expect { smaxtec_api.update_sensor_readings }.to change {Sensor::Reading.count}.from(0).to(1)
+        expect { smaxtec_api.update_sensor_readings }.to change {Sensor::Reading.count}.from(0).to(72)
       end
 
       VCR.use_cassette('smaxtec_api', :record => :once) do
