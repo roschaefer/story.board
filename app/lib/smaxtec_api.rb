@@ -4,7 +4,7 @@ class SmaxtecApi
   SMAXTEC_API_EMAIL = Rails.application.secrets.smaxtec_api_email
   SMAXTEC_API_PASSWORD = Rails.application.secrets.smaxtec_api_password
   SMAXTEC_API_BASE_URL = 'https://api-staging.smaxtec.com/api/v1'
-  PROPERTY_MAPPING = {'Temperature' => 'temp'}
+  PROPERTY_MAPPING = {'Temperature' => 'temp', 'pH Value' => 'ph', 'Movement' => 'act'}
 
   def update_sensor_readings
     abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
