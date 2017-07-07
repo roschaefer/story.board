@@ -1,5 +1,6 @@
 class SmaxtecApi
   require 'net/http'
+  require 'date'
 
   SMAXTEC_API_EMAIL = Rails.application.secrets.smaxtec_api_email
   SMAXTEC_API_PASSWORD = Rails.application.secrets.smaxtec_api_password
@@ -7,19 +8,49 @@ class SmaxtecApi
   PROPERTY_MAPPING = {'Temperature' => 'temp'}
 
   def update_sensor_readings
+    puts "[" + Time.now.to_s + "] " + "Started update_sensor_readings"
     abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
     Sensor.where.not(animal_id: nil).each do |sensor|
       puts "Getting latest sensory data from Smaxtec for sensor: #{sensor.name}"
-      reading = last_smaxtec_sensor_reading(sensor)
-      if reading
-        if reading.save
-          puts "New reading: #{reading.calibrated_value}"
-        else
-          puts reading.errors
+      readings = smaxtec_sensor_readings(sensor)
+      if readings
+        readings.each do |reading|
+          if reading.new_record?
+            if reading.save
+              puts "New reading: #{reading.created_at} - #{reading.calibrated_value} #{reading.sensor.sensor_type.unit}"
+            else
+              puts reading.errors
+            end
+          end
         end
       else
-        puts "No sensor reading for sensor: #{sensor.name}"
+        puts "No new sensor reading for sensor: #{sensor.name}"
       end
+    end
+  end
+
+
+  def smaxtec_sensor_readings(sensor)
+    metric = PROPERTY_MAPPING[sensor.property]
+    unless metric
+      puts "Sensor #{sensor.name} has unrecognized property: #{sensor.property}"
+      return nil
+    end
+    #animal_id = '5722099ea80a5f54c631513d' # name = Arabella
+    temp_data = send_api_request('/data/query', { :animal_id => sensor.animal_id, :metric => metric, :from_date => Time.now.to_i - 43200, :to_date => Time.now.to_i })
+    if temp_data && temp_data['data'].count > 1
+      readings = []
+      temp_data['data'].each do |data|
+        timestamp = data[0]
+        value = data[1]
+        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: DateTime.strptime(timestamp.to_s,'%s'), updated_at: DateTime.strptime(timestamp.to_s,'%s')) do |reading|
+          reading.calibrated_value = value
+          reading.uncalibrated_value = value
+        end
+      end
+      return readings
+    else
+      return nil
     end
   end
 
