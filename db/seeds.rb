@@ -71,7 +71,9 @@ attribute_hashes = [
   { property: 'Zeit'              , unit: 'hours'                                        },
   { property: 'Milchmenge'        , unit: 'kg'                                           },
   { property: 'Lautstärke'        , unit: '0-10 - still, leise, mittel, laut, sehr laut' },
-  { property: 'Favs'              , unit: '0-unlimited'                                  }
+  { property: 'Favs'              , unit: '0-unlimited'                                  },
+  { property: 'pH Value'          , unit: 'pH'                                           },
+  { property: 'Movement'          , unit: '1-100'                                        }
 ]
 
 new_sensor_types = attribute_hashes.collect{ |attributes| SensorType.new attributes }
