@@ -14,13 +14,17 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require autosize
+//= require choices
 //= require_tree .
 //= require cocoon
 //= require bootstrap-slider
-//= require bootstrap-select
 //= require components/form
 
 $(function() {
     autosize($('.field textarea'));
     autosize.update($('.field textarea'));
+});
+
+$(function() {
+    new Choices('[data-choices]');
 });

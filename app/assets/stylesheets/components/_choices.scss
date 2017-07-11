@@ -1,0 +1,42 @@
+/**
+ * CHOICES
+ * Custom style overwrites for choices selects
+ */
+
+.choices[data-type*="select-one"]:after {
+    content: none;
+}
+
+.choices__inner {
+    min-height: $input-height;
+    padding: $input-btn-padding-y $input-btn-padding-x;
+
+    font-size: $font-size-base;
+    line-height: $input-btn-line-height;
+    vertical-align: middle;
+
+    color: $input-color;
+    background: $input-bg $custom-select-indicator no-repeat right $custom-select-padding-x center;
+    background-size: $custom-select-bg-size;
+
+    border: $input-btn-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+
+    .choices.is-focused & {
+        border-color: $custom-select-focus-border-color;
+    }
+
+    .choices.is-open & {
+        border-radius: $custom-select-border-radius $custom-select-border-radius 0 0;
+    }
+}
+
+.choices__list {
+    .choices.is-focused & {
+        border-color: $custom-select-focus-border-color;
+    }
+}
+
+.choices__list--single {
+    padding: 0;
+}
