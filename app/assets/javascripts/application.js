@@ -13,7 +13,12 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+//= require choices
 //= require_tree .
 //= require cocoon
 //= require bootstrap-slider
 //= require bootstrap-select
+
+$(function() {
+    new Choices('[data-choices]');
+});
