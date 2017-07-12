@@ -9,15 +9,15 @@
       .modal-body
         %ul.nav.nav-justified.mb-4
           %li.nav-item
-            %a.btn.btn-secondary.active{"data-toggle" => "pill", :href => "#textComponent-create-newTrigger"} Create with new trigger
+            %a.btn.btn-secondary.active{"data-toggle" => "pill", :href => "#textComponent-create-useTrigger"} use an existing trigger
 
           %li.btn or
 
           %li.nav-item
-            %a.btn.btn-secondary{"data-toggle" => "pill", :href => "#textComponent-create-useTrigger"} use an existing trigger
+            %a.btn.btn-secondary{"data-toggle" => "pill", :href => "#textComponent-create-newTrigger"} Create with new trigger
 
         .tab-content
-          .tab-pane.active#textComponent-create-newTrigger
-            = render 'form', text_component: text_component, create_trigger: true
-          .tab-pane#textComponent-create-useTrigger
+          .tab-pane.active#textComponent-create-useTrigger
             = render 'form', text_component: text_component
+          .tab-pane#textComponent-create-newTrigger
+            = render 'form', text_component: text_component, create_trigger: true
