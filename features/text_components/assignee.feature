@@ -19,7 +19,7 @@ Feature: Assignee
   Scenario: Assign user
     Given I am logged in
     When I edit an existing text component
-    And I choose "Jane Doe" from the dropdown menu "Assignee"
+    And I assign the text component to "Jane Doe"
     And I click on "Update Text component"
     Then I can see that Jane was assigned to the text component
 

@@ -70,7 +70,7 @@ end
 
 When(/^I add a condition$/) do
   find('button', text: /Add sensor/).click
-  expect(page).to have_text('Remove sensor') # wait until it's there
+  expect(page).to have_css('button[type="button"].btn-danger', {text: '×'}) # wait until it's there
 end
 
 When(/^(?:when )?I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
@@ -589,13 +589,7 @@ Given(/^we have a text component called "([^"]*)":$/) do |heading, text|
 end
 
 When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
-  unless page.has_css?('.dropdown-menu.inner')
-    within(".text_component_triggers") do
-      find('.bootstrap-select').click
-    end
-    expect(page).to have_css('.dropdown-menu.inner')
-  end
-  find('li', text: trigger).click
+  page.find('text_component_triggers .choices__item', {text: trigger}).click
 end
 
 Then(/^the text component is connected to both triggers$/) do
@@ -709,7 +703,7 @@ def edit_existing_text_component
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
-  expect(page).to have_text('Editing text component')
+  expect(page).to have_text('Edit Text Component')
 end
 
 When(/^I edit this text component$/) do
@@ -781,7 +775,7 @@ When(/^I edit the easier text component$/) do
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
-  expect(page).to have_text('Editing text component')
+  expect(page).to have_text('Edit Text Component')
 end
 
 When(/^choose "([^"]*)" as a channel$/) do |channel|
@@ -969,6 +963,10 @@ When(/^I choose "([^"]*)" from the dropdown menu "([^"]*)"$/) do |option, select
   select option, from: select
 end
 
+When(/I assign the text component to "([^"]*)"$/) do |assignee|
+  page.find('.choices__item', {text: assignee}).click
+end
+
 Then(/^I can see that Jane was assigned to the text component$/) do
   within '.assignee' do
     expect(page).to have_text 'Jane Doe'
@@ -1048,7 +1046,7 @@ Given(/^I landed on the "([^"]*)" page because I just edited that component$/) d
 end
 
 Then(/^the edit modal pops up, allowing me to correct mistakes$/) do
-  expect(page).to have_text('Editing text component')
+  expect(page).to have_text('Edit Text Component')
   fill_in 'text_component_heading', with: 'Another heading'
   click_on 'Update Text component'
   expect(page).to have_css('b', text: 'Another heading')

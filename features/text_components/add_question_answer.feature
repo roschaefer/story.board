@@ -23,7 +23,7 @@ Feature: Add a new question/answer
   Scenario:
     Given I am the journalist
     And I edit this text component
-    When I click the "Add a question and an answer" button
+    When I click the "Add Question & Answer" button
     And two more input fields pop up, one for the new question and one for the new answer
     And I fill the empty question with:
     """

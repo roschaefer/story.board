@@ -63,7 +63,7 @@ RSpec.describe "text_components/index", type: :view do
     parsed = Capybara.string(rendered)
     expect(parsed).to have_css('form.edit_text_component')
     parsed.all('form.edit_text_component').each do |form|
-      expect(form).to have_selector('.text-editor__toolbar__item.dropdown-toggle', :count => 2)
+      expect(form).to have_selector('.text-editor__toolbar__item select', :count => 2)
     end
   end
 
