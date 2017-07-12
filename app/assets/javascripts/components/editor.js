@@ -245,6 +245,10 @@ var Editor = (function($) {
 
     $(function() {
         $('.modal .text-editor').editor();
+
+        $('.qa').on('cocoon:before-insert', function(e, item) {
+            $(item).find('.text-editor').editor();
+        });
     });
 
 })(jQuery, Editor);

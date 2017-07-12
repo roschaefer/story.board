@@ -1,26 +1,28 @@
-.nested-fields
+.nested-fields.qa__item.form-group
   .text-editor
     .text-editor__toolbar
       .text-editor__toolbar__item
         Sensors
-        %select.custom-select
+        %select{'data-editor-markup-select': true}
+          %option{disabled: true, selected: true} Please select a sensor
           - @sensors.each do |sensor|
-            %option{:data => {"editor" => {"markup-command" => "text", "markup-text" => "{value(#{sensor.id})}"}}}
+            %option{data: {editor: {'markup-command': 'text', 'markup-text': "{value(#{sensor.id})}"}}}
               = sensor.name
       .text-editor__toolbar__item
         Events
-        %select.custom-select
+        %select{'data-editor-markup-select': true}
+          %option{disabled: true, selected: true} Please select an event
           - @events.each do |event|
-            %option{:data => {"editor" => {"markup-command" => "text", "markup-text" => "{date(#{event.id})}"}}}
+            %option{data: {editor: {'markup-command': 'text', 'markup-text': "{date(#{event.id})}"}}}
               = event.name
+
+      .text-editor__toolbar__item.text-editor__toolbar__item--destroy
+        = link_to_remove_association 'Remove Q/A', f, {class: 'text-danger'}
     
     .text-editor__fields
       .field
         .field__label Question
-        = f.input :question, label: false, input_html: { class: ['question-input', 'text-editor__field'] }
+        = f.input :question, label: false, input_html: { 'data-editor-markup-select': true, class: ['question-input', 'text-editor__field'] }
       .field
         .field__label Answer
-        = f.input :answer, label: false, input_html: { class: ['answer-input', 'text-editor__field'] }
-
-  .form-group
-    = link_to_remove_association button_tag("Remove Q/A", type: 'button', class: 'btn btn-danger'), f
+        = f.input :answer, label: false, input_html: { 'data-editor-markup-select': true, class: ['answer-input', 'text-editor__field'] }
