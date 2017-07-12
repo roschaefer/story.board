@@ -3,21 +3,16 @@
  * Custom style overwrites for choices selects
  */
 
-.choices[data-type*="select-one"]:after {
-    content: none;
-}
-
 .choices__inner {
     min-height: $input-height;
-    padding: $input-btn-padding-y $input-btn-padding-x;
+    padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
 
     font-size: $font-size-base;
     line-height: $input-btn-line-height;
     vertical-align: middle;
 
     color: $input-color;
-    background: $input-bg $custom-select-indicator no-repeat right $custom-select-padding-x center;
-    background-size: $custom-select-bg-size;
+    background-color: $input-bg;
 
     border: $input-btn-border-width solid $input-border-color;
     border-radius: $input-border-radius;
@@ -29,6 +24,32 @@
     .choices.is-open & {
         border-radius: $custom-select-border-radius $custom-select-border-radius 0 0;
     }
+
+    .choices.is-open.is-flipped & {
+        border-radius: 0 0 $custom-select-border-radius $custom-select-border-radius;   
+    }
+}
+
+.choices[data-type*="select-one"]:after {
+    content: none;
+}
+
+.choices[data-type*="select-one"] {
+    .choices__inner {
+        background: $input-bg $custom-select-indicator no-repeat right $custom-select-padding-x center;
+        background-size: $custom-select-bg-size;
+    }
+}
+
+.choices[data-type*="select-multiple"] {
+    .choices__inner {
+        padding-bottom: $custom-select-padding-y - (3.75rem / 16);
+    }
+}
+
+.choices__input {
+    margin-bottom: 0;
+    background-color: $input-bg;
 }
 
 .choices__list {
@@ -39,4 +60,16 @@
 
 .choices__list--single {
     padding: 0;
+}
+
+.choices__list--multiple {
+    .choices__item {
+        background-color: $brand-primary;
+        border-color: darken($brand-primary, 10);
+
+        &.is-highlighted {
+            background-color: darken($brand-primary, 10);
+            border-color: darken($brand-primary, 20);
+        }
+    }
 }
