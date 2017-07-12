@@ -5,29 +5,7 @@
 - @text_components.each do |text_component|
   = render 'edit_modal', text_component: text_component
 
-#modalTriggerText.modal
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %h4.modal-title New Text Component
-        %button.close{"data-dismiss" => "modal", :type => "button"}
-          %span ×
-
-      .modal-body
-        %ul.nav.nav-justified.mb-4
-          %li.nav-item
-            %a.btn.btn-secondary.active{"data-toggle" => "pill", :href => "#textComponent-create-newTrigger"} Create with new trigger
-
-          %li.btn or
-
-          %li.nav-item
-            %a.btn.btn-secondary{"data-toggle" => "pill", :href => "#textComponent-create-useTrigger"} use an existing trigger
-
-        .tab-content
-          .tab-pane.active#textComponent-create-newTrigger
-            = render 'form', text_component: @new_text_component, create_trigger: true
-          .tab-pane#textComponent-create-useTrigger
-            = render 'form', text_component: @new_text_component
+= render 'create_modal', text_component: @new_text_component
 
 .row
   .col-sm-12
