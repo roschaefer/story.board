@@ -126,7 +126,7 @@
 
       .form__section__body
 
-        = f.association :channels, collection: Channel.order('name'), input_html: {'data-choices': true}
+        = f.association :channels, collection: Channel.order('name'), selected: text_component.channels.count > 0 ? text_component.channel_ids : Channel.find_by({name: 'sensorstory'}).id, input_html: {'data-choices': true}
 
 
   .form-actions
