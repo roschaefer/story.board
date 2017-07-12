@@ -26,5 +26,5 @@ $(function() {
 });
 
 $(function() {
-    new Choices('[data-choices]');
+    new Choices('[data-choices]', {shouldSort: false});
 });

@@ -22,7 +22,7 @@
           = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'    
 
         .form-group
-          = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, input_html: {'data-choices': true}
+          = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, include_blank: 'No assignee', input_html: {'data-choices': true}
 
 
     .form__section.form__section--active
@@ -45,7 +45,7 @@
             = f.association :triggers, collection: Trigger.order('name'), label_method: :name, input_html: {'data-choices': true}
 
         .form__fieldset
-          = f.association :topic, collection: Topic.order('name'), label_method: :name, input_html: {'data-choices': true}
+          = f.association :topic, collection: Topic.order('name'), label_method: :name, include_blank: 'No topic', input_html: {'data-choices': true}
 
         .form__fieldset
           .row
