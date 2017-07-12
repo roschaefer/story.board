@@ -19,6 +19,9 @@
           = f.association :report, collection: Report.order('name'), selected: @report.id, input_html: {'data-choices': true}
 
         .form-group
+          = f.association :topic, collection: Topic.order('name'), label_method: :name, include_blank: 'No topic', input_html: {'data-choices': true}
+
+        .form-group
           = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'    
 
         .form-group
@@ -43,9 +46,6 @@
               = render 'triggers/trigger_fields', f: trigger, is_sub_form: true
           - else
             = f.association :triggers, collection: Trigger.order('name'), label_method: :name, input_html: {'data-choices': true}
-
-        .form__fieldset
-          = f.association :topic, collection: Topic.order('name'), label_method: :name, include_blank: 'No topic', input_html: {'data-choices': true}
 
         .form__fieldset
           .row
@@ -86,7 +86,6 @@
           .text-editor__fields
             .field
               .field__label  Heading
-              = f.input :heading, as: :text, :label => false
               = f.input :heading, as: :text, :label => false, input_html: {class: 'text-editor__field'}
             .field
               .field__label Introduction
@@ -131,4 +130,4 @@
 
 
   .form-actions
-    = f.button :submit, class: 'btn btn-submit'
+    = f.button :submit, class: 'btn btn-primary'

@@ -2,21 +2,22 @@
 
 = f.input :name
 
-.form-group
-  %label Color
-  %ul.triggercolor
-    %li.bg-blue.active
-      %span
-    %li.bg-green
-      %span
-    %li.bg-cyan
-      %span
-    %li.bg-yellow
-      %span
-    %li.bg-red
-      %span
-    %li.bg-purple
-      %span
+-#
+  .form-group
+    %label Color
+    %ul.triggercolor
+      %li.bg-blue.active
+        %span
+      %li.bg-green
+        %span
+      %li.bg-cyan
+        %span
+      %li.bg-yellow
+        %span
+      %li.bg-red
+        %span
+      %li.bg-purple
+        %span
 
 
 %h5.mt-4 Sensor Conditions
@@ -29,23 +30,22 @@
     = link_to_add_association button_tag('Add sensor', type: 'button', class: 'btn btn-secondary link-to-add-association'), f, :conditions, partial: 'triggers/condition_fields'
 
 .form-group
-  %h5 Additional conditions
-  = f.input :timeliness_constraint, input_html: {'data-slider-id' => 'slider-single', 'data-provide' => "slider", 'data-slider-min'=>"0", 'data-slider-max'=>"12", 'data-slider-step'=>"1", 'data-slider-tooltip'=>"always" }
-  %span.form-text Text component will be triggered for sensor readings within the last X hours
-
-.form-group
-  = f.input :priority, collection: Trigger.priorities.keys, include_blank: false
-
-.form-group
-  .row
-    .col
-      = f.input :from_hour, collection: 0..23, as: :select
-    .col
-      = f.input :to_hour, collection: 0..23, as: :select
-
-.form-group
   %h5 Events
   = f.association :events, label_method: :name_and_id, label: false, input_html: {'data-choices': true}
+
+.form-group
+  %h5 Additional conditions
+  = f.input :priority, collection: Trigger.priorities.keys, include_blank: false, input_html: {class: ''}
+
+.form-group
+  = f.input :timeliness_constraint, input_html: {type: 'number', min: 0, max: 12}
+  %small.form-text.text-muted Text component will be triggered for sensor readings within the last X hours
+
+.row
+  .col
+    = f.input :from_hour, collection: 0..23, as: :select
+  .col
+    = f.input :to_hour, collection: 0..23, as: :select
 
 - unless local_assigns[:is_sub_form]
   .form-actions
