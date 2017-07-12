@@ -161,10 +161,22 @@ var Editor = (function($) {
      * @param {Editor} editor The editor the field belongs to
      */
     function Field($field, editor) {
-        this.$field = $field;
+        this.$hidden = $field;
         this.editor = editor;
 
         this.init();
+    };
+
+    /*
+     *
+     */
+    Field.prototype.filters = {
+        renderSensors: function(raw) {
+            return raw.replace(/({\s*value\(\s*(\d+)\s*\)\s*})/g, '<span class="markup markup--sensor" data-markup="$1">$2</span>');
+        },
+        renderEvents: function(raw) {
+            return raw.replace(/({\s*date\(\s*(\d+)\s*\)\s*})/g, '<span class="markup markup--event" data-markup="$1">$2</span>');
+        },
     };
 
 
@@ -176,8 +188,26 @@ var Editor = (function($) {
     Field.prototype.init = function() {
         var self = this;
 
-        self.$field.on('blur', function() {
+        self.$hidden.wrap('<div class="field-wrapper">');
+        self.$hidden.addClass('field-wrapper__hidden-input');
+        self.$wrapper = self.$hidden.parent('.field-wrapper');
+        
+        var $mirror = $('<div>')
+            .addClass('field-wrapper__mirror field__input')
+            .attr('contenteditable', true);
+
+        self.$wrapper.append($mirror);
+        self.$mirror = self.$wrapper.find('.field-wrapper__mirror');
+
+
+        // set event handlers
+
+        self.$hidden.on('blur', function() {
             self.editor.saveFocus(self);
+        });
+
+        self.$mirror.on('input', function(e) {
+            self.handleChange();
         });
 
         return this;
@@ -226,9 +256,47 @@ var Editor = (function($) {
      * @return {Field}
      */
     Field.prototype.focus = function() {
-        this.$field.focus();
+        this.$mirror.focus();
 
         return this;
+    }
+
+    /*
+     * 
+     */
+    Field.prototype.handleChange = function() {
+        this.$hidden.html(this.raw());
+        this.render();
+
+        return this;
+    }
+
+    /*
+     * 
+     */
+    Field.prototype.render = function() {
+        var rendered = this.$hidden.html();
+        
+        console.log(this.filters);
+
+        $.each(this.filters, function(name, filter) {
+            rendered = filter(rendered);
+        });
+
+        this.$mirror.html(rendered);
+
+        return this;
+    }
+
+    /*
+     * 
+     */
+    Field.prototype.raw = function() {
+        var raw = this.$mirror.html();
+        console.log(raw);
+        var raw = raw.replace(/<[a-z]+.+data-markup="(.*)">.*<\/[a-z]+>/, '$1');
+
+        return raw;
     }
 
     return Editor;
