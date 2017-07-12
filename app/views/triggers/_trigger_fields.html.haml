@@ -45,7 +45,7 @@
 
 .form-group
   %h5 Events
-  = f.association :events, label_method: :name_and_id, label: false
+  = f.association :events, label_method: :name_and_id, label: false, input_html: {'data-choices': true}
 
 - unless local_assigns[:is_sub_form]
   .form-actions

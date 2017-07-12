@@ -16,13 +16,13 @@
       .form__section__body
 
         .form-group
-          = f.association :report, collection: Report.order('name'), selected: @report.id
+          = f.association :report, collection: Report.order('name'), selected: @report.id, input_html: {'data-choices': true}
 
         .form-group
           = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'    
 
         .form-group
-          = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name
+          = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, input_html: {'data-choices': true}
 
 
     .form__section.form__section--active
@@ -42,10 +42,10 @@
             = f.simple_fields_for :triggers do |trigger|
               = render 'triggers/trigger_fields', f: trigger, is_sub_form: true
           - else
-            = f.association :triggers, collection: Trigger.order('name'), label_method: :name
+            = f.association :triggers, collection: Trigger.order('name'), label_method: :name, input_html: {'data-choices': true}
 
         .form__fieldset
-          = f.association :topic, collection: Topic.order('name'), label_method: :name
+          = f.association :topic, collection: Topic.order('name'), label_method: :name, input_html: {'data-choices': true}
 
         .form__fieldset
           .row
@@ -124,7 +124,7 @@
 
       .form__section__body
 
-        = f.association :channels, collection: Channel.order('name')
+        = f.association :channels, collection: Channel.order('name'), input_html: {'data-choices': true}
 
 
   .form-actions
