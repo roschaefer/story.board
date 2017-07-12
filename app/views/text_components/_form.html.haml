@@ -70,30 +70,33 @@
           .text-editor__toolbar
             .text-editor__toolbar__item
               Sensors
-              %select.custom-select
+              %select{'data-editor-markup-select': true}
+                %option{disabled: true, selected: true} Please select a sensor
                 - @sensors.each do |sensor|
-                  %option{:data => {"editor" => {"markup-command" => "text", "markup-text" => "{value(#{sensor.id})}"}}}
+                  %option{data: {editor: {'markup-command': 'text', 'markup-text': "{value(#{sensor.id})}"}}}
                     = sensor.name
             .text-editor__toolbar__item
               Events
-              %select.custom-select
+              %select{'data-editor-markup-select': true}
+                %option{disabled: true, selected: true} Please select an event
                 - @events.each do |event|
-                  %option{:data => {"editor" => {"markup-command" => "text", "markup-text" => "{date(#{event.id})}"}}}
+                  %option{data: {editor: {'markup-command': 'text', 'markup-text': "{date(#{event.id})}"}}}
                     = event.name
 
           .text-editor__fields
             .field
               .field__label  Heading
               = f.input :heading, as: :text, :label => false
+              = f.input :heading, as: :text, :label => false, input_html: {class: 'text-editor__field'}
             .field
               .field__label Introduction
-              = f.input :introduction, as: :text, :label => false
+              = f.input :introduction, as: :text, :label => false, input_html: {class: 'text-editor__field'}
             .field
               .field__label Main Part
-              = f.input :main_part, as: :text, :label => false
+              = f.input :main_part, as: :text, :label => false, input_html: {class: 'text-editor__field'}
             .field
               .field__label Closing
-              = f.input :closing, as: :text, :label => false
+              = f.input :closing, as: :text, :label => false, input_html: {class: 'text-editor__field'}
 
 
     .form__section

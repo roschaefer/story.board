@@ -19,6 +19,7 @@
 //= require cocoon
 //= require bootstrap-slider
 //= require components/form
+//= require components/editor
 
 $(function() {
     autosize($('.field textarea'));
