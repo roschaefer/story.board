@@ -707,8 +707,9 @@ Given(/^some triggers are active at certain hours:$/) do |table|
   end
 end
 
-def edit_existing_text_component
-  visit report_text_components_path(Report.current)
+def edit_existing_text_component(text_component = nil)
+  @text_component ||= text_component
+  visit report_text_components_path(text_component.report)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -964,7 +965,7 @@ Given(/^we have these users in our database$/) do |table|
 end
 
 When(/^I edit an existing text component$/) do
-  @text_component = create(:text_component, report: Report.current)
+  @text_component = create(:text_component)
   edit_existing_text_component
 end
 
@@ -1064,8 +1065,10 @@ Given(/^I fill in a valid email and a password$/) do
   fill_in 'user_password_confirmation', with: 'password123'
 end
 
-Then(/^I see the error message: "([^"]*)"$/) do |error_message|
+Then(/^I see the error message$/) do |error_message|
+  expect(page).to have_css('.alert.alert-danger', text: error_message)
 end
+
 
 Then(/^I see error message telling me the user name can't be blank$/) do
   within('.form-group', text: 'Name') do
@@ -1212,22 +1215,14 @@ Given(/^for that diary entry we have some text components and question answers$/
   create(:text_component, report: Report.current) # this should not go into the diary entry
 end
 
-Given(/^that someone is querying to the chatbot$/) do
-  visit text_components_path
+Given(/^I am composing some question answers for a text component$/) do
+  text_component = create(:text_component, heading: 'The text component for chatfuel', report: Report.current)
+  edit_existing_text_component(text_component)
+  within('.form-inputs', text: text_component.heading) do
+    find('.btn.btn-primary', text: 'Add a question and an answer').click
+  end
 end
 
-Given(/^I am writing a query to the chatbox$/) do
-  #documentation
-end
-
-Given(/^I enter a message that is maximum (\d+) letters long$/) do |arg1|
-  #documentation
-end
-
-Given(/^I click on submit$/) do
-  #documentation
-end
-
-Then(/^the question should be posted to the chatbox$/) do
-  #documentation
+Given(/^I enter a question that is more than (\d+) characters long$/) do |arg1|
+  fill_in 'Question', with: ('a' *21)
 end

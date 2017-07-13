@@ -5,10 +5,13 @@ Feature: Character-Limit for Question Input field
   in order to fulfill the facebook-messenger limitation for buttons.
 
   Background:
-    Given that someone is querying to the chatbot
+    Given I am the journalist
 
   Scenario:
-    Given I am writing a question to the chatbot
-    And I enter a message that is over 20 characters long
-    And I click on submit
-    Then I should see an error message
+    Given I am composing some question answers for a text component
+    When I enter a question that is more than 20 characters long
+    And I click on "Update"
+    Then I see the error message
+    """
+    Question answers question is too long (maximum is 20 characters)
+    """
