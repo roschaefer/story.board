@@ -48,7 +48,50 @@ class SensorReadingsController < ApplicationController
     end
   end
 
+  def add
+    if manual_params[:sensor_id].nil? || manual_params[:report_id].nil?
+      respond_to do |format|
+        format.html { redirect_to  root_path }
+        format.js  { render :js => "window.location.href='"+root_path+"'"}
+      end
+      return
+    end
+
+    if manual_params[:timestamp].nil? || manual_params[:calibrated_value].nil? || manual_params[:uncalibrated_value].nil?
+      respond_to do |format|
+        format.html { redirect_to  report_sensor_path(:report_id => manual_params[:report_id] , :id => manual_params[:sensor_id]), notice: reading }
+        format.js  { render :js => "window.location.href='"+report_sensor_path(:report_id => manual_params[:report_id] , :id => manual_params[:sensor_id])+"'"}
+      end
+      return
+    end
+
+    reading = Sensor::Reading.new(
+      sensor_id: manual_params[:sensor_id],
+      smaxtec_timestamp: nil,
+      created_at: manual_params[:timestamp],
+      updated_at: manual_params[:timestamp],
+      calibrated_value: manual_params[:calibrated_value],
+      uncalibrated_value: manual_params[:uncalibrated_value]
+      )
+
+    if reading.save
+      respond_to do |format|
+        format.html { redirect_to  report_sensor_path(:report_id => manual_params[:report_id] , :id => manual_params[:sensor_id]), notice: 'Sensor Reading was successfully created.' }
+        format.js  { render :js => "window.location.href='"+report_sensor_path(:report_id => manual_params[:report_id] , :id => manual_params[:sensor_id])+"'", notice: 'Sensor Reading was successfully created.'}
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to  report_sensor_path(:report_id => manual_params[:report_id] , :id => manual_params[:sensor_id]), notice: reading }
+        format.js  { render :js => "window.location.href='"+report_sensor_path(:report_id => manual_params[:report_id] , :id => manual_params[:sensor_id])+"'"}
+      end
+    end
+  end
+
   private
+
+  def manual_params
+    params.require(:sensor_reading).permit(:report_id, :sensor_id, :sensor_name, :calibrated_value, :uncalibrated_value, :timestamp)
+  end
 
   def sample_params
     params.require(:sample).permit(:sensor_id, :quantity, :from, :to)
