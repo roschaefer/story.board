@@ -709,7 +709,7 @@ end
 
 def edit_existing_text_component(text_component = nil)
   @text_component ||= text_component
-  visit report_text_components_path(text_component.report)
+  visit report_text_components_path(@text_component.report)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -889,7 +889,7 @@ Given(/^we have different text components, each having question\/answers$/) do
          closing: '',
          question_answers: [
            build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
-           build(:question_answer, question: 'Shall it become more?', answer: 'I hope for it.')
+           build(:question_answer, question: 'Want more?', answer: 'I hope for it.')
   ]
         )
   create(:text_component,
@@ -1216,9 +1216,9 @@ Given(/^for that diary entry we have some text components and question answers$/
 end
 
 Given(/^I am composing some question answers for a text component$/) do
-  text_component = create(:text_component, heading: 'The text component for chatfuel', report: Report.current)
+  text_component = create(:text_component, report: Report.current)
   edit_existing_text_component(text_component)
-  within('.form-inputs', text: text_component.heading) do
+  within('.form-inputs') do
     find('.btn.btn-primary', text: 'Add a question and an answer').click
   end
 end

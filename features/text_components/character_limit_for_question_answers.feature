@@ -7,6 +7,7 @@ Feature: Character-Limit for Question Input field
   Background:
     Given I am the journalist
 
+  @javascript
   Scenario:
     Given I am composing some question answers for a text component
     When I enter a question that is more than 20 characters long
