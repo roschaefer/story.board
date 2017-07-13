@@ -3,7 +3,7 @@ class QuestionAnswer < ApplicationRecord
 
   belongs_to :text_component
 
-  validates :question, length: { maximum: 20 }
+  validates :question, length: { maximum: 20, message: 'is too long for a chatfuel button (maximum is %{count} characters)' }
   validates :answer, length: { maximum: 640 }
 
   [:question, :answer].each do |attribute|

@@ -13,5 +13,5 @@ Feature: Character-Limit for Question Input field
     And I click on "Update"
     Then I see the error message
     """
-    Question answers question is too long (maximum is 20 characters)
+    Question answers question is too long for a chatfuel button (maximum is 20 characters)
     """
