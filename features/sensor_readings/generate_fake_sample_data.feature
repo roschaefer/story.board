@@ -22,4 +22,3 @@ Feature: Generate Fake Sample Data
     Given I have fake and real sensor readings for sensor "Temperature47"
     When I see the page of this sensor
     Then fake and real data are distinguishable
-

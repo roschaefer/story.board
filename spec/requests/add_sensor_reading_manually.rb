@@ -27,7 +27,7 @@ RSpec.describe 'Add sensor reading manually', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
-    it 'returns generated sensor readings as json' do
+    it 'returns generated sensor reading as json' do
       post url, params: {sensor_reading: sensor_reading_params, format: :json}
       expect(JSON.parse(response.body).size).to eq 8
       expect(JSON.parse(response.body)['created_at']).to eq '2011-11-11T11:11:11.000Z'
