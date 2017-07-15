@@ -120,7 +120,7 @@ Given(/^for my current report I have these triggers prepared:$/) do |table|
     trigger = create(:trigger,
                      report: Report.current,
                      name: row['Trigger'],
-                     )
+                    )
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
@@ -439,9 +439,9 @@ Given(/^we have this sensor data in our database:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
     create(:sensor_reading,
-            sensor: sensor,
-            calibrated_value: row['Calibrated value'],
-            created_at: row['Created at'])
+           sensor: sensor,
+           calibrated_value: row['Calibrated value'],
+           created_at: row['Created at'])
   end
 end
 
@@ -629,9 +629,9 @@ end
 
 Given(/^I have a sensor for "([^"]*)"$/) do |property|
   @sensor = create(:sensor,
-         report: Report.current,
-         sensor_type: create(:sensor_type, property: property)
-        )
+                   report: Report.current,
+                   sensor_type: create(:sensor_type, property: property)
+                  )
 
 end
 
@@ -707,8 +707,9 @@ Given(/^some triggers are active at certain hours:$/) do |table|
   end
 end
 
-def edit_existing_text_component
-  visit report_text_components_path(Report.current)
+def edit_existing_text_component(text_component = nil)
+  @text_component ||= text_component
+  visit report_text_components_path(@text_component.report)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -887,9 +888,9 @@ Given(/^we have different text components, each having question\/answers$/) do
          main_part: 'I gave eleven liters of milk today.',
          closing: '',
          question_answers: [
-          build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
-          build(:question_answer, question: 'Shall it become more?', answer: 'I hope for it.')
-          ]
+           build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
+           build(:question_answer, question: 'Want more?', answer: 'I hope for it.')
+  ]
         )
   create(:text_component,
          report: Report.current,
@@ -897,7 +898,7 @@ Given(/^we have different text components, each having question\/answers$/) do
          introduction: '',
          main_part: 'It was hot and stuffy in the stable.',
          closing: 'I hope it gets colder tomorrow.',
-        question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
+         question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
         )
 end
 
@@ -923,29 +924,29 @@ end
 
 Given(/^we have an active text component for that topic with these question\/answers:$/) do |table|
   @text_component = create(:text_component,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.')
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.')
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
 Given(/^we have an active text component with the id (\d+) for that topic with these question\/answers:$/) do |id, table|
   @text_component = create(:text_component,
                            report: Report.current,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.',
-                          id: id)
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.',
+                           id: id)
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
@@ -964,7 +965,7 @@ Given(/^we have these users in our database$/) do |table|
 end
 
 When(/^I edit an existing text component$/) do
-  @text_component = create(:text_component, report: Report.current)
+  @text_component = create(:text_component)
   edit_existing_text_component
 end
 
@@ -1064,8 +1065,10 @@ Given(/^I fill in a valid email and a password$/) do
   fill_in 'user_password_confirmation', with: 'password123'
 end
 
-Then(/^I see the error message: "([^"]*)"$/) do |error_message|
+Then(/^I see the error message$/) do |error_message|
+  expect(page).to have_css('.alert.alert-danger', text: error_message)
 end
+
 
 Then(/^I see error message telling me the user name can't be blank$/) do
   within('.form-group', text: 'Name') do
@@ -1220,4 +1223,16 @@ end
 
 Then(/^this sensor should have (\d+) new sensor reading$/) do |quantity|
   expect(@sensor.sensor_readings.count).to eq quantity.to_i
+end
+
+Given(/^I am composing some question answers for a text component$/) do
+  text_component = create(:text_component, report: Report.current)
+  edit_existing_text_component(text_component)
+  within('.form-inputs') do
+    find('.btn.btn-primary', text: 'Add a question and an answer').click
+  end
+end
+
+Given(/^I enter a question that is more than (\d+) characters long$/) do |arg1|
+  fill_in 'Question', with: ('a' *21)
 end
