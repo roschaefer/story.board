@@ -588,8 +588,17 @@ Given(/^we have a text component called "([^"]*)":$/) do |heading, text|
   @text_component = create(:text_component, heading: heading, main_part: text, report: Report.current)
 end
 
-When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
-  page.find('text_component_triggers .choices__item', {text: trigger}).click
+When(/^I add a trigger and choose "([^"]*)"$/) do |trigger|
+  within('.form__section', text: 'Trigger') do
+    click_on 'Edit'
+    find('.choices').click
+    find('.choices__item', text: trigger).click
+  end
+end
+
+When(/^I add another trigger and choose "([^"]*)"$/) do |trigger|
+  find('.choices').click
+  find('.choices__item', text: trigger).click
 end
 
 Then(/^the text component is connected to both triggers$/) do
@@ -711,18 +720,7 @@ When(/^I edit this text component$/) do
 end
 
 When(/^I update the text component$/) do
-  # close choose trigger dropdown
-  if page.has_css?('.dropdown-menu.inner')
-    within(".text_component_triggers") do
-      find('.bootstrap-select').click
-    end
-    expect(page).not_to have_css('.dropdown-menu.inner')
-  end
-
-  within("#edit_text_component_#{@text_component.id}") do
-    click_on 'Update'
-  end
-
+  click_on 'Update Text component'
   expect(page).to have_text('Text component was successfully updated.')
 end
 
@@ -778,15 +776,23 @@ When(/^I edit the easier text component$/) do
   expect(page).to have_text('Edit Text Component')
 end
 
+
 When(/^choose "([^"]*)" as a channel$/) do |channel|
   within("#edit_text_component_#{@text_component.id}") do
-    select channel, from: 'text_component_channel_ids'
+    within('.form__section', text: 'Output') do
+      find('.choices').click
+      find('.choices__item', text: channel).click
+      find('.form__section__header').click # unfocus
+    end
   end
 end
 
 When(/^unslect "([^"]*)" as a channel$/) do |channel|
   within("#edit_text_component_#{@text_component.id}") do
-    unselect channel, from: 'text_component_channel_ids'
+    within('.form__section', text: 'Output') do
+      click_on 'Edit'
+      find('.choices__input').native.send_keys(:backspace)
+    end
   end
 end
 
@@ -812,12 +818,12 @@ end
 
 When(/^I fill the empty question with:$/) do |string|
   @question_text = string
-  find(:fillable_field, 'Question', with: '').set(@question_text)
+  find('.text_component_question_answers_question', text: /^$/).set(@question_text)
 end
 
 When(/^I enter the missing answer:$/) do |string|
   @answer_text = string
-  find(:fillable_field, 'Answer', with: '').set(@answer_text)
+  find('.text_component_question_answers_answer', text: /^$/).set(@answer_text)
 end
 
 Then(/^a new question\/answer was added to the database$/) do
@@ -837,12 +843,15 @@ Then(/^I can see the new question and the answer on the page$/) do
 end
 
 When(/^I click the "([^"]*)" button$/) do |label|
-  click_button(label)
+  within('.form__section', text: 'Chatbot Q/A') do
+    click_on 'Edit'
+    click_button(label)
+  end
 end
 
 When(/^two more input fields pop up, one for the new question and one for the new answer$/) do
-  expect(page).to have_field('Question', with: '', count: 1)
-  expect(page).to have_field('Answer', with: '', count: 1)
+  expect(page).to have_css('.text_component_question_answers_question', text: /^$/, count: 1)
+  expect(page).to have_css('.text_component_question_answers_answer', text: /^$/, count: 1)
 end
 
 Given(/^we have an active text component with these question\/answers:$/) do |table|
@@ -964,7 +973,8 @@ When(/^I choose "([^"]*)" from the dropdown menu "([^"]*)"$/) do |option, select
 end
 
 When(/I assign the text component to "([^"]*)"$/) do |assignee|
-  page.find('.choices__item', {text: assignee}).click
+  find('.form-group.select', text: 'Assignee').click
+  find('.choices__item', text: assignee).click
 end
 
 Then(/^I can see that Jane was assigned to the text component$/) do
