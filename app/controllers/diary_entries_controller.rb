@@ -9,22 +9,26 @@ class DiaryEntriesController < ApplicationController
   end
 
   private
-    def set_diary_entry
-      @diary_entry = DiaryEntry.find(params[:id])
-    end
+  def diary_entries
+    DiaryEntry.where(report: @report).order(:moment)
+  end
 
-    def filter_diary_entries
-      @diary_entries = DiaryEntry.all
-      if filter_params[:intention]
-        @diary_entries = @diary_entries.where(intention: filter_params[:intention])
-      end
-      if filter_params[:from] && filter_params[:to]
-        @diary_entries = @diary_entries.where('moment > ?',  filter_params[:from])
-        @diary_entries = @diary_entries.where('moment < ?',  filter_params[:to])
-      end
-    end
+  def set_diary_entry
+    @diary_entry = DiaryEntry.find(params[:id])
+  end
 
-    def filter_params
-      params.permit(:from, :to, :intention)
+  def filter_diary_entries
+    @diary_entries = diary_entries
+    if filter_params[:intention]
+      @diary_entries = @diary_entries.where(intention: filter_params[:intention])
     end
+    if filter_params[:from] && filter_params[:to]
+      @diary_entries = @diary_entries.where('moment > ?',  filter_params[:from])
+      @diary_entries = @diary_entries.where('moment < ?',  filter_params[:to])
+    end
+  end
+
+  def filter_params
+    params.permit(:from, :to, :intention)
+  end
 end
