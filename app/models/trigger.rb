@@ -19,8 +19,8 @@ class Trigger < ActiveRecord::Base
     self.priority ||= :medium
   end
 
-  def active?(opts={})
-    on_time? && conditions_fullfilled?(opts) && events_happened?
+  def active?(diary_entry = nil)
+    on_time? && conditions_fullfilled?(diary_entry) && events_happened?
   end
 
   def on_time?
@@ -37,14 +37,14 @@ class Trigger < ActiveRecord::Base
   end
 
 
-  def conditions_fullfilled?(opts={})
+  def conditions_fullfilled?(diary_entry = nil)
     conditions.all? do |condition|
-      reading = condition.last_reading(opts)
+      reading = condition.last_reading(diary_entry)
       if reading
         active = true
         active &= (condition.from.nil? || condition.from <= reading.calibrated_value)
         active &= (condition.to.nil? ||reading.calibrated_value < condition.to)
-        active &= (timeliness_constraint.nil? || (timeliness_constraint.hours.ago <= reading.created_at))
+        active &= (validity_period.nil? || (validity_period.hours.ago <= reading.created_at))
         active
       else
         false

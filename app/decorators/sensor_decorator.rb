@@ -4,8 +4,8 @@ class SensorDecorator
     @sensor = sensor
   end
 
-  def last_value(opts={})
-    r = @sensor.last_reading(opts)
+  def last_value(diary_entry = nil)
+    r = @sensor.last_reading(diary_entry)
     u = @sensor.sensor_type.unit
 
     if r

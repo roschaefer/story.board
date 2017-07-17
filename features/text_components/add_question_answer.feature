@@ -16,8 +16,8 @@ Feature: Add a new question/answer
     """
     And this text component has these questions and answers already:
       | Question              | Answer                      |
-      | What...is your name?  | King Arthur of the Britons! |
-      | What...is your quest? | I seek the Holy Grail!      |
+      | What..is your name?   | King Arthur of the Britons! |
+      | What..is your quest?  | I seek the Holy Grail!      |
 
   @javascript
   Scenario:
@@ -27,7 +27,7 @@ Feature: Add a new question/answer
     And two more input fields pop up, one for the new question and one for the new answer
     And I fill the empty question with:
     """
-    Bridgekeeper: What...is the airspeed velocity of an unladen swallow?
+    velocity of swallow
     """
     And I enter the missing answer:
     """

@@ -2,22 +2,23 @@ require 'rails_helper'
 
 RSpec.describe Text::Sorter do
   describe '#sort' do
-    subject { described_class }
+    let(:diary_entry) { DiaryEntry.new }
+    subject { described_class.sort(text_components) }
     let(:opts) { {} }
 
     context 'several text components with different priorities' do
-      let(:expected_result) { text_components }
+      let(:expected_result) { [text_components[2], text_components[0], text_components[1]] }
 
       let(:text_components) do
         [
-          create(:text_component, heading: 'Text component High', triggers: [create(:trigger, priority: :high)]),
           create(:text_component, heading: 'Text component Medium', triggers: [create(:trigger, priority: :medium)]),
           create(:text_component, heading: 'Text component Low', triggers: [create(:trigger, priority: :low)]),
+          create(:text_component, heading: 'Text component High', triggers: [create(:trigger, priority: :high)]),
         ]
       end
 
       it 'returns components ordered by priority' do
-        expect(subject.sort(text_components, opts)).to eq(expected_result)
+        is_expected.to eq(expected_result)
       end
     end
 
@@ -32,7 +33,7 @@ RSpec.describe Text::Sorter do
       end
 
       it 'returns text sorted by trigger' do
-        expect(subject.sort(text_components, opts)).to eq(expected_result)
+        is_expected.to eq(expected_result)
       end
     end
 
@@ -52,13 +53,13 @@ RSpec.describe Text::Sorter do
         ]
       end
 
-      it 'returns different text components' do
+      it 'returns different text components randomly' do
 
-        results = Array.new(10) do
-          subject.sort(text_components, opts).first.heading
+        different_headings = 10.times.collect do
+          described_class.sort(text_components).first.heading
         end.uniq
 
-        expect(results.size).to be > 1
+        expect(different_headings.size).to be > 1
       end
     end
   end

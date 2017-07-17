@@ -38,7 +38,7 @@
   = f.input :priority, collection: Trigger.priorities.keys, include_blank: false, input_html: {class: ''}
 
 .form-group
-  = f.input :timeliness_constraint, input_html: {type: 'number', min: 0, max: 12}
+  = f.input :validity_period, input_html: {type: 'number', min: 0, max: 12}
   %small.form-text.text-muted Text component will be triggered for sensor readings within the last X hours
 
 .row

@@ -6,8 +6,8 @@ describe Trigger, type: :model do
 
   context 'given a sensor reading' do
     subject { create(:trigger, :with_a_sensor_reading, params) }
-    describe '#timeliness_constraint' do
-      let(:params) { { timeliness_constraint: 3 } }
+    describe '#validity_period' do
+      let(:params) { { validity_period: 3 } }
       it { is_expected.to be_active }
       context 'some hours later' do
         it 'no longer relevant' do
@@ -158,11 +158,11 @@ describe Trigger, type: :model do
         end
 
         describe '#active? :real' do
-          subject { trigger.active? intention: :real }
+          subject { trigger.active? DiaryEntry.new(intention: :real) }
           it { is_expected.to be_falsy }
         end
         describe '#active? :fake' do
-          subject { trigger.active? intention: :fake }
+          subject { trigger.active? DiaryEntry.new(intention: :fake) }
           it { is_expected.to be_truthy }
         end
       end

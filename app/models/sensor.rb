@@ -5,10 +5,13 @@ class Sensor < ActiveRecord::Base
   has_many :conditions
   has_many :triggers, through: :conditions
 
+  delegate :property, to: :sensor_type
+
   validates :report, presence: true
   validates :name, presence: true, uniqueness: true
   validates :address, presence: true, uniqueness: true
   validates :sensor_type, presence: true
+  validates :animal_id, uniqueness: { scope: :sensor_type }
 
   def name_and_id
     "#{name} (#{id})"
@@ -22,7 +25,9 @@ class Sensor < ActiveRecord::Base
     end
   end
 
-  def last_reading(intention: :real, at: DateTime.now)
+  def last_reading(diary_entry = nil)
+    intention = diary_entry&.intention || :real
+    at = diary_entry&.moment || DateTime.now
     sensor_readings.send(intention).created_before(at).last
   end
 

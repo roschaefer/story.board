@@ -1,0 +1,21 @@
+%h1 Listing diary_entries
+
+%table
+  %thead
+    %tr
+      %th Moment
+      %th Intention
+      %th Report
+      %th
+      %th
+      %th
+
+  %tbody
+    - @diary_entries.each do |diary_entry|
+      %tr
+        %td= diary_entry.moment
+        %td= diary_entry.intention
+        %td= diary_entry.report.name
+        %td= link_to 'Show', report_diary_entry_path(@report, diary_entry)
+
+%br

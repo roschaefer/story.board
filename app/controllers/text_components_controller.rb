@@ -84,9 +84,9 @@ class TextComponentsController < ApplicationController
       @new_text_component.triggers.build
       @new_text_component.report = Report.current
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
-      
+
       filter_text_components
-      
+
       @trigger_groups = @text_components.group_by {|t| t.trigger_ids }
       @trigger_groups = @trigger_groups.map{|trigger_ids, components|  [Trigger.find(trigger_ids), components] }.to_h
 
@@ -112,7 +112,7 @@ class TextComponentsController < ApplicationController
                 question_answers_attributes: [:id, :question, :answer, :_destroy],
                 triggers_attributes: [:name, :from_hour, :to_hour,
                                       :priority, :report_id,
-                                      :timeliness_constraint,
+                                      :validity_period,
                                       :event_ids => [],
                                       conditions_attributes: [:id, :sensor_id, :from, :to, :_destroy]] )
     end
