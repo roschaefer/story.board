@@ -15,14 +15,14 @@ class ReportsController < ApplicationController
 
   def present
     @live_entry = DiaryEntry.new(report: @report, intention: :real, moment: query_params[:point_in_time]).compose
-    @archived_entries = DiaryEntry.real.order(:created_at).reverse_order.collect do |entry|
+    @diary_entries = DiaryEntry.real.order(:created_at).reverse_order.collect do |entry|
       entry.compose
     end
   end
 
   def preview
     @live_entry = DiaryEntry.new(report: @report, intention: :fake, moment: query_params[:point_in_time]).compose
-    @archived_entries = DiaryEntry.fake.order(:created_at).reverse_order.collect do |entry|
+    @diary_entries = DiaryEntry.fake.order(:created_at).reverse_order.collect do |entry|
       entry.compose
     end
     render 'present'
