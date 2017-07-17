@@ -45,9 +45,7 @@ module Text
               diary_entry: @diary_entry
             }
           )
-
         end
-
 
         result += ApplicationController.render(
           partial: 'diary_entries/split_part',
