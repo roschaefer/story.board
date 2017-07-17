@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery3
+//= require jquery_ujs
 //= require popper
 //= require bootstrap-sprockets
 //= require autosize
@@ -27,5 +28,7 @@ $(function() {
 });
 
 $(function() {
-    new Choices('[data-choices]', {shouldSort: false});
+    if($('[data-choices]').length > 0) {
+        new Choices('[data-choices]', {shouldSort: false});
+    }
 });

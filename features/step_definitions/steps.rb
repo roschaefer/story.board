@@ -791,7 +791,7 @@ When(/^unslect "([^"]*)" as a channel$/) do |channel|
   within("#edit_text_component_#{@text_component.id}") do
     within('.form__section', text: 'Output') do
       click_on 'Edit'
-      find('.choices__input').native.send_keys(:backspace)
+      find('.choices__item', {text: 'sensorstory'}).click.send_keys(:backspace)
     end
   end
 end
@@ -818,12 +818,12 @@ end
 
 When(/^I fill the empty question with:$/) do |string|
   @question_text = string
-  find('.text_component_question_answers_question', text: /^$/).set(@question_text)
+  find('.text_component_question_answers_question .question-input', text: /^$/).set(@question_text)
 end
 
 When(/^I enter the missing answer:$/) do |string|
   @answer_text = string
-  find('.text_component_question_answers_answer', text: /^$/).set(@answer_text)
+  find('.text_component_question_answers_answer .answer-input', text: /^$/).set(@answer_text)
 end
 
 Then(/^a new question\/answer was added to the database$/) do
@@ -850,8 +850,8 @@ When(/^I click the "([^"]*)" button$/) do |label|
 end
 
 When(/^two more input fields pop up, one for the new question and one for the new answer$/) do
-  expect(page).to have_css('.text_component_question_answers_question', text: /^$/, count: 1)
-  expect(page).to have_css('.text_component_question_answers_answer', text: /^$/, count: 1)
+  expect(page).to have_css('.text_component_question_answers_question .question-input', text: /^$/, count: 1)
+  expect(page).to have_css('.text_component_question_answers_answer .answer-input', text: /^$/, count: 1)
 end
 
 Given(/^we have an active text component with these question\/answers:$/) do |table|
