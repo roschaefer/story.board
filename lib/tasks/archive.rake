@@ -1,12 +1,16 @@
 namespace :archive do
   desc "Archive current report"
   task :real => :environment do
-    DiaryEntry.new(report: Report.current, intention: :real).archive!
+    Report.find_each do |report|
+      DiaryEntry.new(report: report, intention: :real).archive!
+    end
   end
 
   desc "Archive current preview"
   task :fake => :environment do
-    DiaryEntry.new(report: Report.current, intention: :fake).archive!
+    Report.find_each do |report|
+      DiaryEntry.new(report: report, intention: :fake).archive!
+    end
   end
 end
 
