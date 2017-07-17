@@ -2,10 +2,6 @@ module Text
   class Generator
     BREAK_AFTER = 500 # characters
 
-    def report
-      @diary_entry.report
-    end
-
     def initialize(diary_entry)
       @diary_entry = diary_entry
     end
