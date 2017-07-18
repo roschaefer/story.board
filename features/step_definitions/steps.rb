@@ -191,6 +191,10 @@ When(/^I click on "([^"]*)"/) do |thing|
   click_on thing
 end
 
+When(/^I click on the dropdown menu with my user account on the top right$/) do
+  find('#user-menu').click
+end
+
 When(/^I type in a name$/) do
   fill_in 'Name', with: 'Blablablabla'
 end
