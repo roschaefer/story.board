@@ -1215,6 +1215,16 @@ Given(/^for that diary entry we have some text components and question answers$/
   create(:text_component, report: Report.current) # this should not go into the diary entry
 end
 
+When(/^I add a sensor reading for "([^"]*)" with a calibrated value of (\d+)°C and an uncalibrated value of (\d+)°C$/) do |created_at, calibrated_value, uncalibrated_value|
+  fill_in 'Created at', with: created_at
+  fill_in 'Calibrated Value', with: calibrated_value
+  fill_in 'Uncalibrated Value', with: uncalibrated_value
+end
+
+Then(/^this sensor should have (\d+) new sensor reading$/) do |quantity|
+  expect(@sensor.sensor_readings.count).to eq quantity.to_i
+end
+
 Given(/^I am composing some question answers for a text component$/) do
   text_component = create(:text_component, report: Report.current)
   edit_existing_text_component(text_component)
