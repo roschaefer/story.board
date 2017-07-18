@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 20170719205918) do
 
   create_table "sensor_types", force: :cascade do |t|
     t.string   "property"
-    t.string   "unit"
+    t.string   "unit",           default: ""
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.decimal  "min",            default: "-20.0"
@@ -158,8 +158,8 @@ ActiveRecord::Schema.define(version: 20170719205918) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "publication_status", default: 0
     t.integer  "assignee_id"
+    t.integer  "publication_status", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["assignee_id"], name: "index_text_components_on_assignee_id", using: :btree
@@ -175,8 +175,9 @@ ActiveRecord::Schema.define(version: 20170719205918) do
 
   create_table "topics", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "display_name"
   end
 
   create_table "triggers", force: :cascade do |t|
