@@ -597,7 +597,7 @@ end
 When(/^I add a trigger and choose "([^"]*)"$/) do |trigger|
   within('.form__section', text: 'Trigger') do
     click_on 'Edit'
-    find('.choices').click
+    find('.choices', { wait: 10 }).click
     find('.choices__item', text: trigger).click
   end
 end
