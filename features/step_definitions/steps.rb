@@ -181,8 +181,10 @@ Given(/^my current live report is called "([^"]*)"$/) do |name|
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  click_on 'Report Settings'
-  click_on name
+  within('.report-settings') do
+    click_on 'Report Settings'
+    click_on name
+  end
 end
 
 When(/^I click on "([^"]*)"/) do |thing|
@@ -1222,11 +1224,14 @@ end
 Given(/^I am composing some question answers for a text component$/) do
   text_component = create(:text_component, report: Report.current)
   edit_existing_text_component(text_component)
-  within('.form-inputs') do
-    find('.btn.btn-primary', text: 'Add a question and an answer').click
+  within('.form__section', text: 'Chatbot Q/A') do
+    click_on 'Edit'
+    find('.btn', text: 'Add Question & Answer').click
   end
 end
 
-Given(/^I enter a question that is more than (\d+) characters long$/) do |arg1|
-  fill_in 'Question', with: ('a' *21)
+Given(/^I enter a question that is more than (\d+) characters long$/) do |count|
+  within('.qa__item') do
+    find('.question-input').set('a' * (count.to_i + 1))
+  end
 end
