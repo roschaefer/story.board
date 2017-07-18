@@ -84,13 +84,11 @@ GEM
     capybara-screenshot (1.0.14)
       capybara (>= 1.0, < 3)
       launchy
-    capybara-webkit (1.14.0)
-      capybara (>= 2.3.0, < 2.14.0)
-      json
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
     chronic (0.10.2)
+    cliver (0.3.2)
     cocoon (1.2.9)
     coderay (1.1.1)
     coffee-rails (4.1.1)
@@ -224,6 +222,10 @@ GEM
       shellany (~> 0.0)
     orm_adapter (0.5.0)
     pg (0.20.0)
+    poltergeist (1.15.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      websocket-driver (>= 0.2.0)
     popper_js (1.9.9)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -385,7 +387,6 @@ DEPENDENCIES
   capistrano-db-tasks
   capistrano-rails
   capybara-screenshot
-  capybara-webkit
   cocoon
   coffee-rails (~> 4.1.0)
   cucumber-api-steps
@@ -400,6 +401,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   pg
+  poltergeist
   pry
   puma
   rails (~> 5.0)

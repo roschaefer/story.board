@@ -1239,3 +1239,15 @@ Given(/^I enter a question that is more than (\d+) characters long$/) do |count|
     find('.question-input').set('a' * (count.to_i + 1))
   end
 end
+
+Given(/^I am on the landing page$/) do
+  visit '/'
+end
+
+Then(/^the JSON response should be \(no matter in what order\):$/) do |json|
+  expected = JSON.parse(json)
+  actual = JSON.parse(last_response.body)
+  actual['text_components'] = actual['text_components'].sort {|hash1, hash2| hash1['id'] <=> hash2['id']}
+  expect(actual).to eq(expected)
+end
+
