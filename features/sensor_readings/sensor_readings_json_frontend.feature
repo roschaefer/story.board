@@ -4,10 +4,7 @@ Feature: Generate sensor data as JSON for frontend
   In order to easily integrate the data in my frontend.
 
   Background:
-    Given we have these sensor readings in our database:
-
-    Sensor-ID: 95
-
+    Given we have these sensor readings for sensor 95 in our database:
       | Id    | Timestamp        | Calibrated Value | Uncalibrated Value |
       | 24593 | 2017-07-18 15:09 | 39.701           | 39.701             |
       | 24581 | 2017-07-18 14:39 | 39.369           | 39.369             |
@@ -48,7 +45,6 @@ Feature: Generate sensor data as JSON for frontend
       | 24413 | 2017-07-15 07:39 | 39.519           | 39.519             |
       | 24408 | 2017-07-15 07:29 | 39.489           | 39.489             |
       | 24407 | 2017-07-15 07:19 | 39.489           | 39.489             |
-
     And I send and accept JSON
 
   Scenario: Prepare sensor data (use average for 'throttle', cut off at 'since') and send as json
