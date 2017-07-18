@@ -8,6 +8,12 @@
 %p
   %strong Address:
   = @sensor.address
+
+- if user_signed_in? && @sensor.animal_id?
+  %p
+    %strong Animal Id (Smaxtec Api):
+    = @sensor.animal_id
+
 %p
   %h3 Sensor Readings
   %table#sensor-readings-table-real.table.table-striped.table-hover

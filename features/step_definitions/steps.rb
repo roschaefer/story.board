@@ -120,7 +120,7 @@ Given(/^for my current report I have these triggers prepared:$/) do |table|
     trigger = create(:trigger,
                      report: Report.current,
                      name: row['Trigger'],
-                     )
+                    )
     sensor = create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
@@ -128,7 +128,7 @@ end
 
 Given(/^for my sensors I have these triggers prepared:$/) do |table|
   table.hashes.each do |row|
-    trigger = create(:trigger, report: Report.current, name: row['Trigger'], timeliness_constraint: row['Timeliness'])
+    trigger = create(:trigger, report: Report.current, name: row['Trigger'], validity_period: row['Validity'])
     sensor = Sensor.find_by name: row['Sensor']
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
@@ -322,12 +322,12 @@ Then(/^I can watch a video stream that points to this url$/) do
 end
 
 When(/^I set the component to trigger only for recent data within the last (\d+) hours$/) do |hours|
-  fill_in "Timeliness constraint", with: hours
+  fill_in "Validity period", with: hours
 end
 
-Then(/^this trigger has a timeliness constraint of (\d+) hours$/) do |hours|
+Then(/^this trigger has a validity period of (\d+) hours$/) do |hours|
   @trigger.reload
-  expect(@trigger.timeliness_constraint).to eq hours.to_i
+  expect(@trigger.validity_period).to eq hours.to_i
 end
 
 Given(/^I see the (?:current|new)? live report/) do |string|
@@ -436,9 +436,9 @@ Given(/^we have this sensor data in our database:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
     create(:sensor_reading,
-            sensor: sensor,
-            calibrated_value: row['Calibrated value'],
-            created_at: row['Created at'])
+           sensor: sensor,
+           calibrated_value: row['Calibrated value'],
+           created_at: row['Created at'])
   end
 end
 
@@ -626,9 +626,9 @@ end
 
 Given(/^I have a sensor for "([^"]*)"$/) do |property|
   @sensor = create(:sensor,
-         report: Report.current,
-         sensor_type: create(:sensor_type, property: property)
-        )
+                   report: Report.current,
+                   sensor_type: create(:sensor_type, property: property)
+                  )
 
 end
 
@@ -704,8 +704,9 @@ Given(/^some triggers are active at certain hours:$/) do |table|
   end
 end
 
-def edit_existing_text_component
-  visit report_text_components_path(Report.current)
+def edit_existing_text_component(text_component = nil)
+  @text_component ||= text_component
+  visit report_text_components_path(@text_component.report)
   within('tr', text: @text_component.heading) do
     click_on 'Edit'
   end
@@ -884,9 +885,9 @@ Given(/^we have different text components, each having question\/answers$/) do
          main_part: 'I gave eleven liters of milk today.',
          closing: '',
          question_answers: [
-          build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
-          build(:question_answer, question: 'Shall it become more?', answer: 'I hope for it.')
-          ]
+           build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
+           build(:question_answer, question: 'Want more?', answer: 'I hope for it.')
+  ]
         )
   create(:text_component,
          report: Report.current,
@@ -894,7 +895,7 @@ Given(/^we have different text components, each having question\/answers$/) do
          introduction: '',
          main_part: 'It was hot and stuffy in the stable.',
          closing: 'I hope it gets colder tomorrow.',
-        question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
+         question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
         )
 end
 
@@ -920,29 +921,29 @@ end
 
 Given(/^we have an active text component for that topic with these question\/answers:$/) do |table|
   @text_component = create(:text_component,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.')
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.')
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
 Given(/^we have an active text component with the id (\d+) for that topic with these question\/answers:$/) do |id, table|
   @text_component = create(:text_component,
                            report: Report.current,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.',
-                          id: id)
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.',
+                           id: id)
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
@@ -961,7 +962,7 @@ Given(/^we have these users in our database$/) do |table|
 end
 
 When(/^I edit an existing text component$/) do
-  @text_component = create(:text_component, report: Report.current)
+  @text_component = create(:text_component)
   edit_existing_text_component
 end
 
@@ -1007,10 +1008,6 @@ end
 
 Given(/^I am logged in$/) do
   log_in(@user)
-end
-
-When(/^I click on the dropdown menu with my user account on the top right$/) do
-  click_on 'user-menu'
 end
 
 Then(/^I am on the text components page with only those assigned to me$/) do
@@ -1064,8 +1061,10 @@ Given(/^I fill in a valid email and a password$/) do
   fill_in 'user_password_confirmation', with: 'password123'
 end
 
-Then(/^I see the error message: "([^"]*)"$/) do |error_message|
+Then(/^I see the error message$/) do |error_message|
+  expect(page).to have_css('.alert.alert-danger', text: error_message)
 end
+
 
 Then(/^I see error message telling me the user name can't be blank$/) do
   within('.form-group', text: 'Name') do
@@ -1103,9 +1102,7 @@ Then(/^I can see the current report "([^"]*)" in the menu bar$/) do |report_name
 end
 
 When(/^(?:when )?I choose "([^"]*)" to be the active report$/) do |report_name|
-  within('.report-menu', text: report_name) do
-    click_on 'Live-System'
-  end
+  switch_report(report_name)
 end
 
 Given(/^I(?: first)? navigate to the text component page$/) do
@@ -1166,8 +1163,8 @@ Given(/^I visit the present page of the current report$/) do
 end
 
 def switch_report(report_name)
-  within('.report-menu', text: report_name) do
-    click_on 'Live-System'
+  within('.report-menu') do
+    click_on report_name
   end
 end
 
@@ -1192,4 +1189,36 @@ Given(/^we have these text components for the chatbot:$/) do |table|
   end
 end
 
+Given(/^we have these diary entries in our database:$/) do |table|
+  table.hashes.each do |row|
+    report_id = row['Report id']
+    report = Report.find_by(id: report_id) || create(:report, id: report_id)
+    create(:diary_entry, id: row['Id'], report: report, intention: row['Intention'], moment: row['Moment'])
+  end
+end
 
+Then(/^the JSON response should include the diary entries (\d+) and (\d+)$/) do |id1, id2|
+  json_response = JSON.parse(last_response.body)
+  expect(json_response.count).to eq 2
+  expect(json_response.first["id"]).to eq id1.to_i
+  expect(json_response.last["id"]).to eq id2.to_i
+end
+
+Given(/^for that diary entry we have some text components and question answers$/) do
+  report = Report.find(4711)
+  create(:text_component, :with_question_answers, report: report)
+  create(:text_component, report: report)
+  create(:text_component, report: Report.current) # this should not go into the diary entry
+end
+
+Given(/^I am composing some question answers for a text component$/) do
+  text_component = create(:text_component, report: Report.current)
+  edit_existing_text_component(text_component)
+  within('.form-inputs') do
+    find('.btn.btn-primary', text: 'Add a question and an answer').click
+  end
+end
+
+Given(/^I enter a question that is more than (\d+) characters long$/) do |arg1|
+  fill_in 'Question', with: ('a' *21)
+end

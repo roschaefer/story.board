@@ -85,7 +85,7 @@ end
 
 Capybara.configure do |config|
   if ENV['BROWSER']
-    config.default_driver = ENV['BROWSER'].to_sym
+    config.javascript_driver = ENV['BROWSER'].to_sym
   else
     config.javascript_driver = :webkit
   end

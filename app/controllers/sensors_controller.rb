@@ -59,6 +59,6 @@ class SensorsController < ApplicationController
   end
 
   def sensor_params
-    params.require(:sensor).permit(:name, :address, :sensor_type_id, :report_id, :unit)
+    params.require(:sensor).permit(:name, :address, :sensor_type_id, :report_id, :unit, :animal_id)
   end
 end

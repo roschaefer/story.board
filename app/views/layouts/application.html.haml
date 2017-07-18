@@ -65,7 +65,6 @@
 
 
     .container.py-5
-
       .row
 
         .col-lg-9
@@ -80,20 +79,16 @@
               %h3 Current report
               %ul#report-menu-current.nav.nav-list
                 %h5= @report.name
+                - if current_user
+                  %li= link_to 'My text components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
                 %li= link_to "Live-System", "/reports/current"
                 %li= link_to "Preview", "/reports/current?preview=true"
-                
-              %h3 Other reports
-              %ul.nav.nav-list
-              - Report.find_each do |report|
-                %ul.nav.nav-pills.report-menu
-                  %h5= report.name
-                  %li.nav-item= link_to 'Live-System', present_report_path(report), {class: 'nav-link'}
-                  %li.nav-item= link_to 'Preview', preview_report_path(report), {class: 'nav-link'}
-      %footer
-        .row
-          .col-sm-8
-            %p
-              Text (c) Dr. Jakob Vicari. No Reporters Were Harmed. Gefördert durch  
-          .col-sm-4
-            =image_tag("miz-logo_v1_schrift_rechts@2x.png", height: '30', width: '250')
+
+              %h3 Switch report
+              %ul.nav.nav-list.report-menu
+                - Report.find_each do |report|
+                  %ul.nav.nav-pills
+                    %li.nav-item= link_to report.name, present_report_path(report), {class: 'nav-link'}
+
+      %footer.py5
+        = "story.board. The CMS for Sensorstories. Created 2015-#{Date.today.year} by Robert Schäfer and Jakob Vicari. No Reporters Were Harmed."

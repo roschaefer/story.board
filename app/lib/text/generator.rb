@@ -2,22 +2,22 @@ module Text
   class Generator
     BREAK_AFTER = 500 # characters
 
-    def initialize(report:, opts: {})
-      @report = report
-      @opts = opts
+    def initialize(diary_entry)
+      @diary_entry = diary_entry
     end
 
-    def generate
+    def attributes_for_diary_entry
       {
         heading:       choose_heading,
-        introduction:  combine_introductions,
+        introduction:  important_introductions,
         main_part:     html_main_part,
         closing:       combine_closings
       }
     end
 
-    def generate_record
-      Record.new(generate.merge(report: @report, intention: @opts[:intention]))
+    def generate_diary_entry
+      @diary_entry.assign_attributes attributes_for_diary_entry
+      @diary_entry
     end
 
     def choose_heading
@@ -39,18 +39,16 @@ module Text
           part += render(current_component, :main_part)
 
           part += ApplicationController.render(
-            partial: 'records/question_answers',
+            partial: 'diary_entries/question_answers',
             locals: {
               question_answers: current_component.question_answers,
-              opts: @opts
+              diary_entry: @diary_entry
             }
           )
-
         end
 
-
         result += ApplicationController.render(
-          partial: 'records/split_part',
+          partial: 'diary_entries/split_part',
           locals: { subheading: subheading, part: part }
         )
 
@@ -65,14 +63,20 @@ module Text
     private
 
     def render(text_component, part)
-      Renderer.new(text_component: text_component, opts: @opts).render(part)
+      Renderer.new(text_component: text_component, diary_entry: @diary_entry).render(part)
     end
 
-    def combine_introductions
-      introductions = components.collect do |component|
+    def important_introductions
+      introductions = components.first(3).collect do |component|
         render(component, :introduction)
       end
-      introductions.join(' ')
+      introductions = introductions.select{|i| i.present?}
+      ApplicationController.render(
+        partial: 'diary_entries/introduction',
+        locals: {
+        items: introductions,
+        }
+      )
     end
 
     def combine_closings
@@ -83,7 +87,7 @@ module Text
     end
 
     def components
-      @components ||= Text::Sorter.sort(@report.active_sensor_story_components(@opts), @opts)
+      @components ||= Text::Sorter.sort(@diary_entry.text_components)
     end
   end
 end

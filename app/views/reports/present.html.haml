@@ -5,8 +5,8 @@
 .live-report
   - if @report.video
     %iframe{width: 640, height: 360, src: @report.video, frameborder: 0, type: 'text/html'}
-  = render @live_record
+  = render @live_entry
 
-- @archived_records.each do |ar|
+- @diary_entries.each do |ar|
   .archived-report
     = render ar

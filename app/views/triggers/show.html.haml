@@ -6,7 +6,7 @@
   = @trigger.priority
 %p
   %strong Within
-  = "the last #{@trigger.timeliness_constraint} hours"
+  = "the last #{@trigger.validity_period} hours"
 - if @trigger.from_hour && @trigger.to_hour
   %p
     %strong Time of the day

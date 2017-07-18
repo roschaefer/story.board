@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%p
+  %b Moment:
+  = @diary_entry.moment
+%p
+  %b Intention:
+  = @diary_entry.intention
+%p
+  %b Report:
+  = @diary_entry.report.name
+
+= link_to 'Back', report_diary_entries_path(@report)

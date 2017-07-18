@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
   has_many :triggers
   has_many :text_components
   has_many :sensors
-  has_many :records
+  has_many :diary_entries
   has_many :variables, dependent: :destroy
   accepts_nested_attributes_for :variables
 
@@ -14,27 +14,12 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_chatbot_components(opts={})
-    active_components(opts).select {|c| c.channels.include?(Channel.chatbot) }
+  def active_chatbot_components(diary_entry = nil)
+    active_components(diary_entry).select {|c| c.channels.include?(Channel.chatbot) }
   end
 
-  def active_sensor_story_components(opts={})
-    active_components(opts).select {|c| c.channels.include?(Channel.sensorstory) }
-  end
-
-  def archive!(intention: :real)
-    new_record = compose(intention: intention)
-    Report.transaction do
-      if Record.send(intention).count >= Record::LIMIT
-        Record.send(intention).first.destroy
-      end
-      new_record.save!
-    end
-  end
-
-  def compose(opts={})
-    generator = ::Text::Generator.new(report: self, opts: opts)
-    generator.generate_record
+  def active_sensor_story_components(diary_entry = nil)
+    active_components(diary_entry).select {|c| c.channels.include?(Channel.sensorstory) }
   end
 
   def end_date
@@ -45,8 +30,8 @@ class Report < ActiveRecord::Base
 
   private
 
-  def active_components(opts={})
+  def active_components(diary_entry = nil)
     result = text_components.includes(:channels)
-    text_components.select {|c| c.active?(opts) && c.published? }
+    text_components.select {|c| c.active?(diary_entry) && c.published? }
   end
 end
