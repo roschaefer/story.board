@@ -10,10 +10,25 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+//= require jquery3
 //= require jquery_ujs
-//= require twitter/bootstrap
+//= require popper
+//= require bootstrap-sprockets
+//= require autosize
+//= require choices
 //= require_tree .
 //= require cocoon
 //= require bootstrap-slider
-//= require bootstrap-select
+//= require components/form
+//= require components/editor
+
+$(function() {
+    autosize($('.field textarea'));
+    autosize.update($('.field textarea'));
+});
+
+$(function() {
+    if($('[data-choices]').length > 0) {
+        new Choices('[data-choices]', {shouldSort: false});
+    }
+});

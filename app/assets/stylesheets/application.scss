@@ -1,0 +1,58 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ * OLD-FASHIONED RAILS ASSET PIPELINE INCLUDES
+ *= require bootstrap-select
+ */
+
+/**
+ * DEPENDENCIES
+ * 
+ * Include any third party libraries or frameworks here.
+ */
+
+@import 'bootstrap';
+@import 'choices';
+
+
+/**
+ * SHARED
+ * 
+ * Include styles shared across elements and components here. Avoid
+ * nested, attribute or id (!) selectors in order to keep selector
+ * specifity low to avoid problems.
+ */
+
+
+
+
+/**
+ * COMPONENTS
+ */
+
+@import 'components/choices';
+@import 'components/form';
+@import 'components/text-editor';
+@import 'components/step';
+@import 'components/field';
+
+
+ /**
+  * CONTROLLER-SPECIFIC STYLES
+  *
+  * Place these styles at the end of the file so that they override
+  * more general styles. Use with caution, though, and try to create
+  * as many styles as reusable ui components.
+  */
+
+@import 'controllers/reports';
+@import 'controllers/text-components';

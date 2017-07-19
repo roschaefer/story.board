@@ -19,7 +19,7 @@ Feature: Assignee
   Scenario: Assign user
     Given I am logged in
     When I edit an existing text component
-    And I choose "Jane Doe" from the dropdown menu "Assignee"
+    And I assign the text component to "Jane Doe"
     And I click on "Update Text component"
     Then I can see that Jane was assigned to the text component
 
@@ -27,7 +27,8 @@ Feature: Assignee
   @javascript
   Scenario: Get to text components assigned to me
     Given I am logged in
-    And I click on "My text components"
+    And I am on the landing page
+    When I click on "My text components"
     Then I am on the text components page with only those assigned to me
     And I see only the text component "Man arrested for everything"
 

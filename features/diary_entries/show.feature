@@ -13,7 +13,7 @@ Feature: Generate sensorstory as JSON for frontend
 
   Scenario: Generate sensorstory on the fly and send as json
     When I send a GET request to "/reports/4711/diary_entries/1"
-    Then the JSON response should be:
+    Then the JSON response should be (no matter in what order):
     """
     {
       "id": 1,

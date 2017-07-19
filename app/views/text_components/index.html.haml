@@ -5,38 +5,7 @@
 - @text_components.each do |text_component|
   = render 'edit_modal', text_component: text_component
 
-#modalTriggerText.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog{:role => "document"}
-    .modal-content
-      .modal-header
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
-        %div
-          / Nav tabs
-          %ul.nav.nav-tabs{:role => "tablist"}
-            %li{:role => "presentation"}
-              %a{"aria-controls" => "use", "data-toggle" => "tab", :href => "#use", :role => "tab"} Use Trigger
-            %li.active{:role => "presentation"}
-              %a{"aria-controls" => "create", "data-toggle" => "tab", :href => "#create", :role => "tab"} Create with new Trigger
-      .modal-body
-        / Tab panes
-        .tab-content
-          #use.tab-pane{:role => "tabpanel"}
-            / Modal 1
-            .modal-inner
-              .row
-                .col-sm-12
-                  %h2 New text component
-                  %div.help Use an existing trigger
-              .row
-                .col-sm-12
-                  = render 'form', text_component: @new_text_component
-          #create.tab-pane.active{:role => "tabpanel"}
-            / Modal 2
-            .modal-inner
-              .row
-                .col-sm-12
-                  = render 'form', text_component: @new_text_component, create_trigger: true
+= render 'create_modal', text_component: @new_text_component
 
 .row
   .col-sm-12
@@ -52,7 +21,7 @@
     = form_tag(report_text_components_path(@report), {method: :get}) do
       .form-group
         = label :filter, :assignee_id, 'By assignee', class: 'col-2 col-form-label'
-        = collection_select(:filter, :assignee_id, User.order('LOWER(name)'), :id, :name, {include_blank: true, selected: @filter[:assignee_id]}, {'class' => 'selectpicker', 'title' => '...choose a user'})
+        = collection_select(:filter, :assignee_id, User.order('LOWER(name)'), :id, :name, {include_blank: '...choose a user', selected: @filter[:assignee_id]}, {:id => 'filter-assignee'})
       = submit_tag 'Filter', class: 'col-2 btn btn-primary btn-lg pull-right'
 .row
   .col-sm-12
