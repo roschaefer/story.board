@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 20170626123733) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "sensor_id"
-    t.integer  "intention",          default: 0
+    t.integer  "release",            default: 0
     t.bigint   "smaxtec_timestamp"
     t.index ["sensor_id"], name: "index_sensor_readings_on_sensor_id", using: :btree
   end
