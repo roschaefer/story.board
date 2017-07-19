@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Text::Renderer do
   let!(:report)      { create(:report, variables: variables, name: report_name) }
   let(:report_name) { 'ReportName' }
-  let(:intention)      { :real }
-  let(:renderer) { described_class.new(text_component: text_component, diary_entry: DiaryEntry.new(intention: intention)) }
+  let(:release)      { :final }
+  let(:renderer) { described_class.new(text_component: text_component, diary_entry: DiaryEntry.new(release: release)) }
   subject { renderer }
 
   describe '#render' do
@@ -74,16 +74,16 @@ RSpec.describe Text::Renderer do
               let(:sensor)         { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
               let(:main_part)      { 'Sensor value: { value(42) }' }
               it('renders sensor value') { is_expected.to eq('Sensor value: 5.0°C')}
-              context 'but with sensor data of different intention' do
-                before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
+              context 'but with sensor data of different release' do
+                before { reading; create(:sensor_reading, sensor: sensor, release: :debug, calibrated_value: 0) }
 
-                context 'render :fake report' do
-                  let(:intention) { :fake }
+                context 'render :debug report' do
+                  let(:release) { :debug }
                   it { is_expected.to eq('Sensor value: 0.0°C')}
                 end
 
-                context 'render :real report' do
-                  let(:intention) { :real }
+                context 'render :final report' do
+                  let(:release) { :final }
                   it { is_expected.to eq('Sensor value: 5.0°C')}
                 end
               end

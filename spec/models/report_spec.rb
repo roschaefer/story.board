@@ -38,19 +38,19 @@ RSpec.describe Report, type: :model do
 
         context 'for sensor readings with a certain intent' do
           subject { report.active_sensor_story_components diary_entry}
-          let(:diary_entry) { DiaryEntry.new(report: report, intention: intention) }
+          let(:diary_entry) { DiaryEntry.new(report: report, release: release) }
           before do
-            create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 2)
-            create(:sensor_reading, sensor: sensor, intention: :real, calibrated_value: 0)
+            create(:sensor_reading, sensor: sensor, release: :debug, calibrated_value: 2)
+            create(:sensor_reading, sensor: sensor, release: :final, calibrated_value: 0)
           end
 
-          describe '#active_sensor_story_components :real' do
-            let(:intention) { :real }
+          describe '#active_sensor_story_components :final' do
+            let(:release) { :final }
             it { is_expected.not_to include text_component }
           end
 
-          describe '#active_sensor_story_components :fake' do
-            let(:intention) { :fake}
+          describe '#active_sensor_story_components :debug' do
+            let(:release) { :debug}
             it { is_expected.to include text_component }
           end
         end

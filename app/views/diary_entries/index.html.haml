@@ -4,7 +4,7 @@
   %thead
     %tr
       %th Moment
-      %th Intention
+      %th release
       %th Report
       %th
       %th
@@ -14,7 +14,7 @@
     - @diary_entries.each do |diary_entry|
       %tr
         %td= diary_entry.moment
-        %td= diary_entry.intention
+        %td= diary_entry.release
         %td= diary_entry.report.name
         %td= link_to 'Show', report_diary_entry_path(@report, diary_entry)
 

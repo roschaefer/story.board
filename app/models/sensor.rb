@@ -26,9 +26,9 @@ class Sensor < ActiveRecord::Base
   end
 
   def last_reading(diary_entry = nil)
-    intention = diary_entry&.intention || :real
+    release = diary_entry&.release || :final
     at = diary_entry&.moment || DateTime.now
-    sensor_readings.send(intention).created_before(at).last
+    sensor_readings.send(release).created_before(at).last
   end
 
   def calibrate(sensor_reading)

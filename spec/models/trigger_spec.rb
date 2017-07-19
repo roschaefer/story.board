@@ -151,18 +151,18 @@ describe Trigger, type: :model do
 
 
 
-      context 'with sensor readings of different intentions' do
+      context 'with sensor readings of different releases' do
         before do
-          create :sensor_reading, sensor: sensor, calibrated_value: 0, intention: :real
-          create :sensor_reading, sensor: sensor, calibrated_value: 2, intention: :fake
+          create :sensor_reading, sensor: sensor, calibrated_value: 0, release: :final
+          create :sensor_reading, sensor: sensor, calibrated_value: 2, release: :debug
         end
 
-        describe '#active? :real' do
-          subject { trigger.active? DiaryEntry.new(intention: :real) }
+        describe '#active? :final' do
+          subject { trigger.active? DiaryEntry.new(release: :final) }
           it { is_expected.to be_falsy }
         end
-        describe '#active? :fake' do
-          subject { trigger.active? DiaryEntry.new(intention: :fake) }
+        describe '#active? :debug' do
+          subject { trigger.active? DiaryEntry.new(release: :debug) }
           it { is_expected.to be_truthy }
         end
       end
