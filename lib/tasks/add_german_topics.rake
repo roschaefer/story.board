@@ -38,6 +38,11 @@ namespace :sensorstory do
         topic.display_name = display_name
         topic.save!
       end
+
+      not_matched.each do |name, display_name|
+        topic = Topic.find_by!(name: name)
+        topic.destroy
+      end
     end
   end
 end
