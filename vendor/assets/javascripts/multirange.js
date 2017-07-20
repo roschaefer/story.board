@@ -24,7 +24,7 @@ self.multirange = function(input) {
 
     input.parentNode.insertBefore(ghost, input.nextSibling);
 
-    Object.defineProperty(input, "originalValue", descriptor.get ? descriptor : {
+    Object.defineProperty(input, "originalValue", descriptor && descriptor.get ? descriptor : {
         // Fuck you Safari >:(
         get: function() { return this.value; },
         set: function(v) { this.value = v; }
@@ -43,7 +43,7 @@ self.multirange = function(input) {
         }
     });
 
-    if (descriptor.get) {
+    if (descriptor && descriptor.get) {
         // Again, fuck you Safari
         Object.defineProperty(input, "value", {
             get: function() { return this.valueLow + "," + this.valueHigh; },
