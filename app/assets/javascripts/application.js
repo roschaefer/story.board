@@ -40,7 +40,7 @@ $(function() {
 $(function() {
     $('.range').range();
 
-    $(document).on('cocoon:before-insert', function(e, item) {
+    $('.trigger-conditions').on('cocoon:before-insert', function(e, item) {
         $(item).find('.range').range();
     });
 });

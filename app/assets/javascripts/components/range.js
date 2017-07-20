@@ -121,6 +121,7 @@ var Range = (function($, multirange) {
     $.fn.range = function() {
         this.each(function() {
             var range = new Range($(this));
+            $(this).data('range', range);
         });
     };
 
