@@ -12,13 +12,17 @@
 //
 //= require jquery3
 //= require jquery_ujs
+
 //= require popper
 //= require bootstrap-sprockets
+//= require cocoon
+
 //= require autosize
 //= require choices
+//= require multirange
+
 //= require_tree .
-//= require cocoon
-//= require bootstrap-slider
+
 //= require components/form
 //= require components/editor
 
@@ -31,4 +35,12 @@ $(function() {
     if($('[data-choices]').length > 0) {
         new Choices('[data-choices]', {shouldSort: false});
     }
+});
+
+$(function() {
+    $('.range').range();
+
+    $(document).on('cocoon:before-insert', function(e, item) {
+        $(item).find('.range').range();
+    });
 });
