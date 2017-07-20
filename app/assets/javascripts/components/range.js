@@ -66,7 +66,7 @@ var Range = (function($, multirange) {
         // set event handlers
         self.$elm.find('.range__input').on('input change', function() {
             self.value(self.value());
-        });
+        }).trigger('change');
 
         self.handleChange();
 
