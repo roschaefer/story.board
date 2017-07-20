@@ -38,8 +38,6 @@ gem 'simple_form'
 gem 'cocoon'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever', :require => false
-gem 'bootstrap-slider-rails'
-gem 'bootstrap-select-rails'
 gem 'devise'
 
 group :development, :test do
