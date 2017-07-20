@@ -23,6 +23,9 @@
       %th Calibrated Value
       %th Uncalibrated Value
       = render @real_readings
+  - if user_signed_in?
+    %p
+      = render "add_sensor_reading"
   %h3 Fake Data
   %table#sensor-readings-table-fake.table.table-striped.table-hover
     %tr

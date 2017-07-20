@@ -1,0 +1,59 @@
+/**
+ * FORM
+ */
+
+.form {
+    
+}
+
+.form__group + .form__group {
+    margin-top: 4 * $spacer;
+}
+
+.form__section {
+    opacity: .5;
+}
+
+.form__section + .form__section {
+    border-top: 1px solid #eee;
+}
+
+.form__section__header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    padding-top: 1rem;
+    padding-bottom: .5rem;
+    background: #fff;
+}
+
+.form__section__body {
+    display: none;
+    padding: 1rem 0;
+}
+
+.form__section__action--next {
+    display: none;
+}
+
+.form__section--active {
+    opacity: 1;
+
+    .form__section__header {
+        border-bottom: 1px solid #eee;
+    }
+
+    .form__section__body {
+        display: block;
+    }
+
+    .form__section__action--next {
+        display: block;
+    }
+
+    .form__section__action--open {
+        display: none;
+    }
+
+}

@@ -1,0 +1,25 @@
+/**
+ * STEP
+ */
+
+.step {
+    display: flex;
+}
+
+.step__counter {
+    width: 2rem;
+    height: 2rem;
+    margin-right: .5rem;
+
+    text-align: center;
+    line-height: 2rem;
+
+    font-size: $font-size-base;
+    background-color: $brand-primary;
+    color: white;
+    border-radius: 50%;
+}
+
+.step__action {
+    margin-left: auto;
+}

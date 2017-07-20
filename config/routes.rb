@@ -38,7 +38,6 @@ Rails.application.routes.draw do
   resources :sensor_readings, default: { format: :json }
   post 'sensor_readings/fake', to: 'sensor_readings#fake', default: { format: :json }
 
-
   root to: redirect('/reports/current')
 
   # Example of regular route:

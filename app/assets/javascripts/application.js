@@ -11,13 +11,28 @@
 // about supported directives.
 //
 //= require jquery3
+//= require jquery_ujs
 //= require popper
 //= require bootstrap-sprockets
+//= require autosize
+//= require choices
 //= require_tree .
 //= require cocoon
 //= require bootstrap-slider
-//= require bootstrap-select
+//= require components/form
+//= require components/editor
 
 $(function() {
     $('[data-toggle="tooltip"]').tooltip();
+});
+
+$(function() {
+    autosize($('.field textarea'));
+    autosize.update($('.field textarea'));
+});
+
+$(function() {
+    if($('[data-choices]').length > 0) {
+        new Choices('[data-choices]', {shouldSort: false});
+    }
 });

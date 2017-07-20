@@ -8,8 +8,10 @@ require 'cucumber/rails'
 require 'cucumber/api_steps'
 require 'capybara-screenshot/cucumber'
 require 'vcr'
+require 'capybara/poltergeist'
 
 World(FactoryGirl::Syntax::Methods)
+
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -87,7 +89,7 @@ Capybara.configure do |config|
   if ENV['BROWSER']
     config.javascript_driver = ENV['BROWSER'].to_sym
   else
-    config.javascript_driver = :webkit
+    config.javascript_driver = :poltergeist
   end
 end
 

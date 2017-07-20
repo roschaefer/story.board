@@ -57,7 +57,7 @@ class SensorReadingsController < ApplicationController
   def sensor_reading_params
     format_particle_api_json
     assign_sensor_id
-    params.require(:sensor_reading).permit(:sensor_id, :sensor_name, :calibrated_value, :uncalibrated_value)
+    params.require(:sensor_reading).permit(:sensor_id, :sensor_name, :calibrated_value, :uncalibrated_value, :created_at)
   end
 
   # Tries to assign a missing sensor id
