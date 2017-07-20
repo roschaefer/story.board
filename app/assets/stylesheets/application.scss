@@ -11,7 +11,6 @@
  * file per style scope.
  *
  * OLD-FASHIONED RAILS ASSET PIPELINE INCLUDES
- *= require bootstrap-select
  */
 
 /**
@@ -22,6 +21,7 @@
 
 @import 'bootstrap';
 @import 'choices';
+@import 'multirange';
 
 
 /**
@@ -33,8 +33,6 @@
  */
 
 
-
-
 /**
  * COMPONENTS
  */
@@ -44,6 +42,7 @@
 @import 'components/text-editor';
 @import 'components/step';
 @import 'components/field';
+@import 'components/range';
 
 
  /**
