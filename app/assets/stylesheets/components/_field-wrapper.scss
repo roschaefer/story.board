@@ -1,0 +1,23 @@
+/**
+ * FIELD-WRAPPER
+ */
+
+.field-wrapper {
+
+}
+
+.field-wrapper__mirror {
+    position: relative;
+    margin: -1px;
+    border: 1px solid transparent;
+}
+
+.field-wrapper__mirror:focus {
+    border: 1px solid $custom-select-focus-border-color; // hacky, replace with correct var
+    outline: none;
+    z-index: 2;
+}
+
+.field-wrapper__hidden-input {
+    display: none;
+}

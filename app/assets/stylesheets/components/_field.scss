@@ -17,10 +17,11 @@
     font-size: .75rem;
 }
 
-.field input, .field textarea {
-    border: none;
+.field input, .field textarea, .field__input {
+    min-height: 5.75rem;
     padding: .75rem;
     padding-top: 2rem;
+    border: none;
 }
 
 /* Quick fix to remove bottom margin */
