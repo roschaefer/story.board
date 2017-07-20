@@ -19,6 +19,7 @@ class TriggersController < ApplicationController
 
   def create
     @trigger = Trigger.new(trigger_params)
+		@trigger.conditions.each {|c| c.trigger = @trigger } # both trigger and condition are new and need to be connected
 
     respond_to do |format|
       if @trigger.save
