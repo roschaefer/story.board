@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api-staging.smaxtec.com/api/v1/user/get_token?email=superkuh@hooli.xyz&password=pansen123
+    uri: https://api.smaxtec.com/api/v1/user/get_token?email=superkuh@hooli.xyz&password=pansen123
     body:
       encoding: US-ASCII
       string: ''
@@ -43,7 +43,7 @@ http_interactions:
   recorded_at: Wed, 05 Jul 2017 17:57:45 GMT
 - request:
     method: get
-    uri: https://api-staging.smaxtec.com/api/v1/data/query?animal_id=5722099ea80a5f54c631513d&from_date=1499234265&metric=temp&to_date=1499277465
+    uri: https://api.smaxtec.com/api/v1/data/query?animal_id=5722099ea80a5f54c631513d&from_date=1499234265&metric=temp&to_date=1499277465
     body:
       encoding: US-ASCII
       string: ''

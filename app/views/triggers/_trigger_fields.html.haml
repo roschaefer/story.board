@@ -22,8 +22,8 @@
 
 %h5.mt-4 Sensor Conditions
 
-%div
-  .form-group
+.form-group
+  .trigger-conditions
     = f.simple_fields_for :conditions do |condition|
       = render 'triggers/condition_fields', f: condition
 

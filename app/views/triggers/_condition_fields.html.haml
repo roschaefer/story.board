@@ -8,25 +8,14 @@
           = f.index + 1
     .col
       = f.association :sensor, collection: Sensor.order('name'), label_method: :name_and_id, value_method: :id, label: false, prompt: '...add Sensor', input_html: {class: 'choose_sensor'}
-    .col
-      .range-group
-        = f.input :from, as: :hidden, input_html: { class: 'range-slider-min-value' }
-        = f.input :to, as: :hidden, input_html: { class: 'range-slider-max-value' }
-        .slider-group
-          %input.slider-range{:type =>"text",
-            :class => "slider form-control",
-            'data-slider-id' => "slider-range",
-            'data-provide'=> "slider",
-            'data-slider-min'=>"-20",
-            'data-slider-max'=>"100",
-            'data-slider-step'=>"1",
-            'data-slider-range'=>true,
-            'data-slider-value'=>"[#{f.object.from || 0 },#{f.object.to || 0}]",
-            'data-slider-tooltip'=>"always",
-            'data-slider-tooltip-split'=>"true"}
-          .slider-info
-            .slider-info-min= -20
-            .slider-info-max= 100
+    .col.form-group.d-flex.align-items-center
+      .range{data: {min: -20, max: 100, step: 1}}
+        .row.range__fallback
+          .col
+            = f.input :from, label: false, input_html: {class: 'range__hidden range__hidden--min'}
+          .col
+            = f.input :to, label: false, input_html: {class: 'range__hidden range__hidden--max'}
+
     .col.col-md-auto
       = link_to_remove_association button_tag("×", type: 'button', class: 'btn btn-danger '), f
 

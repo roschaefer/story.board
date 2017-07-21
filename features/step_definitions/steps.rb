@@ -78,8 +78,7 @@ When(/^(?:when )?I choose the sensor "([^"]*)" to trigger this trigger$/) do |se
 end
 
 When(/^I define a range from "([^"]*)" to "([^"]*)" to cover the relevant values$/) do |arg1, arg2|
-  first('.range-slider-min-value', visible: false).set(arg1)
-  first('.range-slider-max-value', visible: false).set(arg2)
+  execute_script("$('.range').data('range').value('#{arg1},#{arg2}')");
 end
 
 When(/^I click on update$/) do
