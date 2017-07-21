@@ -11,17 +11,17 @@ RSpec.describe SensorDecorator do
     context 'sensory data available' do
 
       before {
-        create(:sensor_reading, sensor: sensor, calibrated_value: 5, intention: :real)
-        create(:sensor_reading, sensor: sensor, calibrated_value: -3, intention: :fake)
+        create(:sensor_reading, sensor: sensor, calibrated_value: 5, release: :final)
+        create(:sensor_reading, sensor: sensor, calibrated_value: -3, release: :debug)
       }
 
-      context 'intention :real' do
+      context 'release :final' do
         subject { super().last_value }
         it { is_expected.to eq '5.0°C'}
       end
 
-      context 'intention :fake' do
-        subject { super().last_value(DiaryEntry.new(intention: :fake)) }
+      context 'release :debug' do
+        subject { super().last_value(DiaryEntry.new(release: :debug)) }
         it { is_expected.to eq '-3.0°C'}
       end
 

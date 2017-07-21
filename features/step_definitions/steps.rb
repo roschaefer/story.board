@@ -209,21 +209,21 @@ When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)
   fill_in 'To', with: to
 end
 
-Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
-  expect(@sensor.sensor_readings.fake.count).to eq quantity.to_i
+Then(/^this sensor should have (\d+) new sensor readings as debug data$/) do |quantity|
+  expect(@sensor.sensor_readings.debug.count).to eq quantity.to_i
 end
 
 Then(/^I should see some generated entries in the sensor readings table$/) do
-  within '#sensor-readings-table-fake' do
+  within '#sensor-readings-table-debug' do
     expect(page).to have_css('.sensor-reading-row')
   end
 end
 
-Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
+Given(/^I have debug and final sensor readings for sensor "([^"]*)"$/) do |name|
   @sensor = Sensor.find_by(name: name)
   Sensor::Reading.transaction do
-    7.times { create(:sensor_reading, sensor: @sensor, intention: :fake) }
-    5.times { create(:sensor_reading, sensor: @sensor, intention: :real) }
+    7.times { create(:sensor_reading, sensor: @sensor, release: :debug) }
+    5.times { create(:sensor_reading, sensor: @sensor, release: :final) }
   end
 end
 
@@ -231,11 +231,11 @@ When(/^I (?:see|visit) the page of (?:this|that) sensor$/) do
   visit report_sensor_path(Report.current, @sensor)
 end
 
-Then(/^fake and real data are distinguishable$/) do
-  within '#sensor-readings-table-fake' do
+Then(/^debug and final data are distinguishable$/) do
+  within '#sensor-readings-table-debug' do
     expect(page).to have_css('.sensor-reading-row', count: 7)
   end
-  within '#sensor-readings-table-real' do
+  within '#sensor-readings-table-final' do
     expect(page).to have_css('.sensor-reading-row', count: 5)
   end
 end
@@ -244,7 +244,7 @@ Given(/^there is some generated test data:$/) do |table|
   ActiveRecord::Base.transaction do
     table.hashes.each do |row|
       sensor = Sensor.find_by(name: row['Sensor'])
-      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, intention: :fake)
+      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, release: :debug)
     end
   end
 end
@@ -1206,7 +1206,7 @@ Given(/^we have these diary entries in our database:$/) do |table|
   table.hashes.each do |row|
     report_id = row['Report id']
     report = Report.find_by(id: report_id) || create(:report, id: report_id)
-    create(:diary_entry, id: row['Id'], report: report, intention: row['Intention'], moment: row['Moment'])
+    create(:diary_entry, id: row['Id'], report: report, release: row['release'], moment: row['Moment'])
   end
 end
 

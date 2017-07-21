@@ -3,8 +3,8 @@ require 'capybara/rspec'
 
 RSpec.describe Text::Generator do
   let(:report)                { Report.current }
-  let(:intention)             { :real }
-  let(:generator) { described_class.new(DiaryEntry.new(report: report, intention: intention)) }
+  let(:release)             { :final }
+  let(:generator) { described_class.new(DiaryEntry.new(report: report, release: release)) }
   subject { generator }
 
   describe '#html_main_part' do
@@ -246,16 +246,16 @@ RSpec.describe Text::Generator do
                 let(:sensor)         { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
                 let(:main_part)      { 'Sensor value: { value(42) }' }
                 specify { expect(subject[:main_part]).to include('Sensor value: 5.0°C') }
-                context 'but with sensor data of different intention' do
-                  before { reading; create(:sensor_reading, sensor: sensor, intention: :fake, calibrated_value: 0) }
+                context 'but with sensor data of different release' do
+                  before { reading; create(:sensor_reading, sensor: sensor, release: :debug, calibrated_value: 0) }
 
-                  context 'render :fake report' do
-                    let(:intention) { :fake }
+                  context 'render :debug report' do
+                    let(:release) { :debug }
                     specify { expect(subject[:main_part]).to include('Sensor value: 0.0°C') }
                   end
 
-                  context 'render :real report' do
-                    let(:intention) { :real }
+                  context 'render :final report' do
+                    let(:release) { :final }
                     specify { expect(subject[:main_part]).to include('Sensor value: 5.0°C') }
                   end
                 end

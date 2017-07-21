@@ -14,15 +14,15 @@ class ReportsController < ApplicationController
   end
 
   def present
-    @live_entry = DiaryEntry.new(report: @report, intention: :real, moment: query_params[:point_in_time]).compose
-    @diary_entries = diary_entries.real.collect do |entry|
+    @live_entry = DiaryEntry.new(report: @report, release: :final, moment: query_params[:point_in_time]).compose
+    @diary_entries = diary_entries.final.collect do |entry|
       entry.compose
     end
   end
 
   def preview
-    @live_entry = DiaryEntry.new(report: @report, intention: :fake, moment: query_params[:point_in_time]).compose
-    @diary_entries = diary_entries.fake.collect do |entry|
+    @live_entry = DiaryEntry.new(report: @report, release: :debug, moment: query_params[:point_in_time]).compose
+    @diary_entries = diary_entries.debug.collect do |entry|
       entry.compose
     end
     render 'present'

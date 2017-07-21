@@ -24,7 +24,7 @@ RSpec.describe DiaryEntriesController, type: :controller do
   let(:valid_attributes) {
     {
     report_id: report.id,
-    intention: 'fake',
+    release: 'debug',
     moment: 2.days.ago
     }
   }

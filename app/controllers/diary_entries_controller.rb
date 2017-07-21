@@ -19,8 +19,8 @@ class DiaryEntriesController < ApplicationController
 
   def filter_diary_entries
     @diary_entries = diary_entries
-    if filter_params[:intention]
-      @diary_entries = @diary_entries.where(intention: filter_params[:intention])
+    if filter_params[:release]
+      @diary_entries = @diary_entries.where(release: filter_params[:release])
     end
     if filter_params[:from] && filter_params[:to]
       @diary_entries = @diary_entries.where('moment > ?',  filter_params[:from])
@@ -29,6 +29,6 @@ class DiaryEntriesController < ApplicationController
   end
 
   def filter_params
-    params.permit(:from, :to, :intention)
+    params.permit(:from, :to, :release)
   end
 end
