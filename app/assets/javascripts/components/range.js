@@ -16,27 +16,28 @@ var Range = (function($, multirange) {
         this.$tooltipLow = null;
         this.$tooltipHigh = null;
 
-        this.options = {
+        this.init();
+
+        return this;
+    }
+
+    Range.prototype.init = function(options) {
+        var self = this;
+
+        self.options = {
             min: this.$elm.data('min') || 0,
             max: this.$elm.data('max') || 100,
             step: this.$elm.data('step') || 1,
             value: [this.$min.val() || 0, this.$max.val() || 100].sort(),
         }
 
-        this.init();
-
-        return this;
-    }
-
-    Range.prototype.init = function() {
-        var self = this;
+        // extend default options
+        if(typeof options === 'object') {
+            self.options = $.extend(self.options, options);
+        }
 
         // hide default min/max inputs
         self.$fallback.hide();
-
-        // create range min/max info elements
-        $infoMin = $('<span>').addClass('range__info range__info--min').text(self.options.min);
-        $infoMax = $('<span>').addClass('range__info range__info--max').text(self.options.max);
 
         // create new range slider element
         var $input = $('<input>').attr({
@@ -50,6 +51,9 @@ var Range = (function($, multirange) {
             value: self.options.value.join(',')
         });
 
+        // create range min/max info elements
+        $infoMin = $('<span>').addClass('range__info range__info--min').text(self.options.min);
+        $infoMax = $('<span>').addClass('range__info range__info--max').text(self.options.max);
 
         // create value tooltips
         var $tooltipLow = $('<div>').addClass('range__tooltip');
@@ -57,18 +61,44 @@ var Range = (function($, multirange) {
 
         self.$elm.append($input, $infoMin, $infoMax, $tooltipLow, $tooltipHigh);
 
+        // save any custom elements to the range instance
         self.$input = self.$elm.find('.range__input');
+        self.$infoMin = $infoMin;
+        self.$infoMax = $infoMax;
         self.$tooltipLow = $tooltipLow;
         self.$tooltipHigh = $tooltipHigh;
 
+        // initiate multirange polyfill
+        // http://leaverou.github.io/multirange/
         multirange(self.$input[0]);
 
-        // set event handlers
+        // set event handlers on any input of type range
+        // as multirange will emulate a multi range with
+        // two separate range sliders
         self.$elm.find('.range__input').on('input change', function() {
             self.value(self.value());
         }).trigger('change');
 
-        self.handleChange();
+        return this;
+    }
+
+    Range.prototype.reinit = function(options) {
+        this.destroy();
+        this.init(options);
+
+        return this;
+    }
+
+    Range.prototype.destroy = function() {
+        // remove any custom elements
+        this.$elm.find('.range__input').remove();
+        this.$infoMin.remove();
+        this.$infoMax.remove();
+        this.$tooltipLow.remove();
+        this.$tooltipHigh.remove();
+
+        // show default inputs again
+        this.$fallback.show();
 
         return this;
     }
@@ -76,8 +106,8 @@ var Range = (function($, multirange) {
     Range.prototype.handleChange = function() {
         var self = this;
 
-        var low = parseInt(self.value().split(',')[0]);
-        var high = parseInt(self.value().split(',')[1]);
+        var low = parseFloat(self.value().split(',')[0]);
+        var high = parseFloat(self.value().split(',')[1]);
 
         var lowLeft = 1 - (self.options.max - low) / (self.options.max - self.options.min);
         var highLeft = 1 - (self.options.max - high) / (self.options.max - self.options.min);
@@ -93,6 +123,8 @@ var Range = (function($, multirange) {
             'marginLeft' : (highLeft - .5) / -.5 * rangeThumb,
 
         }).text(high);
+
+        return this;
     }
 
     Range.prototype.value = function(value) {
