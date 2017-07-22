@@ -3,6 +3,7 @@ require 'capybara/rspec'
 
 RSpec.describe "text_components/index", type: :view do
   let(:report) { create(:report, name: 'UniqueReportName') }
+  let(:trigger) { create(:trigger) }
   let(:text_components) do
     [create(
         :text_component,
@@ -28,7 +29,6 @@ RSpec.describe "text_components/index", type: :view do
     new_text_component = TextComponent.new
     new_text_component.triggers.build
     assign(:new_text_component, new_text_component)
-    assign(:triggers, [])
     assign(:sensors, [
       create(
         :sensor,
@@ -42,9 +42,8 @@ RSpec.describe "text_components/index", type: :view do
       )
     ])
     assign(:filter, {})
+    assign(:trigger_groups, [trigger] => text_components)
     assign(:text_components, text_components)
-    assign(:text_components_without_triggers, text_components)
-    assign(:trigger_groups, [])
   end
 
 
