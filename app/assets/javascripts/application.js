@@ -27,34 +27,47 @@
 //= require components/editor
 
 $(function() {
-	autosize($('.field textarea'));
-	autosize.update($('.field textarea'));
+    autosize($('.field textarea'));
+    autosize.update($('.field textarea'));
 });
 
 $(function() {
-	if($('[data-choices]').length > 0) {
-		new Choices('[data-choices]', {shouldSort: false});
-	}
+    if($('[data-choices]').length > 0) {
+        new Choices('[data-choices]', {shouldSort: false});
+    }
 });
 
 $(function() {
-	$('.range').range();
+    $('.range').each(function() {
+        var $elm = $(this);
 
-	$('.trigger-conditions').on('cocoon:before-insert', function(e, item) {
-		$(item).find('.range').range();
+        $elm.range({
+            valueFormatter: function(value) {
+                return value + ' ' + $elm.data('unit')
+            }
+        });
+    });
 
-		$(item).find('select.choose_sensor').on('change', function(e, item) {
-			var options = $(this).find('option:selected').data();
+    $('.trigger-conditions').on('cocoon:before-insert', function(e, item) {
+        var $item = $(item);
 
-			$('.range').data('range').reinit({
-				min: options.rangeMin,
-				max: options.rangeMax,
-				step: options.rangeStep,
-				valueFormatter: function(value) {
-					return value + ' ' + options.rangeUnit;
-				}
-			});
+        $item.find('.range').range();
+    });
 
-		});
-	});
+    $(document).on('change', 'select.choose_sensor', function(e) {
+        var $select = $(e.target);
+        var $fields = $select.parents('.nested-fields');
+
+        var options = $select.find('option:selected').data();
+
+        $fields.find('.range').data('range').reinit({
+            min: options.rangeMin,
+            max: options.rangeMax,
+            step: options.rangeStep,
+            valueFormatter: function(value) {
+                return value + ' ' + options.rangeUnit;
+            }
+        });
+
+    });
 });

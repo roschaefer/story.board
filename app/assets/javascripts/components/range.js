@@ -4,7 +4,7 @@
 
 var Range = (function($, multirange) {
    
-    function Range($elm) {
+    function Range($elm, options) {
         this.$elm = $elm;
 
         this.$fallback = $elm.find('.range__fallback');
@@ -16,7 +16,7 @@ var Range = (function($, multirange) {
         this.$tooltipLow = null;
         this.$tooltipHigh = null;
 
-        this.init();
+        this.init(options);
 
         return this;
     }
@@ -155,9 +155,9 @@ var Range = (function($, multirange) {
 
 (function($, Range) {
 
-    $.fn.range = function() {
+    $.fn.range = function(options) {
         this.each(function() {
-            var range = new Range($(this));
+            var range = new Range($(this), options);
             $(this).data('range', range);
         });
     };

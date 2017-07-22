@@ -1277,8 +1277,22 @@ When(/^I edit the trigger "([^"]*)"$/) do |name|
 end
 
 Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do |pos1, pos2|
-  slider_values = evaluate_script("$('.range').data('range').value();")
-  binding.pry
-  expect(slider_values).to eq("#{pos1},#{pos2}")
+  # Multirange adds a second slider input to create
+  # the impression of a multirange slider.
+  #
+  # However, the value property on a multirange sliders
+  # isn't fully polyfilled in all browsers (which seems
+  # to be the case with PhantomJS)
+  #
+  # See Limitations: https://leaverou.github.io/multirange/
+  #
+  # Due to this we need to get the value from the two sliders
+  # (the original one and the "ghost" slider) manually.
+
+  value1 = evaluate_script("$('.range__input.original').val()")
+  value2 = evaluate_script("$('.range__input.ghost').val()")
+
+  expect(value1).to eq(pos1)
+  expect(value2).to eq(pos2)
 end
 
