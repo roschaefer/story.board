@@ -28,7 +28,11 @@ var Range = (function($, multirange) {
             min: this.$elm.data('min') || 0,
             max: this.$elm.data('max') || 100,
             step: this.$elm.data('step') || 1,
+
             value: [this.$min.val() || 0, this.$max.val() || 100].sort(),
+            valueFormatter: function(value) {
+                return value;
+            }
         }
 
         // extend default options
@@ -52,8 +56,8 @@ var Range = (function($, multirange) {
         });
 
         // create range min/max info elements
-        $infoMin = $('<span>').addClass('range__info range__info--min').text(self.options.min);
-        $infoMax = $('<span>').addClass('range__info range__info--max').text(self.options.max);
+        $infoMin = $('<span>').addClass('range__info range__info--min').text(self.options.valueFormatter(self.options.min));
+        $infoMax = $('<span>').addClass('range__info range__info--max').text(self.options.valueFormatter(self.options.max));
 
         // create value tooltips
         var $tooltipLow = $('<div>').addClass('range__tooltip');
@@ -117,12 +121,13 @@ var Range = (function($, multirange) {
         self.$tooltipLow.css({
             'left': lowLeft * 100 + '%',
             'marginLeft' : (lowLeft - .5) / -.5 * rangeThumb,
-        }).text(low);
+        }).text(self.options.valueFormatter(low));
+
         self.$tooltipHigh.css({
             'left': highLeft * 100 + '%',
             'marginLeft' : (highLeft - .5) / -.5 * rangeThumb,
 
-        }).text(high);
+        }).text(self.options.valueFormatter(high));
 
         return this;
     }
