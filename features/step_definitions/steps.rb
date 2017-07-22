@@ -305,7 +305,7 @@ end
 
 Given(/^I have these sensors and sensor types in my database$/) do |table|
   table.hashes.each do |row|
-    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'])
+    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'], min: row['Min'], max: row['Max'], fractionDigits: row['FractionDigits'])
     create(:sensor,
            id: row['SensorID'].to_i,
            name: row['Sensor'],
@@ -1260,3 +1260,13 @@ Then(/^the JSON response should be \(no matter in what order\):$/) do |json|
   expect(actual).to eq(expected)
 end
 
+When(/^I create a new trigger$/) do
+  visit new_report_trigger_path(Report.current)
+end
+
+Then(/^slider has a range from "([^"]*)" to "([^"]*)" with a step size of "([^"]*)"$/) do |min, max, step_size|
+  range = all('.range__info').map(&:text)
+  options = evaluate_script("$('.range').data('range').options")
+  expect(range).to eq([min, max])
+  expect(options['step'].to_s).to eq(step_size)
+end
