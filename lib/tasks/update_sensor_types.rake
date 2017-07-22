@@ -2,12 +2,12 @@ namespace :sensorstory do
   desc "Add min, max and fractionDigits to certain sensor types"
   task :update_sensortypes => :environment do
     SensorType.transaction do
-      SensorType.where(unit: '?...?').update_all(unit: nil)
-      SensorType.where(unit: '0-10').update_all(unit: nil)
-      SensorType.where(unit: '1-10').update_all(unit: nil)
-      SensorType.where(unit: '1-100').update_all(unit: nil)
-      SensorType.where(unit: '0-unlimited').update_all(unit: nil)
-      SensorType.where(unit: '').update_all(unit: nil)
+      SensorType.where(unit: '?...?').update_all(unit: '')
+      SensorType.where(unit: '0-10').update_all(unit: '')
+      SensorType.where(unit: '1-10').update_all(unit: '')
+      SensorType.where(unit: '1-100').update_all(unit: '')
+      SensorType.where(unit: '0-unlimited').update_all(unit: '')
+      SensorType.where(unit: '').update_all(unit: '')
       SensorType.find_by!(property: 'Temperature').update_attributes!(min: -10.0, max: 45.0, fractionDigits: 1, unit: '°C')
       SensorType.find_by!(property: 'pH Value').update_attributes!(min: -10.0, max: 45.0, fractionDigits: 1, unit: '')
       SensorType.find_by!(property: 'pH Value').update_attributes!(min: 0.0, max: 14.0, fractionDigits: 1, unit: '')
