@@ -120,7 +120,7 @@ Given(/^for my current report I have these triggers prepared:$/) do |table|
                      report: Report.current,
                      name: row['Trigger'],
                     )
-    sensor = create(:sensor, name: row['Sensor'], report: Report.current)
+    sensor = Sensor.find_by(name: row['Sensor']) || create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
@@ -1270,3 +1270,15 @@ Then(/^slider has a range from "([^"]*)" to "([^"]*)" with a step size of "([^"]
   expect(range).to eq([min, max])
   expect(options['step'].to_s).to eq(step_size)
 end
+
+When(/^I edit the trigger "([^"]*)"$/) do |name|
+  trigger = Trigger.find_by(name: name)
+  visit edit_report_trigger_path(Report.current, trigger)
+end
+
+Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do |pos1, pos2|
+  slider_values = evaluate_script("$('.range').data('range').value();")
+  binding.pry
+  expect(slider_values).to eq("#{pos1},#{pos2}")
+end
+
