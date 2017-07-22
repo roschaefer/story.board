@@ -44,7 +44,7 @@ $(function() {
 		$(item).find('.range').range();
 
 		$(item).find('select.choose_sensor').on('change', function(e, item) {
-			var options = $(this).find('option:selected')[0].dataset
+			var options = $(this).find('option:selected').data();
 
 			$('.range').data('range').reinit({
 				min: options.rangeMin,
