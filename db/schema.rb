@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170719193113) do
+ActiveRecord::Schema.define(version: 20170719205918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,8 +124,11 @@ ActiveRecord::Schema.define(version: 20170719193113) do
   create_table "sensor_types", force: :cascade do |t|
     t.string   "property"
     t.string   "unit"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.decimal  "min",            default: "-20.0"
+    t.decimal  "max",            default: "100.0"
+    t.integer  "fractionDigits", default: 0
   end
 
   create_table "sensors", force: :cascade do |t|

@@ -120,7 +120,7 @@ Given(/^for my current report I have these triggers prepared:$/) do |table|
                      report: Report.current,
                      name: row['Trigger'],
                     )
-    sensor = create(:sensor, name: row['Sensor'], report: Report.current)
+    sensor = Sensor.find_by(name: row['Sensor']) || create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
@@ -305,7 +305,7 @@ end
 
 Given(/^I have these sensors and sensor types in my database$/) do |table|
   table.hashes.each do |row|
-    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'])
+    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'], min: row['Min'], max: row['Max'], fractionDigits: row['FractionDigits'])
     create(:sensor,
            id: row['SensorID'].to_i,
            name: row['Sensor'],
@@ -1258,5 +1258,41 @@ Then(/^the JSON response should be \(no matter in what order\):$/) do |json|
   actual = JSON.parse(last_response.body)
   actual['text_components'] = actual['text_components'].sort {|hash1, hash2| hash1['id'] <=> hash2['id']}
   expect(actual).to eq(expected)
+end
+
+When(/^I create a new trigger$/) do
+  visit new_report_trigger_path(Report.current)
+end
+
+Then(/^slider has a range from "([^"]*)" to "([^"]*)" with a step size of "([^"]*)"$/) do |min, max, step_size|
+  range = all('.range__info').map(&:text)
+  options = evaluate_script("$('.range').data('range').options")
+  expect(range).to eq([min, max])
+  expect(options['step'].to_s).to eq(step_size)
+end
+
+When(/^I edit the trigger "([^"]*)"$/) do |name|
+  trigger = Trigger.find_by(name: name)
+  visit edit_report_trigger_path(Report.current, trigger)
+end
+
+Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do |pos1, pos2|
+  # Multirange adds a second slider input to create
+  # the impression of a multirange slider.
+  #
+  # However, the value property on a multirange sliders
+  # isn't fully polyfilled in all browsers (which seems
+  # to be the case with PhantomJS)
+  #
+  # See Limitations: https://leaverou.github.io/multirange/
+  #
+  # Due to this we need to get the value from the two sliders
+  # (the original one and the "ghost" slider) manually.
+
+  value1 = evaluate_script("$('.range__input.original').val()")
+  value2 = evaluate_script("$('.range__input.ghost').val()")
+
+  expect(value1).to eq(pos1)
+  expect(value2).to eq(pos2)
 end
 
