@@ -42,10 +42,8 @@ $(function() {
 
 	$('.trigger-conditions').on('cocoon:before-insert', function(e, item) {
 		$(item).find('.range').range();
-	});
 
-	$('.trigger-conditions').on('cocoon:after-insert', function(e, item) {
-		$('select.choose_sensor').on('change', function() {
+		$(item).find('select.choose_sensor').on('change', function(e, item) {
 			var options = $(this).find('option:selected')[0].dataset
 
 			$('.range').data('range').reinit({
