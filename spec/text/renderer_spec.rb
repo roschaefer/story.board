@@ -73,18 +73,18 @@ RSpec.describe Text::Renderer do
             context 'with markup for sensor' do
               let(:sensor)         { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
               let(:main_part)      { 'Sensor value: { value(42) }' }
-              it('renders sensor value') { is_expected.to eq('Sensor value: 5.0°C')}
+              it('renders sensor value') { is_expected.to eq('Sensor value: 5.0 °C')}
               context 'but with sensor data of different release' do
                 before { reading; create(:sensor_reading, sensor: sensor, release: :debug, calibrated_value: 0) }
 
                 context 'render :debug report' do
                   let(:release) { :debug }
-                  it { is_expected.to eq('Sensor value: 0.0°C')}
+                  it { is_expected.to eq('Sensor value: 0.0 °C')}
                 end
 
                 context 'render :final report' do
                   let(:release) { :final }
-                  it { is_expected.to eq('Sensor value: 5.0°C')}
+                  it { is_expected.to eq('Sensor value: 5.0 °C')}
                 end
               end
             end

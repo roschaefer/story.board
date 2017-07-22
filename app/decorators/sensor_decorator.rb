@@ -10,7 +10,7 @@ class SensorDecorator
 
     if r
       v = r.calibrated_value
-      "#{format("%.1f", v)}#{u}"
+      "#{format("%.1f", v)} #{u}"
     else
       "-- missing sensory data --"
     end

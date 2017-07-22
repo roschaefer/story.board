@@ -50,7 +50,7 @@ RSpec.describe ChatfuelController, type: :controller do
 
           it "returns text with replaced markup" do
             json_response = JSON.parse(subject.body)
-            expect(json_response["messages"].first["text"]).to eq("SensorXY: 5.0°C")
+            expect(json_response["messages"].first["text"]).to eq("SensorXY: 5.0 °C")
           end
         end
 
