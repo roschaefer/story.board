@@ -18,6 +18,8 @@ class TextComponentsController < ApplicationController
   # POST /text_components
   # POST /text_components.json
   def create
+    set_form_data
+    
     @text_component = TextComponent.new(text_component_params)
 
     @text_component.triggers.each do |trigger|
@@ -44,6 +46,8 @@ class TextComponentsController < ApplicationController
   # PATCH/PUT /text_components/1
   # PATCH/PUT /text_components/1.json
   def update
+    set_form_data
+
     respond_to do |format|
       if @text_component.update(text_component_params)
         format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
@@ -97,10 +101,8 @@ class TextComponentsController < ApplicationController
         end
       end
 
-      @trigger_groups = @text_components.group_by {|t| t.trigger_ids }
-      @trigger_groups = @trigger_groups.map{|trigger_ids, components|  [Trigger.find(trigger_ids), components] }.to_h
-
-      @text_components_without_triggers = @trigger_groups.delete([])
+      @trigger_groups = @text_components.group_by{ |t| t.trigger_ids }
+      @trigger_groups = @trigger_groups.map{ |trigger_ids, components|  [Trigger.find(trigger_ids), components] }.to_h
 
       set_form_data
     end

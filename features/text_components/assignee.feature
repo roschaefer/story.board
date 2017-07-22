@@ -34,6 +34,7 @@ Feature: Assignee
 
   @javascript
   Scenario: Filter by assignee
-    Given I am on the text components page
+    Given I am logged in
+    And I am on the text components page
     When I filter by assignee "John Doe"
     Then I see only the text component "Homicide victims rarely talk to police"

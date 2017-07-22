@@ -11,11 +11,11 @@
     - @trigger_groups.each do |triggers, text_components|
 
       - text_components.each.with_index do |text_component, index|
-        %tr
+        %tr.item-table__item
           -if index === 0
             %td{rowspan: text_components.count}
               .item-table__title
-                .item-table__title__clip{title: triggers.map(&:name).join(', '), data: {toggle: 'tooltip'}}
+                .item-table__title__clip{title: triggers.count > 0 ? triggers.map(&:name).join(', ') : 'Text Components without Trigger', data: {toggle: 'tooltip'}}
                   %strong
                     - if triggers.count > 0
                       %span=triggers.map(&:name).join(', ')
