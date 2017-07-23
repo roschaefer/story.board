@@ -3,7 +3,7 @@
  * All this logic will automatically be available in application.js.
  */
 
-var Editor = (function($) {
+var Editor = (function($, autosize) {
 
     /*
      * Creates an instance of the Editor class
@@ -22,6 +22,7 @@ var Editor = (function($) {
         this.$editor  = $editor;
         this.$toolbar = $editor.find(this.options.selector.toolbar);
         this.$fields  = $editor.find(this.options.selector.field);
+        this.data = this.$editor.data('editorData');
 
         this.lastFocus = null;
 
@@ -118,14 +119,16 @@ var Editor = (function($) {
      * @returns {Field}
      */
     Editor.prototype.findActiveField = function() {
-        var $field = this.$editor.find(this.options.selector.field + ':focus');
+        var $field = this.$fields.filter(function() {
+            return $(this).data('editorField').isFocussed();
+        });
 
         if($field.length > 0) {
             return $field.data('editorField');
         } else {
             return null;
         }
-    }
+    };
 
     /*
      * Saves the passed (focused) field to recover the current
@@ -138,7 +141,7 @@ var Editor = (function($) {
         this.lastFocus = field;
 
         return this;
-    }
+    };
 
     /*
      * Set the focus to a previously saved field
@@ -151,7 +154,7 @@ var Editor = (function($) {
         }
 
         return this;
-    }
+    };
 
     /*
      * Creates an instance of the Field class
@@ -162,9 +165,48 @@ var Editor = (function($) {
      */
     function Field($field, editor) {
         this.$field = $field;
+        this.$input = $field.find('.field__input');
+        this.$mirror = null;
         this.editor = editor;
 
         this.init();
+    };
+
+
+    /*
+     *
+     */
+    Field.prototype.filters = {
+        sensors: {
+            pattern: /{\s*value\(\s*(\d+)\s*\)\s*}/g,
+            markup: function(markup, id) {
+                var cls = ['markup', 'markup--sensor'];
+                if(!this.editor.data.sensors[id]) cls.push('markup--error');
+                
+                return '<span class="' + cls.join(' ') + '">' + markup + '</span>';
+            },
+            tooltip: function(markup, id) {
+                if(name = this.editor.data.sensors[id]) {
+                    return name;
+                }
+                return false;
+            }
+        },
+        events: {
+            pattern: /{\s*date\(\s*(\d+)\s*\)\s*}/g,
+            markup: function(markup, id) {
+                var cls = ['markup', 'markup--event'];
+                if(!this.editor.data.events[id]) cls.push('markup--error');
+                
+                return '<span class="' + cls.join(' ') + '">' + markup + '</span>';
+            },
+            tooltip: function(markup, id) {
+                if(name = this.editor.data.events[id]) {
+                    return name;
+                }
+                return false;
+            },
+        },
     };
 
 
@@ -176,12 +218,115 @@ var Editor = (function($) {
     Field.prototype.init = function() {
         var self = this;
 
-        self.$field.on('blur', function() {
-            self.editor.saveFocus(self);
-        });
+        self.$mirror = $('<div>').addClass('field__mirror').appendTo(self.$field);
+        self.$tooltip = $('<div>').addClass('field__tooltip').appendTo(self.$field);
+
+        self.$input
+            .on('blur', function() {
+                self.editor.saveFocus(self);
+            })
+            .on('input change keyup click blur', function() {
+                self.handleCursor();
+                self.render();
+            })
+
+        self.render();
+        autosize(self.$input);
 
         return this;
-    }
+    };
+
+
+    /*
+     * Renders the fields content, e. g. to highlight markup
+     *
+     * @returns {Field
+     */
+    Field.prototype.render = function() {
+        var self = this;
+
+        var text = self.$input.val();
+
+        $.each(self.filters, function(name, filter) {
+            text = text.replace(filter.pattern, function() {
+                return filter.markup.apply(self, arguments);
+            });
+        });
+
+        self.$mirror.html(text);
+    };
+
+
+    /*
+     * Handles a change of the cursor position
+     */
+    Field.prototype.handleCursor = function() {
+        var self = this;
+        var selection = self.getSelection();
+        var markup = self.findMarkup();
+        var activeMarkup = null;
+        var tooltip = false;
+
+        // check if there are intersections between
+        // the cursor position and the markup ranges
+        $.each(markup, function(index, markup) {
+            var min = markup.start < selection.start ? markup : selection;
+            var max = markup.start < selection.start ? selection : markup;
+
+            if(min.end > max.start) activeMarkup = markup;
+        });
+
+        if(activeMarkup) {
+            tooltip = self.filters[activeMarkup.type].tooltip.apply(self, activeMarkup.matches);
+        }
+
+        if(tooltip && self.isFocussed()) {
+            var text   = self.value();
+            self.$mirror.html(text.substring(0, activeMarkup.start) + '<span class="field__markup--active">' + text.substring(activeMarkup.start, activeMarkup.end) + '</span>' + text.substring(activeMarkup.end, text.length));
+            var $activeMarkup = self.$mirror.find('.field__markup--active');
+
+            var pos = {
+                top: $activeMarkup.offset().top - self.$field.offset().top,
+                left: $activeMarkup.offset().left + .5 * $activeMarkup.width() - self.$field.offset().left,
+            }
+
+            self.$tooltip.show().text(tooltip).css({
+                top: pos.top,
+                left: pos.left,
+            });
+        } else {
+            self.$tooltip.hide();
+        }
+    };
+
+
+    /*
+     *
+     */
+    Field.prototype.findMarkup = function() {
+        var markup = [];
+        var text = this.value();
+
+        $.each(this.filters, function(name, filter) {
+            while((match = filter.pattern.exec(text)) !== null) {
+                var matches = [];
+
+                $.each(match, function(key, item) {
+                    if(!isNaN(key)) matches.push(item);
+                });
+
+                markup.push({
+                    type:  name,
+                    matches: matches,
+                    start: match.index,
+                    end:   match.index + match[0].length,
+                    length:match[0].length,
+                });
+            }
+        });
+
+        return markup;
+    };
 
 
     /*
@@ -194,15 +339,16 @@ var Editor = (function($) {
      * representing the start end end of the selection
      */
     Field.prototype.getSelection = function() {
-        var start  = this.$field.get(0).selectionStart,
-            end    = this.$field.get(0).selectionEnd,
-            length = this.$field.val().length;
+        var start  = this.$input.get(0).selectionStart,
+            end    = this.$input.get(0).selectionEnd,
+            length = this.$input.val().length;
 
         return {
             start: start !== undefined ? start : length,
             end:   end !== undefined ? end : length,
         };
     };
+
 
     /*
      * Inserts text at the current cursor position. If text is
@@ -212,13 +358,32 @@ var Editor = (function($) {
      * @returns {Field}
      */
     Field.prototype.insertText = function(string) {
-        var value     = this.$field.val(),
+        var value     = this.$input.val(),
             selection = this.getSelection();
 
-        this.$field.val(value.substring(0, selection.start) + string + value.substring(selection.end, value.length));
+        this.value(value.substring(0, selection.start) + string + value.substring(selection.end, value.length));
 
         return this;
     };
+
+
+    /*
+     * Get/set the value of the field
+     *
+     * @param {String} string
+     * @return {Field|String}
+     */
+    Field.prototype.value = function(string) {
+        if(typeof string === 'string') {
+            this.$input.val(string);
+            this.render();
+            autosize.update(this.$input);
+        } else {
+            return this.$input.val();
+        }
+        return this;
+    };
+
 
     /*
      * Set the focus on the field's dom node
@@ -226,29 +391,32 @@ var Editor = (function($) {
      * @return {Field}
      */
     Field.prototype.focus = function() {
-        this.$field.focus();
+        this.$input.focus();
 
         return this;
-    }
+    };
+
+
+    /*
+     * Checks wether the field is focused
+     *
+     * @return {boolean}
+     */
+    Field.prototype.isFocussed = function() {
+        return this.$input.is(':focus');
+    };
 
     return Editor;
 
-})(jQuery);
+})(jQuery, autosize);
 
 (function($, Editor) {
 
     $.fn.editor = function() {
         this.each(function() {
             var editor = new Editor($(this));
+            $(this).data('editor', editor);
         });
     };
-
-    $(function() {
-        $('.modal .text-editor').editor();
-
-        $('.qa').on('cocoon:before-insert', function(e, item) {
-            $(item).find('.text-editor').editor();
-        });
-    });
 
 })(jQuery, Editor);
