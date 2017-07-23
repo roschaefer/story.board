@@ -49,4 +49,20 @@ RSpec.describe SmaxtecApi do
       end
     end
   end
+
+  describe '.update_events' do
+    let(:sensor_type) { create(:sensor_type, property: 'Event: Temperature increase', unit: '0-1') }
+    let(:sensor) { create(:sensor, name: 'Kuh Berta Event: Temperature increase', sensor_type: sensor_type, animal_id: '5722099ea80a5f54c631513d') }
+
+    it 'should update events and write them to the corresponding sensor, but not create the same event twice' do
+      sensor # create
+      VCR.use_cassette('smaxtec_api', :record => :once) do
+        expect { smaxtec_api.update_events }.to change {Sensor::Reading.count}.from(0).to(3)
+      end
+
+      VCR.use_cassette('smaxtec_api', :record => :once) do
+        expect { smaxtec_api.update_events }.to_not change {Sensor::Reading.count}
+      end
+    end
+  end
 end

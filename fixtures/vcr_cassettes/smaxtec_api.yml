@@ -103,4 +103,80 @@ http_interactions:
 '
     http_version: 
   recorded_at: Wed, 05 Jul 2017 17:57:45 GMT
+
+- request:
+    method: get
+    uri: https://api.smaxtec.com/api/v1/event/query?animal_id=5722099ea80a5f54c631513d&from_date=1497723483&limit=100&to_date=1500315483
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNThjYmY3YjdlYTNiZDExMzE1MDMzODRhIiwiZXhwIjoxNTAwNDA1NDgyfQ.rPAMD0x0K8blN357xoLK0AVoJu6X6kQ4VG0MQicYV3hVi1rHb1XAaalkXD-gNpXIPwg0jx4O-83w0Vj2gldMAw
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.13.1
+      Date:
+      - Mon, 17 Jul 2017 18:18:03 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains;
+    body:
+      encoding: ASCII-8BIT
+      string: '{"pagination": {"next_offset": 100, "previous_offset": 0, "limit":
+        100, "offset": 0}, "data": [{"organisation_id": "5721e3f8a80a5f54c6315131",
+        "event_type": 105, "level": 10.0, "timestamp": 1499349600, "reference_type":
+        "animal", "time_span": "point", "heat": null, "reference_id": "5722099ea80a5f54c631513d",
+        "_id": "595e42ed8c25f4676bbec778", "type": 105, "categories": ["fertility"],
+        "metadata": {"threshold": 0.5, "sensor_id": "0800000510", "temp_dec_index":
+        0.866, "value": 0.866, "calving_ts_diff": 543600.0}}, {"organisation_id":
+        "5721e3f8a80a5f54c6315131", "event_type": 703, "level": 10.0, "timestamp":
+        1499122800, "reference_type": "animal", "time_span": "point", "heat": null,
+        "reference_id": "5722099ea80a5f54c631513d", "_id": "595abfd8095575f93e6c4431",
+        "type": 703, "categories": ["health"], "metadata": {"sensor_id": "0800000510",
+        "act_decrease_index": 53.557, "value": 53.557}}, {"organisation_id": "5721e3f8a80a5f54c6315131",
+        "event_type": 104, "level": 10.0, "timestamp": 1499112000, "reference_type":
+        "animal", "time_span": "point", "heat": null, "reference_id": "5722099ea80a5f54c631513d",
+        "_id": "595aa3b7d5e0a258197540a4", "type": 104, "categories": ["health"],
+        "metadata": {"sensor_id": "0800000510", "temp_inc_index": 0.68, "value": 0.68}},
+        {"organisation_id": "5721e3f8a80a5f54c6315131", "event_type": 104, "level":
+        10.0, "timestamp": 1499025600, "reference_type": "animal", "time_span": "point",
+        "heat": null, "reference_id": "5722099ea80a5f54c631513d", "_id": "5959523855b6620dbbfd9770",
+        "type": 104, "categories": ["health"], "metadata": {"sensor_id": "0800000510",
+        "temp_inc_index": 0.606, "value": 0.606}}, {"organisation_id": "5721e3f8a80a5f54c6315131",
+        "event_type": 703, "level": 10.0, "timestamp": 1498863600, "reference_type":
+        "animal", "time_span": "point", "heat": null, "reference_id": "5722099ea80a5f54c631513d",
+        "_id": "5956cb5a1622b98e803db5cb", "type": 703, "categories": ["health"],
+        "metadata": {"sensor_id": "0800000510", "act_decrease_index": 52.532, "value":
+        52.532}}, {"organisation_id": "5721e3f8a80a5f54c6315131", "event_type": 105,
+        "level": 10.0, "timestamp": 1498806000, "reference_type": "animal", "time_span":
+        "point", "heat": null, "reference_id": "5722099ea80a5f54c631513d", "_id":
+        "5955ea594adc2110bdc7b83c", "type": 105, "categories": ["fertility"], "metadata":
+        {"sensor_id": "0800000510", "temp_dec_index": 0.504, "value": 0.504, "calving_ts_diff":
+        -579600.0}}, {"organisation_id": "5721e3f8a80a5f54c6315131", "event_type":
+        104, "level": 10.0, "timestamp": 1498374000, "reference_type": "animal", "time_span":
+        "point", "heat": null, "reference_id": "5722099ea80a5f54c631513d", "_id":
+        "594f52d5b24f9a7be3c2b553", "type": 104, "categories": ["health"], "metadata":
+        {"sensor_id": "0800000510", "temp_inc_index": 0.695, "value": 0.695}}]}
+
+'
+    http_version: 
+  recorded_at: Mon, 17 Jul 2017 18:18:03 GMT
 recorded_with: VCR 3.0.3

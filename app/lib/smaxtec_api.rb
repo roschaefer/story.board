@@ -5,7 +5,81 @@ class SmaxtecApi
   SMAXTEC_API_EMAIL = Rails.application.secrets.smaxtec_api_email
   SMAXTEC_API_PASSWORD = Rails.application.secrets.smaxtec_api_password
   SMAXTEC_API_BASE_URL = 'https://api.smaxtec.com/api/v1'
-  PROPERTY_MAPPING = {'Temperature' => 'temp', 'pH Value' => 'ph', 'Movement' => 'act_index'}
+  PROPERTY_MAPPING = {
+    'Temperature' => 'temp',
+    'pH Value' => 'ph',
+    'Movement' => 'act_index'
+  }
+  EVENT_MAPPING = {
+    'Event: Drink Cycles' => 101,
+    'Event: Drink cycle increase' => 102,
+    'Event: Drink cycle decrease' => 103,
+    'Event: Temperature increase' => 104,
+    'Event: Calving (temperature decrease)' => 105,
+    'Event: Temperature decrease' => 106,
+    'Event: pH amplitude' => 201,
+    'Event: > 300 minutes under pH 5.8' => 202,
+    'Event: pH daily mean increase' => 203,
+    'Event: pH daily mean decrease' => 204,
+    'Event: pH half daily mean increase' => 205,
+    'Event: pH half daily mean decrease' => 206,
+    'Event: Activity increase (unknown cause)' => 701,
+    'Event: Heat (activity increase)' => 702,
+    'Event: Activity decrease' => 703,
+    'Event: Activity increase' => 704,
+    'Event: Low heat stress' => 601,
+    'Event: Medium heat stress' => 602,
+    'Event: High heat stress' => 603
+  }
+
+  def update_events
+    puts "[" + Time.now.to_s + "] " + "Started update_events"
+    abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
+    Sensor.where.not(animal_id: nil).each do |sensor|
+      event_type = EVENT_MAPPING[sensor.property]
+      if event_type
+        puts "Getting latest events from Smaxtec for event sensor: #{sensor.name}"
+        events = smaxtec_events(sensor)
+        if events
+          events.each do |event|
+            if event.new_record?
+              if event.save
+                puts "New event: #{event.created_at} - #{event.calibrated_value} #{event.sensor.sensor_type.unit}"
+              else
+                puts event.errors
+              end
+            end
+          end
+        else
+          puts "No new events for sensor: #{sensor.name}"
+        end
+      end
+    end
+  end
+
+
+  def smaxtec_events(sensor)
+    # Look for events in the past 30 days (events occur less frequently than sensor readings)
+    temp_data = send_api_request('/event/query', { :animal_id => sensor.animal_id, :from_date => Time.now.to_i - 2592000, :to_date => Time.now.to_i, :limit => 100 })
+    if temp_data && temp_data['data'].count > 1
+      events = []
+      event_type = EVENT_MAPPING[sensor.property]
+      temp_data['data'].each do |data|
+        timestamp = data['timestamp']
+        value = 1
+        if data['event_type'] == event_type
+          events << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: DateTime.strptime(timestamp.to_s,'%s'), updated_at: DateTime.strptime(timestamp.to_s,'%s')) do |event|
+            event.calibrated_value = value
+            event.uncalibrated_value = value
+          end
+        end
+      end
+      return events
+    else
+      return nil
+    end
+  end
+
 
   def update_sensor_readings
     puts "[" + Time.now.to_s + "] " + "Started update_sensor_readings"
@@ -32,8 +106,11 @@ class SmaxtecApi
 
   def smaxtec_sensor_readings(sensor)
     metric = PROPERTY_MAPPING[sensor.property]
+    event = EVENT_MAPPING[sensor.property]
     unless metric
-      puts "Sensor #{sensor.name} has unrecognized property: #{sensor.property}"
+      unless event
+        puts "Sensor #{sensor.name} has unrecognized property: #{sensor.property}"
+      end
       return nil
     end
     #animal_id = '5722099ea80a5f54c631513d' # name = Arabella
