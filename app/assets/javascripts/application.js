@@ -27,6 +27,10 @@
 //= require components/editor
 
 $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+$(function() {
     autosize($('.field textarea'));
     autosize.update($('.field textarea'));
 });

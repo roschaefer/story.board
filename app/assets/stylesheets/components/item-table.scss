@@ -1,0 +1,43 @@
+/**
+ * ITEM-TABLE
+ */
+
+.item-table {
+    
+}
+
+.item-table__title {
+    position: relative;
+}
+
+.item-table__title__clip {
+    position: absolute;
+    max-width: 100%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-table__channels {
+    white-space: nowrap;
+    text-align: center;
+    font-size: .75rem;
+    line-height: 1rem * $line-height-base;
+}
+
+.item-table__actions {
+    white-space: nowrap;
+
+    a {
+        color: inherit;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        & + & {
+            margin-left: .25em;
+        }
+    }
+}

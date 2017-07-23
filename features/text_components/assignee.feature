@@ -27,13 +27,14 @@ Feature: Assignee
   @javascript
   Scenario: Get to text components assigned to me
     Given I am logged in
-    And I am on the landing page
-    When I click on "My text components"
+    When I click on the dropdown menu with my user account on the top right
+    And I click on "My Text Components"
     Then I am on the text components page with only those assigned to me
     And I see only the text component "Man arrested for everything"
 
   @javascript
   Scenario: Filter by assignee
-    Given I am on the text components page
+    Given I am logged in
+    And I am on the text components page
     When I filter by assignee "John Doe"
     Then I see only the text component "Homicide victims rarely talk to police"

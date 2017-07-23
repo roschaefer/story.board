@@ -716,7 +716,7 @@ def edit_existing_text_component(text_component = nil)
   @text_component ||= text_component
   visit report_text_components_path(@text_component.report)
   within('tr', text: @text_component.heading) do
-    click_on 'Edit'
+    find('.item-table__action--edit').click
   end
   expect(page).to have_text('Edit Text Component')
 end
@@ -775,11 +775,7 @@ Given(/^that is more easy to savvy:$/) do |string|
 end
 
 When(/^I edit the easier text component$/) do
-  visit report_text_components_path(Report.current)
-  within('tr', text: @text_component.heading) do
-    click_on 'Edit'
-  end
-  expect(page).to have_text('Edit Text Component')
+  edit_existing_text_component
 end
 
 
@@ -1036,15 +1032,14 @@ When(/^I choose "([^"]*)" from "([^"]*)"$/) do |thing, options|
 end
 
 Then(/^I see only the text component "([^"]*)"$/) do |heading|
-  within('table.text-components-table') do
-    expect(page).to have_css('tr.text-component', count: 1)
-    expect(page).to have_css('tr.text-component', text: heading)
+  within('.item-table') do
+    expect(page).to have_css('.item-table__item', count: 1)
+    expect(page).to have_css('.item-table__item', text: heading)
   end
 end
 
 When(/^I filter by assignee "([^"]*)"$/) do |assignee_name|
   find('#filter-assignee').find('option', text: assignee_name).select_option
-  click_on 'Filter'
 end
 
 Given(/^I am on the text components show page because I just edited one$/) do

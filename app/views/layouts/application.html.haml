@@ -7,6 +7,7 @@
     %title= content_for?(:title) ? yield(:title) : "story.board"
     = csrf_meta_tags
     = stylesheet_link_tag "application", :media => "all"
+    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
     = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
     = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
@@ -55,7 +56,7 @@
                 .dropdown
                   %a.nav-link.dropdown-toggle#user-menu{:data => {:toggle => 'dropdown'}, :href => "#"}= current_user.name
                   %ul.dropdown-menu.dropdown-menu-right
-                    %li= link_to 'My text components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]}), :class => 'dropdown-item'
+                    %li= link_to 'My Text Components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]}), :class => 'dropdown-item'
                     %li= link_to 'My Account', edit_user_registration_path, :class => 'dropdown-item'
                     %li= link_to 'Log Out', destroy_user_session_path, :method => :delete, :class => 'dropdown-item'
               - else
@@ -87,5 +88,6 @@
                 - Report.find_each do |report|
                   %ul.nav.nav-pills
                     %li.nav-item= link_to report.name, present_report_path(report), {class: 'nav-link'}
+                    
       %footer.py5
         = "story.board. The CMS for Sensorstories. Created 2015-#{Date.today.year} by Robert Schäfer and Jakob Vicari. No Reporters Were Harmed."

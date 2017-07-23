@@ -1,0 +1,21 @@
+%table.table.item-table
+  %thead.thead-default
+    %tr
+      %th{width: '40%'} Trigger
+      %th
+      %th{width: '40%'} Headline
+      %th Start
+      %th End
+      %th
+  %tbody
+    - @trigger_groups.each do |triggers, text_components|
+
+      - text_components.each.with_index do |text_component, index|
+        %tr.item-table__item
+          - if index === 0
+            - if triggers.count > 0
+              = render 'table_groupheader', title: triggers.map(&:name).join(', '), size: text_components.count
+            - else
+              = render 'table_groupheader', title: 'Text Components without Triggers', size: text_components.count
+
+          = render 'table_row', text_component: text_component
