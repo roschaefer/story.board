@@ -69,9 +69,7 @@ class TextComponent < ActiveRecord::Base
     icons = []
 
     channels.each do |channel|
-      if channel_icon_mapping.key? channel.name
-        icons.push(channel_icon_mapping[channel.name])
-      end
+      icons.push(channel_icon_mapping[channel.name])
     end
 
     icons.compact
