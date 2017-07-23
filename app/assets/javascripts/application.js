@@ -44,3 +44,11 @@ $(function() {
         $(item).find('.range').range();
     });
 });
+
+$(function() {
+    $('.modal .text-editor').editor();
+
+    $('.qa').on('cocoon:after-insert', function(e, item) {
+        $(item).find('.text-editor').editor();
+    });
+});

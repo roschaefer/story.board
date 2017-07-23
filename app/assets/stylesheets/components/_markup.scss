@@ -1,0 +1,28 @@
+/**
+ * MARKUP
+ */
+
+.markup {
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 2px;
+    padding: .1em 0;
+}
+
+.markup--sensor {
+    background-color: rgba($brand-primary, .2);
+}
+
+.markup--event {
+    background-color: rgba($brand-success, .2);
+}
+
+.markup--error {
+    background-color: rgba($brand-danger, .3);
+}
+
+.markup__type {
+    font-size: .6em;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: rgba(0, 0, 0, .5);
+}

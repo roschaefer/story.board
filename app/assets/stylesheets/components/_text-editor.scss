@@ -5,13 +5,13 @@
 .text-editor {
   border: 1px solid $input-border-color;
   border-radius: $input-border-radius;
-
-  overflow: hidden;
 }
 
 .text-editor__toolbar {
   display: flex;
   background: #f4f4f4;
+  border-top-left-radius: $input-border-radius;
+  border-bottom-right-radius: $input-border-radius;
 }
 
 .text-editor__toolbar__item {
