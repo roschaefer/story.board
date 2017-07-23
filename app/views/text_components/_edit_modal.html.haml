@@ -1,14 +1,10 @@
-.modal.fade{id: "editModal#{text_component.id}", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog{:role => "document"}
+.modal{id: "editModal#{text_component.id}", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
     .modal-content
       .modal-header
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title Edit Text Component
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span ×
+
       .modal-body
-        .modal-inner
-          .row
-            .col-sm-12
-              %h2 Editing text component
-          .row
-            .col-sm-12
-              = render 'form', text_component: text_component
+        = render 'form', text_component: text_component

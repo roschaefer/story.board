@@ -36,8 +36,7 @@ Rails.application.routes.draw do
     end
   end
   resources :sensor_readings, default: { format: :json }
-  post 'sensor_readings/fake', to: 'sensor_readings#fake', default: { format: :json }
-
+  post 'sensor_readings/debug', to: 'sensor_readings#debug', default: { format: :json }
 
   root to: redirect('/reports/current')
 

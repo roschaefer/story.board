@@ -70,7 +70,7 @@ end
 
 When(/^I add a condition$/) do
   find('button', text: /Add sensor/).click
-  expect(page).to have_text('Remove sensor') # wait until it's there
+  expect(page).to have_css('button[type="button"].btn-danger', {text: '×'}) # wait until it's there
 end
 
 When(/^(?:when )?I choose the sensor "([^"]*)" to trigger this trigger$/) do |sensor|
@@ -78,8 +78,7 @@ When(/^(?:when )?I choose the sensor "([^"]*)" to trigger this trigger$/) do |se
 end
 
 When(/^I define a range from "([^"]*)" to "([^"]*)" to cover the relevant values$/) do |arg1, arg2|
-  first('.range-slider-min-value', visible: false).set(arg1)
-  first('.range-slider-max-value', visible: false).set(arg2)
+  execute_script("$('.range').data('range').value('#{arg1},#{arg2}')");
 end
 
 When(/^I click on update$/) do
@@ -120,8 +119,8 @@ Given(/^for my current report I have these triggers prepared:$/) do |table|
     trigger = create(:trigger,
                      report: Report.current,
                      name: row['Trigger'],
-                     )
-    sensor = create(:sensor, name: row['Sensor'], report: Report.current)
+                    )
+    sensor = Sensor.find_by(name: row['Sensor']) || create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
@@ -181,14 +180,18 @@ Given(/^my current live report is called "([^"]*)"$/) do |name|
 end
 
 When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  click_on 'Report settings'
-  within '.dropdown-menu.report-settings' do
+  within('.report-settings') do
+    click_on 'Report Settings'
     click_on name
   end
 end
 
 When(/^I click on "([^"]*)"/) do |thing|
   click_on thing
+end
+
+When(/^I click on the dropdown menu with my user account on the top right$/) do
+  find('#user-menu').click
 end
 
 When(/^I type in a name$/) do
@@ -206,21 +209,21 @@ When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)
   fill_in 'To', with: to
 end
 
-Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
-  expect(@sensor.sensor_readings.fake.count).to eq quantity.to_i
+Then(/^this sensor should have (\d+) new sensor readings as debug data$/) do |quantity|
+  expect(@sensor.sensor_readings.debug.count).to eq quantity.to_i
 end
 
 Then(/^I should see some generated entries in the sensor readings table$/) do
-  within '#sensor-readings-table-fake' do
+  within '#sensor-readings-table-debug' do
     expect(page).to have_css('.sensor-reading-row')
   end
 end
 
-Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
+Given(/^I have debug and final sensor readings for sensor "([^"]*)"$/) do |name|
   @sensor = Sensor.find_by(name: name)
   Sensor::Reading.transaction do
-    7.times { create(:sensor_reading, sensor: @sensor, intention: :fake) }
-    5.times { create(:sensor_reading, sensor: @sensor, intention: :real) }
+    7.times { create(:sensor_reading, sensor: @sensor, release: :debug) }
+    5.times { create(:sensor_reading, sensor: @sensor, release: :final) }
   end
 end
 
@@ -228,11 +231,11 @@ When(/^I (?:see|visit) the page of (?:this|that) sensor$/) do
   visit report_sensor_path(Report.current, @sensor)
 end
 
-Then(/^fake and real data are distinguishable$/) do
-  within '#sensor-readings-table-fake' do
+Then(/^debug and final data are distinguishable$/) do
+  within '#sensor-readings-table-debug' do
     expect(page).to have_css('.sensor-reading-row', count: 7)
   end
-  within '#sensor-readings-table-real' do
+  within '#sensor-readings-table-final' do
     expect(page).to have_css('.sensor-reading-row', count: 5)
   end
 end
@@ -241,7 +244,7 @@ Given(/^there is some generated test data:$/) do |table|
   ActiveRecord::Base.transaction do
     table.hashes.each do |row|
       sensor = Sensor.find_by(name: row['Sensor'])
-      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, intention: :fake)
+      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, release: :debug)
     end
   end
 end
@@ -302,7 +305,7 @@ end
 
 Given(/^I have these sensors and sensor types in my database$/) do |table|
   table.hashes.each do |row|
-    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'])
+    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'], min: row['Min'], max: row['Max'], fractionDigits: row['FractionDigits'])
     create(:sensor,
            id: row['SensorID'].to_i,
            name: row['Sensor'],
@@ -364,8 +367,7 @@ When(/^I change the name of the report to "([^"]*)"$/) do |name|
 end
 
 Then(/^I see the new name in the settings menu above$/) do
-  expect(page).to have_css('.dropdown.report-settings')
-  expect(find('.dropdown.report-settings .dropdown-menu')).to have_text @report_name
+  expect(find('#main-nav')).to have_text @report_name
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
@@ -439,9 +441,9 @@ Given(/^we have this sensor data in our database:$/) do |table|
   table.hashes.each do |row|
     sensor = Sensor.find_by(name: row['Sensor'])
     create(:sensor_reading,
-            sensor: sensor,
-            calibrated_value: row['Calibrated value'],
-            created_at: row['Created at'])
+           sensor: sensor,
+           calibrated_value: row['Calibrated value'],
+           created_at: row['Created at'])
   end
 end
 
@@ -591,14 +593,17 @@ Given(/^we have a text component called "([^"]*)":$/) do |heading, text|
   @text_component = create(:text_component, heading: heading, main_part: text, report: Report.current)
 end
 
-When(/^I add (?:a|another)? trigger and choose "([^"]*)"$/) do |trigger|
-  unless page.has_css?('.dropdown-menu.inner')
-    within(".text_component_triggers") do
-      find('.bootstrap-select').click
-    end
-    expect(page).to have_css('.dropdown-menu.inner')
+When(/^I add a trigger and choose "([^"]*)"$/) do |trigger|
+  within('.form__section', text: 'Trigger') do
+    click_on 'Edit'
+    find('.choices', { wait: 10 }).click
+    find('.choices__item', text: trigger).click
   end
-  find('li', text: trigger).click
+end
+
+When(/^I add another trigger and choose "([^"]*)"$/) do |trigger|
+  find('.choices').click
+  find('.choices__item', text: trigger).click
 end
 
 Then(/^the text component is connected to both triggers$/) do
@@ -629,9 +634,9 @@ end
 
 Given(/^I have a sensor for "([^"]*)"$/) do |property|
   @sensor = create(:sensor,
-         report: Report.current,
-         sensor_type: create(:sensor_type, property: property)
-        )
+                   report: Report.current,
+                   sensor_type: create(:sensor_type, property: property)
+                  )
 
 end
 
@@ -707,12 +712,13 @@ Given(/^some triggers are active at certain hours:$/) do |table|
   end
 end
 
-def edit_existing_text_component
-  visit report_text_components_path(Report.current)
+def edit_existing_text_component(text_component = nil)
+  @text_component ||= text_component
+  visit report_text_components_path(@text_component.report)
   within('tr', text: @text_component.heading) do
-    click_on 'Edit'
+    find('.item-table__action--edit').click
   end
-  expect(page).to have_text('Editing text component')
+  expect(page).to have_text('Edit Text Component')
 end
 
 When(/^I edit this text component$/) do
@@ -720,18 +726,7 @@ When(/^I edit this text component$/) do
 end
 
 When(/^I update the text component$/) do
-  # close choose trigger dropdown
-  if page.has_css?('.dropdown-menu.inner')
-    within(".text_component_triggers") do
-      find('.bootstrap-select').click
-    end
-    expect(page).not_to have_css('.dropdown-menu.inner')
-  end
-
-  within("#edit_text_component_#{@text_component.id}") do
-    click_on 'Update'
-  end
-
+  click_on 'Update Text component'
   expect(page).to have_text('Text component was successfully updated.')
 end
 
@@ -780,22 +775,26 @@ Given(/^that is more easy to savvy:$/) do |string|
 end
 
 When(/^I edit the easier text component$/) do
-  visit report_text_components_path(Report.current)
-  within('tr', text: @text_component.heading) do
-    click_on 'Edit'
-  end
-  expect(page).to have_text('Editing text component')
+  edit_existing_text_component
 end
+
 
 When(/^choose "([^"]*)" as a channel$/) do |channel|
   within("#edit_text_component_#{@text_component.id}") do
-    select channel, from: 'text_component_channel_ids'
+    within('.form__section', text: 'Output') do
+      find('.choices').click
+      find('.choices__item', text: channel).click
+      find('.form__section__header').click # unfocus
+    end
   end
 end
 
 When(/^unslect "([^"]*)" as a channel$/) do |channel|
   within("#edit_text_component_#{@text_component.id}") do
-    unselect channel, from: 'text_component_channel_ids'
+    within('.form__section', text: 'Output') do
+      click_on 'Edit'
+      find('.choices__item', {text: 'sensorstory'}).click.send_keys(:backspace)
+    end
   end
 end
 
@@ -821,12 +820,12 @@ end
 
 When(/^I fill the empty question with:$/) do |string|
   @question_text = string
-  find(:fillable_field, 'Question', with: '').set(@question_text)
+  find('.text_component_question_answers_question .question-input', text: /^$/).set(@question_text)
 end
 
 When(/^I enter the missing answer:$/) do |string|
   @answer_text = string
-  find(:fillable_field, 'Answer', with: '').set(@answer_text)
+  find('.text_component_question_answers_answer .answer-input', text: /^$/).set(@answer_text)
 end
 
 Then(/^a new question\/answer was added to the database$/) do
@@ -846,12 +845,15 @@ Then(/^I can see the new question and the answer on the page$/) do
 end
 
 When(/^I click the "([^"]*)" button$/) do |label|
-  click_button(label)
+  within('.form__section', text: 'Chatbot Q/A') do
+    click_on 'Edit'
+    click_button(label)
+  end
 end
 
 When(/^two more input fields pop up, one for the new question and one for the new answer$/) do
-  expect(page).to have_field('Question', with: '', count: 1)
-  expect(page).to have_field('Answer', with: '', count: 1)
+  expect(page).to have_css('.text_component_question_answers_question .question-input', text: /^$/, count: 1)
+  expect(page).to have_css('.text_component_question_answers_answer .answer-input', text: /^$/, count: 1)
 end
 
 Given(/^we have an active text component with these question\/answers:$/) do |table|
@@ -887,9 +889,9 @@ Given(/^we have different text components, each having question\/answers$/) do
          main_part: 'I gave eleven liters of milk today.',
          closing: '',
          question_answers: [
-          build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
-          build(:question_answer, question: 'Shall it become more?', answer: 'I hope for it.')
-          ]
+           build(:question_answer, question: 'Is this a lot?', answer: 'I would say, that\'s quite a lot.'),
+           build(:question_answer, question: 'Want more?', answer: 'I hope for it.')
+  ]
         )
   create(:text_component,
          report: Report.current,
@@ -897,7 +899,7 @@ Given(/^we have different text components, each having question\/answers$/) do
          introduction: '',
          main_part: 'It was hot and stuffy in the stable.',
          closing: 'I hope it gets colder tomorrow.',
-        question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
+         question_answers: [build(:question_answer, question: 'How hot was it?', answer: 'Unbearable.')]
         )
 end
 
@@ -923,29 +925,29 @@ end
 
 Given(/^we have an active text component for that topic with these question\/answers:$/) do |table|
   @text_component = create(:text_component,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.')
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.')
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
 Given(/^we have an active text component with the id (\d+) for that topic with these question\/answers:$/) do |id, table|
   @text_component = create(:text_component,
                            report: Report.current,
-                          channels: [Channel.chatbot],
-                          topic: @topic,
-                          main_part: 'The main part of the text component will be displayed here.',
-                          id: id)
+                           channels: [Channel.chatbot],
+                           topic: @topic,
+                           main_part: 'The main part of the text component will be displayed here.',
+                           id: id)
   table.hashes.each do |row|
-  create(:question_answer,
-         text_component: @text_component,
-         question: row['Question'],
-         answer: row['Answer'])
+    create(:question_answer,
+           text_component: @text_component,
+           question: row['Question'],
+           answer: row['Answer'])
   end
 end
 
@@ -964,12 +966,17 @@ Given(/^we have these users in our database$/) do |table|
 end
 
 When(/^I edit an existing text component$/) do
-  @text_component = create(:text_component, report: Report.current)
+  @text_component = create(:text_component)
   edit_existing_text_component
 end
 
 When(/^I choose "([^"]*)" from the dropdown menu "([^"]*)"$/) do |option, select|
   select option, from: select
+end
+
+When(/I assign the text component to "([^"]*)"$/) do |assignee|
+  find('.form-group.select', text: 'Assignee').click
+  find('.choices__item', text: assignee).click
 end
 
 Then(/^I can see that Jane was assigned to the text component$/) do
@@ -1025,16 +1032,14 @@ When(/^I choose "([^"]*)" from "([^"]*)"$/) do |thing, options|
 end
 
 Then(/^I see only the text component "([^"]*)"$/) do |heading|
-  within('table.text-components-table') do
-    expect(page).to have_css('tr.text-component', count: 1)
-    expect(page).to have_css('tr.text-component', text: heading)
+  within('.item-table') do
+    expect(page).to have_css('.item-table__item', count: 1)
+    expect(page).to have_css('.item-table__item', text: heading)
   end
 end
 
 When(/^I filter by assignee "([^"]*)"$/) do |assignee_name|
-  click_on '...choose a user'
-  find('li', text: assignee_name).click
-  click_on 'Filter'
+  find('#filter-assignee').find('option', text: assignee_name).select_option
 end
 
 Given(/^I am on the text components show page because I just edited one$/) do
@@ -1048,7 +1053,7 @@ Given(/^I landed on the "([^"]*)" page because I just edited that component$/) d
 end
 
 Then(/^the edit modal pops up, allowing me to correct mistakes$/) do
-  expect(page).to have_text('Editing text component')
+  expect(page).to have_text('Edit Text Component')
   fill_in 'text_component_heading', with: 'Another heading'
   click_on 'Update Text component'
   expect(page).to have_css('b', text: 'Another heading')
@@ -1064,8 +1069,10 @@ Given(/^I fill in a valid email and a password$/) do
   fill_in 'user_password_confirmation', with: 'password123'
 end
 
-Then(/^I see the error message: "([^"]*)"$/) do |error_message|
+Then(/^I see the error message$/) do |error_message|
+  expect(page).to have_css('.alert.alert-danger', text: error_message)
 end
+
 
 Then(/^I see error message telling me the user name can't be blank$/) do
   within('.form-group', text: 'Name') do
@@ -1194,7 +1201,7 @@ Given(/^we have these diary entries in our database:$/) do |table|
   table.hashes.each do |row|
     report_id = row['Report id']
     report = Report.find_by(id: report_id) || create(:report, id: report_id)
-    create(:diary_entry, id: row['Id'], report: report, intention: row['Intention'], moment: row['Moment'])
+    create(:diary_entry, id: row['Id'], report: report, release: row['release'], moment: row['Moment'])
   end
 end
 
@@ -1211,3 +1218,76 @@ Given(/^for that diary entry we have some text components and question answers$/
   create(:text_component, report: report)
   create(:text_component, report: Report.current) # this should not go into the diary entry
 end
+
+When(/^I add a sensor reading for "([^"]*)" with a calibrated value of (\d+)°C and an uncalibrated value of (\d+)°C$/) do |created_at, calibrated_value, uncalibrated_value|
+  fill_in 'Created at', with: created_at
+  fill_in 'Calibrated Value', with: calibrated_value
+  fill_in 'Uncalibrated Value', with: uncalibrated_value
+end
+
+Then(/^this sensor should have (\d+) new sensor reading$/) do |quantity|
+  expect(@sensor.sensor_readings.count).to eq quantity.to_i
+end
+
+Given(/^I am composing some question answers for a text component$/) do
+  text_component = create(:text_component, report: Report.current)
+  edit_existing_text_component(text_component)
+  within('.form__section', text: 'Chatbot Q/A') do
+    click_on 'Edit'
+    find('.btn', text: 'Add Question & Answer').click
+  end
+end
+
+Given(/^I enter a question that is more than (\d+) characters long$/) do |count|
+  within('.qa__item') do
+    find('.question-input').set('a' * (count.to_i + 1))
+  end
+end
+
+Given(/^I am on the landing page$/) do
+  visit '/'
+end
+
+Then(/^the JSON response should be \(no matter in what order\):$/) do |json|
+  expected = JSON.parse(json)
+  actual = JSON.parse(last_response.body)
+  actual['text_components'] = actual['text_components'].sort {|hash1, hash2| hash1['id'] <=> hash2['id']}
+  expect(actual).to eq(expected)
+end
+
+When(/^I create a new trigger$/) do
+  visit new_report_trigger_path(Report.current)
+end
+
+Then(/^slider has a range from "([^"]*)" to "([^"]*)" with a step size of "([^"]*)"$/) do |min, max, step_size|
+  range = all('.range__info').map(&:text)
+  options = evaluate_script("$('.range').data('range').options")
+  expect(range).to eq([min, max])
+  expect(options['step'].to_s).to eq(step_size)
+end
+
+When(/^I edit the trigger "([^"]*)"$/) do |name|
+  trigger = Trigger.find_by(name: name)
+  visit edit_report_trigger_path(Report.current, trigger)
+end
+
+Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do |pos1, pos2|
+  # Multirange adds a second slider input to create
+  # the impression of a multirange slider.
+  #
+  # However, the value property on a multirange sliders
+  # isn't fully polyfilled in all browsers (which seems
+  # to be the case with PhantomJS)
+  #
+  # See Limitations: https://leaverou.github.io/multirange/
+  #
+  # Due to this we need to get the value from the two sliders
+  # (the original one and the "ghost" slider) manually.
+
+  value1 = evaluate_script("$('.range__input.original').val()")
+  value2 = evaluate_script("$('.range__input.ghost').val()")
+
+  expect(value1).to eq(pos1)
+  expect(value2).to eq(pos2)
+end
+

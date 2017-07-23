@@ -2,10 +2,6 @@ module Text
   class Generator
     BREAK_AFTER = 500 # characters
 
-    def report
-      @diary_entry.report
-    end
-
     def initialize(diary_entry)
       @diary_entry = diary_entry
     end
@@ -49,9 +45,7 @@ module Text
               diary_entry: @diary_entry
             }
           )
-
         end
-
 
         result += ApplicationController.render(
           partial: 'diary_entries/split_part',

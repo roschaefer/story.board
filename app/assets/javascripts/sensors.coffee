@@ -8,5 +8,10 @@ ready = ->
     $('#unhide_sample_data_form').hide()
     $('#sample_data_form').show()
 
+  $('#sensor_reading_form').hide()
+  $('#unhide_sensor_reading_form').on "click", ->
+    $('#unhide_sensor_reading_form').hide()
+    $('#sensor_reading_form').show()
+
 $(document).ready(ready)
 $(document).on('page:load', ready)

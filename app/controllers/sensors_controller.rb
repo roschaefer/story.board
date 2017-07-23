@@ -54,8 +54,8 @@ class SensorsController < ApplicationController
   end
 
   def set_readings
-    @real_readings = @sensor.sensor_readings.real.order(:created_at).last(50).reverse
-    @fake_readings = @sensor.sensor_readings.fake.order(:created_at).last(50).reverse
+    @final_readings = @sensor.sensor_readings.final.order(:created_at).last(50).reverse
+    @debug_readings = @sensor.sensor_readings.debug.order(:created_at).last(50).reverse
   end
 
   def sensor_params

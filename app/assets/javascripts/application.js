@@ -10,10 +10,68 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+//= require jquery3
 //= require jquery_ujs
-//= require twitter/bootstrap
-//= require_tree .
+
+//= require popper
+//= require bootstrap-sprockets
 //= require cocoon
-//= require bootstrap-slider
-//= require bootstrap-select
+
+//= require autosize
+//= require choices
+//= require multirange
+
+//= require_tree .
+
+//= require components/form
+//= require components/editor
+
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+$(function() {
+    autosize($('.field textarea'));
+    autosize.update($('.field textarea'));
+});
+
+$(function() {
+    if($('[data-choices]').length > 0) {
+        new Choices('[data-choices]', {shouldSort: false});
+    }
+});
+
+$(function() {
+    $('.range').each(function() {
+        var $elm = $(this);
+
+        $elm.range({
+            valueFormatter: function(value) {
+                return value + ' ' + $elm.data('unit')
+            }
+        });
+    });
+
+    $('.trigger-conditions').on('cocoon:before-insert', function(e, item) {
+        var $item = $(item);
+
+        $item.find('.range').range();
+    });
+
+    $(document).on('change', 'select.choose_sensor', function(e) {
+        var $select = $(e.target);
+        var $fields = $select.parents('.nested-fields');
+
+        var options = $select.find('option:selected').data();
+
+        $fields.find('.range').data('range').reinit({
+            min: options.rangeMin,
+            max: options.rangeMax,
+            step: options.rangeStep,
+            valueFormatter: function(value) {
+                return value + ' ' + options.rangeUnit;
+            }
+        });
+
+    });
+});

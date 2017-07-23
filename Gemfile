@@ -32,12 +32,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'twitter-bootstrap-rails'
+gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 gem 'haml-rails'
 gem 'simple_form'
 gem 'cocoon'
+gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever', :require => false
-gem 'bootstrap-slider-rails'
-gem 'bootstrap-select-rails'
 gem 'devise'
 
 group :development, :test do
@@ -74,7 +74,7 @@ group :test do
   gem 'database_cleaner'
   #   end
   gem 'selenium-webdriver'
-  gem 'capybara-webkit'
+  gem 'poltergeist'
   gem 'capybara-screenshot'
   gem 'vcr'
   gem 'webmock'

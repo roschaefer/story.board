@@ -59,17 +59,6 @@ RSpec.describe TextComponentsController, type: :controller do
       end
     end
 
-    context 'trigger with blank name' do
-      it 'is distinguished from empty trigger' do
-        trigger = create(:trigger, report: report, id: 20, name: '')
-        tc1 = create(:text_component, report: report, heading: 'Blank name trigger',triggers: [trigger])
-        tc2 = create(:text_component, report: report, heading: 'No trigger', triggers: [])
-        get :index, params: {report_id: report.id,}, session: valid_session
-        for_comparison = assigns(:trigger_groups).map{|key, value| [key.map(&:id), value.map(&:heading)]}
-        expect(for_comparison).to eq [[[20], ['Blank name trigger']]]
-        expect(assigns(:text_components_without_triggers)).to eq([tc2])
-      end
-    end
   end
 
   describe "GET #show" do
