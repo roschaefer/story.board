@@ -19,7 +19,7 @@ class TextComponentsController < ApplicationController
   # POST /text_components.json
   def create
     set_form_data
-    
+
     @text_component = TextComponent.new(text_component_params)
 
     @text_component.triggers.each do |trigger|
@@ -90,7 +90,7 @@ class TextComponentsController < ApplicationController
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
 
       filter_text_components
-      
+
       @trigger_groups = @text_components.order('from_day').group_by(&:trigger_ids)
 
       @trigger_groups = @trigger_groups.map do |trigger_ids, components|
@@ -98,14 +98,11 @@ class TextComponentsController < ApplicationController
       end
 
       @trigger_groups = @trigger_groups.sort do |a, b|
-        if a[0].count > 0 && b[0].count > 0
-          # if trigger group has more than one trigger
-          # sort by the names of the triggers
-          a[0].map(&:name).sort.first <=> b[0].map(&:name).sort.first
+        group1, group2 = a.first, b.first
+        if group1.present? && group2.present?
+          group1.map(&:name).sort.first <=> group2.map(&:name).sort.first
         else
-          # text components without a trigger should be displayed
-          # at the end of the table
-          a[0].count === 0 ? 1 : -1
+          group2.count <=> group1.count # groups with no trigger will be sorted to the end
         end
       end
 
