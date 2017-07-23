@@ -120,7 +120,7 @@ Given(/^for my current report I have these triggers prepared:$/) do |table|
                      report: Report.current,
                      name: row['Trigger'],
                     )
-    sensor = create(:sensor, name: row['Sensor'], report: Report.current)
+    sensor = Sensor.find_by(name: row['Sensor']) || create(:sensor, name: row['Sensor'], report: Report.current)
     create(:condition, sensor: sensor, trigger: trigger, from: row['From'], to: row['To'])
   end
 end
@@ -209,21 +209,21 @@ When(/^I choose (\d+) random sensor readings with a value from (\d+)°C to (\d+)
   fill_in 'To', with: to
 end
 
-Then(/^this sensor should have (\d+) new sensor readings as fake data$/) do |quantity|
-  expect(@sensor.sensor_readings.fake.count).to eq quantity.to_i
+Then(/^this sensor should have (\d+) new sensor readings as debug data$/) do |quantity|
+  expect(@sensor.sensor_readings.debug.count).to eq quantity.to_i
 end
 
 Then(/^I should see some generated entries in the sensor readings table$/) do
-  within '#sensor-readings-table-fake' do
+  within '#sensor-readings-table-debug' do
     expect(page).to have_css('.sensor-reading-row')
   end
 end
 
-Given(/^I have fake and real sensor readings for sensor "([^"]*)"$/) do |name|
+Given(/^I have debug and final sensor readings for sensor "([^"]*)"$/) do |name|
   @sensor = Sensor.find_by(name: name)
   Sensor::Reading.transaction do
-    7.times { create(:sensor_reading, sensor: @sensor, intention: :fake) }
-    5.times { create(:sensor_reading, sensor: @sensor, intention: :real) }
+    7.times { create(:sensor_reading, sensor: @sensor, release: :debug) }
+    5.times { create(:sensor_reading, sensor: @sensor, release: :final) }
   end
 end
 
@@ -231,11 +231,11 @@ When(/^I (?:see|visit) the page of (?:this|that) sensor$/) do
   visit report_sensor_path(Report.current, @sensor)
 end
 
-Then(/^fake and real data are distinguishable$/) do
-  within '#sensor-readings-table-fake' do
+Then(/^debug and final data are distinguishable$/) do
+  within '#sensor-readings-table-debug' do
     expect(page).to have_css('.sensor-reading-row', count: 7)
   end
-  within '#sensor-readings-table-real' do
+  within '#sensor-readings-table-final' do
     expect(page).to have_css('.sensor-reading-row', count: 5)
   end
 end
@@ -244,7 +244,7 @@ Given(/^there is some generated test data:$/) do |table|
   ActiveRecord::Base.transaction do
     table.hashes.each do |row|
       sensor = Sensor.find_by(name: row['Sensor'])
-      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, intention: :fake)
+      create(:sensor_reading, sensor: sensor, calibrated_value: row['Calibrated Value'].to_i, release: :debug)
     end
   end
 end
@@ -305,7 +305,7 @@ end
 
 Given(/^I have these sensors and sensor types in my database$/) do |table|
   table.hashes.each do |row|
-    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'])
+    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'], min: row['Min'], max: row['Max'], fractionDigits: row['FractionDigits'])
     create(:sensor,
            id: row['SensorID'].to_i,
            name: row['Sensor'],
@@ -716,7 +716,7 @@ def edit_existing_text_component(text_component = nil)
   @text_component ||= text_component
   visit report_text_components_path(@text_component.report)
   within('tr', text: @text_component.heading) do
-    click_on 'Edit'
+    find('.item-table__action--edit').click
   end
   expect(page).to have_text('Edit Text Component')
 end
@@ -775,11 +775,7 @@ Given(/^that is more easy to savvy:$/) do |string|
 end
 
 When(/^I edit the easier text component$/) do
-  visit report_text_components_path(Report.current)
-  within('tr', text: @text_component.heading) do
-    click_on 'Edit'
-  end
-  expect(page).to have_text('Edit Text Component')
+  edit_existing_text_component
 end
 
 
@@ -1036,15 +1032,14 @@ When(/^I choose "([^"]*)" from "([^"]*)"$/) do |thing, options|
 end
 
 Then(/^I see only the text component "([^"]*)"$/) do |heading|
-  within('table.text-components-table') do
-    expect(page).to have_css('tr.text-component', count: 1)
-    expect(page).to have_css('tr.text-component', text: heading)
+  within('.item-table') do
+    expect(page).to have_css('.item-table__item', count: 1)
+    expect(page).to have_css('.item-table__item', text: heading)
   end
 end
 
 When(/^I filter by assignee "([^"]*)"$/) do |assignee_name|
   find('#filter-assignee').find('option', text: assignee_name).select_option
-  click_on 'Filter'
 end
 
 Given(/^I am on the text components show page because I just edited one$/) do
@@ -1206,7 +1201,7 @@ Given(/^we have these diary entries in our database:$/) do |table|
   table.hashes.each do |row|
     report_id = row['Report id']
     report = Report.find_by(id: report_id) || create(:report, id: report_id)
-    create(:diary_entry, id: row['Id'], report: report, intention: row['Intention'], moment: row['Moment'])
+    create(:diary_entry, id: row['Id'], report: report, release: row['release'], moment: row['Moment'])
   end
 end
 
@@ -1258,5 +1253,41 @@ Then(/^the JSON response should be \(no matter in what order\):$/) do |json|
   actual = JSON.parse(last_response.body)
   actual['text_components'] = actual['text_components'].sort {|hash1, hash2| hash1['id'] <=> hash2['id']}
   expect(actual).to eq(expected)
+end
+
+When(/^I create a new trigger$/) do
+  visit new_report_trigger_path(Report.current)
+end
+
+Then(/^slider has a range from "([^"]*)" to "([^"]*)" with a step size of "([^"]*)"$/) do |min, max, step_size|
+  range = all('.range__info').map(&:text)
+  options = evaluate_script("$('.range').data('range').options")
+  expect(range).to eq([min, max])
+  expect(options['step'].to_s).to eq(step_size)
+end
+
+When(/^I edit the trigger "([^"]*)"$/) do |name|
+  trigger = Trigger.find_by(name: name)
+  visit edit_report_trigger_path(Report.current, trigger)
+end
+
+Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do |pos1, pos2|
+  # Multirange adds a second slider input to create
+  # the impression of a multirange slider.
+  #
+  # However, the value property on a multirange sliders
+  # isn't fully polyfilled in all browsers (which seems
+  # to be the case with PhantomJS)
+  #
+  # See Limitations: https://leaverou.github.io/multirange/
+  #
+  # Due to this we need to get the value from the two sliders
+  # (the original one and the "ghost" slider) manually.
+
+  value1 = evaluate_script("$('.range__input.original').val()")
+  value2 = evaluate_script("$('.range__input.ghost').val()")
+
+  expect(value1).to eq(pos1)
+  expect(value2).to eq(pos2)
 end
 

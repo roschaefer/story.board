@@ -16,7 +16,7 @@ class SensorReadingsController < ApplicationController
     end
   end
 
-  def fake
+  def debug
     @sensor_readings = []
     success = false
     Sensor::Reading.transaction do
@@ -32,7 +32,7 @@ class SensorReadingsController < ApplicationController
           sensor_id: sample_params[:sensor_id],
           calibrated_value: rand(range),
           uncalibrated_value: rand(range),
-          intention: :fake
+          release: :debug
         }
         Sensor::Reading.new(params)
       end
@@ -40,7 +40,7 @@ class SensorReadingsController < ApplicationController
     end
     respond_to do |format|
       if success
-        format.js { render 'sensor/readings/fake' }
+        format.js { render 'sensor/readings/debug' }
         format.json { render json: @sensor_readings, status: :created }
       else
         format.json { render json: @sensor_readings.map(&:errors), status: :unprocessable_entity }

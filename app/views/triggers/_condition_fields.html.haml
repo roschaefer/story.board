@@ -7,9 +7,14 @@
         - else
           = f.index + 1
     .col
-      = f.association :sensor, collection: Sensor.order('name'), label_method: :name_and_id, value_method: :id, label: false, prompt: '...add Sensor', input_html: {class: 'choose_sensor'}
+      = f.association :sensor, collection:  Proc.new{ Sensor.order('name').find_each.collect { |s| [s.name_and_id, s.id, 'data-range-min'=> s.min, 'data-range-max' => s.max, 'data-range-step' => (10 ** - s.fractionDigits).to_f, 'data-range-unit' => s.unit ] } }, label: false, prompt: '...add Sensor', input_html: {class: 'choose_sensor'}
     .col.form-group.d-flex.align-items-center
-      .range{data: {min: -20, max: 100, step: 1}}
+      - if f.object.sensor
+        - s = f.object.sensor
+        - options = {min: s.min, max: s.max, step: (10 ** - s.fractionDigits).to_f, unit: s.unit}
+      - else
+        - options = {min: -20.0, max: 100.0, step: 1, unit: ''}
+      .range{data: options}
         .row.range__fallback
           .col
             = f.input :from, label: false, input_html: {class: 'range__hidden range__hidden--min'}

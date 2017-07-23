@@ -54,8 +54,8 @@ RSpec.describe DiaryEntry, type: :model do
   end
 
   describe '#archive!' do
-    let(:intention) { :real }
-    let(:diary_entry) { described_class.new(report: report, intention: intention) }
+    let(:release) { :final }
+    let(:diary_entry) { described_class.new(report: report, release: release) }
     subject { diary_entry.archive! }
     it 'stores a new diary entry' do
      expect{ subject } .to change{ DiaryEntry.count }.from(0).to(1)
@@ -65,11 +65,11 @@ RSpec.describe DiaryEntry, type: :model do
      expect{ subject; report.reload }.to change{ report.diary_entries.size }.from(0).to(1)
     end
 
-    context 'for :fake data' do
-      let(:intention) { :fake }
-      it 'stores the intention along with the diary entry' do
+    context 'for :debug data' do
+      let(:release) { :debug }
+      it 'stores the release along with the diary entry' do
         subject
-        expect(report.diary_entries.first.intention).to eq 'fake'
+        expect(report.diary_entries.first.release).to eq 'debug'
       end
     end
 
@@ -84,8 +84,8 @@ RSpec.describe DiaryEntry, type: :model do
         expect{ subject }.not_to change{ report.diary_entries.size }
       end
 
-      context 'but for another intention' do
-        let(:intention) { :fake }
+      context 'but for another release' do
+        let(:release) { :debug }
         it 'can exceed' do
           expect{ subject }.to change{ report.diary_entries.size }
         end

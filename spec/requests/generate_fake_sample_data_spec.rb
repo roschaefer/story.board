@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe 'Generate Fake Sample Data', type: :request do
+RSpec.describe 'Generate debug Sample Data', type: :request do
 
-  describe 'POST /sensor_readings/fake' do
+  describe 'POST /sensor_readings/debug' do
     let(:sample_params) { { sensor_id: sensor.id, quantity: 3, from: 1, to: 2 } }
     let(:sensor) { create(:sensor) }
     let(:headers) { { 'ACCEPT' => 'application/json' } }
-    let(:url) { '/sensor_readings/fake' }
+    let(:url) { '/sensor_readings/debug' }
 
     it 'generates sample data for a sensor' do
       expect { post url, params: { sample: sample_params }, headers: headers }.to change { Sensor::Reading.count }.from(0).to(3)

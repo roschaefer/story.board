@@ -6,8 +6,8 @@ Feature: Generate sensorstory as JSON for frontend
 
   Background:
     Given we have these diary entries in our database:
-      | Id | Moment           | Intention | Report id |
-      | 1  | 2017-06-21 14:00 | real      | 4711      |
+      | Id | Moment           | release | Report id |
+      | 1  | 2017-06-21 14:00 | final      | 4711      |
     And for that diary entry we have some text components and question answers
     And I send and accept JSON
 
@@ -18,7 +18,7 @@ Feature: Generate sensorstory as JSON for frontend
     {
       "id": 1,
       "moment": "2017-06-21T14:00:00.000Z",
-      "intention": "real",
+      "release": "final",
       "text_components": [
         {
           "id": 1,

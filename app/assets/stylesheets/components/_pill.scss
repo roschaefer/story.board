@@ -1,0 +1,18 @@
+/**
+ * PILL
+ */
+
+.pill {
+    $size: .5em;
+
+    display: inline-block;
+    width: $size;
+    height: $size;
+
+    position: relative;
+    top: (1em * $line-height-base - $size) / 2;
+    margin-right: .25em;
+    vertical-align: top;
+
+    border-radius: 50%;
+}

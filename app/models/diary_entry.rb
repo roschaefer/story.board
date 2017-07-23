@@ -10,7 +10,7 @@ class DiaryEntry < ActiveRecord::Base
   end
 
 
-  enum intention: [:real, :fake]
+  enum release: [:final, :debug]
   LIMIT = 10
   belongs_to :report
 
@@ -23,10 +23,10 @@ class DiaryEntry < ActiveRecord::Base
   end
 
   def archive!
-    self.intention ||= :real
+    self.release ||= :final
     DiaryEntry.transaction do
-      if DiaryEntry.send(self.intention).count >= DiaryEntry::LIMIT
-        DiaryEntry.send(self.intention).first.destroy
+      if DiaryEntry.send(self.release).count >= DiaryEntry::LIMIT
+        DiaryEntry.send(self.release).first.destroy
       end
       self.save!
     end

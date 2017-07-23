@@ -48,7 +48,7 @@ class TextComponent < ActiveRecord::Base
     # and should be changed in the future
 
     status_css_class_mapping = {
-      'draft' => 'default',
+      'draft' => 'primary',
       'fact_checked' => 'warning',
       'published' => 'success'
     }
@@ -58,5 +58,20 @@ class TextComponent < ActiveRecord::Base
     else
       'default'
     end
+  end
+
+  def channel_icons
+    channel_icon_mapping = {
+      'sensorstory' => 'fa-file-text',
+      'chatbot' => 'fa-comment'
+    }
+
+    icons = []
+
+    channels.each do |channel|
+      icons.push(channel_icon_mapping[channel.name])
+    end
+
+    icons.compact
   end
 end
