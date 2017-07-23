@@ -108,7 +108,7 @@ class SmaxtecApi
     metric = PROPERTY_MAPPING[sensor.property]
     event = EVENT_MAPPING[sensor.property]
     unless metric
-      if !event
+      unless event
         puts "Sensor #{sensor.name} has unrecognized property: #{sensor.property}"
       end
       return nil
