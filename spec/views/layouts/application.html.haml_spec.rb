@@ -13,13 +13,13 @@ RSpec.describe "layouts/application", type: :view do
       expect(Report.current.id).not_to eq(report.id)
     end
 
-    it 'link to present point to the current report' do
+    it 'link to present points to the current report' do
       render
       parsed = Capybara.string(rendered)
       expect(parsed).to have_css("a[href='/reports/present/#{report.id}']", text: 'Live-System')
     end
 
-    it 'link and preview point to the current report' do
+    it 'link preview points to the current report' do
       render
       parsed = Capybara.string(rendered)
       expect(parsed).to have_css("a[href='/reports/preview/#{report.id}']", text: 'Preview')
