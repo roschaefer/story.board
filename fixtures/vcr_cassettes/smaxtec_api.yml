@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api-staging.smaxtec.com/api/v1/user/get_token?email=top&password=secret
+    uri: https://api.smaxtec.com/api/v1/user/get_token?email=superkuh@hooli.xyz&password=pansen123
     body:
       encoding: US-ASCII
       string: ''
@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - nginx/1.13.1
       Date:
-      - Mon, 17 Jul 2017 18:18:02 GMT
+      - Wed, 05 Jul 2017 17:57:45 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -36,14 +36,14 @@ http_interactions:
       - max-age=15724800; includeSubDomains;
     body:
       encoding: UTF-8
-      string: '{"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNThjYmY3YjdlYTNiZDExMzE1MDMzODRhIiwiZXhwIjoxNTAwNDA1NDgyfQ.rPAMD0x0K8blN357xoLK0AVoJu6X6kQ4VG0MQicYV3hVi1rHb1XAaalkXD-gNpXIPwg0jx4O-83w0Vj2gldMAw"}
+      string: '{"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk5MzY3NDY1fQ.cWTj2A0xkww5VL6ptfiT0NRFk2OGrehpq9LlHAHVMihBaksPXfcnBT6wJhFs8ZwW5LfgyHNEwv68n-xDmlXBuQ"}
 
 '
     http_version: 
-  recorded_at: Mon, 17 Jul 2017 18:18:02 GMT
+  recorded_at: Wed, 05 Jul 2017 17:57:45 GMT
 - request:
     method: get
-    uri: https://api-staging.smaxtec.com/api/v1/data/query?animal_id=5722099ea80a5f54c631513d&from_date=1500272282&metric=temp&to_date=1500315482
+    uri: https://api.smaxtec.com/api/v1/data/query?animal_id=5722099ea80a5f54c631513d&from_date=1499234265&metric=temp&to_date=1499277465
     body:
       encoding: US-ASCII
       string: ''
@@ -55,7 +55,7 @@ http_interactions:
       User-Agent:
       - Ruby
       Authorization:
-      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNThjYmY3YjdlYTNiZDExMzE1MDMzODRhIiwiZXhwIjoxNTAwNDA1NDgyfQ.rPAMD0x0K8blN357xoLK0AVoJu6X6kQ4VG0MQicYV3hVi1rHb1XAaalkXD-gNpXIPwg0jx4O-83w0Vj2gldMAw
+      - Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTkwOWE3ZDg2ZGU0MDYxM2Q2ZTczN2NiIiwiZXhwIjoxNDk5MzY3NDY1fQ.cWTj2A0xkww5VL6ptfiT0NRFk2OGrehpq9LlHAHVMihBaksPXfcnBT6wJhFs8ZwW5LfgyHNEwv68n-xDmlXBuQ
   response:
     status:
       code: 200
@@ -64,7 +64,7 @@ http_interactions:
       Server:
       - nginx/1.13.1
       Date:
-      - Mon, 17 Jul 2017 18:18:03 GMT
+      - Wed, 05 Jul 2017 17:57:45 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -77,35 +77,36 @@ http_interactions:
       - max-age=15724800; includeSubDomains;
     body:
       encoding: ASCII-8BIT
-      string: '{"metric": "temp", "_id": "0800000510", "data": [[1500272400, 41.509],
-        [1500273000, 41.602], [1500273600, 41.571], [1500274200, 41.447], [1500274800,
-        41.354], [1500275400, 41.261], [1500276000, 41.261], [1500276600, 41.199],
-        [1500277200, 41.137], [1500277800, 41.168], [1500278400, 41.199], [1500279000,
-        41.137], [1500279600, 41.106], [1500280200, 40.89], [1500280800, 33.745],
-        [1500281400, 36.767], [1500282000, 38.65], [1500282600, 39.218], [1500283200,
-        39.489], [1500283800, 39.67], [1500284400, 39.943], [1500285000, 40.186],
-        [1500285600, 40.461], [1500286200, 40.614], [1500286800, 40.706], [1500287400,
-        40.86], [1500288000, 41.044], [1500288600, 41.23], [1500289200, 41.354], [1500289800,
-        41.416], [1500290400, 41.447], [1500291000, 41.447], [1500291600, 41.478],
-        [1500292200, 41.509], [1500292800, 41.447], [1500293400, 41.416], [1500294000,
-        41.354], [1500294600, 36.477], [1500295200, 37.175], [1500295800, 38.71],
-        [1500296400, 39.67], [1500297000, 40.278], [1500297600, 40.675], [1500298200,
-        40.86], [1500298800, 40.921], [1500299400, 40.952], [1500300000, 41.014],
-        [1500300600, 40.952], [1500301200, 40.921], [1500301800, 40.004], [1500302400,
-        36.188], [1500303000, 38.471], [1500303600, 39.278], [1500304200, 39.55],
-        [1500304800, 39.761], [1500305400, 39.943], [1500306000, 40.156], [1500306600,
-        40.369], [1500307200, 40.491], [1500307800, 40.675], [1500308400, 40.921],
-        [1500309000, 41.137], [1500309600, 41.261], [1500310200, 41.261], [1500310800,
-        41.168], [1500311400, 41.106], [1500312000, 41.014], [1500312600, 41.014],
-        [1500313200, 40.952], [1500313800, 32.964], [1500314400, 36.651], [1500315000,
-        38.71]], "unit": "degree_celsius"}
+      string: '{"metric": "temp", "_id": "0800000510", "data": [[1499234400, 39.64],
+        [1499235000, 39.852], [1499235600, 40.034], [1499236200, 40.217], [1499236800,
+        40.369], [1499237400, 40.522], [1499238000, 40.553], [1499238600, 40.614],
+        [1499239200, 40.675], [1499239800, 40.675], [1499240400, 40.675], [1499241000,
+        40.614], [1499241600, 40.522], [1499242200, 37.673], [1499242800, 32.189],
+        [1499243400, 36.275], [1499244000, 38.086], [1499244600, 38.471], [1499245200,
+        38.59], [1499245800, 38.739], [1499246400, 38.889], [1499247000, 39.008],
+        [1499247600, 39.068], [1499248200, 39.128], [1499248800, 39.158], [1499249400,
+        39.218], [1499250000, 39.248], [1499250600, 39.278], [1499251200, 39.309],
+        [1499251800, 39.399], [1499252400, 39.519], [1499253000, 39.731], [1499253600,
+        39.943], [1499254200, 40.125], [1499254800, 40.247], [1499255400, 40.308],
+        [1499256000, 40.43], [1499256600, 40.491], [1499257200, 40.583], [1499257800,
+        40.706], [1499258400, 40.737], [1499259000, 40.675], [1499259600, 40.522],
+        [1499260200, 40.43], [1499260800, 40.43], [1499261400, 40.43], [1499262000,
+        40.4], [1499262600, 37.0], [1499263200, 34.873], [1499263800, 37.791], [1499264400,
+        38.71], [1499265000, 38.949], [1499265600, 39.098], [1499266200, 39.218],
+        [1499266800, 39.369], [1499267400, 39.519], [1499268000, 39.701], [1499268600,
+        39.852], [1499269200, 39.973], [1499269800, 40.034], [1499270400, 40.064],
+        [1499271000, 40.064], [1499271600, 31.942], [1499272200, 35.499], [1499272800,
+        37.762], [1499273400, 38.293], [1499274000, 38.59], [1499274600, 38.769],
+        [1499275200, 38.978], [1499275800, 39.188], [1499276400, 39.459], [1499277000,
+        39.67]], "unit": "degree_celsius"}
 
 '
     http_version: 
-  recorded_at: Mon, 17 Jul 2017 18:18:03 GMT
+  recorded_at: Wed, 05 Jul 2017 17:57:45 GMT
+
 - request:
     method: get
-    uri: https://api-staging.smaxtec.com/api/v1/event/query?animal_id=5722099ea80a5f54c631513d&from_date=1497723483&limit=100&to_date=1500315483
+    uri: https://api.smaxtec.com/api/v1/event/query?animal_id=5722099ea80a5f54c631513d&from_date=1497723483&limit=100&to_date=1500315483
     body:
       encoding: US-ASCII
       string: ''
