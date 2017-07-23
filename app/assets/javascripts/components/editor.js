@@ -3,7 +3,7 @@
  * All this logic will automatically be available in application.js.
  */
 
-var Editor = (function($) {
+var Editor = (function($, autosize) {
 
     /*
      * Creates an instance of the Editor class
@@ -231,6 +231,7 @@ var Editor = (function($) {
             })
 
         self.render();
+        autosize(self.$input);
 
         return this;
     };
@@ -376,10 +377,10 @@ var Editor = (function($) {
         if(typeof string === 'string') {
             this.$input.val(string);
             this.render();
+            autosize.update(this.$input);
         } else {
             return this.$input.val();
         }
-
         return this;
     };
 
@@ -407,13 +408,14 @@ var Editor = (function($) {
 
     return Editor;
 
-})(jQuery);
+})(jQuery, autosize);
 
 (function($, Editor) {
 
     $.fn.editor = function() {
         this.each(function() {
             var editor = new Editor($(this));
+            $(this).data('editor', editor);
         });
     };
 

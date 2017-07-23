@@ -70,6 +70,8 @@ var Form = (function($) {
         $active.removeClass(this.cls.sectionActive);
         $section.addClass(this.cls.sectionActive);
 
+        autosize.update($section.find('textarea'));
+
         return this;
     };
 

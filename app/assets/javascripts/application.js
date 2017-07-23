@@ -27,11 +27,6 @@
 //= require components/editor
 
 $(function() {
-    autosize($('.field textarea'));
-    autosize.update($('.field textarea'));
-});
-
-$(function() {
     if($('[data-choices]').length > 0) {
         new Choices('[data-choices]', {shouldSort: false});
     }
