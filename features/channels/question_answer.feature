@@ -8,8 +8,8 @@ Feature: Read more question
     Given a topic "milk_quality"
     And we have an active text component with the id 1 for that topic with these question/answers:
       | Question                              | Answer        |
-      | What do you call a sleeping cow?      | A bull-dozer. |
-      | What has one horn and gives milk?     | A milk truck. |
+      | A sleeping cow?    | A bull-dozer. |
+      | Horn & gives milk? | A milk truck. |
 
   Scenario: GET request a channel and receive a clickable question
     When I send a GET request to "/reports/1/chatfuel/milk_quality"
@@ -27,7 +27,7 @@ Feature: Read more question
                 {
                   "url": "http://example.org/reports/1/chatfuel/text_components/1/answer_to_question/1",
                   "type":"json_plugin_url",
-                  "title":"What do you call a sleeping cow?"
+                  "title":"A sleeping cow?"
                 }
               ]
             },
@@ -54,7 +54,7 @@ Feature: Read more question
                 {
                   "url": "http://example.org/reports/1/chatfuel/text_components/1/answer_to_question/2",
                   "type":"json_plugin_url",
-                  "title": "What has one horn and gives milk?"
+                  "title": "Horn & gives milk?"
                 }
               ]
             },

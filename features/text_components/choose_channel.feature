@@ -23,8 +23,8 @@ Feature: Choose one or many channels
     Relativity. Boom. Awesome.
     """
     When I edit the easier text component
-    And choose "simple" as a channel
     And unslect "sensorstory" as a channel
+    And choose "simple" as a channel
     And I update the text component
     Then the easier text will go into the channel "simple"
     And the easier text will not appear in main story

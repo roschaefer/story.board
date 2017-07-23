@@ -1,0 +1,29 @@
+/**
+ * FIELD
+ */
+
+.field {
+    position: relative;
+    margin: -1px;
+
+    border: 1px solid $input-border-color;
+}
+
+.field__label {
+    position: absolute;
+    top: .5rem;
+    left: .75rem;
+
+    font-size: .75rem;
+}
+
+.field input, .field textarea {
+    border: none;
+    padding: .75rem;
+    padding-top: 2rem;
+}
+
+/* Quick fix to remove bottom margin */
+.field .form-group {
+    margin-bottom: 0;
+}

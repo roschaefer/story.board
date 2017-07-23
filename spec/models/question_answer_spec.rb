@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe QuestionAnswer, type: :model do
   describe '#question' do
-    context 'more than 640 characters' do
-      subject { build(:question_answer, question: ("q" * 641)) }
+    context 'more than 20 characters' do
+      subject { build(:question_answer, question: ("q" * 21)) }
       it { is_expected.not_to be_valid }
     end
   end

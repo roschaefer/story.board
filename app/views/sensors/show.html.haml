@@ -16,24 +16,27 @@
 
 %p
   %h3 Sensor Readings
-  %table#sensor-readings-table-real.table.table-striped.table-hover
+  %table#sensor-readings-table-final.table.table-striped.table-hover
     %tr
       %th Id
       %th Timestamp
       %th Calibrated Value
       %th Uncalibrated Value
-      = render @real_readings
-  %h3 Fake Data
-  %table#sensor-readings-table-fake.table.table-striped.table-hover
+      = render @final_readings
+  - if user_signed_in?
+    %p
+      = render "add_sensor_reading"
+  %h3 debug Data
+  %table#sensor-readings-table-debug.table.table-striped.table-hover
     %tr
       %th Id
       %th Timestamp
       %th Calibrated Value
       %th Uncalibrated Value
-      = render @fake_readings
+      = render @debug_readings
 - if user_signed_in?
   %p
-    = render "generate_fake_sample_data"
+    = render "generate_debug_sample_data"
   %p
     = render "calibration"
   %p

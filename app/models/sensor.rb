@@ -6,6 +6,10 @@ class Sensor < ActiveRecord::Base
   has_many :triggers, through: :conditions
 
   delegate :property, to: :sensor_type
+  delegate :min, to: :sensor_type
+  delegate :max, to: :sensor_type
+  delegate :unit, to: :sensor_type
+  delegate :fractionDigits, to: :sensor_type
 
   validates :report, presence: true
   validates :name, presence: true, uniqueness: true
@@ -26,9 +30,9 @@ class Sensor < ActiveRecord::Base
   end
 
   def last_reading(diary_entry = nil)
-    intention = diary_entry&.intention || :real
+    release = diary_entry&.release || :final
     at = diary_entry&.moment || DateTime.now
-    sensor_readings.send(intention).created_before(at).last
+    sensor_readings.send(release).created_before(at).last
   end
 
   def calibrate(sensor_reading)

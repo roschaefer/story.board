@@ -1,0 +1,24 @@
+%td.item-table__channels{class: "text-#{text_component.css_status_class}"}
+  %span{data: {toggle: 'tooltip'}, title: "#{text_component.channels.map{|c| c.name.humanize}.join(', ')} / #{text_component.publication_status.humanize}"}
+    - if(text_component.channel_icons.count > 1)
+      %span{class: ['fa', 'fa-ellipsis-h']}
+    - else
+      %span{class: ['fa', text_component.channel_icons.first]}
+
+%td
+  .item-table__title
+    .item-table__title__clip{:title => text_component.heading, data: {toggle: 'tooltip'}}
+      %span=text_component.heading
+
+%td= text_component.from_day
+
+%td= text_component.to_day
+
+%td.item-table__actions
+  = link_to report_text_component_path(@report, text_component), {class: 'item-table__action--show'} do
+    %i.fa.fa-eye{title: 'View Text Component', data: {toggle: 'tooltip'}}
+  - if user_signed_in?
+    %a{data: {target: "#editModal#{text_component.id}", toggle: 'modal'}, class: 'item-table__action--edit', href: '#'}
+      %i.fa.fa-pencil{title: 'Edit Text Component', data: {toggle: 'tooltip'}}
+    = link_to report_text_component_path(@report, text_component), {method: :delete, class: 'item-table__action--destroy', data: {confirm: 'Are you sure?'}} do
+      %i.fa.fa-trash{title: 'Delete Text Component', data: {toggle: 'tooltip'}}

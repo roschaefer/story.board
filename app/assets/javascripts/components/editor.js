@@ -12,9 +12,18 @@ var Editor = (function($) {
      * @param {jQuery} $editor The wrapping text editor element
      */
     function Editor($editor) {
+        this.options = {
+            selector: {
+                toolbar: '.text-editor__toolbar:first',
+                field:   '.text-editor__field',
+            }
+        }
+
         this.$editor  = $editor;
-        this.$toolbar = $editor.find('.text-editor__toolbar:first');
-        this.$fields  = $editor.find('.text-editor__field');
+        this.$toolbar = $editor.find(this.options.selector.toolbar);
+        this.$fields  = $editor.find(this.options.selector.field);
+
+        this.lastFocus = null;
 
         this.init();
 
@@ -42,19 +51,28 @@ var Editor = (function($) {
     Editor.prototype.init = function() {
         var self = this;
 
-        // Prevent loosing focus when clicking toolbar buttons
-        self.$toolbar.on('mousedown', function(e) {
-            e.preventDefault();
-        });
-
+        // set all event handlers on toolbar buttons
         self.$toolbar.find('[data-editor-markup-command]').on('click', function(e) {
             e.preventDefault();
 
-            var command = self.commands[$(this).data().editorMarkupCommand];
+            var command = $(this).data().editorMarkupCommand;
 
-            if(typeof command !== 'function') throw new Error('Command not defined: ' + $(this).data().editorMarkupCommand);
-            
-            self.insertText(command($(this)));
+            self.recoverFocus();
+            self.runCommand(command, $(this));
+        });
+
+        self.$toolbar.find('[data-editor-markup-select]').on('change', function(e) {
+            var $option = $(this).find(':selected');
+            var command = $option.data().editorMarkupCommand;
+
+            self.recoverFocus();
+            self.runCommand(command, $option);
+        });
+
+        // initiate all fields
+        self.$fields.each(function() {
+            var field = new Field($(this), self);
+            $(this).data('editor-field', field);
         });
 
         return this;
@@ -68,15 +86,72 @@ var Editor = (function($) {
      * @returns {Editor}
      */
     Editor.prototype.insertText = function(string) {
-        var $activeField = $(':input:focus:first', this.$editor);
+        var activeField = this.findActiveField();
 
-        if($activeField.length > 0) {
-            var field = new Field($activeField);
-            field.insertText(string);
+        if(activeField) {
+            activeField.insertText(string);
         }
 
         return this;
     };
+
+    /*
+     * Run a command to manipulate editor field contents
+     *
+     * @param {String} command
+     * @param {jQuery} $context
+     * @returns {Editor}
+     */
+    Editor.prototype.runCommand = function(command, $context) {
+        var command = this.commands[command];
+
+        if(typeof command !== 'function') throw new Error('Command not defined: ' + $context.data().editorMarkupCommand);
+
+        this.insertText(command($context));
+
+        return this;
+    };
+
+    /*
+     * Return a focussed field
+     *
+     * @returns {Field}
+     */
+    Editor.prototype.findActiveField = function() {
+        var $field = this.$editor.find(this.options.selector.field + ':focus');
+
+        if($field.length > 0) {
+            return $field.data('editorField');
+        } else {
+            return null;
+        }
+    }
+
+    /*
+     * Saves the passed (focused) field to recover the current
+     * focus state later
+     *
+     * @param {Field} field
+     * @returns {Editor}
+     */
+    Editor.prototype.saveFocus = function(field) {
+        this.lastFocus = field;
+
+        return this;
+    }
+
+    /*
+     * Set the focus to a previously saved field
+     *
+     * @returns {Editor}
+     */
+    Editor.prototype.recoverFocus = function() {
+        if(this.lastFocus) {
+            this.lastFocus.focus();
+        }
+
+        return this;
+    }
 
     /*
      * Creates an instance of the Field class
@@ -87,9 +162,27 @@ var Editor = (function($) {
      */
     function Field($field, editor) {
         this.$field = $field;
-
         this.editor = editor;
+
+        this.init();
     };
+
+
+    /*
+     * Initiate the field's dom node
+     *
+     * @return {Field}
+     */
+    Field.prototype.init = function() {
+        var self = this;
+
+        self.$field.on('blur', function() {
+            self.editor.saveFocus(self);
+        });
+
+        return this;
+    }
+
 
     /*
      * Gets the start and end position of the selection in the
@@ -127,6 +220,17 @@ var Editor = (function($) {
         return this;
     };
 
+    /*
+     * Set the focus on the field's dom node
+     *
+     * @return {Field}
+     */
+    Field.prototype.focus = function() {
+        this.$field.focus();
+
+        return this;
+    }
+
     return Editor;
 
 })(jQuery);
@@ -141,6 +245,10 @@ var Editor = (function($) {
 
     $(function() {
         $('.modal .text-editor').editor();
+
+        $('.qa').on('cocoon:before-insert', function(e, item) {
+            $(item).find('.text-editor').editor();
+        });
     });
 
 })(jQuery, Editor);

@@ -24,7 +24,7 @@ RSpec.describe DiaryEntriesController, type: :controller do
   let(:valid_attributes) {
     {
     report_id: report.id,
-    intention: 'fake',
+    release: 'debug',
     moment: 2.days.ago
     }
   }
@@ -37,6 +37,16 @@ RSpec.describe DiaryEntriesController, type: :controller do
       diary_entry = DiaryEntry.create! valid_attributes
       get :index, params: params, session: valid_session
       expect(assigns(:diary_entries)).to eq([diary_entry])
+    end
+
+    it "assigns the diary entries that belong to the report" do
+      report = create(:report)
+      expected = create(:diary_entry, report: report)
+      not_expected = create(:diary_entry)
+      get :index, params: {report_id: report.id}
+      diary_entries = assigns(:diary_entries)
+      expect(diary_entries).to include(expected)
+      expect(diary_entries).not_to include(not_expected)
     end
   end
 

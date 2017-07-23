@@ -7,8 +7,8 @@ Feature: Read more button
   @javascript
   Scenario: Expand a question/answer in the website report
     Given we have an active text component with these question/answers:
-      | Question                            | Answer                    |
-      | Why did the chicken cross the road? | To get to the other side. |
+      | Question            | Answer                    |
+      | chicken cross road? | To get to the other side. |
     When I read the report
     And I click the button labeled with the question
     Then the button disappears and the answer shows up
@@ -29,7 +29,7 @@ Feature: Read more button
     """
     News from Bertha the cow
     [...]
-    I gave eleven liters of milk today. I would say, that's quite a lot. (* Shall it become more?)
+    I gave eleven liters of milk today. I would say, that's quite a lot. (* Want more?)
     It was hot and stuffy in the stable. (* How hot was it?)
     I hope it gets colder tomorrow.
     """
