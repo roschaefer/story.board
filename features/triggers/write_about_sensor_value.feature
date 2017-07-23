@@ -27,9 +27,9 @@ Feature: Write about the actual sensor value
     When I visit the landing page
     Then I should see:
     """
-    Wow, it's incredible 32.0°C!
+    Wow, it's incredible 32.0 °C!
     """
     And I should see:
     """
-    Take your sunglasses: 85000.0Lux outside!
+    Take your sunglasses: 85000.0 Lux outside!
     """

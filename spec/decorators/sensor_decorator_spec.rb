@@ -17,12 +17,12 @@ RSpec.describe SensorDecorator do
 
       context 'release :final' do
         subject { super().last_value }
-        it { is_expected.to eq '5.0°C'}
+        it { is_expected.to eq '5.0 °C'}
       end
 
       context 'release :debug' do
         subject { super().last_value(DiaryEntry.new(release: :debug)) }
-        it { is_expected.to eq '-3.0°C'}
+        it { is_expected.to eq '-3.0 °C'}
       end
 
     end
