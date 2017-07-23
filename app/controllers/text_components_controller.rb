@@ -91,18 +91,25 @@ class TextComponentsController < ApplicationController
 
       filter_text_components
       
-      @trigger_groups = @text_components.order('from_day').group_by { |t| t.trigger_ids }
-      @trigger_groups = @trigger_groups.map { |trigger_ids, components| [ Trigger.find(trigger_ids), components ] }.to_h
-      @trigger_groups = @trigger_groups.sort do |a,b|
-        if(a.first.first && b.first.first)
-          a.first.first.name.downcase <=> b.first.first.name.downcase
+      @trigger_groups = @text_components.order('from_day').group_by(&:trigger_ids)
+
+      @trigger_groups = @trigger_groups.map do |trigger_ids, components|
+        [Trigger.find(trigger_ids), components]
+      end
+
+      @trigger_groups = @trigger_groups.sort do |a, b|
+        if a[0].count > 0 && b[0].count > 0
+          # if trigger group has more than one trigger
+          # sort by the names of the triggers
+          a[0].map(&:name).sort.first <=> b[0].map(&:name).sort.first
         else
-          a.first.first ? -1 : 1
+          # text components without a trigger should be displayed
+          # at the end of the table
+          a[0].count === 0 ? 1 : -1
         end
       end
 
-      @trigger_groups = @text_components.group_by{ |t| t.trigger_ids }
-      @trigger_groups = @trigger_groups.map{ |trigger_ids, components|  [Trigger.find(trigger_ids), components] }.to_h
+      @trigger_groups = @trigger_groups.to_h
 
       set_form_data
     end
