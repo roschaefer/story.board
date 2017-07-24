@@ -4,11 +4,13 @@ class EventDecorator
     @event = event
   end
 
-  def date
+  def date(fallback = nil)
     date = @event.happened_at
     
     if date
       date.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_FORMAT)
+    elsif
+      fallback
     else
       "-- missing event data --"
     end

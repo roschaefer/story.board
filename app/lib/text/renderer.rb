@@ -18,16 +18,23 @@ module Text
         rendered = template
         rendered = render_report(rendered)
 
-        sensor_markup = rendered.scan(/{\s*value\(\s*(\d+)\s*\)\s*}/).flatten
-        Sensor.where(:id => sensor_markup).each do |sensor|
+        sensor_markup = rendered.scan(/{\s?value\(\s?(\d+)\s?\)(?:\s?\|\s?".*")?\s?}/).flatten
+        Sensor.where(id: sensor_markup).each do |sensor|
           s = SensorDecorator.new(sensor)
-          rendered.gsub!(/({\s*value\(\s*(#{ s.id })\s*\)\s*})/, s.last_value(@diary_entry))
+
+          rendered.gsub!(/{\s?value\(\s?(#{s.id})\s?\)(?:\s?\|\s?"(.*)")?\s?}/) do
+            s.last_value(@diary_entry, Regexp.last_match[2])
+          end
+
         end
 
         event_markup = rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).flatten
         Event.where(:id => event_markup).each do |event|
           e = EventDecorator.new(event)
-          rendered.gsub!(/({\s*date\(\s*(#{ e.id })\s*\)\s*})/, e.date)
+
+          rendered.gsub!(/{\s?date\(\s?(#{e.id})\s?\)(?:\s?\|\s?"(.*)")?\s?}/) do
+            e.date(Regexp.last_match[2])
+          end
         end
 
         rendered
