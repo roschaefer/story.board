@@ -18,13 +18,17 @@
 }
 
 .field__input, .field__mirror {
-    min-height: 5.75rem;
+    min-height: 2rem + .75rem + 2 * $line-height-base;
     padding: .75rem;
     padding-top: 2rem;
 
-    line-height: 1.5 * $font-size-base;
+    line-height: $line-height-base;
 
     border: none;
+}
+
+.field__input--large {
+    min-height: 2rem + .75rem + 8 * $line-height-base;
 }
 
 .field__input, .field__input:focus {
