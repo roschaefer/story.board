@@ -56,6 +56,17 @@ RSpec.describe Text::Renderer do
               end
             end
           end
+
+          context 'has not happened' do
+            context 'with a fallback value' do
+              let(:main_part) { 'Day of your death: { date(42) | "We will see…" }' }
+
+              it 'renders the fallback value' do
+                is_expected.to eq('Day of your death: We will see…')
+              end
+            end
+          end
+
         end
 
         context 'given a condition' do
@@ -99,6 +110,23 @@ RSpec.describe Text::Renderer do
               end
             end
           end
+
+          context 'without sensor data' do
+            before { report }
+
+            context 'with markup for sensor' do
+
+              context 'with fallback content' do
+                let(:sensor)    { create(:sensor, id: 42, name: 'SensorXY', sensor_type: sensor_type) }
+                let(:main_part) { 'Sensor value: { value(42) | "Fallback" }' }
+
+                it('renders the fallback content') { is_expected.to eq('Sensor value: Fallback') }
+              end
+
+            end
+
+          end
+
         end
       end
     end
