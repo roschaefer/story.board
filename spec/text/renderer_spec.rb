@@ -56,6 +56,17 @@ RSpec.describe Text::Renderer do
               end
             end
           end
+
+          context 'has not happened' do
+            context 'with a fallback value' do
+              let(:main_part) { 'Day of your death: { date(42) | "We will see…" }' }
+
+              it 'renders the fallback value' do
+                is_expected.to eq('Day of your death: We will see…')
+              end
+            end
+          end
+
         end
 
         context 'given a condition' do

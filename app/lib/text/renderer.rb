@@ -28,7 +28,7 @@ module Text
 
         end
 
-        event_markup = rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).flatten
+        event_markup = rendered.scan(/{\s?date\(\s?(\d+)\s?\)(?:\s?\|\s?".*")?\s?}/).flatten
         Event.where(:id => event_markup).each do |event|
           e = EventDecorator.new(event)
 

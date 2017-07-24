@@ -9,7 +9,7 @@ class EventDecorator
     
     if date
       date.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_FORMAT)
-    elsif
+    elsif fallback
       fallback
     else
       "-- missing event data --"
