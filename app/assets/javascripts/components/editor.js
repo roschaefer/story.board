@@ -164,10 +164,12 @@ var Editor = (function($, autosize) {
      * @param {Editor} editor The editor the field belongs to
      */
     function Field($field, editor) {
+        this.editor = editor;
+        
         this.$field = $field;
         this.$input = $field.find('.field__input');
         this.$mirror = null;
-        this.editor = editor;
+        this.$count = $field.find('.field__count');
 
         this.init();
     };
@@ -228,9 +230,11 @@ var Editor = (function($, autosize) {
             .on('input change keyup click blur', function() {
                 self.handleCursor();
                 self.render();
+                self.updateCount();
             })
 
         self.render();
+        self.updateCount();
         autosize(self.$input);
 
         return this;
@@ -298,6 +302,17 @@ var Editor = (function($, autosize) {
             self.$tooltip.hide();
         }
     };
+
+
+    /*
+     *
+     */
+    Field.prototype.updateCount = function() {
+        if(this.$count.length > 0) {
+            var length = this.value().length;
+            this.$count.text(length > 0 ? length : '');
+        }
+    }
 
 
     /*
