@@ -1,0 +1,29 @@
+/**
+ * NOTES-FIELD
+ */
+
+.notes-field {
+    position: relative;
+
+    ::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 2rem;
+        display: block;
+        width: 3px;
+        height: 100%;
+        border-width: 0 1px 0 1px;
+        border-style: solid;
+        border-color: lighten($brand-danger, 10);
+    }
+}
+
+.notes-field__input {
+    min-height: (3 * $line-height-base + 2 * $input-btn-padding-y);
+    padding-left: 3rem;
+
+    line-height: $line-height-base;
+    background-position: left $input-btn-padding-y;
+    background-image: repeating-linear-gradient(to bottom, #fbfbfb, #fbfbfb calc(1.5em - 1px), #ddd 1.5em);
+}

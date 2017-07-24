@@ -15,18 +15,17 @@
 
       .form__section__body
 
-        .form-group
-          = f.association :report, collection: Report.order('name'), selected: @report.id, input_html: {'data-choices': true}
+        = f.association :report, collection: Report.order('name'), selected: @report.id, input_html: {'data-choices': true}
 
-        .form-group
-          = f.association :topic, collection: Topic.order('name'), label_method: :display_name, include_blank: 'No topic', input_html: {'data-choices': true}
+        = f.association :topic, collection: Topic.order('name'), label_method: :display_name, include_blank: 'No topic', input_html: {'data-choices': true}
 
-        .form-group
-          = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'    
+        = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'    
 
-        .form-group
-          = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, include_blank: 'No assignee', input_html: {'data-choices': true}
+        = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, include_blank: 'No assignee', input_html: {'data-choices': true}
 
+        %label Notes
+        .notes-field
+          = f.input :notes, label: false, input_html: {class: 'notes-field__input', 'data-autosize': true}
 
     .form__section.form__section--active
 

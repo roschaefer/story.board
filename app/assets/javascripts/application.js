@@ -37,6 +37,15 @@ $(function() {
 });
 
 $(function() {
+    autosize($('textarea[data-autosize]'));
+
+    $(document).on('shown.bs.modal', function() {
+        var $inputs = $(this).find('textarea[data-autosize]');
+        autosize.update($inputs);
+    });
+})
+
+$(function() {
     $('.range').each(function() {
         var $elm = $(this);
 
