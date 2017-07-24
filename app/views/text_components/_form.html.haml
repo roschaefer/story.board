@@ -67,21 +67,9 @@
 
       .form__section__body
         .text-editor{data: {'editor-data': {sensors: @sensors.map{ |s| [s.id, s.name]}.to_h, events: @events.map{ |e| [e.id, e.name] }.to_h }.to_json }}
+
           .text-editor__toolbar
-            .text-editor__toolbar__item
-              Sensors
-              %select{'data-editor-markup-select': true}
-                %option{disabled: true, selected: true} Please select a sensor
-                - @sensors.each do |sensor|
-                  %option{data: {editor: {'markup-command': 'text', 'markup-text': "{value(#{sensor.id})}"}}}
-                    = sensor.name
-            .text-editor__toolbar__item
-              Events
-              %select{'data-editor-markup-select': true}
-                %option{disabled: true, selected: true} Please select an event
-                - @events.each do |event|
-                  %option{data: {editor: {'markup-command': 'text', 'markup-text': "{date(#{event.id})}"}}}
-                    = event.name
+            = render 'shared/text_editor/toolbar_buttons', sensors: @sensors, events: @events
 
           .text-editor__fields
             .field.text-editor__field

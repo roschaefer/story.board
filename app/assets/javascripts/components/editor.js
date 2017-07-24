@@ -38,9 +38,21 @@ var Editor = (function($, autosize) {
          * @type {function[]}
          */
         this.commands = {
-            'text': function($context) {
-                return $context.data().editorMarkupText;
+            text: function($context) {
+                return $context.data('editorMarkupText');
             },
+            sensor: function($context) {
+                var id = $context.data('editor-markup-sensor');
+                var fallback = prompt('Enter a fallback value that will be output in case that there is no recent sensory data for this sensor.');
+
+                return '{ value(' + id + ')'+ (fallback ? ' | "' + fallback + '"' : '') + ' }';
+            },
+            event: function($context) {
+                var id = $context.data('editor-markup-event');
+                var fallback = prompt('Enter a fallback value that will be output in case that there is no recent data for this event.');
+
+                return '{ date(' + id + ')'+ (fallback ? ' | "' + fallback  + '"' : '') + ' }';
+            }
         };
     };
 
@@ -178,7 +190,7 @@ var Editor = (function($, autosize) {
      */
     Field.prototype.filters = {
         sensors: {
-            pattern: /{\s*value\(\s*(\d+)\s*\)\s*}/g,
+            pattern: /{\s?value\(\s?(\d+)\s?\)(?:\s?\|\s?"(.*)")?\s?}/g,
             markup: function(markup, id) {
                 var cls = ['markup', 'markup--sensor'];
                 if(!this.editor.data.sensors[id]) cls.push('markup--error');
@@ -193,7 +205,7 @@ var Editor = (function($, autosize) {
             }
         },
         events: {
-            pattern: /{\s*date\(\s*(\d+)\s*\)\s*}/g,
+            pattern: /{\s?date\(\s?(\d+)\s?\)(?:\s?\|\s?"(.*)")?\s?}/g,
             markup: function(markup, id) {
                 var cls = ['markup', 'markup--event'];
                 if(!this.editor.data.events[id]) cls.push('markup--error');
@@ -225,9 +237,11 @@ var Editor = (function($, autosize) {
             .on('blur', function() {
                 self.editor.saveFocus(self);
             })
-            .on('input change keyup click blur', function() {
-                self.handleCursor();
-                self.render();
+            .on('input change keydown mousedown blur focus', function() {
+                window.setTimeout(function() {
+                    self.handleCursor();
+                    self.render();
+                }, 1);
             })
 
         self.render();
@@ -282,7 +296,7 @@ var Editor = (function($, autosize) {
 
         if(tooltip && self.isFocussed()) {
             var text   = self.value();
-            self.$mirror.html(text.substring(0, activeMarkup.start) + '<span class="field__markup--active">' + text.substring(activeMarkup.start, activeMarkup.end) + '</span>' + text.substring(activeMarkup.end, text.length));
+            self.$mirror.html(text.substring(0, selection.start) + '<span class="field__markup--active"></span>' + text.substring(selection.end, text.length));
             var $activeMarkup = self.$mirror.find('.field__markup--active');
 
             var pos = {
