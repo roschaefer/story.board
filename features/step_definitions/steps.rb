@@ -1015,7 +1015,11 @@ def log_in(user)
   click_button "Log in"
 end
 
-Given(/^I am logged in$/) do
+def log_out
+
+end
+
+Given(/^(?:I am logged in|I log in again)$/) do
   log_in(@user)
 end
 
@@ -1291,3 +1295,8 @@ Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do 
   expect(value2).to eq(pos2)
 end
 
+When(/^I take some notes for this text component:/) do |notes|
+  within('.modal.show') do
+    find('.notes-field__input').set(notes)
+  end
+end
