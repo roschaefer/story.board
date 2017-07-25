@@ -392,6 +392,7 @@ var Editor = (function($, autosize) {
         if(typeof string === 'string') {
             this.$input.val(string);
             this.render();
+            this.updateCount();
             autosize.update(this.$input);
         } else {
             return this.$input.val();
