@@ -4,10 +4,24 @@
   %h4 Add Sensor Reading manually
   = fields_for :sensor_reading do |f|
     = f.hidden_field :sensor_id, :value => @sensor.id
-    = f.label :created_at, "Created at"
-    = f.text_field :created_at, placeholder: 'YYYY-MM-DD HH-MM-SS'
+    = f.label :created_at, "Date / Time: "
+    = f.select :day, options_for_select((01..31), Time.now.day)
+    \.
+    = f.select :month, options_for_select((01..12), Time.now.month)
+    \.
+    = f.select :year, options_for_select((2017..2020), Time.now.year)
+    &nbsp;
+    = f.select :hour, options_for_select((01..24), Time.now.hour)
+    \:
+    = f.select :minute, options_for_select((00..59), Time.now.strftime('%M'))
+    \:
+    = f.select :second, options_for_select((00..59), Time.now.strftime('%S'))
+    = f.hidden_field :created_at, :value => Time.now
+    %br
     = f.label :calibrated_value, "Calibrated Value"
     = f.number_field :calibrated_value, step: 0.1, size: '6'
+    &nbsp;
     = f.label :uncalibrated_value, "Uncalibrated Value"
     = f.number_field :uncalibrated_value, step: 0.1, size: '6'
+    &nbsp;
     = f.submit "Add"
