@@ -1229,6 +1229,18 @@ When(/^I add a sensor reading for "([^"]*)" with a calibrated value of (\d+)°C 
   fill_in 'Uncalibrated Value', with: uncalibrated_value
 end
 
+When(/^I add a sensor reading for (\d+)\-(\d+)\-(\d+) (\d+):(\d+):(\d+) with a calibrated value of (\d+)°C and an uncalibrated value of (\d+)°C$/) do |day, month, year, hour, minute, second, calibrated_value, uncalibrated_value|
+  select day, from: 'sensor_reading_day'
+  select month, from: 'sensor_reading_month'
+  select year, from: 'sensor_reading_year'
+  select hour, from: 'sensor_reading_hour'
+  select minute, from: 'sensor_reading_minute'
+  select second, from: 'sensor_reading_second'
+  fill_in 'Calibrated Value', with: calibrated_value
+  fill_in 'Uncalibrated Value', with: uncalibrated_value
+end
+
+
 Then(/^this sensor should have (\d+) new sensor reading$/) do |quantity|
   expect(@sensor.sensor_readings.count).to eq quantity.to_i
 end

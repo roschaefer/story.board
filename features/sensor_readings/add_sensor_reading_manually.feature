@@ -13,7 +13,7 @@ Feature: Add sensor reading manually
     When I visit the sensors page
     And I click on "Temperature48" to see all the sensor readings
     And I click on "Add Sensor Reading manually"
-    And I add a sensor reading for "2011-01-11 11:11:11" with a calibrated value of 25°C and an uncalibrated value of 26°C
+    And I add a sensor reading for 11-11-2017 11:11:11 with a calibrated value of 25°C and an uncalibrated value of 26°C
     And I click on "Add"
     When I visit the sensors page
     And I click on "Temperature48" to see all the sensor readings
