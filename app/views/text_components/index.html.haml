@@ -1,16 +1,6 @@
-- if @text_component.errors.any?
-  - @text_component.errors.full_messages.each do |message|
-    .alert.alert-danger= message
-
-- @text_components.each do |text_component|
-  = render 'edit_modal', text_component: text_component
-
-= render 'create_modal', text_component: @new_text_component
-
 %h3 Text Components
 
 - if user_signed_in?
-
   .d-flex.justify-content-start.py-4
     %div.mr-auto
       = form_tag(report_text_components_path(@report), {method: :get}) do

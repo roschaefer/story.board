@@ -1,7 +1,7 @@
 class TextComponentsController < ApplicationController
-  before_action :set_text_component, only: [:show, :update, :destroy]
+  before_action :set_text_component, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_form_data, only: [:show, :index]
+  before_action :set_form_data, only: [:show, :index, :edit, :new, :create]
 
   # GET /text_components
   # GET /text_components.json
@@ -15,11 +15,17 @@ class TextComponentsController < ApplicationController
   def show
   end
 
+  def new
+    @text_component = TextComponent.new
+    @text_component.report = Report.current
+  end
+
+  def edit
+  end
+
   # POST /text_components
   # POST /text_components.json
   def create
-    set_form_data
-
     @text_component = TextComponent.new(text_component_params)
 
     @text_component.triggers.each do |trigger|
@@ -34,10 +40,7 @@ class TextComponentsController < ApplicationController
         format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully created.' }
         format.json { render :show, status: :created, location: @text_component }
       else
-        format.html do
-          set_index_data
-          render :index
-        end
+        format.html { render :new }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
@@ -46,17 +49,13 @@ class TextComponentsController < ApplicationController
   # PATCH/PUT /text_components/1
   # PATCH/PUT /text_components/1.json
   def update
-    set_form_data
 
     respond_to do |format|
       if @text_component.update(text_component_params)
         format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
         format.json { render :show, status: :ok, location: @text_component }
       else
-        format.html do
-          set_index_data
-          render :index
-        end
+        format.html { render :edit }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
       end
     end
@@ -84,9 +83,6 @@ class TextComponentsController < ApplicationController
     end
 
     def set_index_data
-      @new_text_component = TextComponent.new
-      @new_text_component.triggers.build
-      @new_text_component.report = Report.current
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
 
       filter_text_components
@@ -107,8 +103,6 @@ class TextComponentsController < ApplicationController
       end
 
       @trigger_groups = @trigger_groups.to_h
-
-      set_form_data
     end
 
     def filter_text_components
