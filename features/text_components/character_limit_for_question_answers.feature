@@ -12,7 +12,6 @@ Feature: Character-Limit for Question Input field
     Given I am composing some question answers for a text component
     When I enter a question that is more than 20 characters long
     And I click on "Update"
-    Then I see the error message
-    """
-    Question answers question is too long for a chatfuel button (maximum is 20 characters)
-    """
+    Then I see the error message in section "Chatbot Q/A":
+      | Label   | Question                                                     |
+      | Message | is too long for a chatfuel button (maximum is 20 characters) |

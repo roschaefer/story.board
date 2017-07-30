@@ -1,3 +1,20 @@
+def click_regardless_of_overlapping_elements(node)
+  if Capybara.current_driver == :poltergeist
+    node.trigger('click')
+  else
+    node.click
+  end
+end
+
+def within_text_component_section(header)
+  within('.form__section', text: header) do
+    if page.has_css?('a', text: 'Edit')
+      click_regardless_of_overlapping_elements(find('a', text: 'Edit'))
+    end
+    yield
+  end
+end
+
 When(/^I visit the landing page$/) do
   visit root_path
 end
@@ -594,8 +611,7 @@ Given(/^we have a text component called "([^"]*)":$/) do |heading, text|
 end
 
 When(/^I add a trigger and choose "([^"]*)"$/) do |trigger|
-  within('.form__section', text: 'Trigger') do
-    click_on 'Edit'
+  within_text_component_section('Trigger') do
     find('.choices', { wait: 10 }).click
     find('.choices__item', text: trigger).click
   end
@@ -776,21 +792,16 @@ end
 
 
 When(/^choose "([^"]*)" as a channel$/) do |channel|
-  within("#edit_text_component_#{@text_component.id}") do
-    within('.form__section', text: 'Output') do
-      find('.choices').click
-      find('.choices__item', text: channel).click
-      find('.form__section__header').click # unfocus
-    end
+  within_text_component_section('Output') do
+    find('.choices').click
+    find('.choices__item', text: channel).click
+    find('.form__section__header').click # unfocus
   end
 end
 
-When(/^unslect "([^"]*)" as a channel$/) do |channel|
-  within("#edit_text_component_#{@text_component.id}") do
-    within('.form__section', text: 'Output') do
-      click_on 'Edit'
-      find('.choices__item', {text: 'sensorstory'}).click.send_keys(:backspace)
-    end
+When(/^unselect "([^"]*)" as a channel$/) do |channel|
+  within_text_component_section('Output') do
+    find('.choices__item', text: channel).click.send_keys(:backspace)
   end
 end
 
@@ -841,8 +852,7 @@ Then(/^I can see the new question and the answer on the page$/) do
 end
 
 When(/^I click the "([^"]*)" button$/) do |label|
-  within('.form__section', text: 'Chatbot Q/A') do
-    click_on 'Edit'
+  within_text_component_section('Chatbot Q/A') do
     click_button(label)
   end
 end
@@ -1069,8 +1079,12 @@ Given(/^I fill in a valid email and a password$/) do
   fill_in 'user_password_confirmation', with: 'password123'
 end
 
-Then(/^I see the error message$/) do |error_message|
-  expect(page).to have_css('.alert.alert-danger', text: error_message)
+Then(/^I see the error message in section "([^"]*)":$/) do |section, table|
+  within_text_component_section(section) do
+    table.transpose.hashes.each do |row|
+      expect(find('.text-editor__field', text: row['Label'])).to have_text(row['Message'])
+    end
+  end
 end
 
 
@@ -1237,8 +1251,7 @@ end
 Given(/^I am composing some question answers for a text component$/) do
   text_component = create(:text_component, report: Report.current)
   edit_existing_text_component(text_component)
-  within('.form__section', text: 'Chatbot Q/A') do
-    click_on 'Edit'
+  within_text_component_section('Chatbot Q/A') do
     find('.btn', text: 'Add Question & Answer').click
   end
 end

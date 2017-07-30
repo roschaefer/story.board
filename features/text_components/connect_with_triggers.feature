@@ -15,8 +15,8 @@ Feature: Connect text components with triggers
       | Another situation |
     And I have a text component with a heading "What's happening now?"
     When I edit this text component
-    And I add a trigger and choose "Another situation"
-    And I add another trigger and choose "Some situation"
+    And I add a trigger and choose "Some situation"
+    And I add another trigger and choose "Another situation"
     And I update the text component
     Then the text component is connected to both triggers
 
