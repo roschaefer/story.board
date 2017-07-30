@@ -8,6 +8,7 @@
           .input-group-addon Assignee:
           = collection_select(:filter, :assignee_id, User.order('LOWER(name)'), :id, :name, { selected: @filter[:assignee_id], include_blank: 'All' }, { class: 'form-control custom-select', id: 'filter-assignee', onchange: 'this.form.submit()' })
     %div
-      %a.btn.btn-primary{:data => {:target => '#modalTriggerText', :toggle => 'modal'}, :href => '#'} New Text Component
+      - if user_signed_in?
+        =link_to 'New text component', new_report_text_component_path(@report), :class => "btn btn-primary"
 
 = render 'table'

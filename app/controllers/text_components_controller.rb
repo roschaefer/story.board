@@ -1,7 +1,7 @@
 class TextComponentsController < ApplicationController
   before_action :set_text_component, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_form_data, only: [:show, :index, :edit, :new, :create]
+  before_action :set_form_data
 
   # GET /text_components
   # GET /text_components.json

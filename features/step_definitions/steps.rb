@@ -714,11 +714,7 @@ end
 
 def edit_existing_text_component(text_component = nil)
   @text_component ||= text_component
-  visit report_text_components_path(@text_component.report)
-  within('tr', text: @text_component.heading) do
-    find('.item-table__action--edit').click
-  end
-  expect(page).to have_text('Edit Text Component')
+  visit edit_report_text_component_path(@text_component.report, @text_component)
 end
 
 When(/^I edit this text component$/) do
@@ -1301,7 +1297,5 @@ Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do 
 end
 
 When(/^I take some notes for this text component:/) do |notes|
-  within('.modal.show') do
-    find('.notes-field__input').set(notes)
-  end
+  find('.notes-field__input').set(notes)
 end
