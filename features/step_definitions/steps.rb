@@ -435,7 +435,7 @@ Then(/^I see that my custom variable "([^"]*)" has a value "([^"]*)"$/) do |key,
   expect(row).to have_text(value)
 end
 
-Given(/^I have these events in my database$/) do |table|
+Given(/^(?:we|I) have these events in (?:my|our) database:$/) do |table|
   table.hashes.each do |row|
     create(:event, id: row['EventID'], name: row['Event'])
   end
@@ -1321,4 +1321,29 @@ Then(/^I should see in section "([^"]*)":$/) do |section, string|
     expect(string).not_to be_empty
     expect(non_visible_text).to include(string)
   end
+end
+
+Given(/^there is an event$/) do
+  @event = create(:event)
+end
+
+Given(/^the event was started$/) do
+  @event.start Time.now
+end
+
+When(/^I edit the event$/) do
+  visit edit_event_path(@event)
+end
+
+When(/^I wait for (\d+) years$/) do |some|
+  Timecop.travel some.years.from_now
+end
+
+Then(/^a new event activation is in the database which took (\d+) years$/) do |arg1|
+  last_event = Event::Activation.last
+  expect(last_event.duration).to eq 20.years
+end
+
+Then(/^(?:I see |now )?the event "([^"]*)"$/) do |state|
+  expect(page).to have_text(state)
 end

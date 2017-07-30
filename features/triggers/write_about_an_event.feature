@@ -8,7 +8,7 @@ Feature: Connect with events
     Given there is a sensor live report
 
   Scenario: Include markup in trigger
-    Given I have these events in my database
+    Given I have these events in my database:
       | EventID | Event         |
       | 1       | Judgement Day |
     And have some triggers prepared that will trigger on a particular event
