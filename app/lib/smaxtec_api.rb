@@ -31,6 +31,11 @@ class SmaxtecApi
     'Event: Medium heat stress' => 602,
     'Event: High heat stress' => 603
   }
+  DEVICE_MAPPING = {
+    'Temperature' => 'temp',
+    'Relative Humidity' => 'hum',
+    'THI' => 'temp_hum_index'
+  }
 
   def update_events
     puts "[" + Time.now.to_s + "] " + "Started update_events"

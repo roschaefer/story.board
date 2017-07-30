@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170719205918) do
+ActiveRecord::Schema.define(version: 20170730105122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,8 +142,8 @@ ActiveRecord::Schema.define(version: 20170719205918) do
     t.float    "max_value"
     t.float    "min_value"
     t.datetime "calibrated_at"
-    t.boolean  "smaxtec_sensor"
     t.string   "animal_id"
+    t.string   "device_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
     t.index ["report_id"], name: "index_sensors_on_report_id", using: :btree
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(version: 20170719205918) do
     t.integer  "publication_status", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "notes"
     t.index ["assignee_id"], name: "index_text_components_on_assignee_id", using: :btree
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
