@@ -8,6 +8,7 @@ class SensorReadingsController < ApplicationController
         format.json { render json: @sensor_reading, status: :accepted }
       else
         if @sensor_reading.save
+          format.js { render 'sensor/readings/create' }
           format.json { render json: @sensor_reading, status: :created, location: @sensor_reading }
         else
           format.json { render json: @sensor_reading.errors, status: :unprocessable_entity }
