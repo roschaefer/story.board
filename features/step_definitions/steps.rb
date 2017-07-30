@@ -831,7 +831,7 @@ When(/^I fill the empty question with:$/) do |string|
 end
 
 When(/^I enter the missing answer:$/) do |string|
-  @answer_text = string
+  @answer_text = string.gsub("\n", ' ')
   find('.text_component_question_answers_answer .answer-input', text: /^$/).set(@answer_text)
 end
 
@@ -845,10 +845,12 @@ Then(/^a new question\/answer was added to the database$/) do
 end
 
 Then(/^I can see the new question and the answer on the page$/) do
-  expect(@question_text).to be_present
-  expect(@answer_text).to be_present
-  expect(page).to have_text(@question_text)
-  expect(page).to have_text(@answer_text)
+  within_text_component_section('Chatbot Q/A') do
+    expect(page).to have_css('.nested-fields', count: 3)
+    last_text = all('.nested-fields').last.text(:all)
+    expect(last_text).to include(@question_text)
+    expect(last_text).to include(@answer_text)
+  end
 end
 
 When(/^I click the "([^"]*)" button$/) do |label|
@@ -986,7 +988,7 @@ When(/I assign the text component to "([^"]*)"$/) do |assignee|
 end
 
 Then(/^I can see that Jane was assigned to the text component$/) do
-  within '.assignee' do
+  within('.text_component_assignee') do
     expect(page).to have_text 'Jane Doe'
   end
 end
@@ -1311,4 +1313,12 @@ end
 
 When(/^I take some notes for this text component:/) do |notes|
   find('.notes-field__input').set(notes)
+end
+
+Then(/^I should see in section "([^"]*)":$/) do |section, string|
+  within_text_component_section(section) do
+    non_visible_text = find('.notes-field').text(:all)
+    expect(string).not_to be_empty
+    expect(non_visible_text).to include(string)
+  end
 end

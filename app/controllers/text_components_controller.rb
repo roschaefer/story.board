@@ -1,6 +1,6 @@
 class TextComponentsController < ApplicationController
-  before_action :set_text_component, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_text_component, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index]
   before_action :set_form_data
 
   # GET /text_components
@@ -8,11 +8,6 @@ class TextComponentsController < ApplicationController
   def index
     set_index_data
     @text_component = @new_text_component
-  end
-
-  # GET /text_components/1
-  # GET /text_components/1.json
-  def show
   end
 
   def new
@@ -37,8 +32,8 @@ class TextComponentsController < ApplicationController
 
     respond_to do |format|
       if @text_component.save
-        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully created.' }
-        format.json { render :show, status: :created, location: @text_component }
+        format.html { redirect_to edit_report_text_component_path(@report, @text_component), notice: 'Text component was successfully created.' }
+        format.json { render :edit, status: :created, location: @text_component }
       else
         format.html { render :new }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }
@@ -52,8 +47,8 @@ class TextComponentsController < ApplicationController
 
     respond_to do |format|
       if @text_component.update(text_component_params)
-        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
-        format.json { render :show, status: :ok, location: @text_component }
+        format.html { redirect_to edit_report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
+        format.json { render :edit, status: :ok, location: @text_component }
       else
         format.html { render :edit }
         format.json { render json: @text_component.errors, status: :unprocessable_entity }

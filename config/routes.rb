@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resources :reports, param: :report_id # shallow nesting to avoid id param like :report_report_id
   resources :reports, only: [] do # only: [] to remove duplicate top level routes
     resources :diary_entries, only: [:index, :show]
-    resources :text_components
+    resources :text_components, except: [:show]
     resources :triggers
     resources :sensors do
       member do

@@ -15,8 +15,6 @@
 %td= text_component.to_day
 
 %td.item-table__actions
-  = link_to report_text_component_path(@report, text_component), {class: 'item-table__action--show'} do
-    %i.fa.fa-eye{title: 'View Text Component', data: {toggle: 'tooltip'}}
   - if user_signed_in?
     = link_to edit_report_text_component_path(@report, text_component), {class: 'item-table__action--edit'} do
       %i.fa.fa-pencil{title: 'Edit Text Component', data: {toggle: 'tooltip'}}
