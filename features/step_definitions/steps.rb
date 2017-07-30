@@ -213,8 +213,8 @@ Then(/^this sensor should have (\d+) new sensor readings as debug data$/) do |qu
   expect(@sensor.sensor_readings.debug.count).to eq quantity.to_i
 end
 
-Then(/^I should see some generated entries in the sensor readings table$/) do
-  within '#sensor-readings-table-debug' do
+Then(/^I should see some generated entries in the sensor readings (debug|final) table$/) do |version|
+  within "#sensor-readings-table-#{version}" do
     expect(page).to have_css('.sensor-reading-row')
   end
 end
@@ -1223,11 +1223,16 @@ Given(/^for that diary entry we have some text components and question answers$/
   create(:text_component, report: Report.current) # this should not go into the diary entry
 end
 
-When(/^I add a sensor reading for "([^"]*)" with a calibrated value of (\d+)°C and an uncalibrated value of (\d+)°C$/) do |created_at, calibrated_value, uncalibrated_value|
-  fill_in 'Created at', with: created_at
+When(/^I add a sensor reading for "(\d+)\ (\w+)\ (\d+) (\d+):(\d+)" with a calibrated value of (\d+)°C and an uncalibrated value of (\d+)°C$/) do |year, month, day, hour, minute, calibrated_value, uncalibrated_value|
+  select year, from: 'sensor_reading_created_at_1i'
+  select month, from: 'sensor_reading_created_at_2i'
+  select day, from: 'sensor_reading_created_at_3i'
+  select hour, from: 'sensor_reading_created_at_4i'
+  select minute, from: 'sensor_reading_created_at_5i'
   fill_in 'Calibrated Value', with: calibrated_value
   fill_in 'Uncalibrated Value', with: uncalibrated_value
 end
+
 
 Then(/^this sensor should have (\d+) new sensor reading$/) do |quantity|
   expect(@sensor.sensor_readings.count).to eq quantity.to_i
