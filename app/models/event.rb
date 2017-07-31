@@ -3,8 +3,8 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :triggers
   validates :name, presence: true, uniqueness: true
 
-  def happened?
-    ! happened_at.nil?
+  def happened_at
+    self.last_activation && self.last_activation.started_at
   end
 
   def name_and_id

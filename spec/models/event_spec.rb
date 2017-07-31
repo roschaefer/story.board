@@ -12,11 +12,11 @@ RSpec.describe Event, type: :model do
     end
   end
 
-  describe '#happened?' do
-    it 'true if happened_at exists' do
+  describe '#active?' do
+    it 'true if the last event activation is not yet finished' do
       expect{
-        event.happened_at = Time.now
-      }.to change { event.happened? }.from(false).to(true)
+        create(:event_activation, event: event, started_at: Time.now, ended_at: nil)
+      }.to change { event.active? }.from(nil).to(true)
     end
   end
 

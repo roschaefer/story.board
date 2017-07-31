@@ -450,8 +450,7 @@ end
 
 Given(/^the event "([^"]*)" has happened on "([^"]*)"$/) do |name, date|
   event = Event.find_by(name: name)
-  event.happened_at = DateTime.parse(date)
-  event.save
+  event.start(DateTime.parse(date))
 end
 
 Given(/^we have this sensor data in our database:$/) do |table|
