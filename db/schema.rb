@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20170731133908) do
 
   # These are extensions that must be enabled in order to support this database
@@ -154,6 +155,7 @@ ActiveRecord::Schema.define(version: 20170731133908) do
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
     t.index ["report_id"], name: "index_sensors_on_report_id", using: :btree
+    t.index ["sensor_type_id", "animal_id"], name: "index_sensors_on_sensor_type_id_and_animal_id", unique: true, using: :btree
     t.index ["sensor_type_id"], name: "index_sensors_on_sensor_type_id", using: :btree
   end
 
@@ -166,8 +168,8 @@ ActiveRecord::Schema.define(version: 20170731133908) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "assignee_id"
     t.integer  "publication_status", default: 0
+    t.integer  "assignee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"
