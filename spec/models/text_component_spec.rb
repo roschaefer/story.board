@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe TextComponent, type: :model do
+  describe '#destroy' do
+    it 'destroys #question_answers' do
+      text_component = create(:text_component)
+      question_answers = create_list(:question_answer, 3, text_component: text_component)
+      expect{ text_component.destroy}.to change{ QuestionAnswer.count }.from(3).to(0)
+    end
+  end
+
   describe '#question_answers' do
     it 'accepts nested attributes' do
       text_component = build(:text_component, question_answers_attributes: [attributes_for(:question_answer)])

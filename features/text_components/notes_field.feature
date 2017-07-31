@@ -35,7 +35,7 @@ Feature: Only published text components should be used to generate a report
     Erschienen in den Augsburger Sonetten
     """
     And I click on "Update Text component"
-    Then I should see:
+    Then I should see in section "General Information":
     """
     Erschienen in den Augsburger Sonetten
     """

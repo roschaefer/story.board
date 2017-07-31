@@ -1,3 +1,20 @@
+def click_regardless_of_overlapping_elements(node)
+  if Capybara.current_driver == :poltergeist
+    node.trigger('click')
+  else
+    node.click
+  end
+end
+
+def within_text_component_section(header)
+  within('.form__section', text: header) do
+    if page.has_css?('a', text: 'Edit')
+      click_regardless_of_overlapping_elements(find('a', text: 'Edit'))
+    end
+    yield
+  end
+end
+
 When(/^I visit the landing page$/) do
   visit root_path
 end
@@ -594,8 +611,7 @@ Given(/^we have a text component called "([^"]*)":$/) do |heading, text|
 end
 
 When(/^I add a trigger and choose "([^"]*)"$/) do |trigger|
-  within('.form__section', text: 'Trigger') do
-    click_on 'Edit'
+  within_text_component_section('Trigger') do
     find('.choices', { wait: 10 }).click
     find('.choices__item', text: trigger).click
   end
@@ -714,11 +730,7 @@ end
 
 def edit_existing_text_component(text_component = nil)
   @text_component ||= text_component
-  visit report_text_components_path(@text_component.report)
-  within('tr', text: @text_component.heading) do
-    find('.item-table__action--edit').click
-  end
-  expect(page).to have_text('Edit Text Component')
+  visit edit_report_text_component_path(@text_component.report, @text_component)
 end
 
 When(/^I edit this text component$/) do
@@ -780,21 +792,16 @@ end
 
 
 When(/^choose "([^"]*)" as a channel$/) do |channel|
-  within("#edit_text_component_#{@text_component.id}") do
-    within('.form__section', text: 'Output') do
-      find('.choices').click
-      find('.choices__item', text: channel).click
-      find('.form__section__header').click # unfocus
-    end
+  within_text_component_section('Output') do
+    find('.choices').click
+    find('.choices__item', text: channel).click
+    find('.form__section__header').click # unfocus
   end
 end
 
-When(/^unslect "([^"]*)" as a channel$/) do |channel|
-  within("#edit_text_component_#{@text_component.id}") do
-    within('.form__section', text: 'Output') do
-      click_on 'Edit'
-      find('.choices__item', {text: 'sensorstory'}).click.send_keys(:backspace)
-    end
+When(/^unselect "([^"]*)" as a channel$/) do |channel|
+  within_text_component_section('Output') do
+    find('.choices__item', text: channel).click.send_keys(:backspace)
   end
 end
 
@@ -824,7 +831,7 @@ When(/^I fill the empty question with:$/) do |string|
 end
 
 When(/^I enter the missing answer:$/) do |string|
-  @answer_text = string
+  @answer_text = string.gsub("\n", ' ')
   find('.text_component_question_answers_answer .answer-input', text: /^$/).set(@answer_text)
 end
 
@@ -838,15 +845,16 @@ Then(/^a new question\/answer was added to the database$/) do
 end
 
 Then(/^I can see the new question and the answer on the page$/) do
-  expect(@question_text).to be_present
-  expect(@answer_text).to be_present
-  expect(page).to have_text(@question_text)
-  expect(page).to have_text(@answer_text)
+  within_text_component_section('Chatbot Q/A') do
+    expect(page).to have_css('.nested-fields', count: 3)
+    last_text = all('.nested-fields').last.text(:all)
+    expect(last_text).to include(@question_text)
+    expect(last_text).to include(@answer_text)
+  end
 end
 
 When(/^I click the "([^"]*)" button$/) do |label|
-  within('.form__section', text: 'Chatbot Q/A') do
-    click_on 'Edit'
+  within_text_component_section('Chatbot Q/A') do
     click_button(label)
   end
 end
@@ -980,7 +988,7 @@ When(/I assign the text component to "([^"]*)"$/) do |assignee|
 end
 
 Then(/^I can see that Jane was assigned to the text component$/) do
-  within '.assignee' do
+  within('.text_component_assignee') do
     expect(page).to have_text 'Jane Doe'
   end
 end
@@ -1073,8 +1081,12 @@ Given(/^I fill in a valid email and a password$/) do
   fill_in 'user_password_confirmation', with: 'password123'
 end
 
-Then(/^I see the error message$/) do |error_message|
-  expect(page).to have_css('.alert.alert-danger', text: error_message)
+Then(/^I see the error message in section "([^"]*)":$/) do |section, table|
+  within_text_component_section(section) do
+    table.transpose.hashes.each do |row|
+      expect(find('.text-editor__field', text: row['Label'])).to have_text(row['Message'])
+    end
+  end
 end
 
 
@@ -1241,8 +1253,7 @@ end
 Given(/^I am composing some question answers for a text component$/) do
   text_component = create(:text_component, report: Report.current)
   edit_existing_text_component(text_component)
-  within('.form__section', text: 'Chatbot Q/A') do
-    click_on 'Edit'
+  within_text_component_section('Chatbot Q/A') do
     find('.btn', text: 'Add Question & Answer').click
   end
 end
@@ -1301,7 +1312,13 @@ Then(/^the two bars of the slider are at position "([^"]*)" and "([^"]*)"$/) do 
 end
 
 When(/^I take some notes for this text component:/) do |notes|
-  within('.modal.show') do
-    find('.notes-field__input').set(notes)
+  find('.notes-field__input').set(notes)
+end
+
+Then(/^I should see in section "([^"]*)":$/) do |section, string|
+  within_text_component_section(section) do
+    non_visible_text = find('.notes-field').text(:all)
+    expect(string).not_to be_empty
+    expect(non_visible_text).to include(string)
   end
 end
