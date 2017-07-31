@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     end
   end
   resources :events, except: :show
+  resources :events, only: :show, :constraints => {:format => :json}
+  post 'events/:id/start', to: 'events#start', as: 'start_event'
+  post 'events/:id/stop', to: 'events#stop', as: 'stop_event'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

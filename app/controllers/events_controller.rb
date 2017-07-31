@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :start, :stop]
   before_action :authenticate_user!, except: [:index, :show]
 
   # GET /events
@@ -17,6 +17,15 @@ class EventsController < ApplicationController
   def edit
   end
 
+  def start
+    start_or_stop(:start)
+  end
+
+  def stop
+    start_or_stop(:stop)
+  end
+
+
   # POST /events
   # POST /events.json
   def create
@@ -24,7 +33,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to  events_path, notice: 'Event was successfully created.' }
+        format.html { redirect_to events_path, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -58,13 +67,30 @@ class EventsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def event_params
-      params.require(:event).permit(:name, :happened_at)
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def event_params
+    params.require(:event).permit(:name, :happened_at)
+  end
+
+  def start_or_stop(action)
+    past_tense = if action.to_s.end_with?('p')
+                   "#{action}ped"
+                 else
+                   "#{action}ed"
+                 end
+    respond_to do |format|
+      if @event.send(action)
+        format.html { redirect_to edit_event_path(@event), notice: "Event was successfully #{past_tense}." }
+        format.json { render :show, status: :ok, location: @event }
+      else
+        format.html { redirect_to edit_event_path(@event) }
+        format.json { render json: { error: "Event was already #{past_tense}" }, status: :unprocessable_entity }
+      end
     end
+  end
 end

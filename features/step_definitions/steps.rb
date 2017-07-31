@@ -1336,12 +1336,12 @@ When(/^I edit the event$/) do
 end
 
 When(/^I wait for (\d+) years$/) do |some|
-  Timecop.travel some.years.from_now
+  Timecop.travel some.to_i.years.from_now
 end
 
-Then(/^a new event activation is in the database which took (\d+) years$/) do |arg1|
-  last_event = Event::Activation.last
-  expect(last_event.duration).to eq 20.years
+Then(/^a new event activation is in the database which took (\d+) years$/) do |years|
+  duration = Event::Activation.last.duration
+  expect(duration).to be > years.to_i * 365 * 24 * 60 * 60
 end
 
 Then(/^(?:I see |now )?the event "([^"]*)"$/) do |state|
