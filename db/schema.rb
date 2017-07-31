@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170724152345) do
+ActiveRecord::Schema.define(version: 20170730233646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,15 @@ ActiveRecord::Schema.define(version: 20170724152345) do
     t.integer  "release",    default: 0
     t.datetime "moment"
     t.index ["report_id"], name: "index_diary_entries_on_report_id", using: :btree
+  end
+
+  create_table "event_activations", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_activations_on_event_id", using: :btree
   end
 
   create_table "events", force: :cascade do |t|
@@ -142,7 +151,6 @@ ActiveRecord::Schema.define(version: 20170724152345) do
     t.float    "max_value"
     t.float    "min_value"
     t.datetime "calibrated_at"
-    t.boolean  "smaxtec_sensor"
     t.string   "animal_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
@@ -159,8 +167,8 @@ ActiveRecord::Schema.define(version: 20170724152345) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "assignee_id"
     t.integer  "publication_status", default: 0
+    t.integer  "assignee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"
@@ -240,6 +248,7 @@ ActiveRecord::Schema.define(version: 20170724152345) do
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
   add_foreign_key "conditions", "triggers"
+  add_foreign_key "event_activations", "events"
   add_foreign_key "question_answers", "text_components"
   add_foreign_key "text_components", "reports"
   add_foreign_key "text_components", "users", column: "assignee_id"
