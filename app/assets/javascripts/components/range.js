@@ -60,8 +60,8 @@ var Range = (function($, multirange) {
         $infoMax = $('<span>').addClass('range__info range__info--max').text(self.options.valueFormatter(self.options.max));
 
         // create value tooltips
-        var $tooltipLow = $('<div>').addClass('range__tooltip');
-        var $tooltipHigh = $('<div>').addClass('range__tooltip');
+        var $tooltipLow = $('<div>').addClass('range__tooltip range__tooltip--low');
+        var $tooltipHigh = $('<div>').addClass('range__tooltip range__tooltip--high');
 
         self.$elm.append($input, $infoMin, $infoMax, $tooltipLow, $tooltipHigh);
 
@@ -120,12 +120,12 @@ var Range = (function($, multirange) {
 
         self.$tooltipLow.css({
             'left': lowLeft * 100 + '%',
-            'marginLeft' : (lowLeft - .5) / -.5 * rangeThumb,
+            'marginLeft' : -10 + (lowLeft - .5) / -.5 * rangeThumb,
         }).text(self.options.valueFormatter(low));
 
         self.$tooltipHigh.css({
             'left': highLeft * 100 + '%',
-            'marginLeft' : (highLeft - .5) / -.5 * rangeThumb,
+            'marginLeft' : 10 + (highLeft - .5) / -.5 * rangeThumb,
 
         }).text(self.options.valueFormatter(high));
 
