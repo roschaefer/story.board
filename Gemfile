@@ -47,7 +47,7 @@ group :development, :test do
   gem 'pry'
   gem 'whenever-test'
   gem 'timecop'
-  gem 'rails-controller-testing'
+  gem 'rails-controller-testing', require: false
 end
 
 group :development do
