@@ -14,7 +14,8 @@ RSpec.describe "TextComponents", type: :request do
   describe "POST /text_components" do
     it 'renders validation errors' do
       post '/reports/1/text_components', params: { text_component: { heading: nil }}
-      expect(response.body).to include("Heading can't be blank")
+      parsed = Capybara.string(response.body)
+      expect(parsed.find('.text-editor__field', text: 'Heading')).to have_text('can\'t be blank')
     end
   end
 
@@ -22,7 +23,8 @@ RSpec.describe "TextComponents", type: :request do
     it 'renders validation errors' do
       tc = create(:text_component)
       patch "/reports/1/text_components/#{tc.id}", params: { text_component: { heading: nil }}
-      expect(response.body).to include("Heading can't be blank")
+      parsed = Capybara.string(response.body)
+      expect(parsed.find('.text-editor__field', text: 'Heading')).to have_text('can\'t be blank')
     end
   end
 end

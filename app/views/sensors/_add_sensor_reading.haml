@@ -1,13 +1,17 @@
 = button_tag "Add Sensor Reading manually", :id => 'unhide_sensor_reading_form', :class => "btn btn-primary"
 
-= form_tag "/sensor_readings", :id => 'sensor_reading_form', :method => "post", :remote => true do
-  %h4 Add Sensor Reading manually
-  = fields_for :sensor_reading do |f|
+#sensor_reading_form.container
+  = simple_form_for :sensor_reading, url: sensor_readings_path, remote: true do |f|
+    %h4 Add sensor reading manually
     = f.hidden_field :sensor_id, :value => @sensor.id
-    = f.label :created_at, "Created at"
-    = f.text_field :created_at, placeholder: 'YYYY-MM-DD HH-MM-SS'
-    = f.label :calibrated_value, "Calibrated Value"
-    = f.number_field :calibrated_value, step: 0.1, size: '6'
-    = f.label :uncalibrated_value, "Uncalibrated Value"
-    = f.number_field :uncalibrated_value, step: 0.1, size: '6'
-    = f.submit "Add"
+    .form-group.row
+      = f.input :created_at, as: :datetime, label: false
+    .form-group.row
+      = f.label :calibrated_value, "Calibrated Value", class: 'col-sm-4 col-form-label col-form-label-sm'
+      .col-sm-2
+        = f.number_field :calibrated_value, step: 0.1, size: '6', class: 'form-control form-control-sm'
+      = f.label :uncalibrated_value, "Uncalibrated Value", class: 'col-sm-4 col-form-label col-form-label-sm'
+      .col-sm-2
+        = f.number_field :uncalibrated_value, step: 0.1, size: '6', class: 'form-control form-control-sm'
+    .form-group
+      = f.submit "Add", class: 'btn btn-primary'

@@ -9,12 +9,19 @@
     border: 1px solid $input-border-color;
 }
 
-.field__label {
+.field__label, .field__count {
     position: absolute;
     top: .5rem;
-    left: .75rem;
-
     font-size: .75rem;
+}
+
+.field__label {
+    left: .75rem;
+}
+
+.field__count {
+    right: .75em;
+    color: $text-muted;
 }
 
 .field__input, .field__mirror {

@@ -23,7 +23,7 @@ Feature: Choose one or many channels
     Relativity. Boom. Awesome.
     """
     When I edit the easier text component
-    And unslect "sensorstory" as a channel
+    And unselect "sensorstory" as a channel
     And choose "simple" as a channel
     And I update the text component
     Then the easier text will go into the channel "simple"

@@ -15,7 +15,7 @@ Feature: Generate debug Sample Data
     And I click on "Generate debug Sample Data"
     And I choose 10 random sensor readings with a value from 3°C to 20°C
     And I click on "Generate!"
-    Then I should see some generated entries in the sensor readings table
+    Then I should see some generated entries in the sensor readings debug table
     And this sensor should have 10 new sensor readings as debug data
 
   Scenario: Distinguish debug from final Data

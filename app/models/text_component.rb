@@ -7,7 +7,7 @@ class TextComponent < ActiveRecord::Base
   belongs_to :report
   belongs_to :topic
   belongs_to :assignee, class_name: 'User'
-  has_many :question_answers, inverse_of: :text_component
+  has_many :question_answers, inverse_of: :text_component, dependent: :destroy
   accepts_nested_attributes_for :question_answers, reject_if: :all_blank, allow_destroy: true
 
   accepts_nested_attributes_for :triggers

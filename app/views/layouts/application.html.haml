@@ -68,7 +68,7 @@
       .row
 
         .col-lg-9
-          = bootstrap_flash
+          = flash_messages
           = yield
 
         .col-lg-3
@@ -80,14 +80,13 @@
                 %h5= @report.name
                 - if current_user
                   %li= link_to 'My text components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
-                %li= link_to "Live-System", "/reports/current"
-                %li= link_to "Preview", "/reports/current?preview=true"
+                %li= link_to "Live-System", present_report_path(@report)
+                %li= link_to "Preview", preview_report_path(@report)
 
               %h3 Switch report
               %ul.nav.nav-list.report-menu
                 - Report.find_each do |report|
                   %ul.nav.nav-pills
                     %li.nav-item= link_to report.name, present_report_path(report), {class: 'nav-link'}
-                    
       %footer.py5
         = "story.board. The CMS for Sensorstories. Created 2015-#{Date.today.year} by Robert Schäfer and Jakob Vicari. No Reporters Were Harmed."
