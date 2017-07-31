@@ -15,7 +15,11 @@ class Sensor < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :address, uniqueness: true
   validates :sensor_type, presence: true
-  validates :animal_id, uniqueness: { scope: :sensor_type }
+  validates :animal_id, uniqueness: { scope: :sensor_type }, :allow_nil => true
+
+  before_validation do
+    self.animal_id = nil if self.animal_id.blank?
+  end
 
   def name_and_id
     "#{name} (#{id})"
