@@ -7,7 +7,7 @@ This is the user interface for journalists and readers of the [sensor live repor
 
 ## Installation
 
-Make sure you have ruby version 2.3.1 installed on your system.
+Make sure you have ruby version 2.3.4 installed on your system.
 
 1. Clone the repository:
     ```
