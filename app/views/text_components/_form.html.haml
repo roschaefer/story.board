@@ -78,17 +78,13 @@
                         = event.name
             .text-editor__fields
               .field.text-editor__field
-                .field__label Heading
-                = f.input :heading, as: :text, :label => false, input_html: {class: 'field__input'}
+                = f.input :heading, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
               .field.text-editor__field
-                .field__label Introduction
-                = f.input :introduction, as: :text, :label => false, input_html: {class: 'field__input'}
+                = f.input :introduction, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
               .field.text-editor__field
-                .field__label Main Part
-                = f.input :main_part, as: :text, :label => false, input_html: {class: 'field__input field__input--large'}
+                = f.input :main_part, as: :text, input_html: {class: 'field__input field__input--large'}, label_html: {class: 'field__label'}
               .field.text-editor__field
-                .field__label Closing
-                = f.input :closing, as: :text, :label => false, input_html: {class: 'field__input'}
+                = f.input :closing, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
 
 
       .row.form__section

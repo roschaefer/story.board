@@ -1,5 +1,9 @@
 %h1 New text_component
 
-= render 'form'
-
-= link_to 'Back', report_text_components_path(@report)
+.container
+  .row.form-group
+    .col
+      = render 'tabbed_form'
+  .row.form-group
+    .col
+      = link_to 'Back', report_text_components_path(@report), :class => "btn btn-secondary"

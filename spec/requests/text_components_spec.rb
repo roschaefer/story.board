@@ -15,7 +15,7 @@ RSpec.describe "TextComponents", type: :request do
     it 'renders validation errors' do
       post '/reports/1/text_components', params: { text_component: { heading: nil }}
       parsed = Capybara.string(response.body)
-      expect(parsed.find('.text-editor__field', text: 'Heading')).to have_text('can\'t be blank')
+      expect(parsed.first('.text-editor__field', text: 'Heading')).to have_text('can\'t be blank')
     end
   end
 

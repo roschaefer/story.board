@@ -1035,7 +1035,7 @@ Then(/^I am on the text components page with only those assigned to me$/) do
   expect(page).to have_current_path("/reports/1/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
 end
 
-Given(/^I am on the text components page$/) do
+Given(/^I (?:am on|visit) the text components page$/) do
   visit report_text_components_path(Report.current)
 end
 
@@ -1321,4 +1321,21 @@ Then(/^I should see in section "([^"]*)":$/) do |section, string|
     expect(string).not_to be_empty
     expect(non_visible_text).to include(string)
   end
+end
+
+When(/^I fill in these form fields in section "([^"]*)":$/) do |header, table|
+  table.raw.each do |row|
+    within_text_component_section(header) do
+      fill_in row[0], with: row[1]
+    end
+  end
+end
+
+Then(/^there is (\d+) trigger and (\d+) text component more in the database$/) do |count_triggers, count_text_components|
+  expect(Trigger.count).to eq(count_triggers.to_i)
+  expect(TextComponent.count).to eq(count_text_components.to_i)
+end
+
+Given(/^I visit the new text component page$/) do
+  visit new_report_text_component_path(Report.current)
 end
