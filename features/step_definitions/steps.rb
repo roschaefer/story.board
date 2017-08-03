@@ -1322,3 +1322,17 @@ Then(/^I should see in section "([^"]*)":$/) do |section, string|
     expect(non_visible_text).to include(string)
   end
 end
+
+Given(/^we have these sensor readings for sensor (\d+) in our database:$/) do |sensor_id, table|
+  sensor = create(:sensor, id: sensor_id, report: Report.current)
+  table.hashes.each do |row|
+    create(:sensor_reading, sensor: sensor,
+           id: row['Id'],
+           created_at: row['Created at'],
+           calibrated_value: row['Calibrated value'],
+           uncalibrated_value: row['Uncalibrated value'],
+           release: row['Release']
+          )
+  end
+end
+
