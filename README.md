@@ -58,8 +58,8 @@ We use rspec for unit and functional testing and cucumber for integration testin
 
 Or selectively
   ```
-  bin/rake spec
-  bin/rake cucumber
+  bin/rspec spec/path/to/your/favourite/unit/test_spec.rb
+  bin/cucumber features/path/to/your/acceptance/test.feature
   ```
 ## Documentation
 

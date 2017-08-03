@@ -54,17 +54,9 @@ unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gem
 
     task default: :cucumber
 
-    task features: :cucumber do
-      STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
-    end
+    # abuse the rspec rake task for setup
+    task('test:prepare' => 'spec:prepare')
 
-    # In case we don't have the generic Rails test:prepare hook, append a no-op task that we can depend upon.
-    task 'test:prepare' do
-    end
-
-    task stats: 'cucumber:statsetup'
-
-    task notes: 'cucumber:annotations_setup'
   rescue LoadError
     desc 'cucumber rake task not available (cucumber not installed)'
     task :cucumber do
