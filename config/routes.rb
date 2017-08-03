@@ -32,11 +32,12 @@ Rails.application.routes.draw do
       member do
         put :start_calibration
         put :stop_calibration
+
+        resources :sensor_readings, only:[:show, :create, :index], default: { format: :json }
+        post 'sensor_readings/debug', to: 'sensor_readings#debug', default: { format: :json }
       end
     end
   end
-  resources :sensor_readings, default: { format: :json }
-  post 'sensor_readings/debug', to: 'sensor_readings#debug', default: { format: :json }
 
   root to: redirect('/reports/current')
 

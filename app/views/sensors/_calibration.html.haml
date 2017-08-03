@@ -10,7 +10,7 @@
   %strong Minimum
   = @sensor.min_value || 'None'
 - if @sensor.calibrating
-  = button_to "Stop calibration",  {:action => 'stop_calibration'}, {:method => :put, :id => 'stop_calibration',  :class => "btn btn-primary",}
+  = button_to "Stop calibration",  {:action => 'stop_calibration', report_id: @report.id }, {:method => :put, :id => 'stop_calibration',  :class => "btn btn-primary",}
 - else
-  = button_to "Start calibration", {:action => 'start_calibration'}, {:method => :put, :id => 'start_calibration', :class => "btn btn-primary",}
+  = button_to "Start calibration", {:action => 'start_calibration', report_id: @report.id }, {:method => :put, :id => 'start_calibration', :class => "btn btn-primary",}
 
