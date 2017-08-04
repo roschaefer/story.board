@@ -3,7 +3,7 @@ class Event::Activation < ApplicationRecord
 
   validates :started_at, presence: true
   validate :ends_after_start
-  validate :no_overlapping
+  validate :not_overlapping
 
   def duration
     self.ended_at && self.ended_at - self.started_at
@@ -21,7 +21,7 @@ class Event::Activation < ApplicationRecord
     end
   end
 
-  def no_overlapping
+  def not_overlapping
     if self.started_at
       overlapping_activation = Event::Activation.where.not(id: self.id).where('ended_at > ?', self.started_at)
       if self.ended_at
