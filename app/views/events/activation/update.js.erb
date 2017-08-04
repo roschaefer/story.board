@@ -1,0 +1,17 @@
+<% event_activation_id = escape_javascript("#event-activation-#{@event.id}") %>
+
+  $("<%= event_activation_id %>").html('')
+  <% if @event.active? %>
+    $("<%= escape_javascript(render 'events/activation/stop_button', event: @event) %>").appendTo("<%= event_activation_id %>");
+<% else %>
+    $("<%= escape_javascript(render 'events/activation/start_button', event: @event) %>").appendTo("<%= event_activation_id %>");
+<% end %>
+
+
+<% if @action == :start %>
+    $( "<%= escape_javascript(render @event.last_activation ) %>").appendTo('#event-activations');
+<% else %>
+    <% activation_row_id = escape_javascript("#activation-row-#{@event.last_activation.id}") %>
+  $("<%= activation_row_id %>").replaceWith("<%= escape_javascript(render @event.last_activation ) %>");
+<% end %>
+

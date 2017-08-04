@@ -84,8 +84,10 @@ class EventsController < ApplicationController
                    "#{action}ed"
                  end
     respond_to do |format|
+      @action = action
       if @event.send(action)
         format.html { redirect_to edit_event_path(@event), notice: "Event was successfully #{past_tense}." }
+        format.js { render "events/activation/update" }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { redirect_to edit_event_path(@event) }
