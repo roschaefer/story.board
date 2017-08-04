@@ -1,5 +1,5 @@
 class Event::Activation < ApplicationRecord
-  belongs_to :event
+  belongs_to :event, required: true
 
   validates :started_at, presence: true
   validate :ends_after_start

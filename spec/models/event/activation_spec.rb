@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Event::Activation, type: :model do
+  describe '#event' do
+    context 'missing' do
+      subject { build(:event_activation, event: nil) }
+      it { is_expected.not_to be_valid }
+    end
+  end
+
   describe '#started_at' do
     context 'missing' do
       subject { build(:event_activation, started_at: nil) }

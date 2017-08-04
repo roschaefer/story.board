@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :event do
-    name "MyString"
+    sequence(:name) {|n| "Event #{n}" }
   end
 end

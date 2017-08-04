@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  has_many :activations, class_name: 'Event::Activation'
+  has_many :activations, class_name: 'Event::Activation', dependent: :destroy
   has_and_belongs_to_many :triggers
   validates :name, presence: true, uniqueness: true
 

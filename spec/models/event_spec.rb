@@ -12,6 +12,14 @@ RSpec.describe Event, type: :model do
     end
   end
 
+  describe '#destroy' do
+    it 'destroys all activations' do
+      event.save
+      event.activations << create_list(:event_activation, 3, event: event)
+      expect{ event.destroy }.to(change{ Event::Activation.count }.from(3).to(0))
+    end
+  end
+
   describe '#active?' do
     it 'true if the last event activation is not yet finished' do
       expect{
