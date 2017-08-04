@@ -29,7 +29,7 @@ RSpec.describe "Events", type: :request do
           before { event.start }
           it 'renders error message' do
             action
-            expect(JSON.parse(response.body)).to include({'error' => 'Event was already started'})
+            expect(JSON.parse(response.body)).to include({'error' => 'Event is already in this state'})
           end
         end
       end

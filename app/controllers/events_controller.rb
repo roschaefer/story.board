@@ -78,20 +78,13 @@ class EventsController < ApplicationController
   end
 
   def start_or_stop(action)
-    past_tense = if action.to_s.end_with?('p')
-                   "#{action}ped"
-                 else
-                   "#{action}ed"
-                 end
+    @action = action
     respond_to do |format|
-      @action = action
       if @event.send(action)
-        format.html { redirect_to edit_event_path(@event), notice: "Event was successfully #{past_tense}." }
         format.js { render "events/activation/update" }
         format.json { render :show, status: :ok, location: @event }
       else
-        format.html { redirect_to edit_event_path(@event) }
-        format.json { render json: { error: "Event was already #{past_tense}" }, status: :unprocessable_entity }
+        format.json { render json: { error: 'Event is already in this state' }, status: :unprocessable_entity }
       end
     end
   end
