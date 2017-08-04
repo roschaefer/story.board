@@ -1339,6 +1339,7 @@ When(/^I wait for (\d+) years$/) do |some|
 end
 
 Then(/^a new event activation is in the database which took (\d+) years$/) do |years|
+  expect(page).to have_css('.btn.start-event-button')
   duration = Event::Activation.last.duration
   expect(duration).to be > years.to_i * 365 * 24 * 60 * 60
 end
@@ -1360,4 +1361,27 @@ Then(/^I can see the history of the event, it looks like this:$/) do |table|
       expect(page).to have_text(row['Ended at'])
     end
   end
+end
+
+Given(/^I want to start and stop events from the event index page$/) do
+  visit events_path(Report.current)
+end
+
+When(/^the event is active/) do
+  expect(page).to have_css('.btn.stop-event-button')
+  expect(@event).to be_active
+end
+
+When(/^the event is (?:not active|inactive)$/) do
+  expect(page).to have_css('.btn.start-event-button')
+  expect(@event).not_to be_active
+end
+
+
+Then(/^(\d+) event activations are in the database$/) do |count|
+  expect(Event::Activation.count).to eq count.to_i
+end
+
+Then(/^I am back on the events index page$/) do
+  expect(page).to have_text('Listing events')
 end
