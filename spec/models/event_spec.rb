@@ -30,7 +30,7 @@ RSpec.describe Event, type: :model do
 
   describe '#start' do
     specify { expect{ event.start }.to(change{ Event::Activation.count }.from(0).to(1)) }
-    specify { expect(event.start).to eq true}
+    specify { expect(event.start).to be_truthy}
 
     context 'given a timestamp' do
       let(:timestamp) { 20.minutes.from_now }
@@ -43,7 +43,7 @@ RSpec.describe Event, type: :model do
     context 'not ended, yet' do
       before { create(:event_activation, event: event, started_at: 10.minutes.ago, ended_at: nil) }
       specify { expect{ event.start }.not_to(change{ Event::Activation.count }) }
-      specify { expect(event.start).to eq false }
+      specify { expect(event.start).to be_falsy}
     end
   end
 
@@ -54,19 +54,19 @@ RSpec.describe Event, type: :model do
         expect{ event.stop }.not_to(change{ Event::Activation.count })
       end
 
-      specify { expect(event.stop).to eq false}
+      specify { expect(event.stop).to be_falsy}
     end
 
     context 'not even started, yet' do
       before { create(:event_activation, event: event, started_at: 10.minutes.ago, ended_at: 5.minutes.ago) }
       specify { expect{ event.stop }.not_to(change{ Event::Activation.last.ended_at }) }
-      specify { expect(event.stop).to eq false}
+      specify { expect(event.stop).to be_falsy}
     end
 
     context 'when started' do
       before { create(:event_activation, event: event, started_at: 10.minutes.ago, ended_at: nil) }
 
-      specify { expect(event.stop).to eq true }
+      specify { expect(event.stop).to be_truthy }
 
       it 'sets the #ended_at of the last activation' do
         expect{ event.stop }.to(change{ Event::Activation.last.ended_at }.from(nil))

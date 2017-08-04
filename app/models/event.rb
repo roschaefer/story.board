@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :triggers
   validates :name, presence: true, uniqueness: true
 
-  def happened_at
+  def last_activation_started_at
     self.last_activation && self.last_activation.started_at
   end
 
@@ -13,12 +13,8 @@ class Event < ActiveRecord::Base
 
   def start(timestamp = nil)
     given_timestamp = timestamp || DateTime.now
-    unless self.active?
-      Event::Activation.create!(event: self, started_at: given_timestamp)
-      true
-    else
-      false
-    end
+    return if self.active?
+    Event::Activation.create!(event: self, started_at: given_timestamp)
   end
 
   def last_activation
@@ -26,18 +22,14 @@ class Event < ActiveRecord::Base
   end
 
   def stop(timestamp = nil)
-    if self.active?
-      given_timestamp = timestamp || DateTime.now
-      la = self.last_activation
-      la.ended_at = given_timestamp
-      la.save!
-      true
-    else
-      false
-    end
+    return unless self.active?
+    given_timestamp = timestamp || DateTime.now
+    la = self.last_activation
+    la.ended_at = given_timestamp
+    la.save!
   end
 
   def active?
-    self.last_activation && self.last_activation.ended_at.nil?
+    self.last_activation && self.last_activation.active?
   end
 end

@@ -5,6 +5,15 @@ class Event::Activation < ApplicationRecord
   validate :ends_after_start
   validate :no_overlapping
 
+  def duration
+    self.ended_at && self.ended_at - self.started_at
+  end
+
+  def active?
+    self.ended_at.nil?
+  end
+
+  private
 
   def ends_after_start
     if self.ended_at && self.started_at && (self.ended_at < self.started_at)
@@ -23,9 +32,5 @@ class Event::Activation < ApplicationRecord
         errors.add(:ended_at, "time span overlaps with another activation")
       end
     end
-  end
-
-  def duration
-    self.ended_at && self.ended_at - self.started_at
   end
 end

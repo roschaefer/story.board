@@ -5,7 +5,7 @@ class EventDecorator
   end
 
   def date
-    date = @event.happened_at
+    date = @event.last_activation_started_at
     if date
       date.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_FORMAT)
     else

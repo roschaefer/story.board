@@ -1346,3 +1346,18 @@ end
 Then(/^(?:I see |now )?the event "([^"]*)"$/) do |state|
   expect(page).to have_text(state)
 end
+
+Given(/^the event was active three times in the past$/) do
+  create(:event_activation, event: @event, id: 23, started_at: '2017-08-04  16:19:13 UTC', ended_at: '2017-08-04  16:19:15 UTC' )
+  create(:event_activation, event: @event, id: 24, started_at: '2017-08-04  16:19:16 UTC', ended_at: '2017-08-04  16:19:17 UTC')
+  create(:event_activation, event: @event, id: 25, started_at: '2017-08-04  16:19:18 UTC', ended_at: '2017-08-04  16:19:19 UTC')
+end
+
+Then(/^I can see the history of the event, it looks like this:$/) do |table|
+  table.hashes.each do |row|
+    within('tr', text: row['Id']) do
+      expect(page).to have_text(row['Started at'])
+      expect(page).to have_text(row['Ended at'])
+    end
+  end
+end
