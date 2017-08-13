@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 
-ActiveRecord::Schema.define(version: 20170731133908) do
+ActiveRecord::Schema.define(version: 20170731182006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,7 +152,9 @@ ActiveRecord::Schema.define(version: 20170731133908) do
     t.float    "min_value"
     t.datetime "calibrated_at"
     t.string   "animal_id"
+    t.string   "device_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
+    t.index ["device_id"], name: "index_sensors_on_device_id", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
     t.index ["report_id"], name: "index_sensors_on_report_id", using: :btree
     t.index ["sensor_type_id", "animal_id"], name: "index_sensors_on_sensor_type_id_and_animal_id", unique: true, using: :btree
