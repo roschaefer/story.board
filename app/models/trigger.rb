@@ -13,11 +13,6 @@ class Trigger < ActiveRecord::Base
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 
   enum priority: { very_low: -1, low: 0, medium: 1, high: 2, urgent: 3}
-  after_initialize :set_defaults, unless: :persisted?
-
-  def set_defaults
-    self.priority ||= :medium
-  end
 
   def active?(diary_entry = nil)
     on_time? && conditions_fullfilled?(diary_entry) && events_active?
