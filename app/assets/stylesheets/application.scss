@@ -1,7 +1,7 @@
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
- *
+ 
  * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
  * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
  *
@@ -18,6 +18,13 @@
  * 
  * Include any third party libraries or frameworks here.
  */
+
+
+$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
+$brand-success:         #5cb85c !default;
+$brand-info:            #5bc0de !default;
+$brand-warning:         #f0ad4e !default;
+$brand-danger:          #d9534f !default;
 
 @import 'bootstrap';
 @import 'choices';
