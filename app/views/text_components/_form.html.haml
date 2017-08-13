@@ -1,5 +1,5 @@
 .container
-  = simple_form_for([@report, @text_component]) do |f|
+  = simple_form_for([@report, @text_component], multipart: true) do |f|
     = f.error_notification
     .form
       .row.form__section
@@ -118,6 +118,21 @@
                 %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
           .form__section__body
             = f.association :channels, collection: Channel.order('name'), selected: @text_component.channels.count > 0 ? @text_component.channel_ids : Channel.find_by({name: 'sensorstory'}).id, input_html: {'data-choices': true}
+
+      .row.form__section
+        .col
+          .form__section__header
+            %h4.step
+              .step__counter 6
+              Image
+              .step__action
+                %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+          .form__section__body
+            .field.image__field
+              = image_tag @text_component.image.url 
+              = f.label :image, 'Upload image'
+              = f.input :image, as: :file, :label => false, input_html: {class: ''}
+
 
     .row
       .col
