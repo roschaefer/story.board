@@ -23,7 +23,7 @@ class Event::Activation < ApplicationRecord
 
   def not_overlapping
     if self.started_at
-      overlapping_activation = Event::Activation.where.not(id: self.id).where('ended_at > ?', self.started_at)
+        overlapping_activation = Event::Activation.where(event: self.event).where.not(id: self.id).where('ended_at > ?', self.started_at)
       if self.ended_at
         overlapping_activation = overlapping_activation.where('started_at < ?', self.ended_at)
       end

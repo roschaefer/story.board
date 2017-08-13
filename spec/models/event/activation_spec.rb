@@ -27,6 +27,19 @@ RSpec.describe Event::Activation, type: :model do
         it { is_expected.to be_valid }
       end
     end
+
+    describe 'overlaps' do
+        let(:event) { create(:event) }
+        let(:overlapping_activation){ create(:event_activation, event: event, started_at: 10.minutes.ago,  ended_at: 10.minutes.from_now) }
+        subject { build(:event_activation, event: event, started_at: Time.now, ended_at: nil )}
+        before { overlapping_activation }
+        it { is_expected.not_to be_valid }
+
+        describe 'with activations of a totally different event' do
+            before { overlapping_activation.update(event: create(:event)) }
+            it { is_expected.to be_valid }
+        end
+    end
   end
 
   describe '#ended_at' do
