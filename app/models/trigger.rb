@@ -15,7 +15,7 @@ class Trigger < ActiveRecord::Base
   enum priority: { very_low: -1, low: 0, medium: 1, high: 2, urgent: 3}
 
   def active?(diary_entry = nil)
-    on_time? && conditions_fullfilled?(diary_entry) && events_happened?
+    on_time? && conditions_fullfilled?(diary_entry) && events_active?
   end
 
   def on_time?
@@ -47,8 +47,8 @@ class Trigger < ActiveRecord::Base
     end
   end
 
-  def events_happened?
-    events.all? {|e| e.happened?}
+  def events_active?
+    events.all? {|e| e.active?}
   end
 
 

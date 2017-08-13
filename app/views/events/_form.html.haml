@@ -1,10 +1,9 @@
-= simple_form_for(@event) do |f|
-  = f.error_notification
+.form-group
+  = simple_form_for(@event) do |f|
+    = f.error_notification
 
-  .form-inputs
-    = f.input :name
-    - unless @event.new_record?
-      = f.input :happened_at
+    .form-inputs
+      = f.input :name
 
-  .form-actions
-    = f.button :submit
+    .form-actions
+      = f.button :submit
