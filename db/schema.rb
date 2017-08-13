@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20170731133908) do
+ActiveRecord::Schema.define(version: 20170813094403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,7 +151,9 @@ ActiveRecord::Schema.define(version: 20170731133908) do
     t.float    "min_value"
     t.datetime "calibrated_at"
     t.string   "animal_id"
+    t.string   "device_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
+    t.index ["device_id"], name: "index_sensors_on_device_id", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
     t.index ["report_id"], name: "index_sensors_on_report_id", using: :btree
     t.index ["sensor_type_id", "animal_id"], name: "index_sensors_on_sensor_type_id_and_animal_id", unique: true, using: :btree
@@ -168,11 +169,15 @@ ActiveRecord::Schema.define(version: 20170731133908) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "publication_status", default: 0
     t.integer  "assignee_id"
+    t.integer  "publication_status", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.index ["assignee_id"], name: "index_text_components_on_assignee_id", using: :btree
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
@@ -193,10 +198,10 @@ ActiveRecord::Schema.define(version: 20170731133908) do
 
   create_table "triggers", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "report_id"
-    t.integer  "priority"
+    t.integer  "priority",        default: 1
     t.integer  "validity_period"
     t.integer  "from_hour"
     t.integer  "to_hour"
