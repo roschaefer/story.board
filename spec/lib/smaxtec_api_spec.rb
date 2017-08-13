@@ -65,4 +65,20 @@ RSpec.describe SmaxtecApi do
       end
     end
   end
+
+  describe '.update_device_readings' do
+    let(:sensor_type) { create(:sensor_type, property: 'Temperature', unit: '°C') }
+    let(:sensor) { create(:sensor, name: 'Test Climate Stations', sensor_type: sensor_type, device_id: '0600000600') }
+
+    it 'should update the device reading and write them to the corresponding sensor, but not create the same device reading twice' do
+      sensor # create
+      VCR.use_cassette('smaxtec_api', :record => :once) do
+        expect { smaxtec_api.update_device_readings }.to change {Sensor::Reading.count}.from(0).to(72)
+      end
+
+      VCR.use_cassette('smaxtec_api', :record => :once) do
+        expect { smaxtec_api.update_device_readings }.to_not change {Sensor::Reading.count}
+      end
+    end
+  end
 end
