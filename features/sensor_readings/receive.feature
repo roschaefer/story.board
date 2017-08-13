@@ -8,10 +8,9 @@ Feature: Receive Sensor Readings
 
   Scenario: Receive sensor reading data
     Given I have a sensor with id 1
-    When I send a POST request to "/sensor_readings" with the following:
+    When I send a POST request to "/reports/1/sensors/1/sensor_readings" with the following:
     """
     {
-      "sensor_id": 1,
       "calibrated_value": 47,
       "uncalibrated_value": 11
     }
@@ -19,22 +18,9 @@ Feature: Receive Sensor Readings
     Then the response status should be "201"
     And a new sensor reading was created
 
-  Scenario: Reject sensor reading without a dedicated sensor
-    Given I have no sensor in my database
-    When I send a POST request to "/sensor_readings" with the following:
-    """
-    {
-      "sensor_id": 1,
-      "calibrated_value": 47,
-      "uncalibrated_value": 11
-    }
-    """
-    Then the response status should be "422"
-    And no sensor reading was created
-
   Scenario: Assign sensor reading to sensor based on the name
     Given I have a sensor called "DS18B20"
-    When I send a POST request to "/sensor_readings" with the following:
+    When I send a POST request to "/reports/1/sensors/4711/sensor_readings" with the following:
     """
     {
       "calibrated_value": 47,
@@ -44,12 +30,13 @@ Feature: Receive Sensor Readings
       }
     }
     """
+    And notice that we OVERRIDE the given sensor id 4711 here
     Then the response status should be "201"
     And a new sensor reading was created
 
   Scenario: Reject sensor reading with a non-existent name
     Given I have a sensor called "DS18B20"
-    When I send a POST request to "/sensor_readings" with the following:
+    When I send a POST request to "/reports/1/sensors/4711/sensor_readings" with the following:
     """
     {
       "calibrated_value": 47,
@@ -59,5 +46,6 @@ Feature: Receive Sensor Readings
       }
     }
     """
+    And notice that we OVERRIDE the given sensor id 4711 here
     Then the response status should be "422"
     And no sensor reading was created

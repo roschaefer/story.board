@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Assign sensor by address', type: :request do
+  let(:report) { create(:report) }
+  let(:sensor) { create(:sensor, report: report) }
   let(:sensor_reading_params) {
     {
       "event": "measurement",
@@ -11,7 +13,8 @@ RSpec.describe 'Assign sensor by address', type: :request do
   }
 
   let(:headers) { { 'ACCEPT' => 'application/json' } }
-  let(:url) { '/sensor_readings' }
+  let(:sensor_id) { sensor.id }
+  let(:url) { "/reports/#{report.id}/sensors/#{sensor_id}/sensor_readings" }
   context "multiple sensors" do
     let(:temperature) { create(:sensor, :address => 123) }
     let(:light) { create(:sensor, :address => 456) }
@@ -29,11 +32,17 @@ RSpec.describe 'Assign sensor by address', type: :request do
       expect(Sensor::Reading.first.sensor).to eq light
     end
 
-    it "rejects if sensor params empty" do
-      data_hash = "{ \"calibrated_value\": 47, \"uncalibrated_value\": 11 }"
-      post url,  params: sensor_reading_params.merge(:data => data_hash), headers: headers
-      expect(Sensor::Reading.count).to eq 0
-    end
+    context 'sensor params empty' do
+      let(:sensor_reading_params) { super().merge(data: "{ \"calibrated_value\": 47, \"uncalibrated_value\": 11 }") }
 
+      context 'and no sensor for given id' do
+        let(:sensor_id) { 4711 }
+
+        it "does not create a sensor reading" do
+          expect{ post url,  params: sensor_reading_params, headers: headers }.to raise_error( ActiveRecord::RecordNotFound )
+          expect(Sensor::Reading.count).to eq 0
+        end
+      end
+    end
   end
 end

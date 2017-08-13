@@ -1,7 +1,17 @@
 class SensorReadingsController < ApplicationController
+  include CommonFilters
+  before_action :set_sensor
+
+  def index
+    @sensor_readings = @sensor.sensor_readings.order(created_at: :desc)
+    @sensor_readings = filter_release(@sensor_readings, filter_params)
+    @sensor_readings = filter_timestamp(@sensor_readings, filter_params)
+    @sensor_readings
+  end
 
   def create
     @sensor_reading = Sensor::Reading.new(sensor_reading_params)
+    @sensor_reading.sensor = @sensor
     respond_to do |format|
       if @sensor_reading.sensor && @sensor_reading.sensor.calibrating
         @sensor_reading.sensor.calibrate(@sensor_reading)
@@ -9,7 +19,7 @@ class SensorReadingsController < ApplicationController
       else
         if @sensor_reading.save
           format.js { render 'sensor/readings/create' }
-          format.json { render json: @sensor_reading, status: :created, location: @sensor_reading }
+          format.json { render :show, status: :created, location: report_sensor_reading_url(@report, @sensor_reading) }
         else
           format.json { render json: @sensor_reading.errors, status: :unprocessable_entity }
         end
@@ -30,7 +40,7 @@ class SensorReadingsController < ApplicationController
       range = Range.new(from, to)
       @sensor_readings = (1..quantity).collect do
         params = {
-          sensor_id: sample_params[:sensor_id],
+          sensor: @sensor,
           calibrated_value: rand(range),
           uncalibrated_value: rand(range),
           release: :debug
@@ -50,6 +60,18 @@ class SensorReadingsController < ApplicationController
   end
 
   private
+  def set_sensor
+    if sensor_params.empty?
+      @sensor = Sensor.find(params[:id])
+    else
+      # Override
+      dummy_sensor = Sensor.new(sensor_params[:sensor]) # perform normalization
+      search_params = dummy_sensor.attributes.reject{|k,v| v.nil?}
+      if search_params.present?
+        @sensor = Sensor.find_by(search_params)
+      end
+    end
+  end
 
   def sample_params
     params.require(:sample).permit(:sensor_id, :quantity, :from, :to)
@@ -57,28 +79,24 @@ class SensorReadingsController < ApplicationController
 
   def sensor_reading_params
     format_particle_api_json
-    assign_sensor_id
-    params.require(:sensor_reading).permit(:sensor_id, :sensor_name, :calibrated_value, :uncalibrated_value, :created_at)
+    params.require(:sensor_reading).permit(:calibrated_value, :uncalibrated_value, :created_at)
   end
 
-  # Tries to assign a missing sensor id
-  def assign_sensor_id
+  def sensor_params
+    format_particle_api_json
     sensor_params = params.permit(sensor: [:name, :address])
-    if sensor_params
-      dummy_sensor = Sensor.new(sensor_params[:sensor]) # perform normalization
-      search_params = dummy_sensor.attributes.reject{|k,v| v.nil?}
-      if search_params.present?
-        params[:sensor_reading][:sensor_id] = Sensor.find_by(search_params).try(:id)
-      end
-    end
   end
 
-  # Tries to assign a missing sensor id
+  # Tries to parse "data" (the only way to send attributes via partical API)
   def format_particle_api_json
     params.permit(:published_at, :core_id, :event, :data)
     if params[:data]
       params[:sensor_reading] = JSON.parse(params[:data])
       params[:sensor] = params[:sensor_reading][:sensor]
     end
+  end
+
+  def filter_params
+    params.permit(:from, :to, :release)
   end
 end
