@@ -22,7 +22,7 @@
   %body
 
 
-    .navbar.navbar-expand-md.navbar-inverse.bg-inverse
+    .navbar.navbar-expand-md.navbar-dark.bg-dark
       .container
 
         %a.navbar-brand(href="/") story.board
@@ -72,21 +72,21 @@
           = yield
 
         .col-lg-3
-          .card.bg-faded
-            .card-block
-
-              %h3 Current report
-              %ul#report-menu-current.nav.nav-list
+          .card.bg-light.mb-3
+            .card-header Current report
+            .card-body
+              %ul.nav.nav-list.flex-column#report-menu-current
                 %h5= @report.name
                 - if current_user
-                  %li= link_to 'My text components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
-                %li= link_to "Live-System", present_report_path(@report)
-                %li= link_to "Preview", preview_report_path(@report)
+                  %li.nav-item= link_to 'My text components', report_text_components_path(@report, filter: {assignee_id: [current_user.id]})
+                %li.nav-item= link_to "Live-System", present_report_path(@report)
+                %li.nav-item= link_to "Preview", preview_report_path(@report)
 
-              %h3 Switch report
-              %ul.nav.nav-list.report-menu
+          .card.bg-light
+            .card-header Switch report
+            .card-body
+              %ul.nav.nav-list.flex-column.report-menu
                 - Report.find_each do |report|
-                  %ul.nav.nav-pills
-                    %li.nav-item= link_to report.name, present_report_path(report), {class: 'nav-link'}
+                  %li.nav-item= link_to report.name, present_report_path(report)
       %footer.py5
         = "story.board. The CMS for Sensorstories. Created 2015-#{Date.today.year} by Robert Schäfer and Jakob Vicari. No Reporters Were Harmed."

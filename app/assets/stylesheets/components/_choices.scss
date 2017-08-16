@@ -64,12 +64,12 @@
 
 .choices__list--multiple {
     .choices__item {
-        background-color: $brand-primary;
-        border-color: darken($brand-primary, 10);
+        background-color: theme-color('primary');
+        border-color: darken(theme-color('primary'), 10);
 
         &.is-highlighted {
-            background-color: darken($brand-primary, 10);
-            border-color: darken($brand-primary, 20);
+            background-color: darken(theme-color('primary'), 10);
+            border-color: darken(theme-color('primary'), 20);
         }
     }
 }
