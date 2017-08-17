@@ -1,6 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe Event::Activation, type: :model do
+  describe '::active' do
+    let(:time) { Time.now }
+    let(:activation) { create(:event_activation, started_at: started_at, ended_at: ended_at) }
+    before { activation }
+    subject { described_class.active(time) }
+
+    context 'activation started before given time' do
+      let(:started_at) { time - 2.minutes }
+
+      context 'activation ended after given time' do
+        let(:ended_at) { time + 3.minutes }
+        it { is_expected.to include(activation) }
+      end
+
+      context 'activation ended before given time' do
+        let(:ended_at) { time - 1.minute }
+        it { is_expected.not_to include(activation) }
+      end
+      context 'activation never ended' do 
+        let(:ended_at) { nil }
+        it { is_expected.to include(activation) }
+      end
+    end
+
+    context 'activation started after given time' do
+      let(:started_at) { time + 2.minutes }
+      context 'activation ended after given time' do
+        let(:ended_at) { time + 3.minutes }
+        it { is_expected.not_to include(activation) }
+      end
+      context 'activation never ended' do
+        let(:ended_at) { nil }
+        it { is_expected.not_to include(activation) }
+      end
+    end
+  end
+
   describe '#event' do
     context 'missing' do
       subject { build(:event_activation, event: nil) }
