@@ -227,10 +227,12 @@ var Editor = (function($, autosize) {
             .on('blur', function() {
                 self.editor.saveFocus(self);
             })
-            .on('input change keyup click blur', function() {
-                self.handleCursor();
-                self.render();
-                self.updateCount();
+            .on('input keydown mousedown blur focus', function() {
+                window.setTimeout(function() {
+                    self.handleCursor();
+                    self.render();
+                    self.updateCount();
+                }, 1);
             })
 
         self.render();
