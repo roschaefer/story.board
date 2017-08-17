@@ -170,8 +170,8 @@ describe Trigger, type: :model do
     end
 
     context 'given a diary entry' do
+      let(:diary_entry) { create(:diary_entry) }
       context 'given events' do
-        let(:diary_entry) { create(:diary_entry) }
         before { trigger.events << event } 
         context 'event active now' do
           let(:event) { create(:event) }
