@@ -11,7 +11,7 @@ class DiaryEntry < ActiveRecord::Base
 
 
   enum release: [:final, :debug]
-  LIMIT = 10
+  LIMIT = 30000
   belongs_to :report
 
   def live?
