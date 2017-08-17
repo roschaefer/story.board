@@ -24,7 +24,7 @@ RSpec.describe Event, type: :model do
     it 'true if the last event activation is not yet finished' do
       expect{
         create(:event_activation, event: event, started_at: Time.now, ended_at: nil)
-      }.to change { event.active? }.from(nil).to(true)
+      }.to change { event.active? }.from(false).to(true)
     end
   end
 

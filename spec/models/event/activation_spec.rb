@@ -17,7 +17,7 @@ RSpec.describe Event::Activation, type: :model do
 
       context 'activation ended before given time' do
         let(:ended_at) { time - 1.minute }
-        it { is_expected.not_to include(activation) }
+        it { is_expected.to be_empty }
       end
       context 'activation never ended' do 
         let(:ended_at) { nil }
@@ -29,11 +29,11 @@ RSpec.describe Event::Activation, type: :model do
       let(:started_at) { time + 2.minutes }
       context 'activation ended after given time' do
         let(:ended_at) { time + 3.minutes }
-        it { is_expected.not_to include(activation) }
+        it { is_expected.to be_empty }
       end
       context 'activation never ended' do
         let(:ended_at) { nil }
-        it { is_expected.not_to include(activation) }
+        it { is_expected.to be_empty }
       end
     end
   end

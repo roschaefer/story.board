@@ -4,14 +4,15 @@ class EventDecorator
     @event = event
   end
 
-  def date
-    date = @event.last_activation_started_at
+  def last_started_date_before(moment)
+    date = @event.activations.before(moment).first&.started_at
     if date
       date.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_FORMAT)
     else
       "-- missing event data --"
     end
   end
+
 
   def method_missing(m, *args, &block)
     @event.send(m, *args, &block)

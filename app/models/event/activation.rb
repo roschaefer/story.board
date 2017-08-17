@@ -5,7 +5,8 @@ class Event::Activation < ApplicationRecord
   validate :ends_after_start
   validate :not_overlapping
 
-  scope :active, -> (time) { where('started_at <= ?', time).where('ended_at IS NULL OR ended_at > ?', time) }
+  scope :before, -> (time) { where('started_at <= ?', time) }
+  scope :active, -> (time) { before(time).where('ended_at IS NULL OR ended_at > ?', time) }
 
   def duration
     self.ended_at && self.ended_at - self.started_at

@@ -48,7 +48,7 @@ class Trigger < ActiveRecord::Base
   end
 
   def events_active?(diary_entry = nil)
-    events.all? {|e| e.active?(diary_entry)}
+    events.all? {|e| e.active?(diary_entry&.moment)}
   end
 
 

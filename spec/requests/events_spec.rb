@@ -22,7 +22,7 @@ RSpec.describe "Events", type: :request do
         let(:action) { post start_event_path(event), params: { format: :json } }
 
         it 'starts the event' do
-          expect { action }.to(change { event.active? }.from(nil).to(true))
+          expect { action }.to(change { event.active? }.from(false).to(true))
         end
 
         describe 'when started already' do
