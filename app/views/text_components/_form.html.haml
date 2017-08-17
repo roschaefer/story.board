@@ -76,15 +76,16 @@
                     - @events.each do |event|
                       %option{data: {editor: {'markup-command': 'text', 'markup-text': "{date(#{event.id})}"}}}
                         = event.name
-            .text-editor__fields
-              .field.text-editor__field
-                = f.input :heading, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
-              .field.text-editor__field
-                = f.input :introduction, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
-              .field.text-editor__field
-                = f.input :main_part, as: :text, input_html: {class: 'field__input field__input--large'}, label_html: {class: 'field__label'}
-              .field.text-editor__field
-                = f.input :closing, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
+              .text-editor__fields
+                .field.text-editor__field
+                  = f.input :heading, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
+                .field.text-editor__field
+                  = f.input :introduction, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
+                .field.text-editor__field
+                  = f.input :main_part, as: :text, input_html: {class: 'field__input field__input--large'}, label_html: {class: 'field__label'}
+                  .field__count
+                .field.text-editor__field
+                  = f.input :closing, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
 
 
       .row.form__section
