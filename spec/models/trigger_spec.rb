@@ -105,7 +105,8 @@ describe Trigger, type: :model do
 
 
   describe '#active?' do
-    subject { trigger.active? }
+    let(:diary_entry) { nil }
+    subject { trigger.active?(diary_entry) }
     context 'without any conditions is considered active' do
       it { is_expected.to be_truthy }
     end
@@ -164,6 +165,23 @@ describe Trigger, type: :model do
         describe '#active? :debug' do
           subject { trigger.active? DiaryEntry.new(release: :debug) }
           it { is_expected.to be_truthy }
+        end
+      end
+    end
+
+    context 'given a diary entry' do
+      context 'given events' do
+        let(:diary_entry) { create(:diary_entry) }
+        before { trigger.events << event } 
+        context 'event active now' do
+          let(:event) { create(:event) }
+          before { event.start }
+          it { is_expected.to be_truthy }
+
+          context 'but diary entry is at a time when the event was not yet active' do
+            let(:diary_entry) { create(:diary_entry, moment: 1.week.ago) }
+            it { is_expected.to be_falsy }
+          end
         end
       end
     end
