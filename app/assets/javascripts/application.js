@@ -23,8 +23,8 @@
 
 //= require_tree .
 
-//= require components/form
 //= require components/editor
+//= require components/form
 
 $(function() {
     $('[data-toggle="tooltip"]').tooltip();
@@ -81,4 +81,9 @@ $(function() {
     $('.qa').on('cocoon:after-insert', function(e, item) {
         $(item).find('.text-editor').editor();
     });
+});
+
+
+$(function() {
+    $('.form').form();
 });

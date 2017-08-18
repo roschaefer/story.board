@@ -2,14 +2,14 @@
   = simple_form_for([@report, @text_component]) do |f|
     = f.error_notification
     .form
-      .form__section
+      .form__section.form__section--default#general-information
         .form__section__header
           %h4.step
             .step__counter 1
             General Information
             .step__action
-              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#trigger', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#general-information', 'data-form-toggle': 'open-section'} Edit
         .form__section__body
 
           .row
@@ -28,14 +28,14 @@
           .notes-field
             = f.input :notes, label: false, input_html: {class: 'notes-field__input', 'data-autosize': true}
 
-      .form__section.form__section--active
+      .form__section#trigger
         .form__section__header
           %h4.step
             .step__counter 2
             Trigger
             .step__action
-              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#sensorstory-text', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#trigger', 'data-form-toggle': 'open-section'} Edit
         .form__section__body
           .form__fieldset
             - if local_assigns[:create_trigger]
@@ -51,14 +51,14 @@
                 = f.input :to_day
 
 
-      .form__section
+      .form__section#sensorstory-text
         .form__section__header
           %h4.step
             .step__counter 3
             Sensorstory-Text
             .step__action
-              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#chatbot-qa', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#sensorstory-text', 'data-form-toggle': 'open-section'} Edit
 
         .form__section__body
           .text-editor{data: {'editor-data': {sensors: @sensors.map{ |s| [s.id, s.name]}.to_h, events: @events.map{ |e| [e.id, e.name] }.to_h }.to_json }}
@@ -89,14 +89,14 @@
                 = f.input :closing, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
 
 
-      .form__section
+      .form__section#chatbot-qa
         .form__section__header
           %h4.step
             .step__counter 4
             Chatbot Q/A
             .step__action
-              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#output', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#chatbot-qa', 'data-form-toggle': 'open-section'} Edit
 
         .form__section__body
           .qa
@@ -105,13 +105,13 @@
 
             = link_to_add_association button_tag("Add Question & Answer", type: 'button', class: 'btn btn-secondary'), f, :question_answers, partial: 'question_answers/fields.html.haml'
 
-      .form__section
+      .form__section#output
         .form__section__header
           %h4.step
             .step__counter 5
             Output
             .step__action
-              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#output', 'data-form-toggle': 'open-section'} Edit
         .form__section__body
           = f.association :channels, collection: Channel.order('name'), selected: @text_component.channels.count > 0 ? @text_component.channel_ids : Channel.find_by({name: 'sensorstory'}).id, input_html: {'data-choices': true}
 
