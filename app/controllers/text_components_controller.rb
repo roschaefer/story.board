@@ -44,7 +44,6 @@ class TextComponentsController < ApplicationController
   # PATCH/PUT /text_components/1
   # PATCH/PUT /text_components/1.json
   def update
-
     respond_to do |format|
       if @text_component.update(text_component_params)
         format.html { redirect_to edit_report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
@@ -112,7 +111,7 @@ class TextComponentsController < ApplicationController
     def text_component_params
       params.require(:text_component)
         .permit(:heading, :introduction, :main_part, :closing, :from_day,
-                :to_day, :report_id, :topic_id, :assignee_id, :publication_status, :notes,
+                :to_day, :report_id, :topic_id, :assignee_id, :publication_status, :notes, :image,
                 trigger_ids: [], channel_ids: [],
                 question_answers_attributes: [:id, :question, :answer, :_destroy],
                 triggers_attributes: [:name, :from_hour, :to_hour,

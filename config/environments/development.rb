@@ -42,7 +42,11 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     :storage => :s3,
-    :s3_host_name => 'REMOVE_THIS_LINE_IF_UNNECESSARY',
-    :bucket => 'S3_BUCKET_NAME'
+    :bucket => ENV.fetch('S3_BUCKET_NAME'),
+    :access_key_id => ENV.fetch('AWS_ACCESS_KEY_ID'),
+    :secret_access_key => ENV.fetch('AWS_SECRET_ACCESS_KEY'),
+    :s3_region => 'eu-central-1',
+    :url => ':s3_domain_url',
+    :path => '/:class/:attachment/:id_partition/:style/:filename',
   }
 end

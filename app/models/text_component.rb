@@ -25,7 +25,7 @@ class TextComponent < ActiveRecord::Base
   }
 
   # Validate the attached image is image/jpg, image/png, etc
-  validates_attachment :image, content_type: { content_type: "image/jpeg" }
+  validates_attachment :image, content_type: { content_type: /\Aimage\/.*\z/ }
 
   def active?(diary_entry = nil)
     on_time? && triggers.all? {|t| t.active?(diary_entry) }
