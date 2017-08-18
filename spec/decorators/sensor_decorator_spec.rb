@@ -29,7 +29,7 @@ RSpec.describe SensorDecorator do
 
     context 'missing sensory data' do
       subject { super().last_value() }
-      it { is_expected.to eq '-- missing sensory data --' }
+      it { is_expected.to eq '(Sorry, leider habe ich gerade keine Daten für dich!)' }
     end
 
   end

@@ -9,7 +9,7 @@ class EventDecorator
     if date
       date.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_FORMAT)
     else
-      "-- missing event data --"
+      "(Sorry, leider habe ich gerade keine Daten für dich!)"
     end
   end
 
