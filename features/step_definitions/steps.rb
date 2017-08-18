@@ -1258,7 +1258,7 @@ Given(/^I am composing some question answers for a text component$/) do
 end
 
 Given(/^I enter a question that is more than (\d+) characters long$/) do |count|
-  within('.qa__item') do
+  within('.qa') do
     find('.question-input').set('a' * (count.to_i + 1))
   end
 end

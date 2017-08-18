@@ -99,10 +99,10 @@
               %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
 
         .form__section__body
-          .qa
-            = f.simple_fields_for :question_answers do |question_answer|
-              = render 'question_answers/fields', f: question_answer
+          = f.simple_fields_for :question_answers do |question_answer|
+            = render 'question_answers/fields', f: question_answer
 
+          .links
             = link_to_add_association button_tag("Add Question & Answer", type: 'button', class: 'btn btn-secondary'), f, :question_answers, partial: 'question_answers/fields.html.haml'
 
       .form__section
