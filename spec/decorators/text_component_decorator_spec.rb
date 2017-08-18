@@ -13,7 +13,7 @@ RSpec.describe TextComponentDecorator do
   describe '#heading' do
     subject { decorator.heading }
     it 'renders markup' do
-      is_expected.to eq('21 °C outside!')
+      is_expected.to eq('21.0 °C outside!')
     end
   end
 end
