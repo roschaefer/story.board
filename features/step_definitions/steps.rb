@@ -1215,7 +1215,11 @@ end
 Given(/^we have these diary entries in our database:$/) do |table|
   table.hashes.each do |row|
     report_id = row['Report id']
-    report = Report.find_by(id: report_id) || create(:report, id: report_id)
+    if report_id
+      report = Report.find_by(id: report_id) || create(:report, id: report_id)
+    else
+      report = Report.current
+    end
     create(:diary_entry, id: row['Id'], report: report, release: row['release'], moment: row['Moment'])
   end
 end
@@ -1420,4 +1424,30 @@ end
 
 When(/^notice that we OVERRIDE the given sensor id (\d+) here$/) do |arg1|
   # just documentation
+end
+
+Given(/^a humidity sensor with some sensor readings$/) do
+  @diary_entry = DiaryEntry.first
+  @humidity_sensor = create(:sensor,
+         name: 'Humidity Sensor 1',
+         sensor_type: create(:sensor_type, property: 'humidity', unit: '%')
+        )
+  create(:sensor_reading,
+         created_at: (@diary_entry.moment - 2.weeks),
+         sensor: @humidity_sensor,
+         calibrated_value: 50)
+end
+
+Given(/^for this diary entry we have an active text component:$/) do |text|
+  trigger = create(:trigger, report: Report.current)
+  create(:condition,
+         sensor: @humidity_sensor,
+         trigger: trigger,
+         from: 0,
+         to: 100)
+  create(:text_component,
+         report: Report.current,
+         channels: [Channel.sensorstory],
+         main_part: text,
+         triggers: [trigger])
 end
