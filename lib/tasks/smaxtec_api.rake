@@ -31,16 +31,4 @@ namespace :smaxtec_api do
     SensorType.find_or_create_by(property: 'Event: Medium heat stress', unit: '0-1')
     SensorType.find_or_create_by(property: 'Event: High heat stress', unit: '0-1')
   end
-
-  desc "update sensor reading timestamps to cest"
-  task update_timestamps: :environment do
-    Sensor::Reading.where.not(smaxtec_timestamp: nil).each do |reading|
-      # set time -2 (so timezone gets calculated right in cest)
-      reading.created_at = reading.created_at - 2.hours
-      reading.save
-    end
-    #smaxtec_api_controller = SmaxtecApi.new
-    #smaxtec_api_controller.update_sensor_readings
-    #smaxtec_api_controller.update_events
-  end
 end
