@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     end
   end
   resources :events, except: :show
+  resources :events, only: :show, :constraints => {:format => :json}
+  post 'events/:id/start', to: 'events#start', as: 'start_event'
+  post 'events/:id/stop', to: 'events#stop', as: 'stop_event'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -32,11 +36,12 @@ Rails.application.routes.draw do
       member do
         put :start_calibration
         put :stop_calibration
+
+        resources :sensor_readings, only:[:show, :create, :index], default: { format: :json }
+        post 'sensor_readings/debug', to: 'sensor_readings#debug', default: { format: :json }
       end
     end
   end
-  resources :sensor_readings, default: { format: :json }
-  post 'sensor_readings/debug', to: 'sensor_readings#debug', default: { format: :json }
 
   root to: redirect('/reports/current')
 

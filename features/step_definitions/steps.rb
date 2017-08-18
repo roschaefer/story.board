@@ -435,7 +435,7 @@ Then(/^I see that my custom variable "([^"]*)" has a value "([^"]*)"$/) do |key,
   expect(row).to have_text(value)
 end
 
-Given(/^I have these events in my database$/) do |table|
+Given(/^(?:we|I) have these events in (?:my|our) database:$/) do |table|
   table.hashes.each do |row|
     create(:event, id: row['EventID'], name: row['Event'])
   end
@@ -450,8 +450,7 @@ end
 
 Given(/^the event "([^"]*)" has happened on "([^"]*)"$/) do |name, date|
   event = Event.find_by(name: name)
-  event.happened_at = DateTime.parse(date)
-  event.save
+  event.start(DateTime.parse(date))
 end
 
 Given(/^we have this sensor data in our database:$/) do |table|
@@ -673,7 +672,7 @@ When(/^all subsequent sensor readings will be intercepted for a while$/) do
       "calibrated_value": value,
       "uncalibrated_value": value,
     }.to_json
-    request '/sensor_readings', { method: :post, input: input }
+    request report_sensor_readings_path(Report.current, @sensor), { method: :post, input: input }
   end
   expect(@sensor.sensor_readings).to be_empty
 end
@@ -1323,10 +1322,52 @@ Then(/^I should see in section "([^"]*)":$/) do |section, string|
   end
 end
 
+
 When(/^I fill in these form fields in section "([^"]*)":$/) do |header, table|
   table.raw.each do |row|
     within_text_component_section(header) do
       fill_in row[0], with: row[1]
+    end
+  end
+end
+
+Given(/^there is an event$/) do
+  @event = create(:event)
+end
+
+Given(/^the event was started$/) do
+  @event.start Time.now
+end
+
+When(/^I edit the event$/) do
+  visit edit_event_path(@event)
+end
+
+When(/^I wait for (\d+) years$/) do |some|
+  Timecop.travel some.to_i.years.from_now
+end
+
+Then(/^a new event activation is in the database which took (\d+) years$/) do |years|
+  expect(page).to have_css('.btn.start-event-button')
+  duration = Event::Activation.last.duration
+  expect(duration).to be > years.to_i * 365 * 24 * 60 * 60
+end
+
+Then(/^(?:I see |now )?the event "([^"]*)"$/) do |state|
+  expect(page).to have_text(state)
+end
+
+Given(/^the event was active three times in the past$/) do
+  create(:event_activation, event: @event, id: 23, started_at: '2017-08-04  16:19:13 UTC', ended_at: '2017-08-04  16:19:15 UTC' )
+  create(:event_activation, event: @event, id: 24, started_at: '2017-08-04  16:19:16 UTC', ended_at: '2017-08-04  16:19:17 UTC')
+  create(:event_activation, event: @event, id: 25, started_at: '2017-08-04  16:19:18 UTC', ended_at: '2017-08-04  16:19:19 UTC')
+end
+
+Then(/^I can see the history of the event, it looks like this:$/) do |table|
+  table.hashes.each do |row|
+    within('tr', text: row['Id']) do
+      expect(page).to have_text(row['Started at'])
+      expect(page).to have_text(row['Ended at'])
     end
   end
 end
@@ -1338,4 +1379,45 @@ end
 
 Given(/^I visit the new text component page$/) do
   visit new_report_text_component_path(Report.current)
+end
+
+Given(/^I want to start and stop events from the event index page$/) do
+  visit events_path(Report.current)
+end
+
+When(/^the event is active/) do
+  expect(page).to have_css('.btn.stop-event-button')
+  expect(@event).to be_active
+end
+
+When(/^the event is (?:not active|inactive)$/) do
+  expect(page).to have_css('.btn.start-event-button')
+  expect(@event).not_to be_active
+end
+
+
+Then(/^(\d+) event activations are in the database$/) do |count|
+  expect(Event::Activation.count).to eq count.to_i
+end
+
+Then(/^I am back on the events index page$/) do
+  expect(page).to have_text('Listing events')
+end
+
+Given(/^we have these sensor readings for sensor (\d+) in our database:$/) do |sensor_id, table|
+  sensor = create(:sensor, id: sensor_id, report: Report.current)
+  table.hashes.each do |row|
+    create(:sensor_reading, sensor: sensor,
+           id: row['Id'],
+           created_at: row['Created at'],
+           calibrated_value: row['Calibrated value'],
+           uncalibrated_value: row['Uncalibrated value'],
+           release: row['Release']
+          )
+  end
+end
+
+
+When(/^notice that we OVERRIDE the given sensor id (\d+) here$/) do |arg1|
+  # just documentation
 end

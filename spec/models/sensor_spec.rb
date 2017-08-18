@@ -20,6 +20,19 @@ describe Sensor, type: :model do
     end
   end
 
+  describe '#device_id' do
+      context 'of two sensors with the same sensor type', issue: 474 do
+        before { create(:sensor_type, id: 11) }
+        it_behaves_like 'database unique attribute', :sensor, sensor_type_id: 11, device_id: 123
+        context 'if #device_id is blank' do
+          before { create(:sensor, sensor_type_id: 11, device_id: '') }
+          subject { build(:sensor, sensor_type_id: 11, device_id: '') }
+          it { is_expected.to be_valid }
+          it { expect{ subject.save!(validate: false) }.not_to raise_error }
+        end
+      end
+  end
+
   describe '#animal_id' do
     context 'of two sensors with the same sensor type', issue: 500 do
       before { create(:sensor_type, id: 11) }

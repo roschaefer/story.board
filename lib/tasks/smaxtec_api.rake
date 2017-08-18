@@ -4,6 +4,7 @@ namespace :smaxtec_api do
     smaxtec_api_controller = SmaxtecApi.new
     smaxtec_api_controller.update_sensor_readings
     smaxtec_api_controller.update_events
+    smaxtec_api_controller.update_device_readings
   end
 
   desc "add smaxtec sensortypes"

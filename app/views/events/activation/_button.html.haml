@@ -1,0 +1,5 @@
+%div{id: "event-activation-#{event.id}"}
+  - if event.active?
+    = render 'events/activation/stop_button', event: event
+  - else
+    = render 'events/activation/start_button', event: event

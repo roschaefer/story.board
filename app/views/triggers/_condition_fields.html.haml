@@ -7,7 +7,7 @@
         - else
           = f.index + 1
     .col
-      = f.association :sensor, collection:  Proc.new{ Sensor.order('name').find_each.collect { |s| [s.name_and_id, s.id, 'data-range-min'=> s.min, 'data-range-max' => s.max, 'data-range-step' => (10 ** - s.fractionDigits).to_f, 'data-range-unit' => s.unit ] } }, label: false, prompt: '...add Sensor', input_html: {class: 'choose_sensor'}
+      = f.association :sensor, collection:  Proc.new{ Sensor.order('name').find_each.collect { |s| [s.name, s.id, 'data-range-min'=> s.min, 'data-range-max' => s.max, 'data-range-step' => (10 ** - s.fractionDigits).to_f, 'data-range-unit' => s.unit ] } }, label: false, prompt: '...add Sensor', input_html: {class: 'choose_sensor'}
     .col.form-group.d-flex.align-items-center
       - if f.object.sensor
         - s = f.object.sensor
@@ -23,5 +23,3 @@
 
     .col.col-md-auto
       = link_to_remove_association button_tag("×", type: 'button', class: 'btn btn-danger '), f
-
-

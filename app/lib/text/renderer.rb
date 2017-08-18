@@ -27,7 +27,7 @@ module Text
         event_markup = rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).flatten
         Event.where(:id => event_markup).each do |event|
           e = EventDecorator.new(event)
-          rendered.gsub!(/({\s*date\(\s*(#{ e.id })\s*\)\s*})/, e.date)
+          rendered.gsub!(/({\s*date\(\s*(#{ e.id })\s*\)\s*})/, e.last_started_date_before(@diary_entry.moment))
         end
 
         rendered

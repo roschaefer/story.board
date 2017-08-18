@@ -212,17 +212,17 @@ RSpec.describe Text::Generator do
           let(:trigger) { create(:trigger, text_components: [text_component]) }
 
           context 'given an event' do
-            let(:event)      { create(:event, id: 42, name: "DEATH", triggers: [trigger], happened_at: nil) }
+            let(:event)      { create(:event, id: 42, name: "DEATH", triggers: [trigger]) }
             before { event }
             it('event must happen first') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
-            context 'has happened' do
-              before { event.happened_at = DateTime.parse('2018-02-02'); event.save! }
+            context 'is happening now' do
+              before { event.start(DateTime.parse('2017-02-02')) }
               specify { expect(subject[:main_part]).to include('some content') }
 
               describe 'markup for the day of the event' do
                 let(:main_part)      { 'Day of your death: { date(42) }' }
                 it 'renders the day of the event' do
-                   expect(subject[:main_part]).to include('Day of your death: 2.2.2018')
+                   expect(subject[:main_part]).to include('Day of your death: 2.2.2017')
                 end
               end
             end

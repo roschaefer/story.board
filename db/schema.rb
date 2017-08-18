@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170730125054) do
+
+ActiveRecord::Schema.define(version: 20170808091639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,11 +78,20 @@ ActiveRecord::Schema.define(version: 20170730125054) do
     t.index ["report_id"], name: "index_diary_entries_on_report_id", using: :btree
   end
 
+  create_table "event_activations", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_activations_on_event_id", using: :btree
+  end
+
   create_table "events", force: :cascade do |t|
     t.string   "name"
-    t.datetime "happened_at"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.datetime "happened_at"
     t.index ["name"], name: "index_events_on_name", unique: true, using: :btree
   end
 
@@ -143,7 +153,9 @@ ActiveRecord::Schema.define(version: 20170730125054) do
     t.float    "min_value"
     t.datetime "calibrated_at"
     t.string   "animal_id"
+    t.string   "device_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
+    t.index ["device_id"], name: "index_sensors_on_device_id", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
     t.index ["report_id"], name: "index_sensors_on_report_id", using: :btree
     t.index ["sensor_type_id", "animal_id"], name: "index_sensors_on_sensor_type_id_and_animal_id", unique: true, using: :btree
@@ -184,10 +196,10 @@ ActiveRecord::Schema.define(version: 20170730125054) do
 
   create_table "triggers", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "report_id"
-    t.integer  "priority"
+    t.integer  "priority",        default: 1
     t.integer  "validity_period"
     t.integer  "from_hour"
     t.integer  "to_hour"
@@ -240,6 +252,7 @@ ActiveRecord::Schema.define(version: 20170730125054) do
   add_foreign_key "commands", "actuators"
   add_foreign_key "conditions", "sensors"
   add_foreign_key "conditions", "triggers"
+  add_foreign_key "event_activations", "events"
   add_foreign_key "question_answers", "text_components"
   add_foreign_key "text_components", "reports"
   add_foreign_key "text_components", "users", column: "assignee_id"
