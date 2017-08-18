@@ -117,10 +117,18 @@
               .step__action
                 %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
           .form__section__body
-            .field.image__field
-              = f.label :image, 'Upload image'
-              = f.input :image, as: :file, :label => false
-              = image_tag @text_component.image.url(:thumb)
+            .form__fieldset
+              .row
+                .col
+                  = f.label :image, 'Upload image'
+                  = f.input :image, as: :file, :label => false
+                  - if @text_component.image.exists?
+                    = image_tag @text_component.image.url(:thumb), :alt => @text_component.image_alt
+            .form__fieldset
+              .row
+                .col
+                  = f.label :image_alt, 'Alt Text'
+                  = f.input :image_alt, :label => false
 
 
       .row.form__section

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170813094403) do
+ActiveRecord::Schema.define(version: 20170818175456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20170813094403) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.text     "image_alt"
     t.index ["assignee_id"], name: "index_text_components_on_assignee_id", using: :btree
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
