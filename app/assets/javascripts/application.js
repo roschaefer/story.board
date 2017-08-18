@@ -37,12 +37,7 @@ $(function() {
 });
 
 $(function() {
-    autosize($('textarea[data-autosize]'));
-
-    $(document).on('shown.bs.modal', function() {
-        var $inputs = $(this).find('textarea[data-autosize]');
-        autosize.update($inputs);
-    });
+  autosize($('textarea[data-autosize]'));
 })
 
 $(function() {
@@ -81,7 +76,7 @@ $(function() {
 });
 
 $(function() {
-    $('.modal .text-editor').editor();
+    $('.text-editor').editor();
 
     $('.qa').on('cocoon:after-insert', function(e, item) {
         $(item).find('.text-editor').editor();

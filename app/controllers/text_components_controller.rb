@@ -12,6 +12,7 @@ class TextComponentsController < ApplicationController
 
   def new
     @text_component = TextComponent.new
+    @text_component.triggers.build
     @text_component.report = Report.current
   end
 
