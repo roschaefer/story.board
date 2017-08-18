@@ -1,5 +1,4 @@
 class Report < ActiveRecord::Base
-  TIME_ZONE   = 'Europe/Berlin'
   DATE_FORMAT = '%-d.%-m.%Y'
   DATE_TIME_FORMAT = "#{DATE_FORMAT}, %H:%M Uhr"
 
