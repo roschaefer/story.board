@@ -12,7 +12,7 @@ class SensorDecorator
       v = r.calibrated_value
       "#{format("%.1f", v)} #{u}"
     else
-      "-- missing sensory data --"
+      "(Sorry, leider habe ich gerade keine Daten für dich!)"
     end
   end
 
