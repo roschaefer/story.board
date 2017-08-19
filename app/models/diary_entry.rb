@@ -22,6 +22,10 @@ class DiaryEntry < ActiveRecord::Base
     report.active_sensor_story_components(self)
   end
 
+  def rendered_text_components
+    text_components.collect { |component| TextComponentDecorator.new(component, self) }
+  end
+
   def archive!
     self.release ||= :final
     DiaryEntry.transaction do
