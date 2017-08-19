@@ -40,13 +40,4 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.paperclip_defaults = {
-    :storage => :s3,
-    :bucket => 'superkuehe',
-    :access_key_id => 'secret_id',
-    :secret_access_key => 'secret_key',
-    :s3_region => 'eu-central-1',
-    :url => ':s3_domain_url',
-    :path => '/:class/:attachment/:id_partition/:style/:filename',
-  }
 end

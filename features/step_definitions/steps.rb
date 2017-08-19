@@ -1402,7 +1402,5 @@ Then(/^the text component starts with the url$/) do |string|
 end
 
 When(/^I submit the form and upload the image$/) do
-  VCR.use_cassette('text_components/upload_image') do
-    click_on "Update Text component"
-  end
+  click_on "Update Text component"
 end
