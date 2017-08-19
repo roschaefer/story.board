@@ -3,6 +3,7 @@ class DiaryEntriesController < ApplicationController
   include CommonFilters
 
   def index
+    from_and_to_params_are_dates(filter_params) or return
     @diary_entries = DiaryEntry.where(report: @report).order(:moment)
     @diary_entries = filter_release(@diary_entries, filter_params)
     @diary_entries = filter_timestamp(@diary_entries, filter_params, 'moment')

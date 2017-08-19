@@ -37,10 +37,10 @@ Feature: Start and stop events
     Given the event was active three times in the past
     When I edit the event
     Then I can see the history of the event, it looks like this:
-      | Id | Started at               | Ended at                 |
-      | 23  | 2017-08-04 16:19:13 UTC | 2017-08-04 16:19:15 UTC |
-      | 24  | 2017-08-04 16:19:16 UTC | 2017-08-04 16:19:17 UTC |
-      | 25  | 2017-08-04 16:19:18 UTC | 2017-08-04 16:19:19 UTC |
+      | Id  | Started at                | Ended at                  |
+      | 23  | 2017-08-04 18:19:13 +0200 | 2017-08-04 18:19:15 +0200 |
+      | 24  | 2017-08-04 18:19:16 +0200 | 2017-08-04 18:19:17 +0200 |
+      | 25  | 2017-08-04 18:19:18 +0200 | 2017-08-04 18:19:19 +0200 |
 
   @javascript
   Scenario: Start and stop the events from the index page

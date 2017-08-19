@@ -3,6 +3,7 @@ class SensorReadingsController < ApplicationController
   before_action :set_sensor
 
   def index
+    from_and_to_params_are_dates(filter_params) or return
     @sensor_readings = @sensor.sensor_readings.order(created_at: :desc)
     @sensor_readings = filter_release(@sensor_readings, filter_params)
     @sensor_readings = filter_timestamp(@sensor_readings, filter_params)

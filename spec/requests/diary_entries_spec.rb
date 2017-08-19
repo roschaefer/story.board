@@ -23,6 +23,12 @@ RSpec.describe "DiaryEntries", type: :request do
         end
 
         describe 'for #moment' do
+          context 'invalid date' do
+            let(:params) { { to: 'bullshit' } }
+            subject { response }
+            it { is_expected.to have_http_status(:unprocessable_entity) }
+          end
+
           context 'params: { to: "2017-07-17T12:19:00.000Z" }' do
             let(:params) { { to: "2017-07-17T12:19:00.000Z" } }
             it 'contains only diary entries 1 and 2' do
