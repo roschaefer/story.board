@@ -5,8 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_report
-  before_action :set_subnav_items
-  before_action :set_subnav_actions
+  before_action :set_subnav
 
   protected
 
@@ -20,6 +19,13 @@ class ApplicationController < ActionController::Base
       @report = Report.find(params[:report_id])
     else
       @report = Report.current
+    end
+  end
+
+  def set_subnav
+    if ['reports', 'text_components', 'triggers', 'sensors', 'events'].include? params[:controller]
+      set_subnav_items
+      set_subnav_actions
     end
   end
 
@@ -41,8 +47,8 @@ class ApplicationController < ActionController::Base
 
       children += ['present', 'preview'].map do |child|
         names = {
-          present: 'Live-Report',
-          preview: 'Preview-Report'
+          present: 'Live Report',
+          preview: 'Preview Report'
         }
 
         {
@@ -69,14 +75,22 @@ class ApplicationController < ActionController::Base
       }
 
       children << {
-        name: 'Report-Settings',
+        name: 'Report Settings',
         url: report_path(report),
         active: params[:controller] == 'reports' && ['show', 'edit'].include?(params[:action])
       }
 
+      action = 'index'
+
+      if params[:controller] == 'reports' && ['present', 'preview'].include?(params[:action])
+        action = params[:action]
+      elsif params[:controller] == 'reports' && params[:action] == 'show'
+        action = 'show'
+      end
+
       {
         name: report.name,
-        url: url_for(controller: params[:controller], action: params[:action], report_id: report.id),
+        url: url_for(controller: params[:controller], action: action, report_id: report.id),
         active: @report.id == report.id,
         children: children
       }
@@ -90,7 +104,7 @@ class ApplicationController < ActionController::Base
 
     @subnav_items = []
 
-    while item[:children]
+    while item && item[:children]
       @subnav_items << item[:children]
       item = item[:children].find { |child| child[:active] }
     end

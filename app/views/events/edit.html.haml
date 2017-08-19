@@ -1,29 +1,14 @@
-.container
-  .row
-    .col
-      %h1 Editing event
+= render 'form'
 
-  .row
-    .col
-      = render 'form'
-  .row
-    .col
-      %h3 Event Activations
-      %table.table.table-striped.table-hover
-        %thead
-          %tr
-            %th Id
-            %th Started at
-            %th Ended at
-        %tbody#event-activations
-          = render @event.activations.order(:started_at)
-  .row
-    .col
-      %p
-  .row
-    .col
-      = link_to 'Back', events_path, class: 'btn btn-secondary'
-    .col= render 'events/activation/button', event: @event
-  .row
-    .col
-      %p
+%h3 Event Activations
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th Id
+      %th Started at
+      %th Ended at
+  %tbody#event-activations
+    = render @event.activations.order(:started_at)
+
+= link_to 'Back', events_path, class: 'btn btn-secondary'
+= render 'events/activation/button', event: @event

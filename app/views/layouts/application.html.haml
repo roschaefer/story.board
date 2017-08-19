@@ -22,7 +22,8 @@
   %body
 
     = render 'layouts/navbar'
-    = render 'layouts/subnav'
+    - if @subnav_items
+      = render 'layouts/subnav'
 
     .container.pt-4
       = flash_messages
