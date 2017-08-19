@@ -105,8 +105,12 @@ After do
   Timecop.return
 end
 
-Around('@aws_s3_request') do |scenario, block|
-  puts 'Hallo test'
-  block.call
-  puts 'Fertig'
-end
+config.paperclip_defaults = {
+  :storage => :s3,
+  :bucket => 'superkuehe',
+  :access_key_id => 'secret_id',
+  :secret_access_key => 'secret_key',
+  :s3_region => 'eu-central-1',
+  :url => ':s3_domain_url',
+  :path => '/:class/:attachment/:id_partition/:style/:filename',
+}
