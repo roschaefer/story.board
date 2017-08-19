@@ -216,7 +216,7 @@ RSpec.describe Text::Generator do
             before { event }
             it('event must happen first') { is_expected.to eq({heading: '', introduction: '', main_part: '', closing: ''}) }
             context 'is happening now' do
-              before { event.start(DateTime.parse('2017-02-02')) }
+              before { event.start(Time.zone.parse('2017-02-02')) }
               specify { expect(subject[:main_part]).to include('some content') }
 
               describe 'markup for the day of the event' do

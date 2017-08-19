@@ -20,21 +20,21 @@ class Event < ActiveRecord::Base
   end
 
   def start(timestamp = nil)
-    given_timestamp = timestamp || DateTime.now
+    given_timestamp = timestamp || Time.now
     return if self.active?(timestamp)
     Event::Activation.create!(event: self, started_at: given_timestamp)
   end
 
   def stop(timestamp = nil)
     return unless self.active?
-    given_timestamp = timestamp || DateTime.now
+    given_timestamp = timestamp || Time.now
     la = self.active_activation_at(given_timestamp)
     la.ended_at = given_timestamp
     la.save!
   end
 
   def active?(moment = nil)
-    moment ||= DateTime.now
+    moment ||= Time.now
     !! self.active_activation_at(moment)
   end
 end

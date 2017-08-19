@@ -21,7 +21,7 @@ Feature: Render markup for frontend
     """
     {
       "id": 1,
-      "moment": "2017-06-21T14:00:00.000Z",
+      "moment": "2017-06-21T14:00:00.000+02:00",
       "release": "final",
       "text_components": [
         

@@ -19,11 +19,11 @@ Feature: GET recent entries
     Then the JSON response should be:
     """
     [
-      {"id":1, "moment":"2017-06-20T11:00:00.000Z", "release":"debug", "url":"http://example.org/reports/4711/diary_entries/1.json"},
-      {"id":2, "moment":"2017-06-21T14:00:00.000Z", "release":"final", "url":"http://example.org/reports/4711/diary_entries/2.json"},
-      {"id":3, "moment":"2017-06-22T10:00:00.000Z", "release":"debug", "url":"http://example.org/reports/4711/diary_entries/3.json"},
-      {"id":4, "moment":"2017-06-23T12:00:00.000Z", "release":"final", "url":"http://example.org/reports/4711/diary_entries/4.json"},
-      {"id":5, "moment":"2017-06-24T18:00:00.000Z", "release":"debug", "url":"http://example.org/reports/4711/diary_entries/5.json"}
+      {"id":1, "moment":"2017-06-20T11:00:00.000+02:00", "release":"debug", "url":"http://example.org/reports/4711/diary_entries/1.json"},
+      {"id":2, "moment":"2017-06-21T14:00:00.000+02:00", "release":"final", "url":"http://example.org/reports/4711/diary_entries/2.json"},
+      {"id":3, "moment":"2017-06-22T10:00:00.000+02:00", "release":"debug", "url":"http://example.org/reports/4711/diary_entries/3.json"},
+      {"id":4, "moment":"2017-06-23T12:00:00.000+02:00", "release":"final", "url":"http://example.org/reports/4711/diary_entries/4.json"},
+      {"id":5, "moment":"2017-06-24T18:00:00.000+02:00", "release":"debug", "url":"http://example.org/reports/4711/diary_entries/5.json"}
     ]
     """
 
@@ -34,4 +34,3 @@ Feature: GET recent entries
   Scenario: Get all diary entries within a certain timeframe
     When I send a GET request to "/reports/4711/diary_entries?from=2017-06-22T00:00:00&to=2017-06-24T00:00:00"
     Then the JSON response should include the diary entries 3 and 4
-
