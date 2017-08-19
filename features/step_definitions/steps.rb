@@ -1385,3 +1385,17 @@ end
 Then(/^I am back on the events index page$/) do
   expect(page).to have_text('Listing events')
 end
+
+When(/^in section Image I choose my file "([^"]*)" for upload$/) do |arg1|
+  within_text_component_section('Image') do
+      attach_file("text_component[image]", Rails.root + "fixtures/cow.jpg")
+  end
+end
+
+Then(/^a request to Amazon S(\d+) is made with my chosen file$/) do |arg1|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the text component has the image url$/) do |string|
+  expect(@text_component.image.url).to eq string
+end

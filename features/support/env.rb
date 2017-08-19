@@ -104,3 +104,9 @@ end
 After do
   Timecop.return
 end
+
+Around('@aws_s3_request') do |scenario, block|
+  puts 'Hallo test'
+  block.call
+  puts 'Fertig'
+end

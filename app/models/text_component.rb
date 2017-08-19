@@ -21,7 +21,8 @@ class TextComponent < ActiveRecord::Base
 
   # This method associates the attribute ":image" with a file attachment
   has_attached_file :image, styles: {
-    thumb: '400x300>',
+    small: '620>',
+    big: '1000>',
   }
 
   # Validate the attached image is image/jpg, image/png, etc
@@ -81,5 +82,12 @@ class TextComponent < ActiveRecord::Base
     end
 
     icons.compact
+  end
+
+  def image_url
+    if self.image?
+      return self.image.url
+    end
+    return nil
   end
 end

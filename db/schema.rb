@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20170818175456) do
     t.float    "max_value"
     t.float    "min_value"
     t.datetime "calibrated_at"
+    t.boolean  "smaxtec_sensor"
     t.string   "animal_id"
     t.string   "device_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
@@ -199,10 +200,10 @@ ActiveRecord::Schema.define(version: 20170818175456) do
 
   create_table "triggers", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "report_id"
-    t.integer  "priority",        default: 1
+    t.integer  "priority"
     t.integer  "validity_period"
     t.integer  "from_hour"
     t.integer  "to_hour"

@@ -123,7 +123,7 @@
                   = f.label :image, 'Upload image'
                   = f.input :image, as: :file, :label => false
                   - if @text_component.image.exists?
-                    = image_tag @text_component.image.url(:thumb), :alt => @text_component.image_alt
+                    = image_tag @text_component.image.url(:small), :alt => @text_component.image_alt
             .form__fieldset
               .row
                 .col
