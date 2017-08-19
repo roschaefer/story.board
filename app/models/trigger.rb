@@ -19,17 +19,17 @@ class Trigger < ActiveRecord::Base
   end
 
   def active?(diary_entry = nil)
-    on_time? && conditions_fullfilled?(diary_entry) && events_active?(diary_entry)
+    on_time?(diary_entry) && conditions_fullfilled?(diary_entry) && events_active?(diary_entry)
   end
 
-  def on_time?
+  def on_time?(diary_entry)
     result = true
-    if from_hour && to_hour
+    if from_hour && to_hour && diary_entry
       if from_hour <= to_hour
-        result = (from_hour <= Time.now.hour ) && (Time.now.hour < to_hour)
+        result = (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
       else
         # e.g. 21:00 -> 6:00
-        result = (Time.now.hour < to_hour ) || (from_hour <= Time.now.hour)
+        result = (diary_entry.moment.hour < to_hour ) || (from_hour <= diary_entry.moment.hour)
       end
     end
     result
