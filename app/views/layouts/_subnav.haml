@@ -1,0 +1,24 @@
+.subnav
+  .container
+    .d-flex
+      .subnav__item.subnav__breadcrumb
+
+        - @subnav_items.each do |options|
+          .subnav__breadcrumb__item
+            .subnav__select
+              = options.find{|o| o[:active]}[:name]
+              - if options.count > 1
+                %select.custom-select{onchange: 'window.location = this.value'}
+                  - options.each do |option|
+                    %option{value: option[:url], selected: option[:active]}
+                      = option[:name]
+
+      .subnav__item
+        .btn-group.subnav__actions
+          %a.btn.btn-primary{href: @primary_action[:url]}
+            = @primary_action[:name]
+          %a.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', 'data-toggle': 'dropdown'}
+          .dropdown-menu.dropdown-menu-right
+            - @secondary_actions.each do |action|
+              %a.dropdown-item{href: action[:url]}
+                = action[:name]

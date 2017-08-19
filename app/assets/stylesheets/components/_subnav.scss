@@ -1,0 +1,64 @@
+/**
+ * SUB-NAV
+ */
+
+.subnav {
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
+
+    background: lighten(theme-color('primary'), 42);
+}
+
+.subnav__item {
+    display: flex;
+    align-items: center;
+}
+
+.subnav__breadcrumb {
+    margin-right: auto;
+    font-size: 1.75rem;
+}
+
+.subnav__breadcrumb__item {
+    display: inline-block;
+    opacity: .75;
+}
+
+.subnav__breadcrumb .subnav__breadcrumb__item:last-child {
+    opacity: 1;
+    font-weight: 500;
+}
+
+.subnav__breadcrumb__item::after {
+    content: '→';
+    margin-right: .5em;
+    margin-left: .25em;
+
+    opacity: .5;
+}
+
+.subnav__breadcrumb .subnav__breadcrumb__item:last-child::after {
+    content: none;
+}
+
+.subnav__select {
+    display: inline;
+    position: relative;
+}
+
+.subnav__select select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    font-size: 1rem;
+
+    cursor: pointer;
+}
+
+.subnav__actions a:first-child {
+    margin-right: 2px;
+}
