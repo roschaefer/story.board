@@ -15,10 +15,9 @@ Feature: Time of the day
       | Good morning | Hello again                 |
       | Sleep well   | Now it's time to go to bed. |
 
-  Scenario:
-    Given it's 7am
-    And I visit the landing page
-    And I see the current live report:
+  Scenario: See the good morning text component
+    When I visit "/reports/present/1/?at=2017-08-19T10:00+02:00"
+    Then I see the current live report:
     """
     Hello again
     """
@@ -26,9 +25,10 @@ Feature: Time of the day
     """
     Now it's time to go to bed.
     """
-    When I wait for 15 hours
-    And I visit the landing page
-    Then I see the current live report has changed to:
+
+  Scenario: See the evening's text component
+    When I visit "/reports/present/1/?at=2017-08-19T22:00+02:00"
+    Then I see the current live report:
     """
     Now it's time to go to bed.
     """
