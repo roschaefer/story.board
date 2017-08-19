@@ -9,9 +9,9 @@ Feature: Picture Upload
     Given I am the journalist
     When I edit an existing text component
     And in section Image I choose my file "testbild.png" for upload
-    And I click on "Update Text component"
+    And I submit the form and upload the image
     Then a request to Amazon S3 is made with my chosen file
-    And the text component has the image url
+    And the text component starts with the url
     """
-    //superkuehe.s3.amazonaws.com/text_components/images/000/000/186/thumb/sensor.png?1503079991
+    //superkuehe.s3.amazonaws.com/text_components/images/000/000/001/original/cow.jpg
     """

@@ -1388,7 +1388,7 @@ end
 
 When(/^in section Image I choose my file "([^"]*)" for upload$/) do |arg1|
   within_text_component_section('Image') do
-      attach_file("text_component[image]", Rails.root + "fixtures/cow.jpg")
+      attach_file("Upload image", Rails.root + "fixtures/cow.jpg")
   end
 end
 
@@ -1396,6 +1396,13 @@ Then(/^a request to Amazon S(\d+) is made with my chosen file$/) do |arg1|
   #pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then(/^the text component has the image url$/) do |string|
-  expect(@text_component.image.url).to eq string
+Then(/^the text component starts with the url$/) do |string|
+  @text_component.reload
+  expect(@text_component.image.url).to start_with(string)
+end
+
+When(/^I submit the form and upload the image$/) do
+  VCR.use_cassette('text_components/upload_image') do
+    click_on "Update Text component"
+  end
 end
