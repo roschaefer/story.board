@@ -20,16 +20,16 @@ class TextComponent < ActiveRecord::Base
   enum publication_status: { :draft => 0, :fact_checked => 1, :published => 2 }
 
   def active?(diary_entry = nil)
-    on_time? && triggers.all? {|t| t.active?(diary_entry) }
+    on_time?(diary_entry) && triggers.all? {|t| t.active?(diary_entry) }
   end
 
-  def on_time?
+  def on_time?(diary_entry)
     result = true
-    if from_day
-      result &= ((report.start_date + from_day.days) <= Time.now)
+    if from_day && diary_entry
+        result &= ((report.start_date + from_day.days) <= diary_entry.moment)
     end
-    if to_day
-      result &= (Time.now <= (report.start_date + to_day.days))
+    if to_day && diary_entry
+        result &= (diary_entry.moment <= (report.start_date + to_day.days))
     end
     result
   end

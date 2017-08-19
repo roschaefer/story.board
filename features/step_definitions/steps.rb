@@ -1,3 +1,11 @@
+def number_or_nil(number_string)
+  begin
+    return Integer(number_string)
+  rescue 
+    nil
+  end
+end
+
 def click_regardless_of_overlapping_elements(node)
   if Capybara.current_driver == :poltergeist
     node.trigger('click')
@@ -164,7 +172,9 @@ Given(/^the latest sensor data looks like this:$/) do |table|
 end
 
 Then(/^I should NOT see:$/) do |string|
-  expect(page).not_to have_content(string)
+  string.split('[or]').each do |part|
+    expect(page).not_to have_content(part.strip)
+  end
 end
 
 Given(/^I am (?:a|the) (?:journalist|service team member)/) do
@@ -631,8 +641,8 @@ Given(/^I have these text components with the corresponding schedule in my datab
     create(:text_component,
            main_part: row['Text component'],
            report: Report.current,
-           from_day: row['From day'],
-           to_day: row['To day']
+           from_day: number_or_nil(row['From day']),
+           to_day: number_or_nil(row['To day'])
           )
   end
 end
@@ -1450,4 +1460,20 @@ Given(/^for this diary entry we have an active text component:$/) do |text|
          channels: [Channel.sensorstory],
          main_part: text,
          triggers: [trigger])
+end
+
+Given(/^the sensor live report started on "([^"]*)"$/) do |date|
+  @report = Report.current
+  @report.start_date = date
+  @report.save
+end
+
+Given(/^we have these diary entries for the report:$/) do |table|
+  table.hashes.each do |row|
+    create(:diary_entry, id: row['Id'], moment: row['Moment'], report: @report)
+  end
+end
+
+When(/^I visit "([^"]*)"$/) do |url|
+  visit url
 end
