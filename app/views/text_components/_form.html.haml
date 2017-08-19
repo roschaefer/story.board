@@ -14,15 +14,15 @@
 
           .row
             .col
-              = f.association :report, collection: Report.order('name'), selected: @report.id, input_html: {'data-choices': true}
+              = f.association :report, selected: @report.id, input_html: {'data-choices': true}
             .col
-              = f.association :topic, collection: Topic.order('name'), label_method: :display_name, include_blank: 'No topic', input_html: {'data-choices': true}
+              = f.association :topic, label_method: :display_name, include_blank: 'No topic', input_html: {'data-choices': true}
 
           .row
             .col
               = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'
             .col
-              = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, include_blank: 'No assignee', input_html: {'data-choices': true}
+              = f.association :assignee, label_method: :name, include_blank: 'No assignee', input_html: {'data-choices': true}
 
           %label Notes
           .notes-field
@@ -42,7 +42,7 @@
               = f.simple_fields_for :triggers do |trigger|
                 = render 'triggers/trigger_fields', f: trigger, is_sub_form: true
             - else
-              = f.association :triggers, collection: Trigger.order('name'), label_method: :name, input_html: {'data-choices': true}
+              = f.association :triggers, collection: Trigger.where(report: @report), label_method: :name, input_html: {'data-choices': true}
           .form__fieldset
             .row
               .col
@@ -62,21 +62,10 @@
 
         .form__section__body
           .text-editor{data: {'editor-data': {sensors: @sensors.map{ |s| [s.id, s.name]}.to_h, events: @events.map{ |e| [e.id, e.name] }.to_h }.to_json }}
+          
             .text-editor__toolbar
-              .text-editor__toolbar__item
-                Sensors
-                %select{'data-editor-markup-select': true}
-                  %option{disabled: true, selected: true} Please select a sensor
-                  - @sensors.each do |sensor|
-                    %option{data: {editor: {'markup-command': 'text', 'markup-text': "{value(#{sensor.id})}"}}}
-                      = sensor.name
-              .text-editor__toolbar__item
-                Events
-                %select{'data-editor-markup-select': true}
-                  %option{disabled: true, selected: true} Please select an event
-                  - @events.each do |event|
-                    %option{data: {editor: {'markup-command': 'text', 'markup-text': "{date(#{event.id})}"}}}
-                      = event.name
+              = render 'shared/text_editor/buttons'
+
             .text-editor__fields
               .field.text-editor__field
                 = f.input :heading, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
@@ -113,7 +102,7 @@
             .step__action
               %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
         .form__section__body
-          = f.association :channels, collection: Channel.order('name'), selected: @text_component.channels.count > 0 ? @text_component.channel_ids : Channel.find_by({name: 'sensorstory'}).id, input_html: {'data-choices': true}
+          = f.association :channels, selected: @text_component.channels.count > 0 ? @text_component.channel_ids : Channel.find_by({name: 'sensorstory'}).id, input_html: {'data-choices': true}
 
       .form-group
         = f.button :submit, class: 'btn btn-primary'

@@ -6,6 +6,10 @@ class Channel < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
 
+  def self.default_scope
+    order('LOWER("channels"."name")')
+  end
+
   def self.default(report)
     Channel.sensorstory
   end
