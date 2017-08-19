@@ -1,5 +1,8 @@
 class TextComponent < ActiveRecord::Base
   validates :heading, :report, presence: true
+  validates :from_hour, inclusion: { in: 0..23 }, allow_blank: true
+  validates :to_hour, inclusion: { in: 0..23 }, allow_blank: true
+  validate :both_hours_are_given
   has_and_belongs_to_many :triggers
   has_many :sensors, through: :triggers
   has_many :events, through: :triggers
@@ -40,8 +43,18 @@ class TextComponent < ActiveRecord::Base
     if to_day && diary_entry
         result &= (diary_entry.moment <= (report.start_date + to_day.days))
     end
+
+    if from_hour && to_hour && diary_entry
+      if from_hour <= to_hour
+        result = (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
+      else
+        # e.g. 21:00 -> 6:00
+        result = (diary_entry.moment.hour < to_hour ) || (from_hour <= diary_entry.moment.hour)
+      end
+    end
     result
   end
+
 
   def priority_index
     Trigger.priorities[priority]
@@ -86,5 +99,15 @@ class TextComponent < ActiveRecord::Base
 
   def image_url
     self.image&.url
+  end
+
+  private
+  def both_hours_are_given
+    if from_hour && to_hour.blank?
+      errors.add(:to_hour, "is missing")
+    end
+    if to_hour && from_hour.blank?
+      errors.add(:from_hour, "is missing")
+    end
   end
 end
