@@ -72,7 +72,7 @@ class SmaxtecApi
       temp_data['data'].each do |data|
         timestamp = data[0]
         value = data[1]
-        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: DateTime.strptime(timestamp.to_s,'%s'), updated_at: DateTime.strptime(timestamp.to_s,'%s')) do |reading|
+        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.strptime(timestamp.to_s,'%s'), updated_at: Time.strptime(timestamp.to_s,'%s')) do |reading|
           reading.calibrated_value = value
           reading.uncalibrated_value = value
         end
@@ -120,7 +120,7 @@ class SmaxtecApi
         timestamp = data['timestamp']
         value = 1
         if data['event_type'] == event_type
-          events << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: DateTime.strptime(timestamp.to_s,'%s'), updated_at: DateTime.strptime(timestamp.to_s,'%s')) do |event|
+          events << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.strptime(timestamp.to_s,'%s'), updated_at: Time.strptime(timestamp.to_s,'%s')) do |event|
             event.calibrated_value = value
             event.uncalibrated_value = value
           end
@@ -173,7 +173,7 @@ class SmaxtecApi
       temp_data['data'].each do |data|
         timestamp = data[0]
         value = data[1]
-        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: DateTime.strptime(timestamp.to_s,'%s'), updated_at: DateTime.strptime(timestamp.to_s,'%s')) do |reading|
+        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.strptime(timestamp.to_s,'%s'), updated_at: Time.strptime(timestamp.to_s,'%s')) do |reading|
           reading.calibrated_value = value
           reading.uncalibrated_value = value
         end

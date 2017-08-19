@@ -49,7 +49,7 @@ describe Sensor, type: :model do
   describe '#last_reading' do
     let(:sensor) { build(:sensor) }
     let(:first) { create(:sensor_reading, sensor: sensor, created_at: 5.seconds.ago) }
-    let(:second) { create(:sensor_reading, sensor: sensor, created_at: DateTime.now) }
+    let(:second) { create(:sensor_reading, sensor: sensor, created_at: Time.now) }
     before { first; second }
 
     it 'returns last sensor reading by default' do
