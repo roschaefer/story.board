@@ -74,8 +74,8 @@ class TextComponentsController < ApplicationController
     end
 
     def set_form_data
-      @sensors = Sensor.where(report: @report).order('name')
-      @events = Event.order('name')
+      @sensors = Sensor.where(report: @report)
+      @events = Event.all
     end
 
     def set_index_data

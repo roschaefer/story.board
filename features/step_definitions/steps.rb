@@ -74,7 +74,7 @@ end
 
 Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
   temperature_type = create(:sensor_type, property: property.capitalize)
-  create :sensor, name: name, sensor_type: temperature_type
+  create(:sensor, name: name, sensor_type: temperature_type, report: Report.current)
 end
 
 Given(/^I have a trigger with the name "([^"]*)"$/) do |name|

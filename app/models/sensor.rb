@@ -24,6 +24,10 @@ class Sensor < ActiveRecord::Base
       self.device_id = nil if self.device_id.blank?
   end
 
+  def self.default_scope
+    order('LOWER("sensors"."name")')
+  end
+
   def address=(value)
     if value.respond_to?(:start_with?) && value.start_with?("0x") # probably a hex code string
       super(value.hex)

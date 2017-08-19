@@ -1,4 +1,4 @@
-= f.association :report, collection: Report.order('name'), selected: @report.id unless local_assigns[:is_sub_form]
+= f.association :report, selected: @report.id unless local_assigns[:is_sub_form]
 
 = f.input :name
 
