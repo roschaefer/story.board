@@ -43,7 +43,7 @@ class SensorsController < ApplicationController
 
   def stop_calibration
     @sensor.calibrating = false
-    @sensor.calibrated_at = Time.now
+    @sensor.calibrated_at = Time.zone.now
     @sensor.save!
     render 'show'
   end

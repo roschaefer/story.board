@@ -39,7 +39,7 @@ class SmaxtecApi
 
 
   def update_device_readings
-    puts "[" + Time.now.to_s + "] " + "Started update_device_readings"
+    puts "[#{Time.zone.now}] Started update_device_readings"
     abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
     Sensor.where.not(device_id: nil).each do |sensor|
       device_type = DEVICE_MAPPING[sensor.property]
@@ -72,7 +72,7 @@ class SmaxtecApi
       temp_data['data'].each do |data|
         timestamp = data[0]
         value = data[1]
-        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.strptime(timestamp.to_s,'%s'), updated_at: Time.strptime(timestamp.to_s,'%s')) do |reading|
+        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.zone.strptime(timestamp.to_s,'%s'), updated_at: Time.zone.strptime(timestamp.to_s,'%s')) do |reading|
           reading.calibrated_value = value
           reading.uncalibrated_value = value
         end
@@ -85,7 +85,7 @@ class SmaxtecApi
 
 
   def update_events
-    puts "[" + Time.now.to_s + "] " + "Started update_events"
+    puts "[#{Time.zone.now.to_s}] Started update_events"
     abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
     Sensor.where.not(animal_id: nil).each do |sensor|
       event_type = EVENT_MAPPING[sensor.property]
@@ -134,7 +134,7 @@ class SmaxtecApi
 
 
   def update_sensor_readings
-    puts "[" + Time.now.to_s + "] " + "Started update_sensor_readings"
+    puts "[#{Time.now}] Started update_sensor_readings"
     abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
     Sensor.where.not(animal_id: nil).each do |sensor|
       puts "Getting latest sensory data from Smaxtec for sensor: #{sensor.name}"

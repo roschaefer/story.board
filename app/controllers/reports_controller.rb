@@ -40,9 +40,9 @@ class ReportsController < ApplicationController
   def query_params
     result = {}
     if params[:at]
-      result[:point_in_time] = Time.parse(params[:at])
+      result[:point_in_time] = Time.zone.parse(params[:at])
     else
-      result[:point_in_time] = Time.now
+      result[:point_in_time] = Time.zone.now
     end
     result
   end
