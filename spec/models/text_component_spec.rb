@@ -25,6 +25,39 @@ RSpec.describe TextComponent, type: :model do
     end
   end
 
+  describe 'to_hour' do
+    subject { text_component }
+    let(:text_component) { build(:text_component, attributes) }
+    let(:attributes) { {to_hour: 3 } }
+    context 'without #from_hour' do
+      it { is_expected.not_to be_valid }
+    end
+  end
+
+  describe 'from_hour' do
+    subject { text_component }
+    let(:text_component) { build(:text_component, attributes) }
+    let(:attributes) { { from_hour: 3 } }
+    context 'without #to_hour' do
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'given along with #to_hour' do
+      let(:attributes) { super().merge({ to_hour: 3 }) }
+      it { is_expected.to be_valid }
+
+      context 'below 0' do
+        let(:attributes) { super().merge({ from_hour: -1 }) }
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'above 23' do
+        let(:attributes) { super().merge({ from_hour: 24 }) }
+        it { is_expected.not_to be_valid }
+      end
+    end
+  end
+
   describe '#heading' do
     context 'empty' do
       subject { build(:text_component, heading: '  ') }
