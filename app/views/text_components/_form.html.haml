@@ -51,9 +51,7 @@
                 = f.input :to_day
             .row
               .col
-                = f.input :from_hour, collection: 0..23, as: :select
-              .col
-                = f.input :to_hour, collection: 0..23, as: :select
+                = f.input :timeframe, collection: TextComponent::TIME_FRAMES, as: :select, include_blank: false
 
 
       .form__section

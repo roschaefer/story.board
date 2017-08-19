@@ -114,6 +114,22 @@ RSpec.describe TextComponent, type: :model do
     end
   end
 
+  describe '#timeframe=' do
+    let(:text_component) { build(:text_component) }
+    it 'sets #from_hour' do
+      expect{ text_component.timeframe = '[18, 23]' }.to(change{ text_component.from_hour }.from(nil).to(18))
+    end
+    it 'sets #to_hour' do
+      expect{ text_component.timeframe = '[18, 23]' }.to(change{ text_component.to_hour }.from(nil).to(23))
+    end
+  end
+
+  describe '#timeframe' do
+    let(:text_component) { build(:text_component, from_hour: 13, to_hour: 17) }
+    subject { text_component.timeframe }
+    it { is_expected.to eq '[13,17]' }
+  end
+
   describe '#priority' do
     let(:text_component) { create(:text_component) }
     subject { text_component.priority }

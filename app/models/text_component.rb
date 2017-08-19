@@ -1,4 +1,13 @@
 class TextComponent < ActiveRecord::Base
+  TIME_FRAMES = {
+      'always' => [nil, nil].to_json,
+      '(06:00 - 09:00) in the morning' => [6, 9].to_json,
+      '(09:00 - 13:00) before noon' => [9, 13].to_json,
+      '(13:00 - 18:00) afternoons' => [13, 18].to_json,
+      '(18:00 - 23:00) evenings' => [18, 23].to_json,
+      '(23:00 - 06:00) nights' => [23, 6].to_json,
+  }
+
   validates :heading, :report, presence: true
   validates :from_hour, inclusion: { in: 0..23 }, allow_blank: true
   validates :to_hour, inclusion: { in: 0..23 }, allow_blank: true
@@ -29,6 +38,15 @@ class TextComponent < ActiveRecord::Base
     small: '620>',
     big: '1000>',
   }
+
+  def timeframe=(frame)
+    arr = JSON.parse(frame)
+    self.from_hour, self.to_hour = * arr
+  end
+
+  def timeframe
+    [self.from_hour, self.to_hour].to_json
+  end
 
   def active?(diary_entry)
     on_time?(diary_entry) && triggers.all? {|t| t.active?(diary_entry) }
