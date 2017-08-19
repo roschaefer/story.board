@@ -13,11 +13,11 @@ class Report < ActiveRecord::Base
     Report.first
   end
 
-  def active_chatbot_components(diary_entry = nil)
+  def active_chatbot_components(diary_entry)
     active_components(diary_entry).select {|c| c.channels.include?(Channel.chatbot) }
   end
 
-  def active_sensor_story_components(diary_entry = nil)
+  def active_sensor_story_components(diary_entry)
     active_components(diary_entry).select {|c| c.channels.include?(Channel.sensorstory) }
   end
 
@@ -29,7 +29,7 @@ class Report < ActiveRecord::Base
 
   private
 
-  def active_components(diary_entry = nil)
+  def active_components(diary_entry)
     result = text_components.includes(:channels)
     text_components.select {|c| c.active?(diary_entry) && c.published? }
   end

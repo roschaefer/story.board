@@ -16,6 +16,8 @@ class TextComponent < ActiveRecord::Base
   accepts_nested_attributes_for :triggers
 
   validates :channels, presence: true
+  # Validate the attached image is image/jpg, image/png, etc
+  validates_attachment :image, content_type: { content_type: /\Aimage\/.*\z/ }
 
   delegate :name, to: :topic, prefix: true, allow_nil: true
   delegate :name, to: :assignee, prefix: true, allow_nil: true
@@ -28,23 +30,20 @@ class TextComponent < ActiveRecord::Base
     big: '1000>',
   }
 
-  # Validate the attached image is image/jpg, image/png, etc
-  validates_attachment :image, content_type: { content_type: /\Aimage\/.*\z/ }
-
-  def active?(diary_entry = nil)
+  def active?(diary_entry)
     on_time?(diary_entry) && triggers.all? {|t| t.active?(diary_entry) }
   end
 
   def on_time?(diary_entry)
     result = true
-    if from_day && diary_entry
+    if from_day
         result &= ((report.start_date + from_day.days) <= diary_entry.moment)
     end
-    if to_day && diary_entry
+    if to_day
         result &= (diary_entry.moment <= (report.start_date + to_day.days))
     end
 
-    if from_hour && to_hour && diary_entry
+    if from_hour && to_hour
       if from_hour <= to_hour
         result &= (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
       else

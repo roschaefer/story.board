@@ -4,7 +4,8 @@ RSpec.describe SensorDecorator do
   let(:sensor)         { create(:sensor, name: 'SensorXY', sensor_type: sensor_type ) }
   let(:sensor_type)    { create(:sensor_type, property: 'Temperature', unit: '°C') }
 
-  subject { described_class.new sensor }
+  let(:diary_entry) { DiaryEntry.new(release: :final) }
+  subject { described_class.new(sensor, diary_entry) }
 
   describe '#last_value' do
 
@@ -21,14 +22,15 @@ RSpec.describe SensorDecorator do
       end
 
       context 'release :debug' do
-        subject { super().last_value(DiaryEntry.new(release: :debug)) }
+        let(:diary_entry) { DiaryEntry.new(release: :debug) }
+        subject { super().last_value }
         it { is_expected.to eq '-3.0 °C'}
       end
 
     end
 
     context 'missing sensory data' do
-      subject { super().last_value() }
+      subject { super().last_value }
       it { is_expected.to eq '(Sorry, leider habe ich gerade keine Daten für dich!)' }
     end
 

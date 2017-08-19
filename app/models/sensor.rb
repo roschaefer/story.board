@@ -36,9 +36,9 @@ class Sensor < ActiveRecord::Base
     end
   end
 
-  def last_reading(diary_entry = nil)
-    release = diary_entry&.release || :final
-    at = diary_entry&.moment || Time.now
+  def last_reading(diary_entry)
+    release = diary_entry.release || :final
+    at = diary_entry.moment || Time.now
     sensor_readings.send(release).created_before(at).last
   end
 

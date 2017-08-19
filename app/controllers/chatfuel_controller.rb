@@ -1,17 +1,15 @@
 class ChatfuelController < ApplicationController
-  def show
-    if @report
-      @topic = Topic.find_by(name: params[:topic])
-      if @topic
-        relevant_text_components = @report.active_chatbot_components.select {|c| c.topic_id == @topic.id}
-        @text_component = Text::Sorter.sort(relevant_text_components).first
+  before_action :set_live_diary_entry
 
-        if @text_component
-          @next_question_answer = @text_component.question_answers.first
-          render json: json_response
-        else
-          render json: {}, status: 404
-        end
+  def show
+    @topic = Topic.find_by(name: params[:topic])
+    if @topic
+      relevant_text_components = @report.active_chatbot_components(@live_entry).select {|c| c.topic_id == @topic.id}
+      @text_component = Text::Sorter.sort(relevant_text_components).first
+
+      if @text_component
+        @next_question_answer = @text_component.question_answers.first
+        render json: json_response
       else
         render json: {}, status: 404
       end
@@ -37,9 +35,9 @@ class ChatfuelController < ApplicationController
 
   def json_response
     if @question_answer
-      text = Text::Renderer.new(text_component: @text_component).render_string(@question_answer.answer)
+      text = Text::Renderer.new(text_component: @text_component, diary_entry: @live_entry).render_string(@question_answer.answer)
     else
-      text = Text::Renderer.new(text_component: @text_component).render(:main_part)
+      text = Text::Renderer.new(text_component: @text_component, diary_entry: @live_entry).render(:main_part)
     end
 
     content = text.first(640);
@@ -79,5 +77,9 @@ class ChatfuelController < ApplicationController
         ]
       }
     end
+  end
+
+  def set_live_diary_entry
+    @live_entry = DiaryEntry.new(report: @report, release: :final, moment: Time.zone.now)
   end
 end

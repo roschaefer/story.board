@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Report, type: :model do
+  let(:diary_entry) { DiaryEntry.new }
   let(:report) { create(:report) }
 
   describe '#current' do
@@ -17,7 +18,7 @@ RSpec.describe Report, type: :model do
   end
 
   describe '#active_sensor_story_components' do
-    subject { report.active_sensor_story_components }
+    subject { report.active_sensor_story_components(diary_entry) }
     let(:sensor)          { create :sensor }
     it { is_expected.to be_empty }
 
@@ -37,8 +38,8 @@ RSpec.describe Report, type: :model do
         end
 
         context 'for sensor readings with a certain intent' do
-          subject { report.active_sensor_story_components diary_entry}
           let(:diary_entry) { DiaryEntry.new(report: report, release: release) }
+          subject { report.active_sensor_story_components(diary_entry) }
           before do
             create(:sensor_reading, sensor: sensor, release: :debug, calibrated_value: 2)
             create(:sensor_reading, sensor: sensor, release: :final, calibrated_value: 0)

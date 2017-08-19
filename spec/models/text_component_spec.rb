@@ -79,8 +79,9 @@ RSpec.describe TextComponent, type: :model do
   end
 
   describe '#active?' do
+    let(:diary_entry) { DiaryEntry.new }
     let(:text_component) { create(:text_component) }
-    subject { text_component.active? }
+    subject { text_component.active?(diary_entry) }
 
     context 'triggers empty' do
       it { is_expected.to be true }

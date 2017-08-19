@@ -1,6 +1,6 @@
 module Text
   class Renderer
-    def initialize(text_component:, diary_entry: nil)
+    def initialize(text_component:, diary_entry:)
       @text_component = text_component
       @report = @text_component.report
       @diary_entry = diary_entry
@@ -20,8 +20,8 @@ module Text
 
         sensor_markup = rendered.scan(/{\s*value\(\s*(\d+)\s*\)\s*}/).flatten
         Sensor.where(:id => sensor_markup).each do |sensor|
-          s = SensorDecorator.new(sensor)
-          rendered.gsub!(/({\s*value\(\s*(#{ s.id })\s*\)\s*})/, s.last_value(@diary_entry))
+          s = SensorDecorator.new(sensor, @diary_entry)
+          rendered.gsub!(/({\s*value\(\s*(#{ s.id })\s*\)\s*})/, s.last_value)
         end
 
         event_markup = rendered.scan(/{\s*date\(\s*(\d+)\s*\)\s*}/).flatten

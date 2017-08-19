@@ -53,7 +53,8 @@ describe Sensor, type: :model do
     before { first; second }
 
     it 'returns last sensor reading by default' do
-      expect(sensor.last_reading).to eq second
+      diary_entry = DiaryEntry.new
+      expect(sensor.last_reading(diary_entry)).to eq second
     end
 
     it 'returns last sensor reading at a given point in time' do

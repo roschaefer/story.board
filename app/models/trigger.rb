@@ -15,11 +15,11 @@ class Trigger < ActiveRecord::Base
     order('LOWER("triggers"."name")')
   end
 
-  def active?(diary_entry = nil)
+  def active?(diary_entry)
     conditions_fullfilled?(diary_entry) && events_active?(diary_entry)
   end
 
-  def conditions_fullfilled?(diary_entry = nil)
+  def conditions_fullfilled?(diary_entry)
     conditions.all? do |condition|
       reading = condition.last_reading(diary_entry)
       if reading
@@ -34,7 +34,7 @@ class Trigger < ActiveRecord::Base
     end
   end
 
-  def events_active?(diary_entry = nil)
-    events.all? {|e| e.active?(diary_entry&.moment)}
+  def events_active?(diary_entry)
+    events.all? {|e| e.active?(diary_entry.moment)}
   end
 end
