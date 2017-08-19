@@ -11,8 +11,8 @@ module CommonFilters
 
     def filter_timestamp(query_relation, filter_params, timestamp_column = 'created_at')
       qr = query_relation
-      qr = qr.where("#{timestamp_column} >= ?",  Time.parse(filter_params[:from])) if filter_params[:from]
-      qr = qr.where("#{timestamp_column} <= ?",  Time.parse(filter_params[:to])) if filter_params[:to]
+      qr = qr.where("#{timestamp_column} >= ?",  Time.zone.parse(filter_params[:from])) if filter_params[:from]
+      qr = qr.where("#{timestamp_column} <= ?",  Time.zone.parse(filter_params[:to])) if filter_params[:to]
       qr
     end
 
