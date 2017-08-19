@@ -169,8 +169,8 @@ ActiveRecord::Schema.define(version: 20170819155959) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "assignee_id"
     t.integer  "publication_status", default: 0
+    t.integer  "assignee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"

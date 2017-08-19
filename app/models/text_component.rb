@@ -46,10 +46,10 @@ class TextComponent < ActiveRecord::Base
 
     if from_hour && to_hour && diary_entry
       if from_hour <= to_hour
-        result = (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
+        result &= (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
       else
         # e.g. 21:00 -> 6:00
-        result = (diary_entry.moment.hour < to_hour ) || (from_hour <= diary_entry.moment.hour)
+        result &= (diary_entry.moment.hour < to_hour ) || (from_hour <= diary_entry.moment.hour)
       end
     end
     result
