@@ -1,6 +1,7 @@
 class SensorReadingsController < ApplicationController
   include CommonFilters
   before_action :set_sensor
+  before_action :authenticate_user!, except: %i[index create debug]
 
   def index
     from_and_to_params_are_dates(filter_params) or return
