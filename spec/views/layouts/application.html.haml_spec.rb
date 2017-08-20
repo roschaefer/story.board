@@ -1,28 +1,85 @@
 require 'rails_helper'
 
 RSpec.describe "layouts/application", type: :view do
-  let(:report) { create(:report) }
 
   before do
-    assign(:report, report)
-    assign(:report, report)
+    assign(:subnav_items, [
+      [
+        {
+          name: "First Level Item 1",
+          url: "/ressource/1",
+          active: false,
+        },
+        {
+          name: "First Level Item 2",
+          url: "ressource/2",
+          active: true,
+        },
+        {
+          name: "First Level Item 3",
+          url: "ressource/3",
+          active: true,
+        }
+      ], [
+        {
+          name: "Second Level Item 1",
+          url: "/ressource/1/one",
+          active: true
+        },
+        {
+          name: "Second Level Item 2",
+          url: "/ressource/2/two",
+          active: false
+        }
+      ]
+    ])
+
+    assign(:primary_action, {
+      name: 'Primary Call To Action',
+      url: '/ressource/new'
+    })
+
+    assign(:secondary_actions, [
+      {
+        name: 'Secondary Action 1',
+        url: '/do/this'
+      }, {
+        name: 'Secondary Action 2',
+        url: '/and/that'
+      }
+    ])
+
+    render
+    @parsed = Capybara.string(rendered)
   end
 
-  context 'the current report is not the default report' do
-    before do
-      expect(Report.current.id).not_to eq(report.id)
+  context 'renders a breadcrumb menu' do
+
+    it 'has multiple levels' do
+      expect(@parsed).to have_css('.subnav__select', count: 2)
     end
 
-    it 'link to present points to the current report' do
-      render
-      parsed = Capybara.string(rendered)
-      expect(parsed).to have_css("a[href='/reports/present/#{report.id}']", text: 'Live-System')
+    it 'has multiple select options with respective labels and urls' do
+      expect(@parsed).to have_css('.subnav__breadcrumb__item:nth-child(1) select option', count: 3)
+      expect(@parsed).to have_css('.subnav__breadcrumb__item:nth-child(2) select option', count: 2)
+
+      expect(@parsed).to have_css(
+        '.subnav__breadcrumb__item:first-child select option:first-child[value="/ressource/1"]',
+        text: 'First Level Item 1'
+      )
+    end
+  end
+
+  context 'renders an action button' do
+    it 'has a single primary action' do
+      expect(@parsed).to have_css(
+        '.subnav__actions > .btn-primary[href="/ressource/new"]',
+        text: 'Primary Call To Action'
+      )
     end
 
-    it 'link preview points to the current report' do
-      render
-      parsed = Capybara.string(rendered)
-      expect(parsed).to have_css("a[href='/reports/preview/#{report.id}']", text: 'Preview')
+    it 'has multiple secondary actions' do
+      expect(@parsed).to have_css('.subnav__actions .dropdown-menu > .dropdown-item', count: 2, visible: false)
     end
   end
 end

@@ -23,9 +23,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_subnav
-    if ['reports', 'text_components', 'triggers', 'sensors', 'events'].include? params[:controller]
-      set_subnav_items
-      set_subnav_actions
+    if @report
+      if ['reports', 'text_components', 'triggers', 'sensors', 'events'].include?(params[:controller])
+        set_subnav_items
+        set_subnav_actions
+      end
     end
   end
 

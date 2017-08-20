@@ -9,7 +9,7 @@ Feature: Create Trigger
 
   Scenario:
     When I visit the landing page
-    And I click on "Triggers" in my dashboard
+    And I navigate to the trigger page
     And I click on "Add new trigger" to create a new trigger
     And I type in a name
     And I confirm the dialog

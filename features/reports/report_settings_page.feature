@@ -12,7 +12,7 @@ Feature: Report Settings page
     Given I am the journalist
     And my current live report is called "Me Wired"
     When I visit the landing page
-    And I select "Me Wired" from the settings in my dashboard
+    And I navigate to the settings page
     And I click on "Edit"
 
   @25
