@@ -84,10 +84,12 @@ class ApplicationController < ActionController::Base
 
       action = 'index'
 
-      if params[:controller] == 'reports' && ['present', 'preview'].include?(params[:action])
-        action = params[:action]
-      elsif params[:controller] == 'reports' && params[:action] == 'show'
-        action = 'show'
+      if params[:controller] == 'reports'
+        if params[:action] == 'present' || params[:action] == 'preview'
+          action = params[:action]
+        elsif params[:action] == 'show'
+          action = 'show'
+        end
       end
 
       {
@@ -129,7 +131,7 @@ class ApplicationController < ActionController::Base
     }
 
     primary_action = params[:controller]
-    if !actions.keys.include? params[:controller]
+    unless actions.keys.include? params[:controller]
       primary_action = 'text_components'
     end
 
