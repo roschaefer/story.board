@@ -108,6 +108,9 @@
               = image_tag @text_component.image.url
             = f.label :image, 'Upload image'
             = f.input :image, as: :file, :label => false, input_html: {class: ''}
+          .form__fieldset
+            = f.label :image_alt, 'Alt Text'
+            = f.input :image_alt, :label => false
 
 
       .form__section
