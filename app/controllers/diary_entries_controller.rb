@@ -7,8 +7,9 @@ class DiaryEntriesController < ApplicationController
     @diary_entries = DiaryEntry.where(report: @report).order(:moment)
     @diary_entries = filter_release(@diary_entries, filter_params)
     @diary_entries = filter_timestamp(@diary_entries, filter_params, 'moment')
-    unless filter_params[:from] && filter_params[:to]
-      @live_entry = DiaryEntry.new(report: @report, release: :final, id: 0) 
+    unless filter_params[:from] || filter_params[:to]
+      release = params[:release] || :final
+      @live_entry = DiaryEntry.new(report: @report, release: release, id: 0)
     end
     @diary_entries
   end

@@ -51,9 +51,10 @@ RSpec.describe "DiaryEntries", type: :request do
         describe 'for #release' do
           context 'params: { filter: {release: "debug" }' do
             let(:params) { { release: "debug" } }
-            it 'contains only diary entries 2 and 3' do
-              expect(js[0]['id']).to eq 2
-              expect(js.count).to eq 1
+            it 'contains only diary entries 2 and the live entry' do
+              expect(js[0]['id']).to eq 0
+              expect(js[1]['id']).to eq 2
+              expect(js.count).to eq 2
             end
           end
         end
