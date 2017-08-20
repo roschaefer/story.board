@@ -48,7 +48,7 @@ class ReportsController < ApplicationController
   end
 
   def diary_entries
-    DiaryEntry.where(report: @report).order(:moment).reverse_order
+    DiaryEntry.where(report: @report).order(:moment).reverse_order.limit(3)
   end
 
   def report_params
