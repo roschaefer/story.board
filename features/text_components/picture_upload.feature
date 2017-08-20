@@ -10,8 +10,7 @@ Feature: Picture Upload
     When I edit an existing text component
     And in section Image I choose my file "testbild.png" for upload
     And I submit the form and upload the image
-    Then a request to Amazon S3 is made with my chosen file
-    And the text component starts with the url
+    Then the text component image url starts with
     """
     /system/text_components/images/000/000/001/original/cow.jpg
     """

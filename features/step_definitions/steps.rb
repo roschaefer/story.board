@@ -1392,11 +1392,7 @@ When(/^in section Image I choose my file "([^"]*)" for upload$/) do |arg1|
   end
 end
 
-Then(/^a request to Amazon S(\d+) is made with my chosen file$/) do |arg1|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the text component starts with the url$/) do |string|
+Then(/^the text component image url starts with$/) do |string|
   @text_component.reload
   expect(@text_component.image.url).to start_with(string)
 end

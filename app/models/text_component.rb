@@ -85,7 +85,7 @@ class TextComponent < ActiveRecord::Base
   end
 
   def image_url
-    if self.image?
+    if self.image&.url
       return self.image.url
     end
     return nil
