@@ -35,3 +35,9 @@ Feature: GET recent entries
   Scenario: Get all diary entries within a certain timeframe
     When I send a GET request to "/reports/4711/diary_entries?from=2017-06-22T00:00:00&to=2017-06-24T00:00:00"
     Then the JSON response should include the diary entries 3 and 4
+
+  Scenario: Visit the URL of the live entry
+    Given I have a text component that is active right now
+    When I send a GET request to "/reports/4711/diary_entries"
+    And I follow the URL of the live entry (id == 0)
+    Then the JSON response should include the active text component

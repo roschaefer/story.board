@@ -1504,3 +1504,19 @@ end
 Given(/^the current date is "([^"]*)"$/) do |date|
   Timecop.travel(Time.parse(date))
 end
+
+Given(/^I have a text component that is active right now$/) do
+  create(:text_component, report: Report.find(4711), main_part: "I am in!")
+end
+
+When(/^I follow the URL of the live entry \(id == 0\)$/) do
+  json_response = JSON.parse(last_response.body)
+  expect(json_response[0]['id']).to eq 0
+  request json_response[0]['url'], method: :get
+end
+
+Then(/^the JSON response should include the active text component$/) do
+  json_response = JSON.parse(last_response.body)
+  expect(json_response['text_components'][0]['main_part']).to eq('I am in!')
+end
+
