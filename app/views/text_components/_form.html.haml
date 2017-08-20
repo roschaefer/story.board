@@ -1,5 +1,5 @@
 .textComponentsForm
-  = simple_form_for([@report, @text_component]) do |f|
+  = simple_form_for([@report, @text_component], multipart: true) do |f|
     = f.error_notification
     .form
       .form__section
@@ -62,7 +62,7 @@
 
         .form__section__body
           .text-editor{data: {'editor-data': {sensors: @sensors.map{ |s| [s.id, s.name]}.to_h, events: @events.map{ |e| [e.id, e.name] }.to_h }.to_json }}
-          
+
             .text-editor__toolbar
               = render 'shared/text_editor/buttons'
 
@@ -98,6 +98,25 @@
         .form__section__header
           %h4.step
             .step__counter 5
+            Image
+            .step__action
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+        .form__section__body
+          .field.image__field
+            - if @text_component&.image&.exists?
+              = image_tag @text_component.image.url
+            = f.label :image, 'Upload image'
+            = f.input :image, as: :file, :label => false, input_html: {class: ''}
+          .form__fieldset
+            = f.label :image_alt, 'Alt Text'
+            = f.input :image_alt, :label => false
+
+
+      .form__section
+        .form__section__header
+          %h4.step
+            .step__counter 6
             Output
             .step__action
               %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit

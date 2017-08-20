@@ -1,7 +1,7 @@
 def number_or_nil(number_string)
   begin
     return Integer(number_string)
-  rescue 
+  rescue
     nil
   end
 end
@@ -1476,4 +1476,19 @@ end
 
 When(/^I visit "([^"]*)"$/) do |url|
   visit url
+end
+
+When(/^in section Image I choose my file "([^"]*)" for upload$/) do |arg1|
+  within_text_component_section('Image') do
+      attach_file("Upload image", Rails.root + "fixtures/cow.jpg")
+  end
+end
+
+Then(/^the text component image url starts with$/) do |string|
+  @text_component.reload
+  expect(@text_component.image.url).to start_with(string)
+end
+
+When(/^I submit the form and upload the image$/) do
+  click_on "Update Text component"
 end

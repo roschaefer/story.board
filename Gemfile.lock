@@ -54,6 +54,14 @@ GEM
     arel (7.1.4)
     autoprefixer-rails (7.1.2.6)
       execjs
+    aws-sdk (2.10.29)
+      aws-sdk-resources (= 2.10.29)
+    aws-sdk-core (2.10.29)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.10.29)
+      aws-sdk-core (= 2.10.29)
+    aws-sigv4 (1.0.1)
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -85,7 +93,10 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
     chronic (0.10.2)
+    climate_control (0.2.0)
     cliver (0.3.2)
+    cocaine (0.5.8)
+      climate_control (>= 0.0.3, < 1.0)
     cocoon (1.2.10)
     coderay (1.1.1)
     coffee-rails (4.1.1)
@@ -174,6 +185,7 @@ GEM
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    jmespath (1.3.1)
     jquery-rails (4.3.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -196,6 +208,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mimemagic (0.3.2)
     mini_mime (0.1.4)
     mini_portile2 (2.2.0)
     minitest (5.10.3)
@@ -212,6 +225,12 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
+    paperclip (5.1.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      cocaine (~> 0.5.5)
+      mime-types
+      mimemagic (~> 0.3.0)
     pg (0.21.0)
     poltergeist (1.16.0)
       capybara (~> 2.1)
@@ -371,6 +390,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk (~> 2.3)
   bootstrap!
   capistrano
   capistrano-db-tasks
@@ -389,6 +409,7 @@ DEPENDENCIES
   highline
   jbuilder (~> 2.0)
   jquery-rails
+  paperclip
   pg
   poltergeist
   pry
@@ -414,4 +435,4 @@ DEPENDENCIES
   whenever-test
 
 BUNDLED WITH
-   1.15.3
+   1.15.4

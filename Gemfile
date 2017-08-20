@@ -39,6 +39,11 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever', :require => false
 gem 'devise'
 
+# Image upload to Amazon S3 Storage Cloud
+gem 'paperclip'
+gem 'aws-sdk', '~> 2.3'
+
+
 group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low
   gem 'factory_girl_rails'
