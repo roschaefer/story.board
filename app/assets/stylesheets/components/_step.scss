@@ -15,7 +15,7 @@
     line-height: 2rem;
 
     font-size: $font-size-base;
-    background-color: $brand-primary;
+    background-color: theme-color('primary');
     color: white;
     border-radius: 50%;
 }

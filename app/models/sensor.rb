@@ -16,13 +16,16 @@ class Sensor < ActiveRecord::Base
   validates :address, uniqueness: true
   validates :sensor_type, presence: true
   validates :animal_id, uniqueness: { scope: :sensor_type }, :allow_nil => true
+  validates :device_id, uniqueness: { scope: :sensor_type }, :allow_nil => true
+
 
   before_validation do
-    self.animal_id = nil if self.animal_id.blank?
+      self.animal_id = nil if self.animal_id.blank?
+      self.device_id = nil if self.device_id.blank?
   end
 
-  def name_and_id
-    "#{name} (#{id})"
+  def self.default_scope
+    order('LOWER("sensors"."name")')
   end
 
   def address=(value)
@@ -35,7 +38,7 @@ class Sensor < ActiveRecord::Base
 
   def last_reading(diary_entry = nil)
     release = diary_entry&.release || :final
-    at = diary_entry&.moment || DateTime.now
+    at = diary_entry&.moment || Time.now
     sensor_readings.send(release).created_before(at).last
   end
 

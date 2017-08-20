@@ -29,18 +29,28 @@
 
 .range__tooltip {
     position: absolute;
-    top: -.4em;
-    transform: translate(-50%, -100%);
+    top: -.5em;
+    z-index: 1;
+    
+    margin-top: 2px;
     padding: .125em .5em;
 
     font-size: .8em;
     white-space: nowrap;
-    background-color: $brand-primary;
+    background-color: theme-color('primary');
     color: #fff;
     border-radius: 3px;
 
     opacity: 0;
     transition: opacity .2s ease-in-out;
+}
+
+.range__tooltip--low {
+    transform: translate(-100%, 0);
+}
+
+.range__tooltip--high {
+    transform: translate(0, 0);
 }
 
 .range:hover .range__tooltip, .range:active .range__tooltip {

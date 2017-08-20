@@ -38,7 +38,7 @@ var Editor = (function($, autosize) {
          * @type {function[]}
          */
         this.commands = {
-            'text': function($context) {
+            text: function($context) {
                 return $context.data().editorMarkupText;
             },
         };
@@ -53,7 +53,7 @@ var Editor = (function($, autosize) {
         var self = this;
 
         // set all event handlers on toolbar buttons
-        self.$toolbar.find('[data-editor-markup-command]').on('click', function(e) {
+        self.$toolbar.find('[data-editor-markup-button]').on('click', function(e) {
             e.preventDefault();
 
             var command = $(this).data().editorMarkupCommand;
@@ -227,10 +227,12 @@ var Editor = (function($, autosize) {
             .on('blur', function() {
                 self.editor.saveFocus(self);
             })
-            .on('input change keyup click blur', function() {
-                self.handleCursor();
-                self.render();
-                self.updateCount();
+            .on('input keydown mousedown blur focus', function() {
+                window.setTimeout(function() {
+                    self.handleCursor();
+                    self.render();
+                    self.updateCount();
+                }, 1);
             })
 
         self.render();

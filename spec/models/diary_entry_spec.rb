@@ -75,11 +75,13 @@ RSpec.describe DiaryEntry, type: :model do
 
     context 'when maximum limit is reached' do
       before do
+        stub_const("DiaryEntry::LIMIT", 10)
         DiaryEntry::LIMIT.times do 
           diary_entry = DiaryEntry.new(report: Report.current)
           diary_entry.archive!
         end
       end
+
       it 'number of diary entries stay the same' do
         expect{ subject }.not_to change{ report.diary_entries.size }
       end

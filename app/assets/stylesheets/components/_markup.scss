@@ -9,15 +9,15 @@
 }
 
 .markup--sensor {
-    background-color: rgba($brand-primary, .2);
+    background-color: rgba(theme-color('primary'), .2);
 }
 
 .markup--event {
-    background-color: rgba($brand-success, .2);
+    background-color: rgba(theme-color('success'), .2);
 }
 
 .markup--error {
-    background-color: rgba($brand-danger, .3);
+    background-color: rgba(theme-color('success'), .3);
 }
 
 .markup__type {

@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170818175456) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -109,6 +110,18 @@ ActiveRecord::Schema.define(version: 20170818175456) do
     t.index ["text_component_id"], name: "index_question_answers_on_text_component_id", using: :btree
   end
 
+  create_table "records", force: :cascade do |t|
+    t.string   "heading"
+    t.string   "introduction"
+    t.string   "main_part"
+    t.string   "closing"
+    t.integer  "report_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "intention",    default: 0
+    t.index ["report_id"], name: "index_records_on_report_id", using: :btree
+  end
+
   create_table "reports", force: :cascade do |t|
     t.date     "start_date"
     t.datetime "created_at", null: false
@@ -200,10 +213,10 @@ ActiveRecord::Schema.define(version: 20170818175456) do
 
   create_table "triggers", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "report_id"
-    t.integer  "priority"
+    t.integer  "priority",        default: 1
     t.integer  "validity_period"
     t.integer  "from_hour"
     t.integer  "to_hour"

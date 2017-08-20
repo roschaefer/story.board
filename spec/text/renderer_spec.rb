@@ -46,13 +46,13 @@ RSpec.describe Text::Renderer do
           let!(:event)      { create(:event, id: 42, name: "DEATH", triggers: [trigger]) }
 
           context 'has happened' do
-            before { event.start DateTime.parse('2018-02-02') }
+            before { event.start Time.zone.parse('2017-02-02') }
             it { is_expected.to eq("some content")}
 
             describe 'markup for the day of the event' do
               let(:main_part)      { 'Day of your death: { date(42) }' }
               it 'renders the day of the event' do
-                is_expected.to eq('Day of your death: 2.2.2018')
+                is_expected.to eq('Day of your death: 2.2.2017')
               end
             end
           end

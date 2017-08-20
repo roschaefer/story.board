@@ -1,0 +1,14 @@
+%ul.nav.nav-tabs.mb-4{role: 'tablist'}
+  %li.nav-item
+    %a.nav-link.active{'role' => 'tab', "data-toggle" => "tab", :href => "#textComponent-create-useTrigger"} Use an existing trigger
+
+  %li.btn or
+
+  %li.nav-item
+    %a.nav-link{'role' => 'tab', "data-toggle" => "tab", :href => "#textComponent-create-newTrigger"} Create with new trigger
+
+.tab-content
+  .tab-pane.active#textComponent-create-useTrigger{role: 'tabpanel'}
+    = render 'form', text_component: @text_component
+  .tab-pane#textComponent-create-newTrigger{role: 'tabpanel'}
+    = render 'form', text_component: @text_component, create_trigger: true

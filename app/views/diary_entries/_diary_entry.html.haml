@@ -1,7 +1,7 @@
 - if diary_entry.live?
   %h3.main-heading= "#{diary_entry.heading} (aktuell generiert)"
 - else
-  %h3.main-heading= "#{diary_entry.heading} (#{diary_entry.created_at.in_time_zone(Report::TIME_ZONE).strftime(Report::DATE_TIME_FORMAT)})"
+  %h3.main-heading= "#{diary_entry.heading} (#{diary_entry.created_at.strftime(Report::DATE_TIME_FORMAT)})"
 %p
   = diary_entry.introduction.html_safe
   %em

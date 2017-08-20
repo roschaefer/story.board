@@ -11,7 +11,7 @@ class DiaryEntry < ActiveRecord::Base
 
 
   enum release: [:final, :debug]
-  LIMIT = 10
+  LIMIT = 30000
   belongs_to :report
 
   def live?
@@ -20,6 +20,10 @@ class DiaryEntry < ActiveRecord::Base
 
   def text_components
     report.active_sensor_story_components(self)
+  end
+
+  def rendered_text_components
+    text_components.collect { |component| TextComponentDecorator.new(component, self) }
   end
 
   def archive!

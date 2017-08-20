@@ -13,24 +13,23 @@ class Trigger < ActiveRecord::Base
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 
   enum priority: { very_low: -1, low: 0, medium: 1, high: 2, urgent: 3}
-  after_initialize :set_defaults, unless: :persisted?
 
-  def set_defaults
-    self.priority ||= :medium
+  def self.default_scope
+    order('LOWER("triggers"."name")')
   end
 
   def active?(diary_entry = nil)
-    on_time? && conditions_fullfilled?(diary_entry) && events_active?
+    on_time?(diary_entry) && conditions_fullfilled?(diary_entry) && events_active?(diary_entry)
   end
 
-  def on_time?
+  def on_time?(diary_entry)
     result = true
-    if from_hour && to_hour
+    if from_hour && to_hour && diary_entry
       if from_hour <= to_hour
-        result = (from_hour <= Time.now.hour ) && (Time.now.hour < to_hour)
+        result = (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
       else
         # e.g. 21:00 -> 6:00
-        result = (Time.now.hour < to_hour ) || (from_hour <= Time.now.hour)
+        result = (diary_entry.moment.hour < to_hour ) || (from_hour <= diary_entry.moment.hour)
       end
     end
     result
@@ -52,8 +51,8 @@ class Trigger < ActiveRecord::Base
     end
   end
 
-  def events_active?
-    events.all? {|e| e.active?}
+  def events_active?(diary_entry = nil)
+    events.all? {|e| e.active?(diary_entry&.moment)}
   end
 
 

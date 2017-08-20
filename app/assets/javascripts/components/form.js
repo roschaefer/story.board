@@ -19,7 +19,7 @@ var Form = (function($) {
             sectionActive: 'form__section--active',
             openLink: 'form__section__action--open',
             nextLink: 'form__section__action--next',
-            formWrapper: 'modal',
+            formWrapper: 'textComponentsForm',
         }
 
         this.init();

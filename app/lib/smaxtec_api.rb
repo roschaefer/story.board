@@ -31,9 +31,61 @@ class SmaxtecApi
     'Event: Medium heat stress' => 602,
     'Event: High heat stress' => 603
   }
+  DEVICE_MAPPING = {
+    'Temperature' => 'temp',
+    'Relative Humidity' => 'hum',
+    'THI' => 'temp_hum_index'
+  }
+
+
+  def update_device_readings
+    puts "[#{Time.zone.now}] Started update_device_readings"
+    abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
+    Sensor.where.not(device_id: nil).each do |sensor|
+      device_type = DEVICE_MAPPING[sensor.property]
+      if device_type
+        puts "Getting device readings from Smaxtec for device sensor: #{sensor.name}"
+        readings = device_readings(sensor)
+        if readings
+          readings.each do |reading|
+            if reading.new_record?
+              if reading.save
+                puts "New device reading: #{reading.created_at} - #{reading.calibrated_value} #{reading.sensor.sensor_type.unit}"
+              else
+                puts reading.errors
+              end
+            end
+          end
+        else
+          puts "No new device readings for sensor: #{sensor.name}"
+        end
+      end
+    end
+  end
+
+
+  def device_readings(sensor)
+    metric = DEVICE_MAPPING[sensor.property]
+    temp_data = send_api_request('/data/query', { :device_id => sensor.device_id, :metric => metric, :from_date => Time.now.to_i - 43200, :to_date => Time.now.to_i })
+    if temp_data && temp_data['data'].count > 1
+      readings = []
+      temp_data['data'].each do |data|
+        timestamp = data[0]
+        value = data[1]
+        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.zone.strptime(timestamp.to_s,'%s'), updated_at: Time.zone.strptime(timestamp.to_s,'%s')) do |reading|
+          reading.calibrated_value = value
+          reading.uncalibrated_value = value
+        end
+      end
+      return readings
+    else
+      return nil
+    end
+  end
+
 
   def update_events
-    puts "[" + Time.now.to_s + "] " + "Started update_events"
+    puts "[#{Time.zone.now.to_s}] Started update_events"
     abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
     Sensor.where.not(animal_id: nil).each do |sensor|
       event_type = EVENT_MAPPING[sensor.property]
@@ -68,7 +120,7 @@ class SmaxtecApi
         timestamp = data['timestamp']
         value = 1
         if data['event_type'] == event_type
-          events << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: DateTime.strptime(timestamp.to_s,'%s'), updated_at: DateTime.strptime(timestamp.to_s,'%s')) do |event|
+          events << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.strptime(timestamp.to_s,'%s'), updated_at: Time.strptime(timestamp.to_s,'%s')) do |event|
             event.calibrated_value = value
             event.uncalibrated_value = value
           end
@@ -82,7 +134,7 @@ class SmaxtecApi
 
 
   def update_sensor_readings
-    puts "[" + Time.now.to_s + "] " + "Started update_sensor_readings"
+    puts "[#{Time.now}] Started update_sensor_readings"
     abort("missing SMAXTEC_API_EMAIL and SMAXTEC_API_PASSWORD") unless SMAXTEC_API_PASSWORD && SMAXTEC_API_PASSWORD
     Sensor.where.not(animal_id: nil).each do |sensor|
       puts "Getting latest sensory data from Smaxtec for sensor: #{sensor.name}"
@@ -107,8 +159,9 @@ class SmaxtecApi
   def smaxtec_sensor_readings(sensor)
     metric = PROPERTY_MAPPING[sensor.property]
     event = EVENT_MAPPING[sensor.property]
+    device_metric = DEVICE_MAPPING[sensor.property]
     unless metric
-      unless event
+      unless event && device_metric
         puts "Sensor #{sensor.name} has unrecognized property: #{sensor.property}"
       end
       return nil
@@ -120,7 +173,7 @@ class SmaxtecApi
       temp_data['data'].each do |data|
         timestamp = data[0]
         value = data[1]
-        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: DateTime.strptime(timestamp.to_s,'%s'), updated_at: DateTime.strptime(timestamp.to_s,'%s')) do |reading|
+        readings << Sensor::Reading.find_or_initialize_by(sensor_id: sensor.id, smaxtec_timestamp: timestamp, created_at: Time.strptime(timestamp.to_s,'%s'), updated_at: Time.strptime(timestamp.to_s,'%s')) do |reading|
           reading.calibrated_value = value
           reading.uncalibrated_value = value
         end

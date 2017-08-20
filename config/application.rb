@@ -24,6 +24,7 @@ module StoryBoard
 
     config.generators.helper = false
 
+    config.time_zone = 'Berlin'
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do

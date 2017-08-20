@@ -1,7 +1,7 @@
 = button_tag "Add Sensor Reading manually", :id => 'unhide_sensor_reading_form', :class => "btn btn-primary"
 
 #sensor_reading_form.container
-  = simple_form_for :sensor_reading, url: sensor_readings_path, remote: true do |f|
+  = simple_form_for :sensor_reading, url: report_sensor_readings_path(@report, @sensor), remote: true do |f|
     %h4 Add sensor reading manually
     = f.hidden_field :sensor_id, :value => @sensor.id
     .form-group.row

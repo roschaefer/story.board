@@ -1,3 +1,11 @@
+def number_or_nil(number_string)
+  begin
+    return Integer(number_string)
+  rescue
+    nil
+  end
+end
+
 def click_regardless_of_overlapping_elements(node)
   if Capybara.current_driver == :poltergeist
     node.trigger('click')
@@ -74,7 +82,7 @@ end
 
 Given(/^I have a ([^"]*) sensor called "([^"]*)"$/) do |property, name|
   temperature_type = create(:sensor_type, property: property.capitalize)
-  create :sensor, name: name, sensor_type: temperature_type
+  create(:sensor, name: name, sensor_type: temperature_type, report: Report.current)
 end
 
 Given(/^I have a trigger with the name "([^"]*)"$/) do |name|
@@ -164,7 +172,9 @@ Given(/^the latest sensor data looks like this:$/) do |table|
 end
 
 Then(/^I should NOT see:$/) do |string|
-  expect(page).not_to have_content(string)
+  string.split('[or]').each do |part|
+    expect(page).not_to have_content(part.strip)
+  end
 end
 
 Given(/^I am (?:a|the) (?:journalist|service team member)/) do
@@ -450,7 +460,7 @@ end
 
 Given(/^the event "([^"]*)" has happened on "([^"]*)"$/) do |name, date|
   event = Event.find_by(name: name)
-  event.start(DateTime.parse(date))
+  event.start(Time.zone.parse(date))
 end
 
 Given(/^we have this sensor data in our database:$/) do |table|
@@ -631,8 +641,8 @@ Given(/^I have these text components with the corresponding schedule in my datab
     create(:text_component,
            main_part: row['Text component'],
            report: Report.current,
-           from_day: row['From day'],
-           to_day: row['To day']
+           from_day: number_or_nil(row['From day']),
+           to_day: number_or_nil(row['To day'])
           )
   end
 end
@@ -672,7 +682,7 @@ When(/^all subsequent sensor readings will be intercepted for a while$/) do
       "calibrated_value": value,
       "uncalibrated_value": value,
     }.to_json
-    request '/sensor_readings', { method: :post, input: input }
+    request report_sensor_readings_path(Report.current, @sensor), { method: :post, input: input }
   end
   expect(@sensor.sensor_readings).to be_empty
 end
@@ -1034,7 +1044,7 @@ Then(/^I am on the text components page with only those assigned to me$/) do
   expect(page).to have_current_path("/reports/1/text_components?filter%5Bassignee_id%5D%5B%5D=#{@user.id}")
 end
 
-Given(/^I am on the text components page$/) do
+Given(/^I (?:am on|visit) the text components page$/) do
   visit report_text_components_path(Report.current)
 end
 
@@ -1215,7 +1225,11 @@ end
 Given(/^we have these diary entries in our database:$/) do |table|
   table.hashes.each do |row|
     report_id = row['Report id']
-    report = Report.find_by(id: report_id) || create(:report, id: report_id)
+    if report_id
+      report = Report.find_by(id: report_id) || create(:report, id: report_id)
+    else
+      report = Report.current
+    end
     create(:diary_entry, id: row['Id'], report: report, release: row['release'], moment: row['Moment'])
   end
 end
@@ -1258,7 +1272,7 @@ Given(/^I am composing some question answers for a text component$/) do
 end
 
 Given(/^I enter a question that is more than (\d+) characters long$/) do |count|
-  within('.qa__item') do
+  within('.qa') do
     find('.question-input').set('a' * (count.to_i + 1))
   end
 end
@@ -1322,6 +1336,15 @@ Then(/^I should see in section "([^"]*)":$/) do |section, string|
   end
 end
 
+
+When(/^I fill in these form fields in section "([^"]*)":$/) do |header, table|
+  table.raw.each do |row|
+    within_text_component_section(header) do
+      fill_in row[0], with: row[1]
+    end
+  end
+end
+
 Given(/^there is an event$/) do
   @event = create(:event)
 end
@@ -1363,6 +1386,15 @@ Then(/^I can see the history of the event, it looks like this:$/) do |table|
   end
 end
 
+Then(/^there is (\d+) trigger and (\d+) text component more in the database$/) do |count_triggers, count_text_components|
+  expect(Trigger.count).to eq(count_triggers.to_i)
+  expect(TextComponent.count).to eq(count_text_components.to_i)
+end
+
+Given(/^I visit the new text component page$/) do
+  visit new_report_text_component_path(Report.current)
+end
+
 Given(/^I want to start and stop events from the event index page$/) do
   visit events_path(Report.current)
 end
@@ -1384,6 +1416,66 @@ end
 
 Then(/^I am back on the events index page$/) do
   expect(page).to have_text('Listing events')
+end
+
+Given(/^we have these sensor readings for sensor (\d+) in our database:$/) do |sensor_id, table|
+  sensor = create(:sensor, id: sensor_id, report: Report.current)
+  table.hashes.each do |row|
+    create(:sensor_reading, sensor: sensor,
+           id: row['Id'],
+           created_at: row['Created at'],
+           calibrated_value: row['Calibrated value'],
+           uncalibrated_value: row['Uncalibrated value'],
+           release: row['Release']
+          )
+  end
+end
+
+
+When(/^notice that we OVERRIDE the given sensor id (\d+) here$/) do |arg1|
+  # just documentation
+end
+
+Given(/^a humidity sensor with some sensor readings$/) do
+  @diary_entry = DiaryEntry.first
+  @humidity_sensor = create(:sensor,
+         name: 'Humidity Sensor 1',
+         sensor_type: create(:sensor_type, property: 'humidity', unit: '%')
+        )
+  create(:sensor_reading,
+         created_at: (@diary_entry.moment - 2.weeks),
+         sensor: @humidity_sensor,
+         calibrated_value: 50)
+end
+
+Given(/^for this diary entry we have an active text component:$/) do |text|
+  trigger = create(:trigger, report: Report.current)
+  create(:condition,
+         sensor: @humidity_sensor,
+         trigger: trigger,
+         from: 0,
+         to: 100)
+  create(:text_component,
+         report: Report.current,
+         channels: [Channel.sensorstory],
+         main_part: text,
+         triggers: [trigger])
+end
+
+Given(/^the sensor live report started on "([^"]*)"$/) do |date|
+  @report = Report.current
+  @report.start_date = date
+  @report.save
+end
+
+Given(/^we have these diary entries for the report:$/) do |table|
+  table.hashes.each do |row|
+    create(:diary_entry, id: row['Id'], moment: row['Moment'], report: @report)
+  end
+end
+
+When(/^I visit "([^"]*)"$/) do |url|
+  visit url
 end
 
 When(/^in section Image I choose my file "([^"]*)" for upload$/) do |arg1|

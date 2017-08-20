@@ -15,7 +15,7 @@
         height: 100%;
         border-width: 0 1px 0 1px;
         border-style: solid;
-        border-color: lighten($brand-danger, 10);
+        border-color: lighten(theme-color('danger'), 10);
     }
 }
 

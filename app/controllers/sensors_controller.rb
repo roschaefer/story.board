@@ -43,7 +43,7 @@ class SensorsController < ApplicationController
 
   def stop_calibration
     @sensor.calibrating = false
-    @sensor.calibrated_at = Time.now
+    @sensor.calibrated_at = Time.zone.now
     @sensor.save!
     render 'show'
   end
@@ -59,6 +59,6 @@ class SensorsController < ApplicationController
   end
 
   def sensor_params
-    params.require(:sensor).permit(:name, :address, :sensor_type_id, :report_id, :unit, :animal_id)
+    params.require(:sensor).permit(:name, :address, :sensor_type_id, :report_id, :unit, :animal_id, :device_id)
   end
 end

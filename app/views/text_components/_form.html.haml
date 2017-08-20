@@ -1,150 +1,125 @@
-.container
-  = simple_form_for([@report, @text_component], :html => { :multipart => true }) do |f|
+.textComponentsForm
+  = simple_form_for([@report, @text_component], multipart: true) do |f|
     = f.error_notification
     .form
-      .row.form__section
-        .col
-          .form__section__header
-            %h4.step
-              .step__counter 1
-              General Information
-              .step__action
-                %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-                %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
-          .form__section__body
+      .form__section
+        .form__section__header
+          %h4.step
+            .step__counter 1
+            General Information
+            .step__action
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+        .form__section__body
 
-            = f.association :report, collection: Report.order('name'), selected: @report.id, input_html: {'data-choices': true}
+          .row
+            .col
+              = f.association :report, selected: @report.id, input_html: {'data-choices': true}
+            .col
+              = f.association :topic, label_method: :display_name, include_blank: 'No topic', input_html: {'data-choices': true}
 
-            = f.association :topic, collection: Topic.order('name'), label_method: :display_name, include_blank: 'No topic', input_html: {'data-choices': true}
+          .row
+            .col
+              = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'
+            .col
+              = f.association :assignee, label_method: :name, include_blank: 'No assignee', input_html: {'data-choices': true}
 
-            = f.input :publication_status, collection: TextComponent.publication_statuses.keys.to_a, label: 'Publication Status'
+          %label Notes
+          .notes-field
+            = f.input :notes, label: false, input_html: {class: 'notes-field__input', 'data-autosize': true}
 
-            = f.association :assignee, collection: User.order('LOWER(name)'), label_method: :name, include_blank: 'No assignee', input_html: {'data-choices': true}
-
-            %label Notes
-            .notes-field
-              = f.input :notes, label: false, input_html: {class: 'notes-field__input', 'data-autosize': true}
-
-      .row.form__section.form__section--active
-        .col
-          .form__section__header
-            %h4.step
-              .step__counter 2
-              Trigger
-              .step__action
-                %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-                %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
-          .form__section__body
-            .form__fieldset
-              - if local_assigns[:create_trigger]
-                = f.simple_fields_for :triggers do |trigger|
-                  = render 'triggers/trigger_fields', f: trigger, is_sub_form: true
-              - else
-                = f.association :triggers, collection: Trigger.order('name'), label_method: :name, input_html: {'data-choices': true}
-            .form__fieldset
-              .row
-                .col
-                  = f.input :from_day
-                .col
-                  = f.input :to_day
+      .form__section.form__section--active
+        .form__section__header
+          %h4.step
+            .step__counter 2
+            Trigger
+            .step__action
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+        .form__section__body
+          .form__fieldset
+            - if local_assigns[:create_trigger]
+              = f.simple_fields_for :triggers do |trigger|
+                = render 'triggers/trigger_fields', f: trigger, is_sub_form: true
+            - else
+              = f.association :triggers, collection: Trigger.where(report: @report), label_method: :name, input_html: {'data-choices': true}
+          .form__fieldset
+            .row
+              .col
+                = f.input :from_day
+              .col
+                = f.input :to_day
 
 
-      .row.form__section
-        .col
-          .form__section__header
-            %h4.step
-              .step__counter 3
-              Sensorstory-Text
-              .step__action
-                %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-                %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+      .form__section
+        .form__section__header
+          %h4.step
+            .step__counter 3
+            Sensorstory-Text
+            .step__action
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
 
-          .form__section__body
-            .text-editor{data: {'editor-data': {sensors: @sensors.map{ |s| [s.id, s.name]}.to_h, events: @events.map{ |e| [e.id, e.name] }.to_h }.to_json }}
-              .text-editor__toolbar
-                .text-editor__toolbar__item
-                  Sensors
-                  %select{'data-editor-markup-select': true}
-                    %option{disabled: true, selected: true} Please select a sensor
-                    - @sensors.each do |sensor|
-                      %option{data: {editor: {'markup-command': 'text', 'markup-text': "{value(#{sensor.id})}"}}}
-                        = sensor.name
-                .text-editor__toolbar__item
-                  Events
-                  %select{'data-editor-markup-select': true}
-                    %option{disabled: true, selected: true} Please select an event
-                    - @events.each do |event|
-                      %option{data: {editor: {'markup-command': 'text', 'markup-text': "{date(#{event.id})}"}}}
-                        = event.name
+        .form__section__body
+          .text-editor{data: {'editor-data': {sensors: @sensors.map{ |s| [s.id, s.name]}.to_h, events: @events.map{ |e| [e.id, e.name] }.to_h }.to_json }}
+
+            .text-editor__toolbar
+              = render 'shared/text_editor/buttons'
+
             .text-editor__fields
               .field.text-editor__field
-                .field__label Heading
-                = f.input :heading, as: :text, :label => false, input_html: {class: 'field__input'}
+                = f.input :heading, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
               .field.text-editor__field
-                .field__label Introduction
-                = f.input :introduction, as: :text, :label => false, input_html: {class: 'field__input'}
+                = f.input :introduction, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
               .field.text-editor__field
-                .field__label Main Part
-                = f.input :main_part, as: :text, :label => false, input_html: {class: 'field__input field__input--large'}
+                = f.input :main_part, as: :text, input_html: {class: 'field__input field__input--large'}, label_html: {class: 'field__label'}
+                .field__count
               .field.text-editor__field
-                .field__label Closing
-                = f.input :closing, as: :text, :label => false, input_html: {class: 'field__input'}
+                = f.input :closing, as: :text, input_html: {class: 'field__input'}, label_html: {class: 'field__label'}
 
 
-      .row.form__section
-        .col
-          .form__section__header
-            %h4.step
-              .step__counter 4
-              Chatbot Q/A
-              .step__action
-                %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
-                %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+      .form__section
+        .form__section__header
+          %h4.step
+            .step__counter 4
+            Chatbot Q/A
+            .step__action
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
 
-          .form__section__body
-            .qa
-              = f.simple_fields_for :question_answers do |question_answer|
-                = render 'question_answers/fields', f: question_answer
+        .form__section__body
+          = f.simple_fields_for :question_answers do |question_answer|
+            = render 'question_answers/fields', f: question_answer
 
-              = link_to_add_association button_tag("Add Question & Answer", type: 'button', class: 'btn btn-secondary'), f, :question_answers, partial: 'question_answers/fields.html.haml'
+          .links
+            = link_to_add_association button_tag("Add Question & Answer", type: 'button', class: 'btn btn-secondary'), f, :question_answers, partial: 'question_answers/fields.html.haml'
 
-      .row.form__section
-        .col
-          .form__section__header
-            %h4.step
-              .step__counter 5
-              Image
-              .step__action
-                %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
-          .form__section__body
-            .form__fieldset
-              .row
-                .col
-                  = f.label :image, 'Upload image'
-                  = f.input :image, as: :file, :label => false
-                  - if @text_component.image.exists?
-                    = image_tag @text_component.image.url(:small), :alt => @text_component.image_alt
-            .form__fieldset
-              .row
-                .col
-                  = f.label :image_alt, 'Alt Text'
-                  = f.input :image_alt, :label => false
+      .form__section
+        .form__section__header
+          %h4.step
+            .step__counter 5
+            Image
+            .step__action
+              %a.form__section__action--next.btn.btn-sm.btn-primary{href: '#', 'data-form-toggle': 'next-section'} Continue
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+        .form__section__body
+          .field.image__field
+            - if @text_component&.image&.exists?
+              = image_tag @text_component.image.url
+            = f.label :image, 'Upload image'
+            = f.input :image, as: :file, :label => false, input_html: {class: ''}
 
 
-      .row.form__section
-        .col
-          .form__section__header
-            %h4.step
-              .step__counter 6
-              Output
-              .step__action
-                %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
-          .form__section__body
-            = f.association :channels, collection: Channel.order('name'), selected: @text_component.channels.count > 0 ? @text_component.channel_ids : Channel.find_by({name: 'sensorstory'}).id, input_html: {'data-choices': true}
+      .form__section
+        .form__section__header
+          %h4.step
+            .step__counter 6
+            Output
+            .step__action
+              %a.form__section__action--open.btn.btn-sm.btn-secondary{href: '#', 'data-form-toggle': 'open-section'} Edit
+        .form__section__body
+          = f.association :channels, selected: @text_component.channels.count > 0 ? @text_component.channel_ids : Channel.find_by({name: 'sensorstory'}).id, input_html: {'data-choices': true}
 
-
-
-    .row
-      .col
-        .form-actions
-          = f.button :submit, class: 'btn btn-primary'
+      .form-group
+        = f.button :submit, class: 'btn btn-primary'
+        = link_to 'Back', report_text_components_path(@report), :class => "btn btn-secondary"
