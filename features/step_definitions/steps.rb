@@ -1223,8 +1223,16 @@ end
 Then(/^the JSON response should include the diary entries (\d+) and (\d+)$/) do |id1, id2|
   json_response = JSON.parse(last_response.body)
   expect(json_response.count).to eq 2
-  expect(json_response.first["id"]).to eq id1.to_i
-  expect(json_response.last["id"]).to eq id2.to_i
+  expect(json_response[0]["id"]).to eq id1.to_i
+  expect(json_response[1]["id"]).to eq id2.to_i
+end
+
+Then(/^the JSON response should include the diary entries (\d+), (\d+) and the live entry$/) do |id1, id2|
+  json_response = JSON.parse(last_response.body)
+  expect(json_response.count).to eq 3
+  expect(json_response[0]["id"]).to eq 0
+  expect(json_response[1]["id"]).to eq id1.to_i
+  expect(json_response[2]["id"]).to eq id2.to_i
 end
 
 Given(/^for that diary entry we have some text components and question answers$/) do
@@ -1478,3 +1486,23 @@ end
 When(/^I submit the form and upload the image$/) do
   click_on "Update Text component"
 end
+
+Given(/^the current date is "([^"]*)"$/) do |date|
+  Timecop.travel(Time.parse(date))
+end
+
+Given(/^I have a text component that is active right now$/) do
+  create(:text_component, report: Report.find(4711), main_part: "I am in!")
+end
+
+When(/^I follow the URL of the live entry \(id == 0\)$/) do
+  json_response = JSON.parse(last_response.body)
+  expect(json_response[0]['id']).to eq 0
+  request json_response[0]['url'], method: :get
+end
+
+Then(/^the JSON response should include the active text component$/) do
+  json_response = JSON.parse(last_response.body)
+  expect(json_response['text_components'][0]['main_part']).to eq('I am in!')
+end
+
