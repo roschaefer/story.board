@@ -26,13 +26,13 @@ RSpec.describe "TextComponents", type: :request do
       before { tc }
       it 'updates #from_hour' do
         expect do
-          patch "/reports/1/text_components/#{tc.id}", params: { text_component: { timeframe: '[6, 23]'}}
+          patch "/reports/#{tc.report.id}/text_components/#{tc.id}", params: { text_component: { timeframe: '[6, 23]'}}
         end.to change{ TextComponent.first.from_hour }.to(6)
       end
 
       it 'updates #to_hour' do
         expect do
-          patch "/reports/1/text_components/#{tc.id}", params: { text_component: { timeframe: '[6, 23]'}}
+          patch "/reports/#{tc.report.id}/text_components/#{tc.id}", params: { text_component: { timeframe: '[6, 23]'}}
         end.to change{ TextComponent.first.to_hour }.to(23)
       end
     end
