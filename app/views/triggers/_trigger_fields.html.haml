@@ -41,12 +41,6 @@
   = f.input :validity_period, input_html: {type: 'number', min: 0, max: 12}
   %small.form-text.text-muted Text component will be triggered for sensor readings within the last X hours
 
-.row
-  .col
-    = f.input :from_hour, collection: 0..23, as: :select
-  .col
-    = f.input :to_hour, collection: 0..23, as: :select
-
 - unless local_assigns[:is_sub_form]
   .form-actions
     .row

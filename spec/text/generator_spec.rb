@@ -262,10 +262,11 @@ RSpec.describe Text::Generator do
               end
 
               context 'markup references an unknown sensor' do
+                let(:diary_entry) { DiaryEntry.new }
                 let!(:text_component)  { create(:text_component, :active, text_component_params.merge(main_part: main_part)) }
                 let(:main_part)       { "Sensor value: { valueOf(4711) }" }
                 it { expect(text_component.sensors.pluck(:id)).not_to include(4711)}
-                it { expect(text_component).to be_active }
+                it { expect(text_component.active?(diary_entry)).to be_truthy }
                 describe 'markup' do
                   it('will be ignored') { expect(subject[:main_part]).to include('Sensor value: { valueOf(4711) }') }
                 end

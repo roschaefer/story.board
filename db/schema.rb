@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818175456) do
-
+ActiveRecord::Schema.define(version: 20170819155959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,18 +109,6 @@ ActiveRecord::Schema.define(version: 20170818175456) do
     t.index ["text_component_id"], name: "index_question_answers_on_text_component_id", using: :btree
   end
 
-  create_table "records", force: :cascade do |t|
-    t.string   "heading"
-    t.string   "introduction"
-    t.string   "main_part"
-    t.string   "closing"
-    t.integer  "report_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "intention",    default: 0
-    t.index ["report_id"], name: "index_records_on_report_id", using: :btree
-  end
-
   create_table "reports", force: :cascade do |t|
     t.date     "start_date"
     t.datetime "created_at", null: false
@@ -163,7 +150,6 @@ ActiveRecord::Schema.define(version: 20170818175456) do
     t.float    "max_value"
     t.float    "min_value"
     t.datetime "calibrated_at"
-    t.boolean  "smaxtec_sensor"
     t.string   "animal_id"
     t.string   "device_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
@@ -183,8 +169,8 @@ ActiveRecord::Schema.define(version: 20170818175456) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "assignee_id"
     t.integer  "publication_status", default: 0
+    t.integer  "assignee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"
@@ -193,6 +179,8 @@ ActiveRecord::Schema.define(version: 20170818175456) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.text     "image_alt"
+    t.integer  "from_hour"
+    t.integer  "to_hour"
     t.index ["assignee_id"], name: "index_text_components_on_assignee_id", using: :btree
     t.index ["report_id"], name: "index_text_components_on_report_id", using: :btree
   end
@@ -218,8 +206,6 @@ ActiveRecord::Schema.define(version: 20170818175456) do
     t.integer  "report_id"
     t.integer  "priority",        default: 1
     t.integer  "validity_period"
-    t.integer  "from_hour"
-    t.integer  "to_hour"
     t.index ["report_id"], name: "index_triggers_on_report_id", using: :btree
   end
 

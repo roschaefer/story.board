@@ -7,9 +7,6 @@ class Trigger < ActiveRecord::Base
 
   validates :report, presence: true
   validates :priority, presence: true
-  validates :from_hour, inclusion: { in: 0..23 }, allow_blank: true
-  validates :to_hour, inclusion: { in: 0..23 }, allow_blank: true
-  validate :both_hours_are_given
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 
   enum priority: { very_low: -1, low: 0, medium: 1, high: 2, urgent: 3}
@@ -18,25 +15,11 @@ class Trigger < ActiveRecord::Base
     order('LOWER("triggers"."name")')
   end
 
-  def active?(diary_entry = nil)
-    on_time?(diary_entry) && conditions_fullfilled?(diary_entry) && events_active?(diary_entry)
+  def active?(diary_entry)
+    conditions_fullfilled?(diary_entry) && events_active?(diary_entry)
   end
 
-  def on_time?(diary_entry)
-    result = true
-    if from_hour && to_hour && diary_entry
-      if from_hour <= to_hour
-        result = (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
-      else
-        # e.g. 21:00 -> 6:00
-        result = (diary_entry.moment.hour < to_hour ) || (from_hour <= diary_entry.moment.hour)
-      end
-    end
-    result
-  end
-
-
-  def conditions_fullfilled?(diary_entry = nil)
+  def conditions_fullfilled?(diary_entry)
     conditions.all? do |condition|
       reading = condition.last_reading(diary_entry)
       if reading
@@ -51,18 +34,7 @@ class Trigger < ActiveRecord::Base
     end
   end
 
-  def events_active?(diary_entry = nil)
-    events.all? {|e| e.active?(diary_entry&.moment)}
-  end
-
-
-  private
-  def both_hours_are_given
-    if from_hour && to_hour.blank?
-      errors.add(:to_hour, "is missing")
-    end
-    if to_hour && from_hour.blank?
-      errors.add(:from_hour, "is missing")
-    end
+  def events_active?(diary_entry)
+    events.all? {|e| e.active?(diary_entry.moment)}
   end
 end

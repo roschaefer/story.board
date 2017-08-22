@@ -25,6 +25,39 @@ RSpec.describe TextComponent, type: :model do
     end
   end
 
+  describe 'to_hour' do
+    subject { text_component }
+    let(:text_component) { build(:text_component, attributes) }
+    let(:attributes) { {to_hour: 3 } }
+    context 'without #from_hour' do
+      it { is_expected.not_to be_valid }
+    end
+  end
+
+  describe 'from_hour' do
+    subject { text_component }
+    let(:text_component) { build(:text_component, attributes) }
+    let(:attributes) { { from_hour: 3 } }
+    context 'without #to_hour' do
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'given along with #to_hour' do
+      let(:attributes) { super().merge({ to_hour: 3 }) }
+      it { is_expected.to be_valid }
+
+      context 'below 0' do
+        let(:attributes) { super().merge({ from_hour: -1 }) }
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'above 23' do
+        let(:attributes) { super().merge({ from_hour: 24 }) }
+        it { is_expected.not_to be_valid }
+      end
+    end
+  end
+
   describe '#heading' do
     context 'empty' do
       subject { build(:text_component, heading: '  ') }
@@ -46,8 +79,9 @@ RSpec.describe TextComponent, type: :model do
   end
 
   describe '#active?' do
+    let(:diary_entry) { DiaryEntry.new }
     let(:text_component) { create(:text_component) }
-    subject { text_component.active? }
+    subject { text_component.active?(diary_entry) }
 
     context 'triggers empty' do
       it { is_expected.to be true }
@@ -78,6 +112,22 @@ RSpec.describe TextComponent, type: :model do
         it { is_expected.to be true }
       end
     end
+  end
+
+  describe '#timeframe=' do
+    let(:text_component) { build(:text_component) }
+    it 'sets #from_hour' do
+      expect{ text_component.timeframe = '[18, 23]' }.to(change{ text_component.from_hour }.from(nil).to(18))
+    end
+    it 'sets #to_hour' do
+      expect{ text_component.timeframe = '[18, 23]' }.to(change{ text_component.to_hour }.from(nil).to(23))
+    end
+  end
+
+  describe '#timeframe' do
+    let(:text_component) { build(:text_component, from_hour: 13, to_hour: 17) }
+    subject { text_component.timeframe }
+    it { is_expected.to eq '[13,17]' }
   end
 
   describe '#priority' do

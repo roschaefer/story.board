@@ -5,54 +5,22 @@ describe Trigger, type: :model do
   let(:sensor) { create(:sensor) }
 
   context 'given a sensor reading' do
-    subject { create(:trigger, :with_a_sensor_reading, params) }
+    let(:diary_entry) { DiaryEntry.new(report: trigger.report, moment: Time.zone.now) }
+    let(:trigger) { create(:trigger, :with_a_sensor_reading, params) }
     describe '#validity_period' do
       let(:params) { { validity_period: 3 } }
-      it { is_expected.to be_active }
+      it { trigger.active?(diary_entry) }
       context 'some hours later' do
         it 'no longer relevant' do
-          expect(subject).to be_active
+          expect(trigger.active?(diary_entry)).to be_truthy
           Timecop.travel(4.hours.from_now) do
-            expect(subject).not_to be_active
+            expect(trigger.active?(diary_entry)).to be_falsy
           end
         end
       end
     end
   end
 
-  describe 'to_hour' do
-    subject { trigger }
-    let(:trigger) { build(:trigger, attributes) }
-    let(:attributes) { {to_hour: 3 } }
-    context 'without #from_hour' do
-      it { is_expected.not_to be_valid }
-    end
-  end
-
-  describe 'from_hour' do
-    subject { trigger }
-    let(:trigger) { build(:trigger, attributes) }
-    let(:attributes) { { from_hour: 3 } }
-    context 'without #to_hour' do
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'given along with #to_hour' do
-      let(:attributes) { super().merge({ to_hour: 3 }) }
-      it { is_expected.to be_valid }
-
-      context 'below 0' do
-        let(:attributes) { super().merge({ from_hour: -1 }) }
-        it { is_expected.not_to be_valid }
-      end
-
-      context 'above 23' do
-        let(:attributes) { super().merge({ from_hour: 24 }) }
-        it { is_expected.not_to be_valid }
-      end
-    end
-
-  end
 
   context 'without a report' do
     specify { expect(build(:trigger, report: nil)).not_to be_valid }
@@ -105,7 +73,7 @@ describe Trigger, type: :model do
 
 
   describe '#active?' do
-    let(:diary_entry) { nil }
+    let(:diary_entry) { DiaryEntry.new }
     subject { trigger.active?(diary_entry) }
     context 'without any conditions is considered active' do
       it { is_expected.to be_truthy }

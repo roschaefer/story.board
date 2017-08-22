@@ -10,7 +10,7 @@ FactoryGirl.define do
 
     trait :with_a_sensor_reading do
       after(:create) do |trigger|
-        create(:sensor, :with_a_reading, triggers: [trigger])
+        create(:sensor, :with_a_reading, triggers: [trigger], report: trigger.report)
       end
     end
 

@@ -1,5 +1,22 @@
 class TextComponent < ActiveRecord::Base
+  TIME_FRAMES = {
+      'always' => [nil, nil].to_json,
+      '(06:00 - 09:00) in the morning' => [6, 9].to_json,
+      '(09:00 - 13:00) before noon' => [9, 13].to_json,
+      '(13:00 - 18:00) afternoons' => [13, 18].to_json,
+      '(18:00 - 23:00) evenings' => [18, 23].to_json,
+      '(23:00 - 06:00) nights' => [23, 6].to_json,
+  }
+  # This method associates the attribute ":image" with a file attachment
+  has_attached_file :image, styles: {
+    small: '620>',
+    big: '1000>',
+  }
+
   validates :heading, :report, presence: true
+  validates :from_hour, inclusion: { in: 0..23 }, allow_blank: true
+  validates :to_hour, inclusion: { in: 0..23 }, allow_blank: true
+  validate :both_hours_are_given
   has_and_belongs_to_many :triggers
   has_many :sensors, through: :triggers
   has_many :events, through: :triggers
@@ -13,35 +30,48 @@ class TextComponent < ActiveRecord::Base
   accepts_nested_attributes_for :triggers
 
   validates :channels, presence: true
+  # Validate the attached image is image/jpg, image/png, etc
+  validates_attachment :image, content_type: { content_type: /\Aimage\/.*\z/ }
 
   delegate :name, to: :topic, prefix: true, allow_nil: true
   delegate :name, to: :assignee, prefix: true, allow_nil: true
 
   enum publication_status: { :draft => 0, :fact_checked => 1, :published => 2 }
 
-  # This method associates the attribute ":image" with a file attachment
-  has_attached_file :image, styles: {
-    small: '620>',
-    big: '1000>',
-  }
 
-  # Validate the attached image is image/jpg, image/png, etc
-  validates_attachment :image, content_type: { content_type: /\Aimage\/.*\z/ }
+  def timeframe=(frame)
+    arr = JSON.parse(frame)
+    self.from_hour, self.to_hour = * arr
+  end
 
-  def active?(diary_entry = nil)
+  def timeframe
+    [self.from_hour, self.to_hour].to_json
+  end
+
+  def active?(diary_entry)
     on_time?(diary_entry) && triggers.all? {|t| t.active?(diary_entry) }
   end
 
   def on_time?(diary_entry)
     result = true
-    if from_day && diary_entry
+    if from_day
         result &= ((report.start_date + from_day.days) <= diary_entry.moment)
     end
-    if to_day && diary_entry
+    if to_day
         result &= (diary_entry.moment <= (report.start_date + to_day.days))
+    end
+
+    if from_hour && to_hour
+      if from_hour <= to_hour
+        result &= (from_hour <= diary_entry.moment.hour ) && (diary_entry.moment.hour < to_hour)
+      else
+        # e.g. 21:00 -> 6:00
+        result &= (diary_entry.moment.hour < to_hour ) || (from_hour <= diary_entry.moment.hour)
+      end
     end
     result
   end
+
 
   def priority_index
     Trigger.priorities[priority]
@@ -86,5 +116,15 @@ class TextComponent < ActiveRecord::Base
 
   def image_url
     self.image&.url
+  end
+
+  private
+  def both_hours_are_given
+    if from_hour && to_hour.blank?
+      errors.add(:to_hour, "is missing")
+    end
+    if to_hour && from_hour.blank?
+      errors.add(:from_hour, "is missing")
+    end
   end
 end

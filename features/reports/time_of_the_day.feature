@@ -6,14 +6,10 @@ Feature: Time of the day
 
   Background:
     Given there is a sensor live report
-    And some triggers are active at certain hours:
-      | Trigger      | From  | To    |
-      | Good morning | 06:00 | 11:00 |
-      | Sleep well   | 21:00 | 06:00 |
-    And these are the connections between text components and triggers:
-      | Trigger      | Text component              |
-      | Good morning | Hello again                 |
-      | Sleep well   | Now it's time to go to bed. |
+    And some text components are active at certain hours:
+      | From  | To    | Heading      | Main part                   |
+      | 06:00 | 11:00 | Good morning | Hello again                 |
+      | 21:00 | 06:00 | Good evening | Now it's time to go to bed. |
 
   Scenario: See the good morning text component
     When I visit "/reports/present/1/?at=2017-08-19T10:00+02:00"

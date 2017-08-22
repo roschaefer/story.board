@@ -49,6 +49,9 @@
                 = f.input :from_day
               .col
                 = f.input :to_day
+            .row
+              .col
+                = f.input :timeframe, collection: TextComponent::TIME_FRAMES, as: :select, include_blank: false
 
 
       .form__section
