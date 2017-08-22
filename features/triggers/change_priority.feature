@@ -11,7 +11,7 @@ Feature: Text components: Priorities
   Scenario: Edit Trigger Priority
     Given I have a trigger with the name "Very Important"
     When I visit the landing page
-    And I click on "Triggers" in my dashboard
+    And I navigate to the trigger page
     And I click on "Edit" to change the priority
     And I select "high" from the priorities
     And I click on "Update"

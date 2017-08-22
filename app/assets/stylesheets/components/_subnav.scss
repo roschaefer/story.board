@@ -1,0 +1,74 @@
+/**
+ * SUB-NAV
+ */
+
+.subnav {
+    padding: 1.5rem 0;
+
+    background: lighten(theme-color('primary'), 42);
+}
+
+.subnav__message {
+    margin-bottom: .5rem;
+    font-size: .85rem;
+    color: rgba(0, 0, 0, .85);
+}
+
+.subnav__item {
+    // display: flex;
+    // align-items: center;
+}
+
+.subnav__breadcrumb {
+    margin-right: auto;
+    font-size: 1.75rem;
+}
+
+.subnav__breadcrumb__item {
+    display: inline-block;
+    opacity: .75;
+}
+
+.subnav__breadcrumb .subnav__breadcrumb__item:last-child {
+    opacity: 1;
+    font-weight: 500;
+}
+
+.subnav__breadcrumb__item::after {
+    content: '/';
+    margin-right: .5em;
+    margin-left: .25em;
+
+    opacity: .5;
+}
+
+.subnav__breadcrumb .subnav__breadcrumb__item:last-child::after {
+    content: none;
+}
+
+.subnav__select {
+    display: inline;
+    position: relative;
+
+    .fa {
+        font-size: 1.25rem;
+        margin: 0 .25rem;
+    }
+}
+
+.subnav__select select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    font-size: 1rem;
+
+    cursor: pointer;
+}
+
+.subnav__actions a:first-child {
+    margin-right: 2px;
+}

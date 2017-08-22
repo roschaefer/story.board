@@ -206,13 +206,6 @@ Given(/^my current live report is called "([^"]*)"$/) do |name|
   report.save
 end
 
-When(/^I select "([^"]*)" from the settings in my dashboard$/) do |name|
-  within('.report-settings') do
-    click_on 'Report Settings'
-    click_on name
-  end
-end
-
 When(/^I click on "([^"]*)"/) do |thing|
   click_on thing
 end
@@ -394,7 +387,7 @@ When(/^I change the name of the report to "([^"]*)"$/) do |name|
 end
 
 Then(/^I see the new name in the settings menu above$/) do
-  expect(find('#main-nav')).to have_text @report_name
+  expect find('.subnav__breadcrumb option[selected]', text: @report_name, count: 1)
 end
 
 Given(/^there is a triggered text component with the following main part:$/) do |main_part|
@@ -1131,22 +1124,11 @@ Given(/^the current report is "([^"]*)"$/) do |name|
 end
 
 Then(/^I can see the current report "([^"]*)" in the menu bar$/) do |report_name|
-  expect(page).to have_css('#report-menu-current', text: report_name)
+  expect(page).to have_css('option[selected]', text: report_name)
 end
 
 When(/^(?:when )?I choose "([^"]*)" to be the active report$/) do |report_name|
   switch_report(report_name)
-end
-
-Given(/^I(?: first)? navigate to the text component page$/) do
-  expect(page).to have_css('a', text: 'Text Components')
-  click_on 'Text Components'
-end
-
-When(/^I click on the preview of the current report$/) do
-  within('#report-menu-current') do
-    click_on 'Preview'
-  end
 end
 
 def create_records(table, record_type)
@@ -1163,9 +1145,18 @@ Given(/^we have these sensors:$/) do |table|
   create_records(table, :sensor)
 end
 
-When(/^I (?:first )?navigate to the sensor page$/) do
-  click_on 'Elements'
-  click_on 'Sensors'
+When(/^I (?:first )?navigate to the (present|preview|text component|sensor|trigger|event|settings) page$/) do |element|
+  labels = {
+    'present' => 'Live Report',
+    'preview' => 'Preview Report',
+    'text component' => 'Text Components',
+    'sensor' => 'Sensors',
+    'trigger' => 'Triggers',
+    'event' => 'Events',
+    'settings' => 'Report Settings'
+  }
+  url = find('.subnav__breadcrumb option', text: labels[element], visible: false)[:value]
+  visit url
 end
 
 def check_table(string, count)
@@ -1183,10 +1174,6 @@ Given(/^we have these triggers:$/) do |table|
   create_records(table, :trigger)
 end
 
-When(/^I (?:first )?navigate to the trigger page$/) do
-  find('li', text: 'Triggers').click
-end
-
 Then(/^I see only the trigger "([^"]*)"$/) do |name|
   check_table(name, 1)
 end
@@ -1196,9 +1183,8 @@ Given(/^I visit the present page of the current report$/) do
 end
 
 def switch_report(report_name)
-  within('.report-menu') do
-    click_on report_name
-  end
+  url = find('.subnav__breadcrumb option', text: report_name, visible: false)[:value]
+  visit url
 end
 
 When(/^switch to report "([^"]*)"$/) do |report_name|
@@ -1415,7 +1401,7 @@ Then(/^(\d+) event activations are in the database$/) do |count|
 end
 
 Then(/^I am back on the events index page$/) do
-  expect(page).to have_text('Listing events')
+  expect(page).to have_css('option[selected]', text: 'Events', visible: false)
 end
 
 Given(/^we have these sensor readings for sensor (\d+) in our database:$/) do |sensor_id, table|

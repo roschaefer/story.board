@@ -1,14 +1,8 @@
-%h3 Text Components
-
 - if user_signed_in?
-  .d-flex.justify-content-start.py-4
-    %div.mr-auto
-      = form_tag(report_text_components_path(@report), {method: :get}) do
-        .input-group
-          .input-group-addon Assignee:
-          = collection_select(:filter, :assignee_id, User.all, :id, :name, { selected: @filter[:assignee_id], include_blank: 'All' }, { class: 'form-control custom-select', id: 'filter-assignee', onchange: 'this.form.submit()' })
-    %div
-      - if user_signed_in?
-        =link_to 'New text component', new_report_text_component_path(@report), :class => "btn btn-primary"
+  .pb-4.d-flex
+    = form_tag(report_text_components_path(@report), {method: :get}) do
+      .input-group
+        .input-group-addon Assignee:
+        = collection_select(:filter, :assignee_id, User.all, :id, :name, { selected: @filter[:assignee_id], include_blank: 'All' }, { class: 'form-control custom-select', id: 'filter-assignee', onchange: 'this.form.submit()' })
 
 = render 'table'

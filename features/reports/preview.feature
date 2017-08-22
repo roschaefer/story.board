@@ -21,7 +21,7 @@ Feature: Preview
       | Temp123   | 37°C             |
       | Bright456 | 9                |
     When I visit the landing page
-    And I click on the preview of the current report
+    And I navigate to the preview page
     Then I can read this text:
     """
     The consequences of global warming fall upon us
