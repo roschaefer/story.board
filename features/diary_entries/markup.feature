@@ -34,6 +34,7 @@ Feature: Render markup for frontend
           "from_day": null,
           "to_day": null,
           "question_answers": [ ],
+          "image_url": "/images/original/missing.png",
           "url": "http://example.org/reports/1/text_components/1.json"
         }
       ],
