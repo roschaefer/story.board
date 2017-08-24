@@ -1,0 +1,24 @@
+/**
+ * SELECT-BTN
+ */
+
+.select-btn {
+    position: relative;
+    display: inline;
+}
+
+.select-btn--caret::after {
+    content: '▾';
+    font-size: 1.2em;
+    line-height: 1.16em;
+}
+
+.select-btn__select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
