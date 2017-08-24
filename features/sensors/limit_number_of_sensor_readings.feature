@@ -4,7 +4,8 @@ Feature: Limit number of Sensor Readings
   Because I don't want to be overwhelmed by thousands of database entries
 
   Scenario: Show only Latest Data
-    Given I have 100 entries for a sensor in my database
+    Given I am the journalist
+    And I have 100 entries for a sensor in my database
     When I visit the page of that sensor
     Then I see only 50 sensor readings
     And the first row is the most recent sensor reading

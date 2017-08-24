@@ -1,5 +1,6 @@
 class DiaryEntriesController < ApplicationController
   before_action :set_diary_entry, only: [:show,]
+  before_action :authenticate_user!, except: %i[index show]
   include CommonFilters
 
   def index

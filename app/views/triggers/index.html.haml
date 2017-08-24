@@ -10,9 +10,7 @@
       %tr
         %td= trigger.name
         %td= link_to "Show", report_trigger_path(@report, trigger)
-        - if user_signed_in?
-          %td= link_to "Edit", edit_report_trigger_path(@report, trigger)
-          %td= link_to "Destroy", report_trigger_path(@report, trigger), method: :delete, data:  { confirm:  'Are you sure?' }
+        %td= link_to "Edit", edit_report_trigger_path(@report, trigger)
+        %td= link_to "Destroy", report_trigger_path(@report, trigger), method: :delete, data:  { confirm:  'Are you sure?' }
 
-- if user_signed_in?
-  =link_to 'Add new trigger', new_report_trigger_path(@report), :class => "btn btn-primary"
+=link_to 'Add new trigger', new_report_trigger_path(@report), :class => "btn btn-primary"

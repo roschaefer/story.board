@@ -5,12 +5,16 @@ RSpec.describe "Events", type: :request do
 
   describe 'format: :json' do
     describe 'GET /events/:id' do
-      let(:action) { get event_path(event), params: { format: :json } }
-      it 'contains activations' do
-        create(:event_activation, event: event, id: 4711)
-        action
-        js = JSON.parse(response.body)
-        expect(js['activations'][0]['id']).to eq 4711
+      describe 'when signed in' do
+        let(:user) { create(:user) }
+        before { sign_in user }
+        let(:action) { get event_path(event), params: { format: :json } }
+        it 'contains activations' do
+          create(:event_activation, event: event, id: 4711)
+          action
+          js = JSON.parse(response.body)
+          expect(js['activations'][0]['id']).to eq 4711
+        end
       end
     end
 
