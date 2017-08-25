@@ -63,7 +63,7 @@ Or selectively
   ```
 ## Documentation
 
-We are [cucumber evangelists](https://cucumber.io/). See our executable, up-to-date documentation on [relishapp](http://www.relishapp.com/sensor-live-report/story-board/).
+We are [cucumber evangelists](https://cucumber.io/). See our executable, up-to-date documentation in the [features folder](/features).
 
 ## Contribute
 
