@@ -6,8 +6,19 @@ RSpec.describe "DiaryEntries", type: :request do
   let(:params) { {} }
   let(:js) { JSON.parse(response.body) }
   describe "GET" do
+    describe '/reports/:id/diary_entries' do
+      let(:url) { "/reports/#{report.id}/diary_entries/#{diary_entry.id}"}
+
+      let(:diary_entry) { create(:diary_entry, report: report) }
+      it 'sends only 3 text components' do
+        create_list(:text_component, 4, report: report)
+        action
+        expect(js['text_components'].count).to eq 3
+      end
+    end
+
     let(:action) { get url, params: params, headers: headers }
-    describe "/reports/:id/diary_entries" do
+    describe '/reports/:id/diary_entries' do
       let(:url) { "/reports/#{report.id}/diary_entries"}
 
       let(:diary_entries) do
