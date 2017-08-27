@@ -1499,3 +1499,23 @@ Then(/^the JSON response should include the active text component$/) do
   expect(json_response['text_components'][0]['main_part']).to eq('I am in!')
 end
 
+When(/^I edit an existing text component with an image$/) do
+  @text_component = create(:text_component)
+  @text_component.image = File.new("fixtures/cow.jpg")
+  edit_existing_text_component
+end
+
+When(/^in section Image I tick the checkbox to delete the image$/) do
+  within_text_component_section('Image') do
+      check 'text_component[delete_image]'
+  end
+end
+
+Then(/^the text component image url is empty or shows the standard image missing url$/) do
+  @text_component.reload
+  expect(@text_component.image.url).to eq('/images/original/missing.png')
+end
+
+When(/^I submit the form and delete the image$/) do
+  click_on "Update Text component"
+end

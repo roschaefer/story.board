@@ -4,7 +4,6 @@ Feature: Picture Upload
   I want to have a picture upload for my amazon s3 with the text components
   in order to easyly integrate images and provide them for the frontend.
 
-  @aws_s3_request
   Scenario: Upload picture
     Given I am the journalist
     When I edit an existing text component
@@ -14,3 +13,10 @@ Feature: Picture Upload
     """
     /system/text_components/images/000/000/001/original/cow.jpg
     """
+
+  Scenario: Delete picture
+    Given I am the journalist
+    When I edit an existing text component with an image
+    And in section Image I tick the checkbox to delete the image
+    And I submit the form and delete the image
+    Then the text component image url is empty or shows the standard image missing url
