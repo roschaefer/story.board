@@ -100,11 +100,11 @@ RSpec.describe DiaryEntry, type: :model do
 
       describe 'overfull text' do
         describe 'text breaks' do
-          let(:components) { build_list(:text_component, 10, heading: 'subheading', main_part: ('blah' * 500)) }
+          let(:components) { build_list(:text_component, 3, heading: 'subheading', main_part: ('blah' * 500)) }
 
           it 'with headings as subheadings' do
             parsed = Capybara.string(subject)
-            expect(parsed.text.split('subheading').count).to eq 10
+            expect(parsed.text.split('subheading').count).to eq 3
           end
         end
 

@@ -18,7 +18,7 @@ class DiaryEntry < ActiveRecord::Base
   end
 
   def sorted_components
-    Text::Sorter.sort(text_components)
+    Text::Sorter.sort(text_components).take(3)
   end
 
   def rendered_text_components
