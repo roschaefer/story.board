@@ -2,21 +2,18 @@
   %thead
     %tr
       %th Name
-      - if user_signed_in?
-        %th
-        %th
-        %th
+      %th
+      %th
+      %th
 
   %tbody
     - @events.each do |event|
       %tr
         %td= event.name
-        - if user_signed_in?
-          %td= render 'events/activation/button', event: event
-          %td= link_to 'Edit', edit_event_path(event)
-          %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= render 'events/activation/button', event: event
+        %td= link_to 'Edit', edit_event_path(event)
+        %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-- if user_signed_in?
-  = link_to 'New Event', new_event_path, :class => "btn btn-primary"
+= link_to 'New Event', new_event_path, :class => "btn btn-primary"

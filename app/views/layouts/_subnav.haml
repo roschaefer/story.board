@@ -18,21 +18,23 @@
 
                 %select.select-btn__select{onchange: 'window.location = this.value'}
                   - options.each do |option|
+
                     %option{value: option[:url], selected: option[:active]}= option[:name]
 
             - else
               = options.first[:name]
+              
+    - if user_signed_in?
+      .subnav__actions
+        .subnav__message
+          Create something new!
 
-    .subnav__actions
-      .subnav__message
-        Create something new!
+        .btn-group
+          %a.btn.btn-primary{href: @primary_action[:url]}
+            = @primary_action[:name]
 
-      .btn-group
-        %a.btn.btn-primary{href: @primary_action[:url]}
-          = @primary_action[:name]
-
-        %a.select-btn.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', onchange: 'return false'}
-          %select.select-btn__select{onchange: 'window.location = this.value'}
-            %option{selected: true, disabled: true} Create something new!
-            - @secondary_actions.each do |action|
-              %option{value: action[:url]}= action[:name]
+          %a.select-btn.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', onchange: 'return false'}
+            %select.select-btn__select{onchange: 'window.location = this.value'}
+              %option{selected: true, disabled: true} Create something new!
+              - @secondary_actions.each do |action|
+                %option{value: action[:url]}= action[:name]

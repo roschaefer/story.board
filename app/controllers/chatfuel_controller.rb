@@ -1,5 +1,6 @@
 class ChatfuelController < ApplicationController
   before_action :set_live_diary_entry
+  before_action :authenticate_user!, only: [] # never
 
   def show
     @topic = Topic.find_by(name: params[:topic])

@@ -17,6 +17,7 @@ Feature: Filter by active report
       | <column_name> | Report                 |
       | <record_1>    | Massive Livestock Farm |
       | <record_2>    | Organic Farm           |
+    And I am the journalist
     When I visit the present page of the current report
     And I first navigate to the <thing> page
     Then I see only the <thing> "<record_1>"

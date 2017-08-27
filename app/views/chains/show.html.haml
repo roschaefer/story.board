@@ -10,7 +10,6 @@
   %b Hashtag:
   = @chain.hashtag
 
-- if user_signed_in?
-  = link_to 'Edit', edit_chain_path(@chain)
-  \|
+= link_to 'Edit', edit_chain_path(@chain)
+\|
 = link_to 'Back', chains_path

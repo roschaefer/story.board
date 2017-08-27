@@ -31,4 +31,14 @@ namespace :smaxtec_api do
     SensorType.find_or_create_by(property: 'Event: Medium heat stress', unit: '0-1')
     SensorType.find_or_create_by(property: 'Event: High heat stress', unit: '0-1')
   end
+
+  desc "change smaxtec event sensortypes to bool"
+  task change_smaxtec_events_bool: :environment do
+    SensorType.where("property like ?", "Event:%").each do |sensor|
+      sensor.min = 0
+      sensor.max = 1
+      sensor.unit = ''
+      sensor.save
+    end
+  end
 end
