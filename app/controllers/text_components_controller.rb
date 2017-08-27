@@ -1,6 +1,5 @@
 class TextComponentsController < ApplicationController
   before_action :set_text_component, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index]
   before_action :set_form_data
 
   # GET /text_components
@@ -111,8 +110,9 @@ class TextComponentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def text_component_params
       params.require(:text_component)
-        .permit(:heading, :introduction, :main_part, :closing, :from_day,
-                :timeframe, :to_hour, :report_id, :topic_id, :assignee_id, :image, :image_alt, :delete_image,
+        .permit(:heading, :introduction, :main_part, :closing, :from_day, :to_day,
+                :timeframe, :to_hour, :report_id, :topic_id, :assignee_id, :image, :image_alt, :delete_image
+
                 :publication_status, :notes, trigger_ids: [], channel_ids: [],
                 question_answers_attributes: [:id, :question, :answer, :_destroy],
                 triggers_attributes: [:name, :from_hour, :to_hour,

@@ -1,6 +1,5 @@
 class ChainsController < ApplicationController
   before_action :set_chain, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /chains
   # GET /chains.json

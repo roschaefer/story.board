@@ -17,14 +17,15 @@
                     %option{value: option[:url], selected: option[:active]}
                       = option[:name]
 
-      .subnav__item
-        .subnav__message
-          Create something new!
-        .btn-group.subnav__actions
-          %a.btn.btn-primary{href: @primary_action[:url]}
-            = @primary_action[:name]
-          %a.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', 'data-toggle': 'dropdown'}
-          .dropdown-menu.dropdown-menu-right
-            - @secondary_actions.each do |action|
-              %a.dropdown-item{href: action[:url]}
-                = action[:name]
+      - if user_signed_in?
+        .subnav__item
+          .subnav__message
+            Create something new!
+          .btn-group.subnav__actions
+            %a.btn.btn-primary{href: @primary_action[:url]}
+              = @primary_action[:name]
+            %a.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', 'data-toggle': 'dropdown'}
+            .dropdown-menu.dropdown-menu-right
+              - @secondary_actions.each do |action|
+                %a.dropdown-item{href: action[:url]}
+                  = action[:name]

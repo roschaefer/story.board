@@ -8,10 +8,9 @@
   %strong Address:
   = @sensor.address
 
-- if user_signed_in? && @sensor.animal_id?
-  %p
-    %strong Animal Id (Smaxtec Api):
-    = @sensor.animal_id
+%p
+  %strong Animal Id (Smaxtec Api):
+  = @sensor.animal_id
 
 %p
   %h3 Sensor Readings
@@ -22,9 +21,8 @@
       %th Calibrated Value
       %th Uncalibrated Value
       = render @final_readings
-  - if user_signed_in?
-    %p
-      = render "add_sensor_reading"
+  %p
+    = render "add_sensor_reading"
   %h3 debug Data
   %table#sensor-readings-table-debug.table.table-striped.table-hover
     %tr
@@ -33,12 +31,11 @@
       %th Calibrated Value
       %th Uncalibrated Value
       = render @debug_readings
-- if user_signed_in?
-  %p
-    = render "generate_debug_sample_data"
-  %p
-    = render "calibration"
-  %p
-    = link_to 'Edit', edit_report_sensor_path(@report, @sensor), :class => "btn btn-primary"
-    = link_to 'Destroy', report_sensor_path(@report, @sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
-  = link_to 'Back', report_sensors_path(@report), :class => "btn btn-secondary"
+%p
+  = render "generate_debug_sample_data"
+%p
+  = render "calibration"
+%p
+  = link_to 'Edit', edit_report_sensor_path(@report, @sensor), :class => "btn btn-primary"
+  = link_to 'Destroy', report_sensor_path(@report, @sensor), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+= link_to 'Back', report_sensors_path(@report), :class => "btn btn-secondary"

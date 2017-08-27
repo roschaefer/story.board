@@ -28,6 +28,7 @@ Feature: Generate sensorstory as JSON for frontend
           "closing": "MyText",
           "from_day": null,
           "to_day": null,
+          "image_url": "/images/original/missing.png",
           "question_answers": [
             {
               "id": 1,
@@ -52,6 +53,7 @@ Feature: Generate sensorstory as JSON for frontend
           "closing": "MyText",
           "from_day": null,
           "to_day": null,
+          "image_url": "/images/original/missing.png",
           "question_answers": [
 
           ],

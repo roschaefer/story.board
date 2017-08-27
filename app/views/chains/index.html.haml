@@ -17,14 +17,9 @@
         %td= chain.function
         %td= chain.hashtag
         %td= link_to 'Show', chain
-        - if user_signed_in?
-          %td= link_to 'Edit', edit_chain_path(chain)
-          %td= link_to 'Destroy', chain, :method => :delete, :data => { :confirm => 'Are you sure?' }
-        - else
-          %td
-          %td
+        %td= link_to 'Edit', edit_chain_path(chain)
+        %td= link_to 'Destroy', chain, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-- if user_signed_in?
-  = link_to 'New Chain', new_chain_path, class: 'btn btn-primary'
+= link_to 'New Chain', new_chain_path, class: 'btn btn-primary'

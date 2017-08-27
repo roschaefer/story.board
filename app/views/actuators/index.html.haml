@@ -15,13 +15,8 @@
         %td= actuator.name
         %td= actuator.port
         %td= link_to 'Show', actuator
-        - if user_signed_in?
-          %td= link_to 'Edit', edit_actuator_path(actuator)
-          %td= link_to 'Destroy', actuator, :method => :delete, :data => { :confirm => 'Are you sure?' }
-        - else
-          %td
-          %td
+        %td= link_to 'Edit', edit_actuator_path(actuator)
+        %td= link_to 'Destroy', actuator, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
-- if user_signed_in?
-  = link_to 'New Actuator', new_actuator_path, :class => "btn btn-primary"
+= link_to 'New Actuator', new_actuator_path, :class => "btn btn-primary"
