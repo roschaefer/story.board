@@ -80,13 +80,9 @@ RSpec.describe Report, type: :model do
           create(:sensor_reading, sensor: sensor, calibrated_value: 10)
         end
 
-        describe'then the report contains only one active text component' do
-          it 'ie. the upper component' do
-            expect(subject).to contain_exactly(upper_component)
-          end
-
-          it 'and not the lower component' do
-            expect(subject).not_to contain_exactly(lower_component)
+        describe'then the report contains both active text components' do
+          it 'ie. the lower component and the upper component' do
+            expect(subject).to contain_exactly(upper_component, lower_component)
           end
         end
       end
