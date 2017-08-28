@@ -109,9 +109,13 @@
           .field.image__field
             - if @text_component&.image&.exists?
               = image_tag @text_component.image.url
+              %br
+              %br
             = f.label :image, 'Upload image'
             = f.input :image, as: :file, :label => false, input_html: {class: ''}
-          .form__fieldset
+            %br
+            = f.input :delete_image, :as => :boolean
+            %br
             = f.label :image_alt, 'Alt Text'
             = f.input :image_alt, :label => false
 

@@ -111,7 +111,8 @@ class TextComponentsController < ApplicationController
     def text_component_params
       params.require(:text_component)
         .permit(:heading, :introduction, :main_part, :closing, :from_day, :to_day,
-                :timeframe, :to_hour, :report_id, :topic_id, :assignee_id, :image, :image_alt,
+                :timeframe, :to_hour, :report_id, :topic_id, :assignee_id, :image, :image_alt, :delete_image,
+
                 :publication_status, :notes, trigger_ids: [], channel_ids: [],
                 question_answers_attributes: [:id, :question, :answer, :_destroy],
                 triggers_attributes: [:name, :from_hour, :to_hour,

@@ -7,6 +7,10 @@ class TextComponent < ActiveRecord::Base
       '(18:00 - 23:00) evenings' => [18, 23].to_json,
       '(23:00 - 06:00) nights' => [23, 6].to_json,
   }
+
+  attr_accessor :delete_image
+  before_validation { self.image.clear if delete_image == '1' }
+
   # This method associates the attribute ":image" with a file attachment
   has_attached_file :image, styles: {
     small: '620>',
