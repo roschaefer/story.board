@@ -24,7 +24,7 @@ Feature: Render markup for frontend
       "moment": "2017-06-21T14:00:00.000+02:00",
       "release": "final",
       "text_components": [
-        
+
         {
           "id": 1,
           "heading": "MyString",
@@ -35,6 +35,7 @@ Feature: Render markup for frontend
           "to_day": null,
           "question_answers": [ ],
           "image_url": "/images/original/missing.png",
+          "image_alt": null,
           "url": "http://example.org/reports/1/text_components/1.json"
         }
       ],
