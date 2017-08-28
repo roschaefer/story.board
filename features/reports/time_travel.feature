@@ -11,7 +11,7 @@ Feature: Read about any point in time
       | Summer-Antenna| Temperature | °C   |
     And for my sensors I have these triggers prepared:
       | Sensor         | From | To | Trigger |
-      | Summer-Antenna | 0    | 25 | Cold    |
+      | Summer-Antenna | 0    | 24 | Cold    |
       | Summer-Antenna | 25   | 40 | Hot     |
     And these are the connections between text components and triggers:
       | Trigger | Text component                          |
