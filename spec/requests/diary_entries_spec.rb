@@ -6,7 +6,7 @@ RSpec.describe "DiaryEntries", type: :request do
   let(:params) { {} }
   let(:js) { JSON.parse(response.body) }
   describe "GET" do
-    describe '/reports/:id/diary_entries' do
+    describe '/reports/:report_id/diary_entries/:id' do
       let(:url) { "/reports/#{report.id}/diary_entries/#{diary_entry.id}"}
 
       let(:diary_entry) { create(:diary_entry, report: report) }
@@ -14,6 +14,20 @@ RSpec.describe "DiaryEntries", type: :request do
         create_list(:text_component, 4, report: report)
         action
         expect(js['text_components'].count).to eq 3
+      end
+
+      describe 'priorities' do
+        it 'define order of text components' do
+          create(:text_component, report: report, heading: 'Low priority component 1',  triggers: create_list(:trigger, 1, priority: :low))
+          create(:text_component, report: report, heading: 'Low priority component 2',  triggers: create_list(:trigger, 1, priority: :low))
+          create(:text_component, report: report, heading: 'Medium priority component', triggers: create_list(:trigger, 1, priority: :medium))
+          create(:text_component, report: report, heading: 'Low priority component 3',  triggers: create_list(:trigger, 1, priority: :low))
+          create(:text_component, report: report, heading: 'High priority component',   triggers: create_list(:trigger, 1, priority: :high))
+          action
+          expect(js['text_components'][0]['heading']).to eq 'High priority component'
+          expect(js['text_components'][1]['heading']).to eq 'Medium priority component'
+          expect(js['text_components'].count).to eq 3
+        end
       end
     end
 
