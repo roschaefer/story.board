@@ -78,7 +78,8 @@ $(function() {
 $(function() {
     $('.text-editor').editor();
 
-    $('.qa').on('cocoon:after-insert', function(e, item) {
+    $('.links').on('cocoon:after-insert', function(e, item) {
         $(item).find('.text-editor').editor();
+        autosize($('textarea[data-autosize]'));
     });
 });
