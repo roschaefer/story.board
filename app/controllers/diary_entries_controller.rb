@@ -3,6 +3,9 @@ class DiaryEntriesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   include CommonFilters
 
+  self.page_cache_directory = -> { Rails.root.join('public', request.domain) }
+  caches_page :show
+
   def index
     from_and_to_params_are_dates(filter_params) or return
     @diary_entries = DiaryEntry.where(report: @report).order(:moment)

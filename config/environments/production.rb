@@ -88,4 +88,6 @@ Rails.application.configure do
     :secret_access_key => ENV.fetch('AWS_SECRET_ACCESS_KEY'),
     :s3_region => 'eu-central-1'
   }
+
+  config.action_controller.page_cache_directory = Rails.root.join('public/page_cache')
 end
