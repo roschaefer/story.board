@@ -70,30 +70,32 @@ RSpec.describe "layouts/application", type: :view do
 
     context 'renders a breadcrumb menu' do
       it 'has multiple levels' do
-        expect(parsed).to have_css('.subnav__select', count: 2)
+        expect(parsed).to have_css('.breadcrumb-nav__item', count: 2)
       end
 
       it 'has multiple select options with respective labels and urls' do
-        expect(parsed).to have_css('.subnav__breadcrumb__item:nth-child(2) select option', count: 3)
-        expect(parsed).to have_css('.subnav__breadcrumb__item:nth-child(3) select option', count: 2)
+        expect(parsed).to have_css('.breadcrumb-nav__item:nth-child(1) select option', count: 3)
+        expect(parsed).to have_css('.breadcrumb-nav__item:nth-child(2) select option', count: 2)
 
         expect(parsed).to have_css(
-          '.subnav__breadcrumb__item:nth-child(2) select option:first-child[value="/ressource/1"]',
+          '.breadcrumb-nav__item:nth-child(1) select option:first-child[value="/ressource/1"]',
           text: 'First Level Item 1'
         )
       end
     end
 
-  context 'renders an action button' do
-    it 'has a single primary action' do
-      expect(@parsed).to have_css(
-        '.subnav__actions .btn-primary[href="/ressource/new"]',
-        text: 'Primary Call To Action'
-      )
+    context 'renders an action button' do
+      it 'has a single primary action' do
+        expect(parsed).to have_css(
+          '.subnav__actions .btn-primary[href="/ressource/new"]',
+          text: 'Primary Call To Action'
+        )
+      end
+
+      it 'has multiple secondary actions' do
+        expect(parsed).to have_css('.subnav__actions select option', count: 3, visible: false)
+      end
     end
 
-    it 'has multiple secondary actions' do
-      expect(@parsed).to have_css('.subnav__actions select option', count: 3, visible: false)
-    end
   end
 end
