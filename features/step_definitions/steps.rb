@@ -73,7 +73,7 @@ When(/^I select the sensor type "([^"]*)"$/) do |type|
 end
 
 When(/^I confirm the dialog$/) do
-  click_on 'Create'
+  find('input[type="submit"]').click
 end
 
 Then(/^I have a new sensor in my database$/) do

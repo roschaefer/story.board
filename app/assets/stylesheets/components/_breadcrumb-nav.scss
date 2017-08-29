@@ -1,0 +1,48 @@
+/**
+ * BREADCRUMB-NAV
+ */
+
+.breadcrumb-nav {
+    
+}
+
+.breadcrumb-nav__item {
+    color: rgba(0, 0, 0, .6)
+}
+
+.breadcrumb-nav__item:last-child {
+    color: #000;
+    font-weight: 600;
+}
+
+@media screen and (min-width: 640px) {
+    .breadcrumb-nav__item {
+        display: inline-block;
+    }
+
+    .breadcrumb-nav__item::after {
+        content: '/';
+        margin: 0 .5rem;
+        color: rgba(0, 0, 0, .6);
+        opacity: .75;
+    
+    }
+
+    .breadcrumb-nav__item:last-child {
+        display: block;
+    }
+
+    .breadcrumb-nav__item:last-child::after, .breadcrumb-nav__item:nth-last-child(2)::after {
+        content: none;
+    }
+}
+
+@media screen and (min-width: 991px) {
+    .breadcrumb-nav__item:last-child {
+        display: inline-block;
+    }
+
+    .breadcrumb-nav__item:nth-last-child(2)::after {
+        content: '/';
+    }
+}
