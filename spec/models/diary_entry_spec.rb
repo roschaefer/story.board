@@ -16,20 +16,6 @@ RSpec.describe DiaryEntry, type: :model do
     end
   end
 
-  describe '#compose' do
-    let(:diary_entry) { DiaryEntry.new(report: report) }
-    subject { diary_entry.compose }
-
-    before { report.text_components << create(:text_component, heading: 'Assigned heading', main_part: 'Main part') }
-    it 'assigns heading' do
-      expect{ subject }.to(change{diary_entry.heading}.from('').to('Assigned heading'))
-    end
-
-    it 'assigns main_part' do
-      expect{ subject }.to(change{diary_entry.main_part}.from('').to("<p>Main part<span class='resi-thread'>\n</span>\n</p>\n"))
-    end
-  end
-
   describe '#text_components' do
     subject { diary_entry.text_components }
     let(:diary_entry) { DiaryEntry.new(report: report) }
@@ -58,11 +44,11 @@ RSpec.describe DiaryEntry, type: :model do
     let(:diary_entry) { described_class.new(report: report, release: release) }
     subject { diary_entry.archive! }
     it 'stores a new diary entry' do
-     expect{ subject } .to change{ DiaryEntry.count }.from(0).to(1)
+      expect{ subject } .to change{ DiaryEntry.count }.from(0).to(1)
     end
 
     it 'adds a new diary entry to the report' do
-     expect{ subject; report.reload }.to change{ report.diary_entries.size }.from(0).to(1)
+      expect{ subject; report.reload }.to change{ report.diary_entries.size }.from(0).to(1)
     end
 
     context 'for :debug data' do
