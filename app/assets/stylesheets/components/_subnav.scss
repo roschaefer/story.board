@@ -8,6 +8,7 @@
 }
 
 .subnav__message {
+    display: none;
     margin-bottom: .5rem;
     font-size: .85rem;
     color: rgba(0, 0, 0, .75);
@@ -39,6 +40,10 @@
 @media screen and (min-width: 991px) {
     .subnav__container {
         display: flex;
+    }
+
+    .subnav__message {
+        display: block;
     }
 
     .subnav__breadcrumb .breadcrumb-nav {
