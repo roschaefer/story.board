@@ -3,7 +3,7 @@ class DiaryEntriesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   include CommonFilters
 
-  self.page_cache_directory = -> { Rails.root.join('public', request.domain) }
+  self.page_cache_directory = -> { Rails.root.join('public') }
   caches_page :show
 
   def index

@@ -89,5 +89,5 @@ Rails.application.configure do
     :s3_region => 'eu-central-1'
   }
 
-  config.action_controller.page_cache_directory = Rails.root.join('public/page_cache')
+  config.action_controller.page_cache_directory = Rails.root.join('public')
 end
