@@ -18,6 +18,10 @@ end
 every 15.minutes do
   rake 'smaxtec_api:update_sensors'
 end
+
+every 1.minutes do
+  rake 'cache:delete'
+end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
