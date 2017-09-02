@@ -12,10 +12,7 @@
 
       - text_components.each.with_index do |text_component, index|
         %tr.item-table__item
-          - if index === 0
-            - if triggers.count > 0
-              = render 'table_groupheader', title: triggers.map(&:name).join(', '), size: text_components.count
-            - else
-              = render 'table_groupheader', title: 'Text Components without Triggers', size: text_components.count
+          - if index == 0
+            = render 'table_triggers', triggers: triggers, text_components: text_components
 
-          = render 'table_row', text_component: text_component
+          = render 'table_text_component', text_component: text_component
