@@ -131,6 +131,13 @@ class ApplicationController < ActionController::Base
       url: url_for(controller: 'events', action: 'new')
     }
 
+    if params[:controller] == 'sensors' && params[:action] == 'show'
+      actions['sensors'] = {
+        name: 'New Sensor Reading',
+        url: url_for(controller: 'sensors', action: 'show', report_id: @report.id, anchor: 'add')
+      }
+    end
+
     primary_action = params[:controller]
     unless actions.keys.include? params[:controller]
       primary_action = 'text_components'
