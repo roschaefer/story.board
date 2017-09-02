@@ -14,7 +14,11 @@
 %td= text_component.to_day
 
 %td.item-table__actions
-  = link_to edit_report_text_component_path(@report, text_component), {class: 'item-table__action--edit'} do
-    %i.fa.fa-pencil{title: 'Edit Text Component', data: {toggle: 'tooltip'}}
-  = link_to report_text_component_path(@report, text_component), {method: :delete, class: 'item-table__action--destroy', data: {confirm: 'Are you sure?'}} do
-    %i.fa.fa-trash{title: 'Delete Text Component', data: {toggle: 'tooltip'}}
+  = link_to('', report_text_component_path(@report, text_component), |
+      {class: ['item-table__action--show', 'fa', 'fa-eye'], title: 'Show Text Component', data: {toggle: 'tooltip'}})
+
+  = link_to('', edit_report_text_component_path(@report, text_component), |
+      {class: ['item-table__action--edit', 'fa', 'fa-pencil'], title: 'Edit Text Component', data: {toggle: 'tooltip'}})
+
+  = link_to('', report_text_component_path(@report, text_component), |
+      {method: :delete, class: ['item-table__action--destroy', 'fa', 'fa-trash'], title: 'Delete Text Component', data: {confirm: 'Are you sure?', toggle: 'tooltip'}})

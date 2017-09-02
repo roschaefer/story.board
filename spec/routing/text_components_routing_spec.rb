@@ -7,6 +7,10 @@ RSpec.describe TextComponentsController, type: :routing do
       expect(:get => "/reports/1/text_components").to route_to("text_components#index", report_id: '1')
     end
 
+    it "routes to #show" do    
+      expect(:get => "/reports/1/text_components/1").to route_to("text_components#show", report_id: '1', id: "1")   
+    end
+
     it "routes to #create" do
       expect(:post => "/reports/1/text_components").to route_to("text_components#create", report_id: '1')
     end
