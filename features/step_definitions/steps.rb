@@ -840,12 +840,8 @@ Then(/^a new question\/answer was added to the database$/) do
 end
 
 Then(/^I can see the new question and the answer on the page$/) do
-  within_text_component_section('Chatbot Q/A') do
-    expect(page).to have_css('.nested-fields', count: 3)
-    last_text = all('.nested-fields').last.text(:all)
-    expect(last_text).to include(@question_text)
-    expect(last_text).to include(@answer_text)
-  end
+  expect(page).to have_text(@question_text)
+  expect(page).to have_text(@answer_text)
 end
 
 When(/^I click the "([^"]*)" button$/) do |label|
@@ -983,9 +979,7 @@ When(/I assign the text component to "([^"]*)"$/) do |assignee|
 end
 
 Then(/^I can see that Jane was assigned to the text component$/) do
-  within('.text_component_assignee') do
-    expect(page).to have_text 'Jane Doe'
-  end
+  expect(page).to have_text 'Jane Doe'
 end
 
 Given(/^we have these text components:$/) do |table|
