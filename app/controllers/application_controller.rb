@@ -133,12 +133,14 @@ class ApplicationController < ActionController::Base
       url: url_for(controller: 'events', action: 'new')
     }
 
-    actions['create_sensor_reading'] = {
-      controller: 'sensors',
-      action: 'show',
-      name: 'New Sensor Reading',
-      url: url_for(controller: 'sensors', action: 'show', report_id: @report.id, anchor: 'add')
-    }
+    if params[:controller] == 'sensors' && params[:action] == 'show'
+      actions['create_sensor_reading'] = {
+        controller: 'sensors',
+        action: 'show',
+        name: 'New Sensor Reading',
+        url: url_for(controller: 'sensors', action: 'show', report_id: @report.id, anchor: 'add')
+      }
+    end
 
     primary_action = nil
 
