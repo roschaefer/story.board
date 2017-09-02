@@ -26,6 +26,10 @@
     line-height: 1rem * $line-height-base;
 }
 
+.item-table__meta {
+    white-space: nowrap;
+}
+
 .item-table__actions {
     white-space: nowrap;
 

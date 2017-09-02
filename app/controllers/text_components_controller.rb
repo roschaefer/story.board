@@ -81,7 +81,7 @@ class TextComponentsController < ApplicationController
 
       filter_text_components
 
-      @trigger_groups = @text_components.order('from_day').group_by(&:trigger_ids)
+      @trigger_groups = @text_components.order('from_day, from_hour').group_by(&:trigger_ids)
 
       @trigger_groups = @trigger_groups.map do |trigger_ids, components|
         [Trigger.find(trigger_ids), components]

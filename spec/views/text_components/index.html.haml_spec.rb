@@ -60,8 +60,7 @@ RSpec.describe "text_components/index", type: :view do
 
     it "shows from and to days" do
       render
-      assert_select ".item-table__item td", :text => 1.to_s, :count => 2
-      assert_select ".item-table__item td", :text => 2.to_s, :count => 2
+      assert_select ".item-table__item td", :text => "1 – 2\n\nalways", :count => 2
     end
 
     it "indicates the publication status" do
