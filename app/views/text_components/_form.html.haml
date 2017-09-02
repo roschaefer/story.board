@@ -14,7 +14,7 @@
 
           .row
             .col
-              = f.association :report, selected: @report.id, input_html: {'data-choices': true}
+              = f.association :report, selected: @text_component.report.id, input_html: {'data-choices': true}
             .col
               = f.association :topic, label_method: :display_name, include_blank: 'No topic', input_html: {'data-choices': true}
 
