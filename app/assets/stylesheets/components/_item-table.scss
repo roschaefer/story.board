@@ -2,8 +2,8 @@
  * ITEM-TABLE
  */
 
-.item-table {
-    
+.item-table a {
+    color: $body-color;
 }
 
 .item-table__title {
@@ -24,6 +24,10 @@
     text-align: center;
     font-size: .75rem;
     line-height: 1rem * $line-height-base;
+}
+
+.item-table__meta {
+    white-space: nowrap;
 }
 
 .item-table__actions {
