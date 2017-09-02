@@ -7,7 +7,7 @@
 
 %td
   .item-table__title
-    = text_component.heading
+    = link_to(text_component.heading, report_text_component_path(text_component.report, text_component), {class: 'item-table__link'})
 
 %td= text_component.from_day
 
