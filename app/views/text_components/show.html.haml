@@ -1,0 +1,42 @@
+= render @text_component
+%p
+  %b Topic:
+  = @text_component.topic_name
+%p
+  %h3 Question/Answer
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Question
+        %th Answer
+    %tbody
+      = render @text_component.question_answers
+      %p
+  %h3 Triggers
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      = render @text_component.triggers
+      %p
+  %h3 Channels
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      - @text_component.channels.each do |channel|
+        %tr
+          %td
+            = channel.name
+          %td
+            = link_to "Show", edit_channel_path(channel)
+
+%p
+  - if user_signed_in?
+    = link_to 'Edit', edit_report_text_component_path(@report, @text_component), :class => "btn btn-primary"
+    = link_to 'Destroy', report_text_component_path(@report, @text_component), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
+  = link_to 'Back', report_text_components_path(@report), {class: 'btn btn-default'}

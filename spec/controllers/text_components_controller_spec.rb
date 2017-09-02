@@ -60,6 +60,14 @@ RSpec.describe TextComponentsController, type: :controller do
     end
   end
 
+  describe "GET #show" do    
+    it "assigns the requested text_component as @text_component" do   
+      text_component = create(:text_component, valid_attributes)    
+      get :show, params: {report_id: report.id,:id => text_component.to_param}, session: valid_session    
+      expect(assigns(:text_component)).to eq(text_component)    
+    end
+  end
+
   describe "POST #create" do
     context "with valid params" do
       it "creates a new TextComponent" do
@@ -76,7 +84,7 @@ RSpec.describe TextComponentsController, type: :controller do
 
       it "redirects to the created text_component" do
         post :create, params: {report_id: report.id,:text_component => valid_attributes}, session: valid_session
-        expect(response).to redirect_to(edit_report_text_component_path(report, TextComponent.last))
+        expect(response).to redirect_to(report_text_component_path(report, TextComponent.last))
       end
 
       describe 'with a new trigger' do
@@ -142,7 +150,7 @@ RSpec.describe TextComponentsController, type: :controller do
       it "redirects to the text_component" do
         text_component = create(:text_component, valid_attributes)
         put :update, params: {report_id: report.id,:id => text_component.to_param, :text_component => valid_attributes}, session: valid_session
-        expect(response).to redirect_to(edit_report_text_component_path(report, text_component))
+        expect(response).to redirect_to(report_text_component_path(report, text_component))
       end
     end
 
