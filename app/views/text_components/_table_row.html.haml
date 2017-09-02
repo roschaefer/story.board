@@ -8,7 +8,7 @@
 %td.align-middle
   = text_component.heading
 
-%td.small.text-center.align-middle.item-table__time
+%td.small.text-center.align-middle.item-table__meta
   = "#{text_component.from_day} – #{text_component.to_day}"
   %br
   = TextComponent::TIME_FRAMES.find{ |name,value| value == text_component.timeframe }.first.gsub(/\(.*\)\s*/, '')
