@@ -117,10 +117,10 @@ Then(/^the trigger is connected to the ([^"]*) sensor$/) do |property|
   expect(@trigger.sensors.first.sensor_type.property).to eq property.capitalize
 end
 
-Then(/^the condition has relevant values from (\d+) to (\d+)$/) do |arg1, arg2|
+Then(/^the condition has relevant values from "([^"]*)" to "([^"]*)"$/) do |arg1, arg2|
   @trigger.reload
-  expect(@trigger.conditions.first.from).to eq arg1.to_i
-  expect(@trigger.conditions.first.to).to   eq arg2.to_i
+  expect(@trigger.conditions.first.from).to eq arg1.to_f
+  expect(@trigger.conditions.first.to).to   eq arg2.to_f
 end
 
 Given(/^this sensor just measured a .* of (\d+)°C$/) do |value|

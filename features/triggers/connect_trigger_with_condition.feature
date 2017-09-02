@@ -11,8 +11,7 @@ Feature: Connect with a condition
     When I visit the edit page of this trigger
     And I add a condition
     And I choose the sensor "Temp23" to trigger this trigger
-    And I define a range from "0" to "15" to cover the relevant values
+    And I define a range from "0" to "14.5" to cover the relevant values
     And I click on update
     Then the trigger is connected to the temperature sensor
-    And the condition has relevant values from 0 to 15
-
+    And the condition has relevant values from "0" to "14.5"
