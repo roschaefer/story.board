@@ -6,7 +6,7 @@
       %span{class: ['fa', text_component.channel_icons.first]}
 
 %td.align-middle
-  = text_component.heading
+  = link_to(text_component.heading, report_text_component_path(text_component.report, text_component), {class: 'item-table__link'})
 
 %td.small.text-center.align-middle.item-table__meta
   = "#{text_component.from_day} – #{text_component.to_day}"
