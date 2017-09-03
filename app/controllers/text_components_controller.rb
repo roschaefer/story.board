@@ -82,6 +82,8 @@ class TextComponentsController < ApplicationController
     end
 
     def set_index_data
+      @diary_entry = DiaryEntry.new(report: @report, release: :final, moment: Time.zone.now)
+
       @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
 
       filter_text_components
