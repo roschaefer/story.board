@@ -253,6 +253,22 @@ var Editor = (function($, autosize) {
 
         var text = self.$input.val();
 
+        // escape html entities
+        var entityMap = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+          '/': '&#x2F;',
+          '`': '&#x60;',
+          '=': '&#x3D;'
+        };
+
+        text = text.replace(/[&<>"'`=\/]/g, function(char) {
+            return entityMap[char];
+        });
+
         $.each(self.filters, function(name, filter) {
             text = text.replace(filter.pattern, function() {
                 return filter.markup.apply(self, arguments);
