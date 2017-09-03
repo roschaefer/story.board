@@ -7,16 +7,31 @@ describe Trigger, type: :model do
   context 'given a sensor reading' do
     let(:diary_entry) { DiaryEntry.new(report: trigger.report, moment: Time.zone.now) }
     let(:trigger) { create(:trigger, :with_a_sensor_reading, params) }
+
     describe '#validity_period' do
       let(:params) { { validity_period: 3 } }
+
       it { trigger.active?(diary_entry) }
+
       context 'some hours later' do
-        it 'no longer relevant' do
-          expect(trigger.active?(diary_entry)).to be_truthy
+        let(:future_diary_entry) do
           Timecop.travel(4.hours.from_now) do
-            expect(trigger.active?(diary_entry)).to be_falsy
+            future_diary_entry = DiaryEntry.new(report: trigger.report, moment: Time.zone.now)
           end
         end
+
+        it 'is no longer relevant' do
+          Timecop.travel(4.hours.from_now) do
+            expect(trigger.active?(future_diary_entry)).to be_falsy
+          end
+        end
+
+        it 'is still active for past diary entries' do
+          Timecop.travel(4.hours.from_now) do
+            expect(trigger.active?(diary_entry)).to be_truthy
+          end
+        end
+
       end
     end
   end

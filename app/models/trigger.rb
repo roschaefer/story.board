@@ -26,7 +26,7 @@ class Trigger < ActiveRecord::Base
         active = true
         active &= (condition.from.nil? || condition.from <= reading.calibrated_value)
         active &= (condition.to.nil? ||reading.calibrated_value <= condition.to)
-        active &= (validity_period.nil? || (validity_period.hours.ago <= reading.created_at))
+        active &= (validity_period.nil? || (diary_entry.moment - validity_period.hours <= reading.created_at))
         active
       else
         false
