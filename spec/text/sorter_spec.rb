@@ -7,13 +7,15 @@ RSpec.describe Text::Sorter do
     let(:opts) { {} }
 
     context 'several text components with different priorities' do
-      let(:expected_result) { [text_components[2], text_components[0], text_components[1]] }
+      let(:expected_result) { [text_components[3], text_components[2], text_components[0], text_components[1]] }
 
       let(:text_components) do
         [
           create(:text_component, heading: 'Text component Medium', triggers: [create(:trigger, priority: :medium)]),
           create(:text_component, heading: 'Text component Low', triggers: [create(:trigger, priority: :low)]),
           create(:text_component, heading: 'Text component High', triggers: [create(:trigger, priority: :high)]),
+          create(:text_component, heading: 'Text component High', triggers: [create(:trigger, priority: :always_on_top)]),
+
         ]
       end
 

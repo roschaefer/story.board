@@ -18,14 +18,16 @@ RSpec.describe "DiaryEntries", type: :request do
 
       describe 'priorities' do
         it 'define order of text components' do
+          create(:text_component, report: report, heading: 'Totally boring component 1',  triggers: create_list(:trigger, 1, priority: :totally_boring))
           create(:text_component, report: report, heading: 'Low priority component 1',  triggers: create_list(:trigger, 1, priority: :low))
           create(:text_component, report: report, heading: 'Low priority component 2',  triggers: create_list(:trigger, 1, priority: :low))
           create(:text_component, report: report, heading: 'Medium priority component', triggers: create_list(:trigger, 1, priority: :medium))
           create(:text_component, report: report, heading: 'Low priority component 3',  triggers: create_list(:trigger, 1, priority: :low))
           create(:text_component, report: report, heading: 'High priority component',   triggers: create_list(:trigger, 1, priority: :high))
+          create(:text_component, report: report, heading: 'Always on top priority component',   triggers: create_list(:trigger, 1, priority: :always_on_top))
           action
-          expect(js['text_components'][0]['heading']).to eq 'High priority component'
-          expect(js['text_components'][1]['heading']).to eq 'Medium priority component'
+          expect(js['text_components'][0]['heading']).to eq 'Always on top priority component'
+          expect(js['text_components'][1]['heading']).to eq 'High priority component'
           expect(js['text_components'].count).to eq 3
         end
       end
