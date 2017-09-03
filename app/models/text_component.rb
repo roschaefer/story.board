@@ -59,10 +59,10 @@ class TextComponent < ActiveRecord::Base
   def on_time?(diary_entry)
     result = true
     if from_day
-        result &= ((report.start_date + from_day.days) <= diary_entry.moment)
+        result &= ((report.start_date + from_day.days) <= diary_entry.moment.to_date)
     end
     if to_day
-        result &= (diary_entry.moment <= (report.start_date + to_day.days))
+        result &= (diary_entry.moment.to_date <= (report.start_date + to_day.days))
     end
 
     if from_hour && to_hour
