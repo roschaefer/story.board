@@ -9,7 +9,7 @@ class Trigger < ActiveRecord::Base
   validates :priority, presence: true
   accepts_nested_attributes_for :conditions, reject_if: :all_blank, allow_destroy: true
 
-  enum priority: { very_low: -1, low: 0, medium: 1, high: 2, urgent: 3}
+  enum priority: { totally_boring: -2 ,very_low: -1, low: 0, medium: 1, high: 2, urgent: 3, always_on_top: 4}
 
   def self.default_scope
     order('LOWER("triggers"."name")')

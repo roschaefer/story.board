@@ -25,9 +25,11 @@ RSpec.describe DiaryEntry, type: :model do
         context 'every text component has a trigger with a different priority' do
           let!(:text_components) do
             [
-              create(:text_component, report: report, heading: 'Text component 1', triggers: [create(:trigger, priority: :high)]),
-              create(:text_component, report: report, heading: 'Text component 2', triggers: [create(:trigger, priority: :medium)]),
-              create(:text_component, report: report, heading: 'Text component 3', triggers: [create(:trigger, priority: :low)]),
+              create(:text_component, report: report, heading: 'Text component 1', triggers: [create(:trigger, priority: :always_on_top)]),
+              create(:text_component, report: report, heading: 'Text component 2', triggers: [create(:trigger, priority: :high)]),
+              create(:text_component, report: report, heading: 'Text component 3', triggers: [create(:trigger, priority: :medium)]),
+              create(:text_component, report: report, heading: 'Text component 4', triggers: [create(:trigger, priority: :low)]),
+              create(:text_component, report: report, heading: 'Text component 5', triggers: [create(:trigger, priority: :totally_boring)]),
             ]
           end
           it { is_expected.to eq 'Text component 1'}

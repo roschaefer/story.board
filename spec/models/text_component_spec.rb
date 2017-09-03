@@ -142,10 +142,11 @@ RSpec.describe TextComponent, type: :model do
       before do
         create(:trigger, text_components: [text_component], priority: :medium)
         create(:trigger, text_components: [text_component], priority: :high)
+        create(:trigger, text_components: [text_component], priority: :always_on_top)
       end
 
       it 'is the highest priority' do
-        is_expected.to eq 'high'
+        is_expected.to eq 'always_on_top'
       end
     end
   end
