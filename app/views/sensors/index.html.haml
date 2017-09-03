@@ -1,14 +1,22 @@
-%table.table.table-striped.table-hover
-  %thead
+%table.table.item-table
+  %thead.thead-default
     %tr
-      %th ID
       %th Name
       %th Address
+      %th
   %tbody
     - @sensors.each do |sensor|
-      %tr
-        %td= sensor.id
+      %tr.item-table__item{class: ('item-table__item--highlight' if sensor.manual?)}
         %td= link_to sensor.name, report_sensor_path(@report, sensor)
         %td= sensor.address
+        %td.item-table__actions
+          = link_to('', report_sensor_path(@report, sensor), |
+              {class: ['item-table__action--show', 'fa', 'fa-eye'], title: 'Show Sensor', data: {toggle: 'tooltip'}})
+
+          = link_to('', edit_report_sensor_path(@report, sensor), |
+              {class: ['item-table__action--edit', 'fa', 'fa-pencil'], title: 'Edit Sensor', data: {toggle: 'tooltip'}})
+
+          = link_to('', report_text_component_path(@report, sensor), |
+              {method: :delete, class: ['item-table__action--destroy', 'fa', 'fa-trash'], title: 'Delete Sensor', data: {confirm: 'Are you sure?', toggle: 'tooltip'}})
 
 %p= link_to 'Add new sensor', new_report_sensor_path(@report, @sensor), :class => "btn btn-primary"
