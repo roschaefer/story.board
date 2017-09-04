@@ -812,7 +812,7 @@ Then(/^the easier text will not appear in main story$/) do
   expect(page).not_to have_text(@easy)
 end
 
-Given(/^this text component has these questions and answers already:$/) do |table|
+Given(/^this text component has these questions and answers(?: already)?:$/) do |table|
   @question_answers = []
   table.hashes.each do |row|
     question_answer = create(:question_answer, text_component: @text_component, question: row['Question'], answer: row['Answer'])
@@ -1436,7 +1436,7 @@ Given(/^for this diary entry we have an active text component:$/) do |text|
          trigger: trigger,
          from: 0,
          to: 100)
-  create(:text_component,
+  @text_component = create(:text_component,
          report: Report.current,
          channels: [Channel.sensorstory],
          main_part: text,
