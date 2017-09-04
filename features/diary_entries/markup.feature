@@ -13,8 +13,11 @@ Feature: Render markup for frontend
     """
     The humidity today is { value(1) }!
     """
+    And this text component has these questions and answers:
+      | Question                      | Answer        |
+      | Could you say that once more? | { value(1) }  |
+      | Really?!                      | Yep.          |
     And I send and accept JSON
-
   Scenario: Render sensor reading value
     When I send a GET request to "/reports/1/diary_entries/1"
     Then the JSON response should be:
@@ -36,6 +39,19 @@ Feature: Render markup for frontend
           "question_answers": [ ],
           "image_url": "/images/original/missing.png",
           "image_alt": null,
+          "question_answers": [
+            {
+              "id": 1,
+              "text_component_id": 1,
+              "question": "Could you say that once more?",
+              "answer": "50.0 %"
+            }, {
+              "id": 2,
+              "text_component_id": 1,
+              "question": "Really?!",
+              "answer": "Yep."
+            }
+          ],
           "url": "http://example.org/reports/1/text_components/1.json"
         }
       ],
