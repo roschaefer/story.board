@@ -11,7 +11,7 @@ class SensorDecorator
 
     if r
       v = r.calibrated_value
-      "#{format("%.1f", v)} #{u}"
+      "%<value>.#{r.sensor.fractionDigits}f %<unit>s" % {value: v, unit: u}
     else
       "(Sorry, leider habe ich gerade keine Daten für dich!)"
     end
