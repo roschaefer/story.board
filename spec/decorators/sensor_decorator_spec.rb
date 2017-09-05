@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SensorDecorator do
   let(:sensor)         { create(:sensor, name: 'SensorXY', sensor_type: sensor_type ) }
-  let(:sensor_type)    { create(:sensor_type, property: 'Temperature', unit: '°C') }
+  let(:sensor_type)    { create(:sensor_type, property: 'Temperature', unit: '°C', fractionDigits: 0) }
 
   let(:diary_entry) { DiaryEntry.new(release: :final) }
   let(:decorator) { described_class.new(sensor, diary_entry) }
@@ -12,7 +12,7 @@ RSpec.describe SensorDecorator do
     subject { decorator.last_value }
 
     context 'sensory data available' do
-      describe '#fractionDigits' do
+      describe '#fractionDigits', issue: 666 do
         let(:sensor_type) { create(:sensor_type, property: 'Temperature', unit: '°C', fractionDigits: 5) }
         it { is_expected.to eq('5.00000 °C')}
       end

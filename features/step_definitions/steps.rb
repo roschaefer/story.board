@@ -325,7 +325,7 @@ end
 
 Given(/^I have these sensors and sensor types in my database$/) do |table|
   table.hashes.each do |row|
-    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'], min: row['Min'], max: row['Max'], fractionDigits: row['FractionDigits'])
+    sensor_type = create(:sensor_type, property: row['Property'], unit: row['Unit'], min: row['Min'], max: row['Max'], fractionDigits: (row['FractionDigits'] || 1))
     create(:sensor,
            id: row['SensorID'].to_i,
            name: row['Sensor'],
