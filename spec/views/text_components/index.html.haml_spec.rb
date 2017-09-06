@@ -3,6 +3,7 @@ require 'capybara/rspec'
 
 RSpec.describe "text_components/index", type: :view do
   let(:report) { create(:report, name: 'UniqueReportName') }
+  let(:diary_entry) { create(:diary_entry, report: report, moment: Time.zone.now)}
   let(:trigger) { create(:trigger) }
   let(:channel_sensorstory) { create(:channel, name: 'sensorstory') }
   let(:channel_chatbot) { create(:channel, name: 'chatbot') }
@@ -29,6 +30,7 @@ RSpec.describe "text_components/index", type: :view do
 
   before(:each) do
     assign(:report, report)
+    assign(:diary_entry, diary_entry)
     assign(:text_component, TextComponent.new)
     new_text_component = TextComponent.new
     new_text_component.triggers.build
