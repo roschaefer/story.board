@@ -38,6 +38,8 @@ Feature: Render markup for frontend
           "to_day": null,
           "question_answers": [ ],
           "image_url": "/images/original/missing.png",
+          "image_url_big": "/images/big/missing.png",
+          "image_url_small": "/images/small/missing.png",
           "image_alt": null,
           "question_answers": [
             {

@@ -17,6 +17,14 @@ class TextComponent < ActiveRecord::Base
     big: '1000>',
   }
 
+  def image_url_big
+    return image.url(:big)
+  end
+
+  def image_url_small
+    return image.url(:small)
+  end
+
   validates :heading, :report, presence: true
   validates :from_hour, inclusion: { in: 0..23 }, allow_blank: true
   validates :to_hour, inclusion: { in: 0..23 }, allow_blank: true
