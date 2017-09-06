@@ -84,14 +84,14 @@ class TextComponentsController < ApplicationController
     def set_index_data
       @diary_entry = DiaryEntry.new(report: @report, release: :final, moment: Time.zone.now)
 
-      @text_components = TextComponent.includes(:triggers, :question_answers, :channels)
+      @text_components = TextComponent.includes(:report, :channels, :triggers)
 
       filter_text_components
 
       @trigger_groups = @text_components.order('from_day, from_hour').group_by(&:trigger_ids)
 
       @trigger_groups = @trigger_groups.map do |trigger_ids, components|
-        [Trigger.find(trigger_ids), components]
+        [components.first.triggers, components]
       end
 
       @trigger_groups = @trigger_groups.sort do |a, b|

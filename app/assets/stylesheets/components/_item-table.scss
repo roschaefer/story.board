@@ -6,6 +6,7 @@
     color: $body-color;
 }
 
+.item-table__item--highlight,
 .item-table__item--highlight td,
 .item-table__item--highlight th {
     background-color: rgba(saturate(theme-color('success'), 20), .075);
