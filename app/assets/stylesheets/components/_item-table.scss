@@ -6,6 +6,13 @@
     color: $body-color;
 }
 
+.item-table__item--highlight td,
+.item-table__item--highlight th {
+    background-color: rgba(saturate(theme-color('success'), 20), .075);
+    border-top: 1px solid saturate(theme-color('success'), 20) !important;
+    border-bottom: 1px solid saturate(theme-color('success'), 20) !important;
+}
+
 .item-table__title {
     position: relative;
 }
