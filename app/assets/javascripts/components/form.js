@@ -118,8 +118,4 @@ var Form = (function($) {
         });
     };
 
-    $(function() {
-        $('.form').form();
-    });
-
 })(jQuery, Form);

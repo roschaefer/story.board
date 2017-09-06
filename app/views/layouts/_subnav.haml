@@ -16,7 +16,7 @@
               .select-btn.select-btn--caret
                 = options.find{|o| o[:active]}[:name]
 
-                %select.select-btn__select{onchange: 'window.location = this.value'}
+                %select.select-btn__select.nav-select
                   - options.each do |option|
 
                     %option{value: option[:url], selected: option[:active]}= option[:name]
@@ -34,7 +34,7 @@
             = @primary_action[:name]
 
           %a.select-btn.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', onchange: 'return false'}
-            %select.select-btn__select{onchange: 'window.location = this.value'}
+            %select.select-btn__select.nav-select
               %option{selected: true, disabled: true} Create something new!
               - @secondary_actions.each do |action|
                 %option{value: action[:url]}= action[:name]

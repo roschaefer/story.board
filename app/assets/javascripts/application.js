@@ -27,21 +27,33 @@
 //= require components/form
 //= require components/editor
 
-$(function() {
+/*
+ * Tooltips
+ */
+$(document).on('turbolinks:load', function() {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
-$(function() {
+/*
+ * Enhanced select fields
+ */
+$(document).on('turbolinks:load', function() {
     if($('[data-choices]').length > 0) {
         new Choices('[data-choices]', {shouldSort: false});
     }
 });
 
-$(function() {
+/*
+ * Autosize for textareas
+ */
+$(document).on('turbolinks:load', function() {
   autosize($('textarea[data-autosize]'));
 })
 
-$(function() {
+/*
+ * Range sliders for sensor conditions
+ */
+$(document).on('turbolinks:load', function() {
     $('.range').each(function() {
         var $elm = $(this);
 
@@ -76,11 +88,30 @@ $(function() {
     });
 });
 
-$(function() {
+/*
+ * Text editors for text components
+ */
+$(document).on('turbolinks:load', function() {
     $('.text-editor').editor();
 
     $('.links').on('cocoon:after-insert', function(e, item) {
         $(item).find('.text-editor').editor();
         autosize($('textarea[data-autosize]'));
+    });
+});
+
+/*
+ * Accordion forms for text components
+ */
+$(document).on('turbolinks:load', function() {
+    $('.form').form();
+});
+
+/*
+ * Select fields used as dropdowns
+ */
+$(document).on('turbolinks:load', function() {
+    $('.nav-select').on('change', function() {
+        Turbolinks.visit($(this).val());
     });
 });
