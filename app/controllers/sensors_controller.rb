@@ -3,7 +3,7 @@ class SensorsController < ApplicationController
   before_action :set_readings, only: [:show, :start_calibration, :stop_calibration]
 
   def index
-    @sensors = Sensor.where(report: @report)
+    @sensors = Sensor.where(report: @report).includes(:sensor_type).reorder('sensor_types.data_collection_method desc')
   end
 
   def new

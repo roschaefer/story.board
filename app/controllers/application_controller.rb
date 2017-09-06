@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
 
       children << {
         name: 'Events',
-        url: events_path,
+        url: events_path(report_id: report.id),
         active: params[:controller] == 'events',
         children: get_current_action.call('events')
       }
@@ -120,29 +120,47 @@ class ApplicationController < ActionController::Base
     actions = {}
 
     ['text_components', 'triggers', 'sensors'].each do |action|
-      actions[action] = {
+      actions["create_#{action.singularize}"] = {
+        controller: action,
         name: "New #{action.to_s.singularize.humanize.titlecase}",
         url: url_for(controller: action, action: 'new', report_id: @report.id)
       }
     end
 
-    actions['events'] = {
+    actions['create_event'] = {
+      controller: 'events',
       name: 'New Event',
       url: url_for(controller: 'events', action: 'new')
     }
 
-    primary_action = params[:controller]
-    unless actions.keys.include? params[:controller]
-      primary_action = 'text_components'
+    if params[:controller] == 'sensors' && params[:action] == 'show'
+      actions['create_sensor_reading'] = {
+        controller: 'sensors',
+        action: 'show',
+        name: 'New Sensor Reading',
+        url: url_for(controller: 'sensors', action: 'show', report_id: @report.id, anchor: 'add')
+      }
     end
 
-    secondary_actions = actions.keys.select do |action|
-      action != primary_action
+    primary_action = nil
+
+    actions.each do |key, action|
+      if params[:controller] == action[:controller] && (action[:action].nil? || params[:action] = action[:action])
+        primary_action = key
+      end
+    end
+
+    unless primary_action
+      primary_action = 'create_text_component'
+    end
+
+    secondary_actions = actions.select do |key, action|
+      key != primary_action
     end
 
     @primary_action = actions[primary_action]
-    @secondary_actions = secondary_actions.map do |action|
-      actions[action]
+    @secondary_actions = secondary_actions.values.sort_by do |action|
+      params[:controller] == action[:controller] ? 0 : 1
     end
 
   end

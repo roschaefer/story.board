@@ -9,7 +9,7 @@
 #
 set :output, './log/cron.log'
 
-%w[6:05 9:05 13:05 18:05 23:05 3:05].each do |time|
+%w[6:05am 9:05am 1:05pm 6:05pm 11:05pm].each do |time|
   every :day, at: time do
     rake 'archive'
   end

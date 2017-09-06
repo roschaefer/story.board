@@ -10,6 +10,7 @@ class Sensor < ActiveRecord::Base
   delegate :max, to: :sensor_type
   delegate :unit, to: :sensor_type
   delegate :fractionDigits, to: :sensor_type
+  delegate :data_collection_method, :manual?, :active?, to: :sensor_type
 
   validates :report, presence: true
   validates :name, presence: true, uniqueness: true

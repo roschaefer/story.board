@@ -25,9 +25,10 @@
     - if @subnav_items
       = render 'layouts/subnav'
 
-    .container.pt-4
-      = flash_messages
-      = yield
+    .scroll-wrapper
+      .container.pt-4
+        = flash_messages
+        = yield
 
     .container
       %footer.py5
