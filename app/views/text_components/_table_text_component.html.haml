@@ -1,19 +1,19 @@
 %td.item-table__channels.align-middle{class: "text-#{text_component.css_status_class}"}
   %span{data: {toggle: 'tooltip'}, title: "#{text_component.channels.map{|c| c.name.humanize}.join(', ')} / #{text_component.publication_status.humanize}"}
-    - if(text_component.channel_icons.count > 1)
+    - if(text_component.channel_icons.length > 1)
       %span{class: ['fa', 'fa-ellipsis-h']}
     - else
       %span{class: ['fa', text_component.channel_icons.first]}
 
-%td.align-middle
-  = link_to(text_component.heading, report_text_component_path(text_component.report, text_component), {class: 'item-table__link'})
+%td.align-middle{class: ('item-table__item--highlight' if text_component.active?(@diary_entry))}
+  = link_to(text_component.heading, report_text_component_path(@report, text_component), {class: 'item-table__link'})
 
-%td.small.text-center.align-middle.item-table__meta
+%td.small.text-center.align-middle.item-table__meta{class: ('item-table__item--highlight' if text_component.active?(@diary_entry))}
   = "#{text_component.from_day} – #{text_component.to_day}"
   %br
   = TextComponent::TIME_FRAMES.find{ |name,value| value == text_component.timeframe }.first.gsub(/\(.*\)\s*/, '')
 
-%td.item-table__actions.align-middle
+%td.item-table__actions.align-middle{class: ('item-table__item--highlight' if text_component.active?(@diary_entry))}
   = link_to('', report_text_component_path(@report, text_component), |
       {class: ['item-table__action--show', 'fa', 'fa-eye'], title: 'Show Text Component', data: {toggle: 'tooltip'}})
 

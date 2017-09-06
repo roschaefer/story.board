@@ -1,7 +1,7 @@
 %th{rowspan: text_components.size}
-  - if triggers.count > 0
+  - if triggers.length > 0
     - triggers.each.with_index do |trigger, index|
-      - if index + 1 < triggers.size
+      - if index + 1 < triggers.length
         = link_to(trigger.name, report_trigger_path(trigger.report, trigger)) + ', '
       - else
         = link_to(trigger.name, report_trigger_path(trigger.report, trigger))
