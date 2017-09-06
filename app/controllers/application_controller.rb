@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
 
       children << {
         name: 'Events',
-        url: events_path,
+        url: events_path(report_id: report.id),
         active: params[:controller] == 'events',
         children: get_current_action.call('events')
       }
