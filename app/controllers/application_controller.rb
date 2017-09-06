@@ -145,7 +145,7 @@ class ApplicationController < ActionController::Base
     primary_action = nil
 
     actions.each do |key, action|
-      if params[:controller] == action[:controller] && (action[:action] && params[:controller] = action[:controller])
+      if params[:controller] == action[:controller] && (action[:action].nil? || params[:action] = action[:action])
         primary_action = key
       end
     end
