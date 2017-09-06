@@ -14,4 +14,4 @@ ready = ->
     $('#sensor_reading_form').show()
 
 $(document).ready(ready)
-$(document).on('page:load', ready)
+$(document).on('turbolinks:load', ready)

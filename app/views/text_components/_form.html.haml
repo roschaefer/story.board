@@ -2,7 +2,7 @@
   = simple_form_for([@report, @text_component], multipart: true) do |f|
     = f.error_notification
     .form
-      .form__section
+      .form__section.form-section--active
         .form__section__header
           %h4.step
             .step__counter 1
@@ -28,7 +28,7 @@
           .notes-field
             = f.input :notes, label: false, input_html: {class: 'notes-field__input', 'data-autosize': true}
 
-      .form__section.form__section--active
+      .form__section
         .form__section__header
           %h4.step
             .step__counter 2
