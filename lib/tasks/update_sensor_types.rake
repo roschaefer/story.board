@@ -28,6 +28,7 @@ namespace :sensorstory do
   task :update_milk_quantity_unit => :environment do
     SensorType.transaction do
       SensorType.find_by!(property: 'Milchmenge').update_attributes!(unit: 'Kilogramm')
+      SensorType.find_by!(property: 'Movement').update_attributes!(unit: 'Prozent')
     end
   end
 end
