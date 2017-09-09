@@ -16,7 +16,4 @@
           = link_to('', edit_report_sensor_path(@report, sensor), |
               {class: ['item-table__action--edit', 'fa', 'fa-pencil'], title: 'Edit Sensor', data: {toggle: 'tooltip'}})
 
-          = link_to('', report_text_component_path(@report, sensor), |
-              {method: :delete, class: ['item-table__action--destroy', 'fa', 'fa-trash'], title: 'Delete Sensor', data: {confirm: 'Are you sure?', toggle: 'tooltip'}})
-
 %p= link_to 'Add new sensor', new_report_sensor_path(@report, @sensor), :class => "btn btn-primary"
