@@ -4,8 +4,8 @@ class TextComponent < ActiveRecord::Base
       '(06:00 - 09:00) in the morning' => [6, 9].to_json,
       '(09:00 - 13:00) before noon' => [9, 13].to_json,
       '(13:00 - 18:00) afternoons' => [13, 18].to_json,
-      '(18:00 - 23:00) evenings' => [18, 23].to_json,
-      '(23:00 - 06:00) nights' => [23, 6].to_json,
+      '(18:00 - 00:00) evenings' => [18, 0].to_json,
+      '(00:00 - 06:00) nights' => [0, 6].to_json,
   }
 
   attr_accessor :delete_image
