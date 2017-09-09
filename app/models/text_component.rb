@@ -43,7 +43,9 @@ class TextComponent < ActiveRecord::Base
 
   validates :channels, presence: true
   # Validate the attached image is image/jpg, image/png, etc
-  validates_attachment :image, content_type: { content_type: /\Aimage\/.*\z/ }
+  validates_attachment :image,
+    content_type: { content_type: /\Aimage\/.*\z/ },
+    size: { in: 0..20.megabytes }
 
   delegate :name, to: :topic, prefix: true, allow_nil: true
   delegate :name, to: :assignee, prefix: true, allow_nil: true
