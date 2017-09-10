@@ -346,13 +346,13 @@ Then(/^I can watch a video stream that points to this url$/) do
   expect(find('iframe')['src']).to eq @url
 end
 
-When(/^I set the component to trigger only for recent data within the last (\d+) hours$/) do |hours|
+When(/^I set the component to trigger only for recent data within the last "([^"]*)" hours$/) do |hours|
   fill_in "Validity period", with: hours
 end
 
-Then(/^this trigger has a validity period of (\d+) hours$/) do |hours|
+Then(/^this trigger has a validity period of "([^"]*)" hours$/) do |hours|
   @trigger.reload
-  expect(@trigger.validity_period).to eq hours.to_i
+  expect(@trigger.validity_period).to eq hours.to_f
 end
 
 Given(/^I see the (?:current|new)? live report/) do |string|

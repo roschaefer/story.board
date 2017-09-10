@@ -11,6 +11,12 @@ Feature: Add validity period
 
   Scenario: Add a validity period to a trigger
     When I visit the edit page of this trigger
-    And I set the component to trigger only for recent data within the last 3 hours
+    And I set the component to trigger only for recent data within the last "3" hours
     And I click on "Update"
-    Then this trigger has a validity period of 3 hours
+    Then this trigger has a validity period of "3" hours
+
+  Scenario: Add a float number validity period to a trigger
+    When I visit the edit page of this trigger
+    And I set the component to trigger only for recent data within the last "4.5" hours
+    And I click on "Update"
+    Then this trigger has a validity period of "4.5" hours
