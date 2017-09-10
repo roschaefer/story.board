@@ -62,6 +62,15 @@ class TextComponent < ActiveRecord::Base
     [self.from_hour, self.to_hour].to_json
   end
 
+  def displayed_timeframe
+    label = TextComponent::TIME_FRAMES.invert[self.timeframe]
+    if label
+      label.split(') ').last
+    else
+      nil
+    end
+  end
+
   def active?(diary_entry)
     on_time?(diary_entry) && triggers.all? {|t| t.active?(diary_entry) }
   end

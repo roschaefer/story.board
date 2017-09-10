@@ -11,7 +11,7 @@
 %td.small.text-center.align-middle.item-table__meta{class: ('item-table__item--highlight' if text_component.active?(@diary_entry))}
   = "#{text_component.from_day} – #{text_component.to_day}"
   %br
-  = TextComponent::TIME_FRAMES.find{ |name,value| value == text_component.timeframe }.first.gsub(/\(.*\)\s*/, '')
+  = text_component.displayed_timeframe
 
 %td.item-table__actions.align-middle{class: ('item-table__item--highlight' if text_component.active?(@diary_entry))}
   = link_to('', report_text_component_path(@report, text_component), |
