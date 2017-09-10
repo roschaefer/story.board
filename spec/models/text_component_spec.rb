@@ -16,6 +16,25 @@ RSpec.describe TextComponent, type: :model do
     end
   end
 
+  describe '#displayed_time_frame' do
+    subject { text_component.displayed_timeframe }
+
+    context 'timeframe == [6,9]' do
+      let(:text_component) { build(:text_component, from_hour: 6, to_hour: 9) }
+      it { is_expected.to eq('in the morning') }
+    end
+
+    context 'timeframe == nil' do
+      let(:text_component) { build(:text_component, from_hour: nil, to_hour: nil) }
+      it { is_expected.to eq('always') }
+    end
+
+    context 'timeframe mismatch' do
+      let(:text_component) { build(:text_component, from_hour: 1, to_hour: nil) }
+      it { is_expected.to eq(nil) }
+    end
+  end
+
   describe '#create' do
     let(:report) { create(:report) }
     subject { create(:text_component, report: report) }
