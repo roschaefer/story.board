@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170819155959) do
+ActiveRecord::Schema.define(version: 20170903181034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 20170819155959) do
   end
 
   create_table "conditions", force: :cascade do |t|
-    t.integer  "from"
-    t.integer  "to"
+    t.float    "from"
+    t.float    "to"
     t.integer  "trigger_id"
     t.integer  "sensor_id"
     t.datetime "created_at", null: false
@@ -109,18 +109,6 @@ ActiveRecord::Schema.define(version: 20170819155959) do
     t.index ["text_component_id"], name: "index_question_answers_on_text_component_id", using: :btree
   end
 
-  create_table "records", force: :cascade do |t|
-    t.string   "heading"
-    t.string   "introduction"
-    t.string   "main_part"
-    t.string   "closing"
-    t.integer  "report_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "intention",    default: 0
-    t.index ["report_id"], name: "index_records_on_report_id", using: :btree
-  end
-
   create_table "reports", force: :cascade do |t|
     t.date     "start_date"
     t.datetime "created_at", null: false
@@ -143,12 +131,13 @@ ActiveRecord::Schema.define(version: 20170819155959) do
 
   create_table "sensor_types", force: :cascade do |t|
     t.string   "property"
-    t.string   "unit",           default: ""
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.decimal  "min",            default: "-20.0"
-    t.decimal  "max",            default: "100.0"
-    t.integer  "fractionDigits", default: 0
+    t.string   "unit",                   default: ""
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.decimal  "min",                    default: "-20.0"
+    t.decimal  "max",                    default: "100.0"
+    t.integer  "fractionDigits",         default: 0
+    t.integer  "data_collection_method", default: 0
   end
 
   create_table "sensors", force: :cascade do |t|
@@ -162,14 +151,13 @@ ActiveRecord::Schema.define(version: 20170819155959) do
     t.float    "max_value"
     t.float    "min_value"
     t.datetime "calibrated_at"
-    t.boolean  "smaxtec_sensor"
     t.string   "animal_id"
     t.string   "device_id"
     t.index ["address"], name: "index_sensors_on_address", unique: true, using: :btree
-    t.index ["device_id"], name: "index_sensors_on_device_id", unique: true, using: :btree
     t.index ["name"], name: "index_sensors_on_name", unique: true, using: :btree
     t.index ["report_id"], name: "index_sensors_on_report_id", using: :btree
     t.index ["sensor_type_id", "animal_id"], name: "index_sensors_on_sensor_type_id_and_animal_id", unique: true, using: :btree
+    t.index ["sensor_type_id", "device_id"], name: "index_sensors_on_sensor_type_id_and_device_id", unique: true, using: :btree
     t.index ["sensor_type_id"], name: "index_sensors_on_sensor_type_id", using: :btree
   end
 
@@ -182,8 +170,8 @@ ActiveRecord::Schema.define(version: 20170819155959) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "assignee_id"
     t.integer  "publication_status", default: 0
+    t.integer  "assignee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"
