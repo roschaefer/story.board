@@ -12,8 +12,9 @@ class SensorsController < ApplicationController
 
   def create
     @sensor = Sensor.new(sensor_params)
+
     if @sensor.save
-      redirect_to report_sensor_path(@report, @sensor)
+      redirect_to report_sensor_path(@sensor.report_id, @sensor)
     else
       render 'new'
     end
@@ -21,7 +22,7 @@ class SensorsController < ApplicationController
 
   def update
     if @sensor.update(sensor_params)
-      redirect_to report_sensor_path(@report, @sensor)
+      redirect_to report_sensor_path(@sensor.report_id, @sensor)
     else
       render 'new'
     end

@@ -9,7 +9,7 @@ FactoryGirl.define do
 
     association :report
 
-    channels { [Channel.sensorstory] }
+    channel_ids { [Channel.sensorstory.id] }
 
     publication_status :published
 
