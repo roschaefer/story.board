@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903181034) do
+ActiveRecord::Schema.define(version: 20170912133422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,8 +170,8 @@ ActiveRecord::Schema.define(version: 20170903181034) do
     t.integer  "to_day"
     t.integer  "report_id"
     t.integer  "topic_id"
-    t.integer  "publication_status", default: 0
     t.integer  "assignee_id"
+    t.integer  "publication_status", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "notes"
