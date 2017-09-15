@@ -22,7 +22,7 @@ class TriggersController < ApplicationController
 
     respond_to do |format|
       if @trigger.save
-        format.html { redirect_to report_trigger_url(@report, @trigger), notice: 'Trigger was successfully created.' }
+        format.html { redirect_to report_trigger_url(@trigger.report_id, @trigger), notice: 'Trigger was successfully created.' }
         format.json { render :show, status: :created, location: @trigger }
       else
         format.html { render :new }
@@ -34,7 +34,7 @@ class TriggersController < ApplicationController
   def update
     respond_to do |format|
       if @trigger.update(trigger_params)
-        format.html { redirect_to report_trigger_url(@report, @trigger), notice: 'Trigger was successfully updated.' }
+        format.html { redirect_to report_trigger_url(@trigger.report_id, @trigger), notice: 'Trigger was successfully updated.' }
         format.json { render :show, status: :ok, location: @trigger }
       else
         format.html { render :edit }
