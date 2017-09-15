@@ -95,7 +95,6 @@ class TextComponent < ActiveRecord::Base
     result
   end
 
-
   def priority_index
     Trigger.priorities[priority]
   end
@@ -103,38 +102,6 @@ class TextComponent < ActiveRecord::Base
   def priority
     most_important_trigger = triggers.sort_by {|t| Trigger.priorities[t.priority] }.reverse.first
     most_important_trigger && most_important_trigger.priority
-  end
-
-  def css_status_class
-    # These class modifiers really aren't semantic
-    # and should be changed in the future
-
-    status_css_class_mapping = {
-      'draft' => 'primary',
-      'fact_checked' => 'warning',
-      'published' => 'success'
-    }
-
-    if status_css_class_mapping.key? publication_status
-      status_css_class_mapping[publication_status]
-    else
-      'default'
-    end
-  end
-
-  def channel_icons
-    channel_icon_mapping = {
-      'sensorstory' => 'fa-file-text',
-      'chatbot' => 'fa-comment'
-    }
-
-    icons = []
-
-    channels.each do |channel|
-      icons.push(channel_icon_mapping[channel.name])
-    end
-
-    icons.compact
   end
 
   def image_url
