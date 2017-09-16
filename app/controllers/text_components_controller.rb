@@ -91,6 +91,11 @@ class TextComponentsController < ApplicationController
       @trigger_groups = @text_components.order('from_day, from_hour').group_by(&:trigger_ids)
 
       @trigger_groups = @trigger_groups.map do |trigger_ids, components|
+
+        components = components.map do |c|
+          TextComponentDecorator.new(c, @diary_entry)
+        end
+
         [components.first.triggers, components]
       end
 

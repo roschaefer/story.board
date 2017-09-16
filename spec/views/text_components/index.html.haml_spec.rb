@@ -48,8 +48,7 @@ RSpec.describe "text_components/index", type: :view do
       )
     ])
     assign(:filter, {})
-    assign(:trigger_groups, [trigger] => text_components)
-    assign(:text_components, text_components)
+    assign(:trigger_groups, [trigger] => text_components.map{ |tc| TextComponentDecorator.new(tc, diary_entry) })
   end
 
   context "render a list of text_components" do
@@ -67,8 +66,8 @@ RSpec.describe "text_components/index", type: :view do
 
     it "indicates the publication status" do
       render
-      assert_select ".item-table__channels.text-primary", :count => 1
-      assert_select ".item-table__channels.text-success", :count => 1
+      assert_select ".item-table__channels .text-primary", :count => 1
+      assert_select ".item-table__channels .text-success", :count => 1
     end
 
     it "indicates each text_component's channels" do
