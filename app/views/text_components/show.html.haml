@@ -34,6 +34,17 @@
             = channel.name
           %td
             = link_to "Show", edit_channel_path(channel)
+            %p
+  %h3 Image
+  %table.table.table-striped.table-hover
+    %tbody
+      %tr
+        %td
+          - if @text_component&.image&.exists?
+            = image_tag @text_component.image.url(:small)
+          - else
+            %p No image uploaded yet
+      %p
 
 %p
   - if user_signed_in?
