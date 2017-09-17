@@ -68,6 +68,37 @@ RSpec.describe TextComponentsController, type: :controller do
     end
   end
 
+  describe "GET #duplicate" do
+    let(:question_answer) { create(:question_answer, question: 'Question?', answer: 'Answer!') }
+    let(:text_component) { create(:text_component, report_id: report.id, heading: 'Heading', question_answer_ids: [question_answer.id]) }
+    before do
+      get :duplicate, params: {report_id: report.id, id: text_component.id}, session: valid_session
+    end
+
+    it "creates a new text component from an existing one" do
+      expect(assigns(:text_component)).not_to eq(text_component)
+    end
+
+    it "is does not persist the new text component" do
+      expect(assigns(:text_component)).not_to be_persisted
+    end
+
+    it "appends 'COPY' to the text component's heading" do
+      expect(assigns(:text_component).heading).to eq('Heading COPY')
+    end
+
+    it "resets the duplicate's publication status to 'draft'" do
+      expect(assigns(:text_component).draft?).to be_truthy
+    end
+
+    it "duplicates questions and answers as well" do
+      text_component.question_answers.each.with_index do |qa, i|
+        expect(assigns(:text_component).question_answers[i].question).to eq(qa.question)
+        expect(assigns(:text_component).question_answers[i].answer).to eq(qa.answer)
+      end
+    end
+  end
+
   describe "POST #create" do
     context "with valid params" do
       it "creates a new TextComponent" do
