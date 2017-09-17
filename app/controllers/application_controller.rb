@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 
       get_current_action = lambda do |controller|
         action = nil
-        if params[:controller] == controller && ['show', 'edit', 'new'].include?(params[:action])
+        if params[:controller] == controller && ['show', 'edit', 'new', 'duplicate'].include?(params[:action])
           action = [{
             name: params[:action].humanize.titlecase,
             active: true
@@ -139,6 +139,15 @@ class ApplicationController < ActionController::Base
         action: 'show',
         name: 'New Sensor Reading',
         url: url_for(controller: 'sensors', action: 'show', report_id: @report.id, anchor: 'add')
+      }
+    end
+
+    if params[:controller] == 'text_components' && ['show', 'edit'].include?(params[:action])
+      actions['duplicate_text_component'] = {
+        controller: 'text_components',
+        action: 'duplicate',
+        name: 'Duplicate Text Component',
+        url: url_for(controller: 'text_components', action: 'duplicate')
       }
     end
 
