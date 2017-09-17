@@ -16,8 +16,24 @@ class TextComponentsController < ApplicationController
 
   def new
     @text_component = TextComponent.new
+    @text_component.report = @report
     @text_component.triggers.build
-    @text_component.report = Report.current
+  end
+
+  def duplicate
+    master = TextComponent.find(params[:id])
+
+    @text_component = master.dup
+    @text_component.report = @report
+    @text_component.heading = [master.heading, 'COPY'].join(' ')
+    @text_component.publication_status = :draft
+    @text_component.triggers.build
+
+    master.question_answers.each do |qa|
+      @text_component.question_answers << qa.dup
+    end
+
+    render :new
   end
 
   def edit
@@ -120,7 +136,7 @@ class TextComponentsController < ApplicationController
         .permit(:heading, :introduction, :main_part, :closing, :from_day, :to_day,
                 :timeframe, :to_hour, :report_id, :topic_id, :assignee_id, :image, :image_alt, :delete_image,
 
-                :publication_status, :notes, trigger_ids: [], channel_ids: [],
+                :publication_status, :notes, :duplicate, trigger_ids: [], channel_ids: [],
                 question_answers_attributes: [:id, :question, :answer, :_destroy],
                 triggers_attributes: [:name, :from_hour, :to_hour,
                                       :priority, :report_id,
