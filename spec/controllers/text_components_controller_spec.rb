@@ -97,6 +97,10 @@ RSpec.describe TextComponentsController, type: :controller do
         expect(assigns(:text_component).question_answers[i].answer).to eq(qa.answer)
       end
     end
+
+    it "copys the text component's channels" do
+      expect(assigns(:text_component).channels).to match_array(text_component.channels)
+    end
   end
 
   describe "POST #create" do

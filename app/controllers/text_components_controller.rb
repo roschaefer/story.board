@@ -27,6 +27,7 @@ class TextComponentsController < ApplicationController
     @text_component.report = @report
     @text_component.heading = [master.heading, 'COPY'].join(' ')
     @text_component.publication_status = :draft
+    @text_component.channels = master.channels
     @text_component.triggers.build
 
     master.question_answers.each do |qa|
