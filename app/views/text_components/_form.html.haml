@@ -108,7 +108,7 @@
         .form__section__body
           .field.image__field
             - if @text_component&.image&.exists?
-              = image_tag @text_component.image.url
+              = image_tag @text_component.image.url(:small)
               %br
               %br
             = f.label :image, 'Upload image'
