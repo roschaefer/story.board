@@ -91,8 +91,13 @@ RSpec.describe TextComponentsController, type: :controller do
       expect(assigns(:text_component).draft?).to be_truthy
     end
 
+    it "removes all associated triggers" do
+      expect(assigns(:text_component).triggers.count == 0)
+    end
+
     it "duplicates questions and answers as well" do
       text_component.question_answers.each.with_index do |qa, i|
+        expect(assigns(:text_component).question_answers[i]).not_to eq(qa)
         expect(assigns(:text_component).question_answers[i].question).to eq(qa.question)
         expect(assigns(:text_component).question_answers[i].answer).to eq(qa.answer)
       end
