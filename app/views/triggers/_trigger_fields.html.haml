@@ -42,7 +42,5 @@
   %small.form-text.text-muted Text component will be triggered for sensor readings within the last X hours
 
 - unless local_assigns[:is_sub_form]
-  .form-actions
-    .row
-      .col-sm-12
-        = f.button :submit, class: 'btn.btn-primary'
+  .form-group
+    = f.button :submit, class: 'btn.btn-primary'

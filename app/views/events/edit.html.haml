@@ -10,5 +10,7 @@
   %tbody#event-activations
     = render @event.activations.order(:started_at)
 
-= link_to 'Back', events_path, class: 'btn btn-secondary'
-= render 'events/activation/button', event: @event
+%p
+  = link_to 'Back', events_path, class: 'btn btn-secondary'
+%p
+  = render 'events/activation/button', event: @event

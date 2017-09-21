@@ -50,4 +50,4 @@
   - if user_signed_in?
     = link_to 'Edit', edit_report_text_component_path(@report, @text_component), :class => "btn btn-primary"
     = link_to 'Destroy', report_text_component_path(@report, @text_component), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger"
-  = link_to 'Back', report_text_components_path(@report), {class: 'btn btn-default'}
+  = link_to 'Back', report_text_components_path(@report), {class: 'btn btn-secondary'}
