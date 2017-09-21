@@ -3,3 +3,5 @@
   %td= reading.created_at
   %td= reading.calibrated_value
   %td= reading.uncalibrated_value
+  = binding.pry
+  %td= link_to 'Delete', report_sensor_reading_path(@report, @sensor, reading), method: :delete, remote: true, :class => "btn btn-secondary"

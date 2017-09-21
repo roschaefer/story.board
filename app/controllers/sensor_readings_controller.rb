@@ -1,7 +1,7 @@
 class SensorReadingsController < ApplicationController
   include CommonFilters
   before_action :set_sensor
-  before_action :authenticate_user!, except: %i[index create debug]
+  before_action :authenticate_user!, except: %i[index create debug destroy]
 
   def index
     from_and_to_params_are_dates(filter_params) or return
@@ -61,8 +61,14 @@ class SensorReadingsController < ApplicationController
     end
   end
 
+  def destroy
+    @sensor_reading = Sensor::Reading.find(sensor_reading_params)
+    binding.pry
+  end
+
   private
   def set_sensor
+    #binding.pry
     if sensor_params.empty?
       @sensor = Sensor.find(params[:id])
     else
