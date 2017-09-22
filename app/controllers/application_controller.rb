@@ -37,12 +37,12 @@ class ApplicationController < ActionController::Base
 
       get_current_action = lambda do |controller|
         action = nil
-        if params[:controller] == controller && ['show', 'edit', 'new'].include?(params[:action])
-          action = [{
-            name: params[:action].humanize.titlecase,
-            active: true
-          }]
-        end
+        # if params[:controller] == controller && ['show', 'edit', 'new'].include?(params[:action])
+        #   action = [{
+        #     name: params[:action].humanize.titlecase + " long long long long long long long long long long",
+        #     active: true
+        #   }]
+        # end
         action
       end
 

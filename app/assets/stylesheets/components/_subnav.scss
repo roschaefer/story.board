@@ -46,11 +46,22 @@
         display: block;
     }
 
+    .subnav__breadcrumb {
+        position: relative;
+        margin-right: 1rem;
+        flex-grow: 1;
+        flex-shrink: 0;
+    }
+
     .subnav__breadcrumb .breadcrumb-nav {
+        position: absolute;
+        width: 100%;
         line-height: 2.5rem;
     }
 
     .subnav__actions {
         margin-top: 0;
+        margin-left: auto;
+        flex-shrink: 0;
     }
 }
