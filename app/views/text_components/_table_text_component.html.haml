@@ -1,6 +1,9 @@
 %td.item-table__channels.align-middle{class: text_component.table_highlight_class}
   %span{class: "text-#{text_component.status_class}", data: {toggle: 'tooltip'}, title: text_component.table_status_text}
     %span{class: ['fa', text_component.table_channel_icon]}
+  - if text_component&.image&.exists?
+    %span{class: "text-#{text_component.status_class}", data: {toggle: 'tooltip'}, title: 'Image uploaded'}
+      %span{class: ['fa fa-image']}
 
 %td.align-middle{class: text_component.table_highlight_class}
   = link_to(text_component.heading, report_text_component_path(@report, text_component), {class: 'item-table__link'})
