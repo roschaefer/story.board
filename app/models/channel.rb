@@ -10,7 +10,7 @@ class Channel < ActiveRecord::Base
     order('LOWER("channels"."name")')
   end
 
-  def self.default(report)
+  def self.default
     Channel.sensorstory
   end
 end

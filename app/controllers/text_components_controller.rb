@@ -16,8 +16,25 @@ class TextComponentsController < ApplicationController
 
   def new
     @text_component = TextComponent.new
-    @text_component.triggers.build
     @text_component.report = @report
+    @text_component.triggers.build
+  end
+
+  def duplicate
+    master = TextComponent.find(params[:id])
+
+    @text_component = master.dup
+    @text_component.report = @report
+    @text_component.heading = [master.heading, 'COPY'].join(' ')
+    @text_component.publication_status = :draft
+    @text_component.channels = master.channels
+    @text_component.triggers.build
+
+    master.question_answers.each do |qa|
+      @text_component.question_answers << qa.dup
+    end
+
+    render :new
   end
 
   def edit
