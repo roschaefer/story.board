@@ -62,13 +62,14 @@ class SensorReadingsController < ApplicationController
   end
 
   def destroy
-    @sensor_reading = Sensor::Reading.find(sensor_reading_params)
-    binding.pry
+    sensor_reading = Sensor::Reading.find(sensor_reading_delete_params["sensor_reading_id"])
+    if sensor_reading.destroy
+      render :index, status: 200, location: report_sensor_readings_url(@report, @sensor)
+    end
   end
 
   private
   def set_sensor
-    #binding.pry
     if sensor_params.empty?
       @sensor = Sensor.find(params[:id])
     else
@@ -87,7 +88,11 @@ class SensorReadingsController < ApplicationController
 
   def sensor_reading_params
     format_particle_api_json
-    params.require(:sensor_reading).permit(:calibrated_value, :uncalibrated_value, :created_at)
+    params.require(:sensor_reading).permit(:calibrated_value, :uncalibrated_value, :created_at, :id)
+  end
+
+  def sensor_reading_delete_params
+    params.permit(:sensor_reading_id, :report_id, :sensor_id)
   end
 
   def sensor_params
