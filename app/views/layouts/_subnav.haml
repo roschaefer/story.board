@@ -37,7 +37,7 @@
           %a.btn.btn-primary{href: @primary_action[:url]}
             = @primary_action[:name]
 
-          %a.select-btn.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', onchange: 'return false'}
+          %a.select-btn.btn.btn-primary.dropdown-toggle.dropdown-toggle-split{href: '#', onclick: 'return false'}
             %select.select-btn__select.nav-select
               %option{selected: true, disabled: true} Create something new!
               - @secondary_actions.each do |action|

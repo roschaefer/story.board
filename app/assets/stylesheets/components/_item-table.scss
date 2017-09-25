@@ -6,12 +6,25 @@
     color: $body-color;
 }
 
-.item-table__item--highlight,
-.item-table__item--highlight td,
-.item-table__item--highlight th {
-    background-color: rgba(saturate(theme-color('success'), 20), .075);
-    border-top: 1px solid saturate(theme-color('success'), 20) !important;
-    border-bottom: 1px solid saturate(theme-color('success'), 20) !important;
+/* Fix specificity conflicts with bootstrap defaults */
+.item-table .thead-default th {
+    border-bottom: none;
+}
+
+td.item-table__item--highlight,
+tr.item-table__item--highlight td,
+tr.item-table__item--highlight th {
+    background-color: rgba(desaturate(theme-color('primary'), 75), .05);
+    border-top: 1px solid desaturate(lighten(theme-color('primary'), 20), 80) !important;
+    border-bottom: 1px solid desaturate(lighten(theme-color('primary'), 20), 80) !important;
+}
+
+td.item-table__item--success,
+tr.item-table__item--success td,
+tr.item-table__item--success th {
+    background-color: rgba(theme-color('success'), .05);
+    border-top: 1px solid rgba(theme-color('success'), .5) !important;
+    border-bottom: 1px solid rgba(theme-color('success'), .5) !important;
 }
 
 .item-table__title {

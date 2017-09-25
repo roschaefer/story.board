@@ -35,6 +35,17 @@ class ApplicationController < ActionController::Base
   def set_subnav_items
     reports = Report.all.map do |report|
 
+      get_current_action = lambda do |controller|
+        action = nil
+        if params[:controller] == controller && ['show', 'edit', 'new', 'duplicate'].include?(params[:action])
+          action = [{
+            name: params[:action].humanize.titlecase,
+            active: true
+          }]
+        end
+        action
+      end
+
       children = []
 
       children += ['present', 'preview'].map do |child|
@@ -126,6 +137,15 @@ class ApplicationController < ActionController::Base
         action: 'show',
         name: 'New Sensor Reading',
         url: url_for(controller: 'sensors', action: 'show', report_id: @report.id, anchor: 'add')
+      }
+    end
+
+    if params[:controller] == 'text_components' && ['show', 'edit'].include?(params[:action])
+      actions['duplicate_text_component'] = {
+        controller: 'text_components',
+        action: 'duplicate',
+        name: 'Duplicate Text Component',
+        url: url_for(controller: 'text_components', action: 'duplicate')
       }
     end
 

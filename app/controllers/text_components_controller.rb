@@ -16,8 +16,25 @@ class TextComponentsController < ApplicationController
 
   def new
     @text_component = TextComponent.new
+    @text_component.report = @report
     @text_component.triggers.build
-    @text_component.report = Report.current
+  end
+
+  def duplicate
+    master = TextComponent.find(params[:id])
+
+    @text_component = master.dup
+    @text_component.report = @report
+    @text_component.heading = [master.heading, 'COPY'].join(' ')
+    @text_component.publication_status = :draft
+    @text_component.channels = master.channels
+    @text_component.triggers.build
+
+    master.question_answers.each do |qa|
+      @text_component.question_answers << qa.dup
+    end
+
+    render :new
   end
 
   def edit
@@ -37,7 +54,7 @@ class TextComponentsController < ApplicationController
 
     respond_to do |format|
       if @text_component.save
-        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully created.' }
+        format.html { redirect_to report_text_component_path(@text_component.report_id, @text_component), notice: 'Text component was successfully created.' }
         format.json { render :show, status: :created, location: @text_component }
       else
         format.html { render :new }
@@ -51,7 +68,7 @@ class TextComponentsController < ApplicationController
   def update
     respond_to do |format|
       if @text_component.update(text_component_params)
-        format.html { redirect_to report_text_component_path(@report, @text_component), notice: 'Text component was successfully updated.' }
+        format.html { redirect_to report_text_component_path(@text_component.report_id, @text_component), notice: 'Text component was successfully updated.' }
         format.json { render :show, status: :ok, location: @text_component }
       else
         format.html { render :edit }
@@ -91,6 +108,11 @@ class TextComponentsController < ApplicationController
       @trigger_groups = @text_components.order('from_day, from_hour').group_by(&:trigger_ids)
 
       @trigger_groups = @trigger_groups.map do |trigger_ids, components|
+
+        components = components.map do |c|
+          TextComponentDecorator.new(c, @diary_entry)
+        end
+
         [components.first.triggers, components]
       end
 
@@ -119,7 +141,6 @@ class TextComponentsController < ApplicationController
       params.require(:text_component)
         .permit(:heading, :introduction, :main_part, :closing, :from_day, :to_day,
                 :timeframe, :to_hour, :report_id, :topic_id, :assignee_id, :image, :image_alt, :delete_image,
-
                 :publication_status, :notes, trigger_ids: [], channel_ids: [],
                 question_answers_attributes: [:id, :question, :answer, :_destroy],
                 triggers_attributes: [:name, :from_hour, :to_hour,
