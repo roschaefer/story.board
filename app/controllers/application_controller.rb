@@ -35,17 +35,6 @@ class ApplicationController < ActionController::Base
   def set_subnav_items
     reports = Report.all.map do |report|
 
-      get_current_action = lambda do |controller|
-        action = nil
-        # if params[:controller] == controller && ['show', 'edit', 'new'].include?(params[:action])
-        #   action = [{
-        #     name: params[:action].humanize.titlecase + " long long long long long long long long long long",
-        #     active: true
-        #   }]
-        # end
-        action
-      end
-
       children = []
 
       children += ['present', 'preview'].map do |child|
@@ -66,7 +55,6 @@ class ApplicationController < ActionController::Base
           name: child.humanize.titlecase,
           url: url_for(controller: child, report_id: report.id),
           active: params[:controller] == child,
-          children: get_current_action.call(child)
         }
       end
 
@@ -74,7 +62,6 @@ class ApplicationController < ActionController::Base
         name: 'Events',
         url: events_path(report_id: report.id),
         active: params[:controller] == 'events',
-        children: get_current_action.call('events')
       }
 
       children << {
