@@ -62,9 +62,12 @@ class SensorReadingsController < ApplicationController
   end
 
   def destroy
-    sensor_reading = Sensor::Reading.find(sensor_reading_delete_params["sensor_reading_id"])
-    if sensor_reading.destroy
-      render :index, status: 200, location: report_sensor_readings_url(@report, @sensor)
+    @sensor_reading = Sensor::Reading.find(sensor_reading_delete_params["sensor_reading_id"])
+    if @sensor_reading.destroy
+      respond_to do |format|
+        format.js { render 'sensor/readings/destroy' }
+        format.json { render :index, status: 200, location: report_sensor_readings_url(@report, @sensor) }
+      end
     end
   end
 
