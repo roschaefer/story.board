@@ -10,16 +10,4 @@ describe 'Whenever Schedule' do
     # Makes sure the rake task is defined:
     expect(Rake::Task.task_defined?(schedule.jobs[:rake].first[:task])).to be true
   end
-
-  context 'with a report' do
-    before do
-      expect(Report.current).to be_present
-    end
-
-    it 'creates diary entries' do
-      schedule = Whenever::Test::Schedule.new
-      task = schedule.jobs[:rake].first[:task]
-      expect{ Rake::Task[task].invoke }.to change{ DiaryEntry.count }
-    end
-  end
 end
