@@ -1239,6 +1239,9 @@ When(/^I add a sensor reading for "(\d+)\ (\w+)\ (\d+) (\d+):(\d+)" with a calib
   fill_in 'Uncalibrated Value', with: uncalibrated_value
 end
 
+When(/^I delete the sensor reading with the id "([^"]*)"$/) do |sensor_reading_id|
+  find("#sensor-reading-" + sensor_reading_id + " a").click
+end
 
 Then(/^this sensor should have (\d+) new sensor reading$/) do |quantity|
   expect(@sensor.sensor_readings.count).to eq quantity.to_i
@@ -1411,6 +1414,20 @@ Given(/^we have these sensor readings for sensor (\d+) in our database:$/) do |s
           )
   end
 end
+
+Given(/^we have these sensor readings for sensor "([^"]*)" in our database:$/) do |sensor_name, table|
+sensor = create(:sensor, name: sensor_name, report: Report.current)
+table.hashes.each do |row|
+  create(:sensor_reading, sensor: sensor,
+         id: row['Id'],
+         created_at: row['Created at'],
+         calibrated_value: row['Calibrated value'],
+         uncalibrated_value: row['Uncalibrated value'],
+         release: row['Release']
+        )
+end
+end
+
 
 
 When(/^notice that we OVERRIDE the given sensor id (\d+) here$/) do |arg1|
