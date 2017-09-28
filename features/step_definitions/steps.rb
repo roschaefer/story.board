@@ -376,8 +376,7 @@ end
 
 When(/^the application archives the current report$/) do
   load 'Rakefile'
-  schedule = Whenever::Test::Schedule.new
-  task = schedule.jobs[:rake].first[:task]
+  task = 'archive'
   Rake::Task[task].invoke
 end
 
