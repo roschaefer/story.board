@@ -23,6 +23,10 @@
 
             - else
               = options.first[:name]
+
+        - if content_for?(:heading)
+          .breadcrumb-nav__item{title: yield(:heading).strip}
+            = yield :heading
               
     - if user_signed_in?
       .subnav__actions
