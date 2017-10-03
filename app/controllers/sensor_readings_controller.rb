@@ -1,7 +1,7 @@
 class SensorReadingsController < ApplicationController
   include CommonFilters
   before_action :set_sensor
-  before_action :authenticate_user!, except: %i[index create debug]
+  before_action :authenticate_user!, except: %i[index create debug destroy]
 
   def index
     from_and_to_params_are_dates(filter_params) or return
@@ -61,6 +61,16 @@ class SensorReadingsController < ApplicationController
     end
   end
 
+  def destroy
+    @sensor_reading = Sensor::Reading.find(sensor_reading_delete_params["sensor_reading_id"])
+    if @sensor_reading.destroy
+      respond_to do |format|
+        format.js { render 'sensor/readings/destroy' }
+        format.json { render :index, status: 200, location: report_sensor_readings_url(@report, @sensor) }
+      end
+    end
+  end
+
   private
   def set_sensor
     if sensor_params.empty?
@@ -81,7 +91,11 @@ class SensorReadingsController < ApplicationController
 
   def sensor_reading_params
     format_particle_api_json
-    params.require(:sensor_reading).permit(:calibrated_value, :uncalibrated_value, :created_at)
+    params.require(:sensor_reading).permit(:calibrated_value, :uncalibrated_value, :created_at, :id)
+  end
+
+  def sensor_reading_delete_params
+    params.permit(:sensor_reading_id, :report_id, :sensor_id)
   end
 
   def sensor_params

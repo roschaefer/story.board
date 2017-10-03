@@ -1,5 +1,6 @@
-%tr.sensor-reading-row
+%tr.sensor-reading-row{:id => "sensor-reading-" + reading.id.to_s}
   %td= reading.id
   %td= reading.created_at
   %td= reading.calibrated_value
   %td= reading.uncalibrated_value
+  %td= link_to 'Delete', report_sensor_reading_path(report_id: @report.id, sensor_id: @sensor.id, sensor_reading_id: reading.id), remote: true, method: :delete, :class => "btn btn-secondary"

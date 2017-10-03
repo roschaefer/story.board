@@ -39,7 +39,7 @@ Rails.application.routes.draw do
         put :start_calibration
         put :stop_calibration
 
-        resources :sensor_readings, only:[:show, :create, :index], default: { format: :json }
+        resources :sensor_readings, only:[:show, :create, :index, :destroy], default: { format: :json }
         post 'sensor_readings/debug', to: 'sensor_readings#debug', default: { format: :json }
       end
     end
