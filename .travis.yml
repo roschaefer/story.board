@@ -5,6 +5,7 @@ services:
   - postgresql
 addons:
   ssh_known_hosts: perseus.uberspace.de
+  chrome: stable
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.travis.yml config/database.yml
