@@ -44,6 +44,7 @@ gem 'paperclip'
 gem 'aws-sdk', '~> 2.3'
 gem "actionpack-page_caching"
 
+gem 'puma'
 
 group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low
@@ -85,6 +86,3 @@ group :test do
   gem 'webmock'
 end
 
-group :production do
-  gem 'puma'
-end
