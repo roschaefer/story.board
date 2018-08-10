@@ -263,7 +263,7 @@ end
 
 Then(/^I can read this text:$/) do |string|
   string.split('[...]').each do |part|
-    expect(page).to have_text(part)
+    expect(page).to have_text(part.strip)
   end
 end
 
