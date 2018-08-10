@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tweet do
     user "MyString"
     message "MyText"

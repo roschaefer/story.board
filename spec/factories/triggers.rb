@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :trigger do
     name "It's a name"
     association :report

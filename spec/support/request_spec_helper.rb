@@ -22,7 +22,7 @@ module RequestSpecHelper
   end
 
   def login_user
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     sign_in user
   end
 

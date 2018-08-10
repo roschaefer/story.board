@@ -48,7 +48,7 @@ gem 'puma'
 
 group :development, :test do
   # Use sqlite3 as the database and keep the installation setup low
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'pry'
   gem 'whenever-test'

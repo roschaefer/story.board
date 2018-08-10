@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :sensor_type do
     property 'MyString'
     unit 'MyString'

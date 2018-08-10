@@ -9,7 +9,7 @@ require 'cucumber/api_steps'
 require 'capybara-screenshot/cucumber'
 require 'vcr'
 
-World(FactoryGirl::Syntax::Methods)
+World(FactoryBot::Syntax::Methods)
 
 
 # Capybara defaults to CSS3 selectors rather than XPath.

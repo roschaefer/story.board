@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :sensor do
     sequence :name do |n|
       "Sensor#{n}"

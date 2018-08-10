@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :question_answer do
     question "MyText"
     answer "MyText"

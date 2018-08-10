@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :command do
     actuator nil
     function "activate"

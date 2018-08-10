@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :chain do
     actuator nil
     function 1

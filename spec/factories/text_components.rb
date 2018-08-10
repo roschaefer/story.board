@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :text_component do
     heading "MyString"
     introduction "MyText"

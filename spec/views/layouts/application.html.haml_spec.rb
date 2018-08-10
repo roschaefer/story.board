@@ -8,12 +8,12 @@ RSpec.describe "layouts/application", type: :view do
       end
 
       def current_user
-        FactoryGirl.build(:user, name: 'Hans Schwanitz')
+        FactoryBot.build(:user, name: 'Hans Schwanitz')
       end
     end
 
     before do
-      assign(:report , FactoryGirl.create(:report))
+      assign(:report , FactoryBot.create(:report))
       assign(:subnav_items, [
         [
           {

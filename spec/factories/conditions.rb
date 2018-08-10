@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :condition do
     from 1
     to 1
