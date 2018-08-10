@@ -8,7 +8,6 @@ require 'cucumber/rails'
 require 'cucumber/api_steps'
 require 'capybara-screenshot/cucumber'
 require 'vcr'
-require 'capybara/poltergeist'
 
 World(FactoryGirl::Syntax::Methods)
 
@@ -85,11 +84,24 @@ Capybara.register_driver :firefox do |app|
   Capybara::Selenium::Driver.new(app, :browser => :firefox)
 end
 
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: {
+      args: %w[headless disable-gpu no-sandbox window-size=1024,768]
+    }
+  )
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    desired_capabilities: capabilities
+  )
+end
+
 Capybara.configure do |config|
   if ENV['BROWSER']
     config.javascript_driver = ENV['BROWSER'].to_sym
   else
-    config.javascript_driver = :poltergeist
+    config.javascript_driver = :headless_chrome
   end
 end
 
