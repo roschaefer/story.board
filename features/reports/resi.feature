@@ -19,7 +19,6 @@ Feature: Read more button
     And based on the input data, the current report might look like this:
     """
     News from Bertha the cow
-    [...]
     I gave eleven liters of milk today. (* Is this a lot?)
     It was hot and stuffy in the stable. (* How hot was it?)
     I hope it gets colder tomorrow.
@@ -28,7 +27,6 @@ Feature: Read more button
     Then the text expands like this:
     """
     News from Bertha the cow
-    [...]
     I gave eleven liters of milk today. I would say, that's quite a lot. (* Want more?)
     It was hot and stuffy in the stable. (* How hot was it?)
     I hope it gets colder tomorrow.

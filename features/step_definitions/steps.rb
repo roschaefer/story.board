@@ -902,9 +902,9 @@ Given(/^we have different text components, each having question\/answers$/) do
 end
 
 def check_expanding_report(string)
-  parts = string.split('[...]')
+  parts = string.split("\n")
   parts.each do |part|
-    expect(page).to have_text(part.gsub("\n", ' '))
+    expect(page).to have_text(part.gsub("\n", ''))
   end
 end
 

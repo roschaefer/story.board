@@ -26,4 +26,4 @@ Feature: Update condition slider range
       | Temp1  | -20°C | 0°C | F** cold |
     When I edit the trigger "F** cold"
     Then slider has a range from "-30.0 °C" to "80.0 °C" with a step size of "0.1"
-    And the two bars of the slider are at position "-20" and "0"
+    And the two bars of the slider are at position "-20,0" and "0"
