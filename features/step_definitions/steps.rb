@@ -6,18 +6,10 @@ def number_or_nil(number_string)
   end
 end
 
-def click_regardless_of_overlapping_elements(node)
-  if Capybara.current_driver == :poltergeist
-    node.trigger('click')
-  else
-    node.click
-  end
-end
-
 def within_text_component_section(header)
   within('.form__section', text: header) do
     if page.has_css?('a', text: 'Edit')
-      click_regardless_of_overlapping_elements(find('a', text: 'Edit'))
+      find('a', text: 'Edit').click
     end
     yield
   end
@@ -795,7 +787,8 @@ end
 
 When(/^unselect "([^"]*)" as a channel$/) do |channel|
   within_text_component_section('Output') do
-    find('.choices__item', text: channel).click.send_keys(:backspace)
+    find('.choices__item', text: channel).click
+    find('.choices__input').send_keys(:backspace)
   end
 end
 
