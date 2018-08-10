@@ -41,7 +41,7 @@ gem 'devise'
 
 # Image upload to Amazon S3 Storage Cloud
 gem 'paperclip'
-gem 'aws-sdk', '~> 2.3'
+gem 'aws-sdk-s3'
 gem "actionpack-page_caching"
 
 gem 'puma'
