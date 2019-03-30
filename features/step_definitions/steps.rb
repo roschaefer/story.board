@@ -33,8 +33,8 @@ Given(/^I have a sensor for the current report called "([^"]*)"$/) do |name|
   @sensor = create(:sensor, name: name, report: Report.current)
 end
 
-Given(/^I have a sensor with id (\d+)$/) do |arg|
-  create :sensor, id: arg.to_i
+Given(/^I have a sensor with id (\d+)$/) do |id|
+  @sensor = create :sensor, id: id
 end
 
 Then(/^a new sensor reading was created$/) do
@@ -268,8 +268,12 @@ Given(/^I have a sensor with a I2C address "([^"]*)"$/) do |address|
   @sensor = create(:sensor, address: address)
 end
 
-Then(/^now the sensor has a new sensor reading in the database$/) do
-  expect(@sensor.sensor_readings.count).to eq 1
+Then('now the sensor has the following readings in the database:') do |table|
+  table.hashes.each do |row|
+    r = Sensor::Reading.find_by(sensor_id: @sensor.id, calibrated_value: row['Calibrated value'], uncalibrated_value: row['Uncalibrated value'])
+    expect(r).to be_a(Sensor::Reading)
+  end
+  expect(@sensor.sensor_readings.count).to eq(table.hashes.count)
 end
 
 When(/^I choose an address "([^"]*)"$/) do |address|
